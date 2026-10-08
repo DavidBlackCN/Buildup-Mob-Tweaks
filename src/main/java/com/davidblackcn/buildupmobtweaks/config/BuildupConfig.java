@@ -7,7 +7,7 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 1)
+@Version(version = 2)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
@@ -16,7 +16,7 @@ public final class BuildupConfig extends Config {
     public ConfigSection passive = new ConfigSection();
     public ConfigSection bosses = new ConfigSection();
     public ConfigSection equipment = new ConfigSection();
-    public ConfigSection traits = new ConfigSection();
+    public Traits traits = new Traits();
     public ConfigSection fixes = new ConfigSection();
     public ConfigSection compatibility = new ConfigSection();
     public Performance performance = new Performance();
@@ -33,6 +33,27 @@ public final class BuildupConfig extends Config {
     public static final class General extends ConfigSection {
         public ValidatedBoolean enabled = new ValidatedBoolean(true);
         public ValidatedBoolean diagnosticProbe = new ValidatedBoolean(true);
+    }
+
+    public static final class Traits extends ConfigSection {
+        public ValidatedBoolean enabled = new ValidatedBoolean(true);
+        public ValidatedBoolean commonMarker = new ValidatedBoolean(true);
+        public ValidatedBoolean advancedMarker = new ValidatedBoolean(true);
+        public ValidatedBoolean rareMarker = new ValidatedBoolean(true);
+        public Chances cow = new Chances(200, 70, 10);
+        public Chances zombieFamily = new Chances(100, 30, 5);
+    }
+
+    public static final class Chances extends ConfigSection {
+        public ValidatedInt common;
+        public ValidatedInt advanced;
+        public ValidatedInt rare;
+
+        public Chances(int common, int advanced, int rare) {
+            this.common = new ValidatedInt(common, 1000, 0);
+            this.advanced = new ValidatedInt(advanced, 1000, 0);
+            this.rare = new ValidatedInt(rare, 1000, 0);
+        }
     }
 
     public static final class Performance extends ConfigSection {

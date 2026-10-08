@@ -4,7 +4,11 @@ import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
 import net.minecraft.resources.Identifier;
 
 public enum FeatureId {
-    DIAGNOSTIC_PROBE("diagnostic_probe");
+    DIAGNOSTIC_PROBE("diagnostic_probe"),
+    TRAITS("traits"),
+    TRAIT_COMMON_MARKER("demo_common"),
+    TRAIT_ADVANCED_MARKER("demo_advanced"),
+    TRAIT_RARE_MARKER("demo_rare");
 
     private final Identifier id;
 

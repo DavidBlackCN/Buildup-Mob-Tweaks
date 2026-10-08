@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "buildupmobtweaks-test",
+  "version": "1.0.0",
+  "name": "Buildup Mob Tweaks Tests",
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "fabric-gametest": [
+      "com.davidblackcn.buildupmobtweaks.TraitSamplingTests",
+      "com.davidblackcn.buildupmobtweaks.TraitLifecycleTests"
+    ]
+  },
+  "depends": { "buildupmobtweaks": "*" }
+}

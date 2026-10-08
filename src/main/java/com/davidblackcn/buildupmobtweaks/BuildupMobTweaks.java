@@ -1,6 +1,8 @@
 package com.davidblackcn.buildupmobtweaks;
 
 import com.davidblackcn.buildupmobtweaks.command.DiagnosticCommands;
+import com.davidblackcn.buildupmobtweaks.command.TraitCommands;
+import com.davidblackcn.buildupmobtweaks.traits.TraitService;
 import com.davidblackcn.buildupmobtweaks.config.BuildupConfig;
 import com.davidblackcn.buildupmobtweaks.feature.FeatureRegistry;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
@@ -27,8 +29,12 @@ public class BuildupMobTweaks implements ModInitializer {
 		// Proceed with mild caution.
 
 		BuildupConfig config = ConfigApiJava.registerAndLoadConfig(BuildupConfig::new, RegisterType.BOTH);
-		DiagnosticCommands.register(new FeatureRegistry(config));
-		LOGGER.info("Buildup Mob Tweaks configuration initialized (S1-A).");
+		FeatureRegistry features = new FeatureRegistry(config);
+		DiagnosticCommands.register(features);
+		TraitService traits = new TraitService(features);
+		traits.register();
+		TraitCommands.register(traits);
+		LOGGER.info("Buildup Mob Tweaks configuration initialized (S1-B).");
 	}
 
 	public static Identifier id(String path) {

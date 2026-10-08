@@ -26,6 +26,13 @@ loom {
 }
 
 fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = 'buildupmobtweaks-test'
+        enableGameTests = true
+        enableClientGameTests = false
+        eula = providers.gradleProperty('testEula').map { it.toBoolean() }.getOrElse(false)
+    }
 	configureDataGeneration {
 		client = true
 		modId = "buildupmobtweaks"

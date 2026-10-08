@@ -138,6 +138,8 @@ public final class FeatureRegistry {
         add(gates, FeatureId.ZOMBIFIED_PIGLIN_ANGER_FIX, () -> config.hostile.extended.zombified_piglin_anger_fix.get());
         add(gates, FeatureId.GOLEM_FRIENDLY_FIRE_FIX, () -> config.hostile.extended.golem_friendly_fire_fix.get());
         add(gates, FeatureId.SKELETON_AIM_FIX, () -> config.hostile.extended.skeleton_aim_fix.get());
+        add(gates, FeatureId.PILLAGER_TARGET_LIFECYCLE, () -> config.hostile.raid.pillagerTargetLifecycle.get());
+        add(gates, FeatureId.PILLAGER_SPAWN_SUPPLIES, () -> config.hostile.raid.pillagerSpawnSupplies.get());
         declarations = Map.copyOf(gates);
     }
 
@@ -156,7 +158,12 @@ public final class FeatureRegistry {
 
     public boolean isEnabled(FeatureId id) {
         Declaration declaration = declarations.get(id);
-        return config.general.enabled.get() && declaration != null && declaration.enabled().getAsBoolean();
+        return supported(id) && config.general.enabled.get() && declaration != null && declaration.enabled().getAsBoolean();
+    }
+
+    /** Legacy IDs/config values remain readable, but cannot claim an active R2-A implementation. */
+    public static boolean supported(FeatureId id) {
+        return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_");
     }
 
     public boolean isTraitEnabled(String id) {

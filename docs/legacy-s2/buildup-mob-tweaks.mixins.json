@@ -1,0 +1,30 @@
+{
+	"required": true,
+	"package": "com.davidblackcn.buildupmobtweaks.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+    "GroundStrafeMixin",
+    "PiglinAngerMixin",
+    "FriendlyTargetMixin",
+    "CreeperExplosionMixin",
+    "CreeperFuseAccess",
+    "ZombifiedPiglinEquipmentMixin",
+    "WitherSkeletonEquipmentMixin",
+    "PiglinWeaponMixin",
+    "HostileAmmoMixin",
+    "SkeletonTrapMixin",
+    "MushroomProjectileMixin",
+    "SkeletonProjectileMixin",
+    "EvokerFireballMixin",
+    "IllusionCombatMixin",
+    "SpellTimerAccess",
+    "VexOwnerMixin",
+		"ExampleMixin", "SkeletonMixin", "SkeletonTickMixin", "SkeletonBowGoalMixin", "DrownedMixin", "TridentMixin", "ZombieLifecycleMixin", "RaidMobMixin", "PillagerCrossbowMixin", "EvokerSummonMixin", "WitchPotionMixin", "VexChargeMixin", "VexMoveMixin", "GhastCombatMixin", "BlazeCombatMixin", "HostileDamageMixin", "CrossbowHandMixin", "PillagerWeaponMixin", "CombatPerceptionMixin", "GlowingSenseMixin", "MeleeRhythmMixin", "ProjectileAccuracyMixin", "BreezeBurstMixin", "SilverfishCallMixin", "EvokerFleeMixin", "RestTargetMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

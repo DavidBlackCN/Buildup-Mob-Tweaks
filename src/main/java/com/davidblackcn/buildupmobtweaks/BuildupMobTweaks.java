@@ -1,20 +1,8 @@
 package com.davidblackcn.buildupmobtweaks;
 
-import com.davidblackcn.buildupmobtweaks.combat.SkeletonCombat;
-import com.davidblackcn.buildupmobtweaks.combat.ZombieCombat;
-import com.davidblackcn.buildupmobtweaks.combat.RaidCombat;
-import com.davidblackcn.buildupmobtweaks.combat.VexCombat;
-import com.davidblackcn.buildupmobtweaks.combat.DrownedTridents;
-import com.davidblackcn.buildupmobtweaks.command.ZombieCommands;
-import com.davidblackcn.buildupmobtweaks.command.RaidCommands;
-import com.davidblackcn.buildupmobtweaks.command.VexCommands;
-import com.davidblackcn.buildupmobtweaks.command.SkeletonCommands;
 import com.davidblackcn.buildupmobtweaks.command.DiagnosticCommands;
-import com.davidblackcn.buildupmobtweaks.command.TraitCommands;
 import com.davidblackcn.buildupmobtweaks.command.EquipmentCommands;
 import com.davidblackcn.buildupmobtweaks.equipment.EquipmentPools;
-import com.davidblackcn.buildupmobtweaks.equipment.EquipmentService;
-import com.davidblackcn.buildupmobtweaks.traits.TraitService;
 import com.davidblackcn.buildupmobtweaks.config.BuildupConfig;
 import com.davidblackcn.buildupmobtweaks.feature.FeatureRegistry;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
@@ -33,6 +21,8 @@ public class BuildupMobTweaks implements ModInitializer {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    private static BuildupConfig config;
+    public static BuildupConfig config() { return config; }
 
 	@Override
 	public void onInitialize() {
@@ -40,28 +30,14 @@ public class BuildupMobTweaks implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		BuildupConfig config = ConfigApiJava.registerAndLoadConfig(BuildupConfig::new, RegisterType.BOTH);
+		config = ConfigApiJava.registerAndLoadConfig(BuildupConfig::new, RegisterType.BOTH);
 		FeatureRegistry features = new FeatureRegistry(config);
 		DiagnosticCommands.register(features);
-		TraitService traits = new TraitService(features);
-		traits.register();
-		TraitCommands.register(traits);
+        // R2-A: legacy S2 services stay unregistered until individually rebuilt.
         EquipmentPools.register();
-        new EquipmentService(features).register();
         EquipmentCommands.register();
-        new SkeletonCombat(features).register();
-        SkeletonCommands.register(features);
-        new ZombieCombat(features).register();
-        new DrownedTridents(features).register();
-        ZombieCommands.register(features);
-        new com.davidblackcn.buildupmobtweaks.combat.HostileCombat(features).register();
-        new com.davidblackcn.buildupmobtweaks.combat.AdvancedHostiles(features).register();
-        new VexCombat(features).register();
-        VexCommands.register(features);
-        new RaidCombat(features).register();
-        RaidCommands.register(features);
-        com.davidblackcn.buildupmobtweaks.command.S2Commands.register(features);
-		LOGGER.info("Buildup Mob Tweaks configuration initialized (S2).");
+        new com.davidblackcn.buildupmobtweaks.rebuild.pillager.PillagerBehavior(features).register();
+        LOGGER.info("Buildup Mob Tweaks initialized: R2-A pillager rebuild only.");
 	}
 
 	public static Identifier id(String path) {

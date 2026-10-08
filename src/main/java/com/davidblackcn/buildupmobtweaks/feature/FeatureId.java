@@ -4,6 +4,8 @@ import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
 import net.minecraft.resources.Identifier;
 
 public enum FeatureId {
+    PILLAGER_TARGET_LIFECYCLE("pillager_target_lifecycle"),
+    PILLAGER_SPAWN_SUPPLIES("pillager_spawn_supplies"),
     SKELETON_AIM_FIX("skeleton_aim_fix"),
     GOLEM_FRIENDLY_FIRE_FIX("golem_friendly_fire_fix"),
     ZOMBIFIED_PIGLIN_ANGER_FIX("zombified_piglin_anger_fix"),

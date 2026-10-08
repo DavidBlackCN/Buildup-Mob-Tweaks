@@ -1,16 +1,12 @@
 {
-	"required": true,
-	"package": "com.davidblackcn.buildupmobtweaks.client.mixin",
-	"compatibilityLevel": "JAVA_25",
-	"client": [
-    "EvokerTotemVisualMixin",
-    "SkeletonArmsMixin", "DrownedSwimMixin",
-		"ExampleClientMixin", "GhastVisualMixin", "WitchPreviewMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
-	}
+  "required": true,
+  "package": "com.davidblackcn.buildupmobtweaks.client.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
 }

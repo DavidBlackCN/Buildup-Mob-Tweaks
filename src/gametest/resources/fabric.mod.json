@@ -8,20 +8,10 @@
   "entrypoints": {
     "main": ["com.davidblackcn.buildupmobtweaks.CombatTestItems"],
     "fabric-gametest": [
-      "com.davidblackcn.buildupmobtweaks.TraitSamplingTests",
-      "com.davidblackcn.buildupmobtweaks.TraitLifecycleTests",
-      "com.davidblackcn.buildupmobtweaks.EquipmentTests",
-      "com.davidblackcn.buildupmobtweaks.SkeletonTests",
-      "com.davidblackcn.buildupmobtweaks.ZombieTests",
-      "com.davidblackcn.buildupmobtweaks.TridentTests",
-      "com.davidblackcn.buildupmobtweaks.RaidTests",
-      "com.davidblackcn.buildupmobtweaks.VexTests",
-      "com.davidblackcn.buildupmobtweaks.RangedExpansionTests",
-      "com.davidblackcn.buildupmobtweaks.EnvironmentExpansionTests",
-      "com.davidblackcn.buildupmobtweaks.AdvancedHostileTests",
-      "com.davidblackcn.buildupmobtweaks.S2CompletionTests",
-      "com.davidblackcn.buildupmobtweaks.S2RegressionTests"
+      "com.davidblackcn.buildupmobtweaks.PillagerBehaviorTests"
     ]
   },
-  "depends": { "buildupmobtweaks": "*" }
+  "depends": {
+    "buildupmobtweaks": "*"
+  }
 }

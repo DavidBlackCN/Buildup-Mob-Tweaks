@@ -3,9 +3,9 @@
 遵循根目录 AGENTS.md、MOB_TWEAKS_SPEC.md、CODEX_STAGE1_TASKS.md 和 CODE_REVIEW.md。
 
 - 唯一目标为本目录，Java 25、Wrapper、官方未混淆命名，保持 common/client 隔离。
-- 用户授权本轮完成所有 S2-A～D；结果与待人工项见 docs/S2_REPORT.md、docs/S2_ACCEPTANCE.md。完成后停止，S3/Boss 与 Villager Intelligence 需新指令。
-- Mod ID buildupmobtweaks，包 com.davidblackcn.buildupmobtweaks；项目 MIT，第三方许可独立保留。复制上游前检查 ../docs/UPSTREAM_AUDIT.md 的 L1 边界；JAR 不是源码基线。
-- Fzzy Config 真实发布 API，不内嵌依赖；所有行为经 FeatureRegistry 独立开关。配置 v8，字段见 docs/S2_COMBAT.md；未知附件版本原样保留，出生特性/装备不重抽，不补发丢失物品。
+- 当前授权仅 R2-A 掠夺者 P01～P05 重建；见 docs/R2A_MIGRATION_PLAN.md、docs/R2A_REBUILD.md 及外层 docs/rebuild/。完成后停止等待人工确认，不进入 R2-B、S3 或其他生物。S2 文档是历史记录，不代表当前启用或验收。
+- Mod ID buildupmobtweaks，包 com.davidblackcn.buildupmobtweaks；项目 MIT，第三方许可独立保留。上游核心参考为 R0/R1 已核验、恢复的官方发行源码；查阅外层 docs/rebuild/ 的原始 JAR 哈希、许可证及行为证据，不把上游潜在 Bug 当作必须复制的行为。
+- Fzzy Config 真实发布 API，不内嵌依赖；所有行为经 FeatureRegistry 独立开关。配置 v9，当前字段见 docs/R2A_REBUILD.md；未知附件版本原样保留，出生特性/装备不重抽，不补发丢失物品。
 - 高影响技能互斥、可预判、有次数/冷却预算。三叉戟只保存所有权引用，无备用物品。恼鬼世界索引保留卸载名额、销毁释放；升级前未加载旧恼鬼的追溯限制必须披露。
 - 尸壳三层沙地下潜遵循 mobGriefing，中断/重载恢复地表与物理；在途技能不恢复，冷却保存。标签是退出/过滤，不代表通用第三方武器或领地兼容。
 - 新增附魔注册、战利品和玩法全部排除。Boss/末地让位仅设计，不预设 Stellarity 检测 ID。

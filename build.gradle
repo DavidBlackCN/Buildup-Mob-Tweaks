@@ -82,6 +82,28 @@ java {
 	targetCompatibility = JavaVersion.VERSION_25
 }
 
+// R2-A baseline: legacy S2 files stay in Git history/worktree but are not compiled or packaged.
+sourceSets.main.java {
+    include 'com/davidblackcn/buildupmobtweaks/BuildupMobTweaks.java'
+    include 'com/davidblackcn/buildupmobtweaks/config/**'
+    include 'com/davidblackcn/buildupmobtweaks/feature/**'
+    include 'com/davidblackcn/buildupmobtweaks/equipment/**'
+    include 'com/davidblackcn/buildupmobtweaks/traits/**'
+    include 'com/davidblackcn/buildupmobtweaks/command/DiagnosticCommands.java'
+    include 'com/davidblackcn/buildupmobtweaks/command/EquipmentCommands.java'
+    include 'com/davidblackcn/buildupmobtweaks/rebuild/**'
+    include 'com/davidblackcn/buildupmobtweaks/mixin/rebuild/**'
+}
+sourceSets.client.java {
+    include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksClient.java'
+    include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksDataGenerator.java'
+}
+sourceSets.gametest.java {
+    include 'com/davidblackcn/buildupmobtweaks/PillagerBehaviorTests.java'
+    include 'com/davidblackcn/buildupmobtweaks/CombatTestWorld.java'
+    include 'com/davidblackcn/buildupmobtweaks/CombatTestItems.java'
+}
+
 tasks.withType(Jar).configureEach {
 	from('NOTICE.md')
 	from('licenses') { into 'licenses' }

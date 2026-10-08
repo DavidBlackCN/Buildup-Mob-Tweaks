@@ -1,47 +1,30 @@
-# Buildup Mob Tweaks — 26.3
+# Buildup Mob Tweaks — R2-A
 
-Minecraft 原版增强项目，采用 MIT。本轮收口 S2-A～D：敌对生物装备、稀有技能、感知、骑乘、环境交互与独立修复。实现和自动验证已完成，实机验收请使用 [S2 统一清单](docs/S2_ACCEPTANCE.md)；证据见 [统一报告](docs/S2_REPORT.md)，规则见 [S2 行为说明](docs/S2_COMBAT.md)。
+Minecraft Fabric 26.3 的独立 MIT 项目。本阶段只启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 
-| 项目 | 版本/标识 |
-|---|---|
-| Minecraft / Java | 26.3 / 25（本轮 Oracle JDK 25.0.3） |
-| Gradle Wrapper / Loom | 9.7.1 / 1.18.3 |
-| Fabric Loader / API | 0.19.5 / 0.162.0+26.3 |
-| Fzzy Config | 0.7.7+fix3+26.3，必须单独安装 |
-| Fabric Language Kotlin | 1.14.1+kotlin.2.4.20，必须单独安装 |
-| Mod Menu | 21.0.0，仅客户端可选 |
-| 命名 | 26.3 官方未混淆命名；无 Yarn/mappings 依赖 |
-| Mod ID / Java 包 | buildupmobtweaks / com.davidblackcn.buildupmobtweaks |
-| 模板版本号 | 1.0.0（保留模板值，不代表已发布） |
+旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。其他生物当前保持原版行为。旧配置值保留，但非掠夺者功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。
 
-依赖来源：[Fzzy Config](https://modrinth.com/mod/fzzy-config/version/YkOumqzV)、[Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin/version/eRRZzGMc)、[Mod Menu](https://modrinth.com/mod/modmenu/version/kyy7dbrZ)。配置文件、中文/英文入口、服务端权限、生效时机及迁移策略见 [配置说明](docs/CONFIGURATION.md)。Fzzy 和 Mod Menu 不内嵌于本项目 JAR。
+## 环境与验证
 
-## 本地验证
+Java 25、Gradle 9.7.1、Loom 1.18.3、Loader 0.19.5、Fabric API 0.162.0+26.3；官方未混淆命名。Fzzy Config 与 Fabric Language Kotlin 为外部依赖，不内嵌。完整固定版本见 gradle.properties。
 
-在本目录执行，环境变量只对当前 PowerShell 生效：
+在本目录设置 JAVA_HOME 后执行 `./gradlew.bat build -PtestEula=true`。build 包含真实服务器 tick / 原版 GoalSelector 下的 GameTest。testEula=true 表示接受测试服务器 EULA。测试操作场景与实体，不直接调用生产 Goal 或手动 tick AI。
 
-```powershell
-$env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.3'
-.\gradlew.bat build -PtestEula=true
-.\gradlew.bat runClient
-# 可选：开发客户端同时加载 Mod Menu
-.\gradlew.bat runClient -PwithModMenu=true
-# 先退出客户端，模板共用 run/；服务端控制台输入 stop 退出
-.\gradlew.bat runServer --args=nogui
-```
+## 配置与兼容
 
-服务端首次运行要求阅读并同意 Minecraft EULA。用户已明确同意，本地开发与隔离测试目录据此设置 eula=true；不将接受协议的运行文件提交到 Git。测试服务端绑定 `127.0.0.1:25585`；这些运行文件不属于发布配置。并行联机测试须先隔离客户端与服务端运行目录。
+Fzzy Config 服务端配置 v9。总开关、hostile 分组和各项独立开关均保留；具体字段见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。
 
-S2 独立服回归：`.\scripts\Test-S2Persistence.ps1 -AcceptEula`（127.0.0.1:25592，独立目录）。新增只读诊断：`buildupmobtweaks s2 <实体>`、`buildupmobtweaks feature <功能路径>`。
+- 主手弩与背包实际斧/剑交换；小于 3 格近战，大于 3 格换回弩。不会凭空补武器。
+- 出生补给仅首次有效出生执行，食物按局部难度随机，不保证每只都有。读取存档不补发。
+- 脱战受伤等待 60 tick，副手使用真实背包食物，完成原版消费后按 nutrition 回血；中断、禁用、死亡及重载恢复原槽位。
+- 持续举盾超过 60 tick 时接近，实际近战斧命中才可能造成原版盾冷却。
+- `buildupmobtweaks:vanilla_ai` 实体标签退出新 AI；`buildupmobtweaks:disable_<feature_id>` 可单项退出。实体类型标签 pillager_ai_excluded、物品标签 ranged_items_excluded 排除兼容接管，pillager_melee_weapons 扩展近战武器（默认 swords，axes 固有支持）。
+- 兼容标准 CrossbowItem 子类；没有验证第三方枪械、非标准武器系统、整合包或旧 S2 存档迁移。
 
-控制台命令：`buildupmobtweaks status` 和 `buildupmobtweaks probe`。后者仅限等级 4 / 控制台，独立开关与总开关均有效。默认回复 1 行，可配置 1–5 行；不改世界或实体。新增的服务端 GameTest 通过 build/check 执行；不是独立 JUnit 套件。查询实体使用 `buildupmobtweaks traits <单个实体选择器>`；持久化脚本见 Traits 说明。`equipment_pools` 查看规则与错误数量，`equipment <单个实体选择器>` 查看分配记录与当前装备能力，均为等级 4 只读命令。默认对新成年僵尸/尸壳/溺尸的空主手以 10% 概率分配木剑；不覆盖已有装备、保持原掉率。
+管理员只读诊断：`/buildupmobtweaks pillager <实体选择器>`，查看目标、阶段、真实背包及事件计数。实体背包 /item 槽位为 mob.inventory.0～mob.inventory.4。
 
-## 许可与范围
+## 阶段状态
 
-本项目使用 [MIT License](LICENSE)，版权属于 DavidBlackCN 与项目贡献者。Fabric 模板原 CC0 来源及外部依赖许可见 [NOTICE](NOTICE.md)。项目参考 Mob AI Tweaks，当前未复制其实现或素材，也不是其官方续作。
+实现与自动行为证据见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。外层 docs/rebuild/REBUILD_REPORT_R2A.md 保存完整工作报告、原始日志索引及人工验收清单；这些共享文件不在本 Git 根内。自动测试通过不等于人工实机验收完成。本阶段结束后等待人工确认，不进入 R2-B。
 
-新增附魔的注册、战利品及关联玩法全部排除。Stellarity 等项目的 Boss 让位机制只保留设计方向，不宣称已兼容。本轮停在 S2；尚未实现 S3/Boss Profile、Villager Intelligence。历史龙火球退出、预生成冻结和 RPG Difficulty 冲突未在 26.3 确证，台账列为 BLOCKED，不宣称已修复。
-
-工作区共享资料：[SPEC](../MOB_TWEAKS_SPEC.md)、[任务表](../CODEX_STAGE1_TASKS.md)、[功能矩阵](../docs/FEATURE_MATRIX.md)、[上游审计](../docs/UPSTREAM_AUDIT.md)、[历史 S0 报告](../docs/TEST_REPORT.md)。这些父目录文件不在本 Git 仓库内，单独 clone 不会包含它们；本目录 docs/ 的配置和当前阶段报告会随提交保存。
-
-用户持续授权每次任务收尾做一次本地 commit；不自动推送或发布。未执行远端 CI。
+本项目不是上游官方续作。参考恢复的官方发行源码，保留 [NOTICE.md](NOTICE.md) 与 [上游 MIT 文本](licenses/Mob-AI-Tweaks-MIT.txt)。

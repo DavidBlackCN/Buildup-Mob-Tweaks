@@ -1,3 +1,5 @@
+> R2-A 提示：本文保留旧 S2 配置说明。当前只有掠夺者重建功能生效，其他旧行为休眠；现行差异见 [R2A_REBUILD.md](R2A_REBUILD.md)。
+
 # 配置（S1-A 至 S2）
 
 安装 Fzzy Config `0.7.7+fix3+26.3`、Fabric Language Kotlin `1.14.1+kotlin.2.4.20`、Fabric API 和 Fabric Loader。项目 JAR 不内嵌这些依赖。可选客户端 Mod Menu `21.0.0` 仅提供入口；服务端不需要它。

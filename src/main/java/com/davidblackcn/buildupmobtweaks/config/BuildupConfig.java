@@ -7,7 +7,7 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 8)
+@Version(version = 9)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
@@ -80,6 +80,8 @@ public final class BuildupConfig extends Config {
     }
 
     public static final class Raid extends ConfigSection {
+        public ValidatedBoolean pillagerTargetLifecycle = new ValidatedBoolean(true);
+        public ValidatedBoolean pillagerSpawnSupplies = new ValidatedBoolean(true);
         public ValidatedBoolean pillagerRetreat = new ValidatedBoolean(true);
         public ValidatedBoolean pillagerWeaponSwitch = new ValidatedBoolean(true);
         public ValidatedBoolean vindicatorSupport = new ValidatedBoolean(true);

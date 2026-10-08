@@ -7,7 +7,7 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 5)
+@Version(version = 6)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
@@ -39,6 +39,7 @@ public final class BuildupConfig extends Config {
         public Skeleton skeleton = new Skeleton();
         public Zombie zombie = new Zombie();
         public Drowned drowned = new Drowned();
+        public Raid raid = new Raid();
     }
 
     public static final class Skeleton extends ConfigSection {
@@ -74,6 +75,20 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean tridentRecovery = new ValidatedBoolean(true);
         public ValidatedBoolean tridentPlayerPickup = new ValidatedBoolean(true);
         public ValidatedInt recoveryTimeout = new ValidatedInt(200, 1200, 40);
+    }
+
+    public static final class Raid extends ConfigSection {
+        public ValidatedBoolean pillagerRetreat = new ValidatedBoolean(true);
+        public ValidatedBoolean pillagerWeaponSwitch = new ValidatedBoolean(true);
+        public ValidatedBoolean vindicatorSupport = new ValidatedBoolean(true);
+        public ValidatedBoolean evokerVexLimit = new ValidatedBoolean(true);
+        public ValidatedBoolean evokerSummonCooldown = new ValidatedBoolean(true);
+        public ValidatedBoolean witchWindup = new ValidatedBoolean(true);
+        public ValidatedBoolean witchThrowCooldown = new ValidatedBoolean(true);
+        public ValidatedInt vexLimit = new ValidatedInt(6, 24, 3);
+        public ValidatedInt summonCooldown = new ValidatedInt(680, 2400, 340);
+        public ValidatedInt witchWindupTicks = new ValidatedInt(20, 60, 10);
+        public ValidatedInt witchCooldownTicks = new ValidatedInt(100, 400, 60);
     }
 
     public static final class Equipment extends ConfigSection {

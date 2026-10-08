@@ -37,6 +37,13 @@ public final class FeatureRegistry {
         add(gates, FeatureId.DROWNED_TRIDENT_CONSERVATION, () -> config.hostile.drowned.tridentConservation.get());
         add(gates, FeatureId.DROWNED_TRIDENT_RECOVERY, () -> config.hostile.drowned.tridentRecovery.get());
         add(gates, FeatureId.DROWNED_TRIDENT_PLAYER_PICKUP, () -> config.hostile.drowned.tridentPlayerPickup.get());
+        add(gates, FeatureId.PILLAGER_RETREAT, () -> config.hostile.raid.pillagerRetreat.get());
+        add(gates, FeatureId.PILLAGER_WEAPON_SWITCH, () -> config.hostile.raid.pillagerWeaponSwitch.get());
+        add(gates, FeatureId.VINDICATOR_SUPPORT, () -> config.hostile.raid.vindicatorSupport.get());
+        add(gates, FeatureId.EVOKER_VEX_LIMIT, () -> config.hostile.raid.evokerVexLimit.get());
+        add(gates, FeatureId.EVOKER_SUMMON_COOLDOWN, () -> config.hostile.raid.evokerSummonCooldown.get());
+        add(gates, FeatureId.WITCH_WINDUP, () -> config.hostile.raid.witchWindup.get());
+        add(gates, FeatureId.WITCH_THROW_COOLDOWN, () -> config.hostile.raid.witchThrowCooldown.get());
         declarations = Map.copyOf(gates);
     }
 
@@ -92,6 +99,11 @@ public final class FeatureRegistry {
         };
     }
     public int tridentTimeout() { return config.hostile.drowned.recoveryTimeout.get(); }
+
+    public int vexLimit() { return config.hostile.raid.vexLimit.get(); }
+    public int summonCooldown() { return config.hostile.raid.summonCooldown.get(); }
+    public int witchWindupTicks() { return config.hostile.raid.witchWindupTicks.get(); }
+    public int witchCooldownTicks() { return config.hostile.raid.witchCooldownTicks.get(); }
 
     public int equipmentChance() { return config.equipment.assignmentChance.get(); }
 

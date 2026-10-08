@@ -145,7 +145,7 @@ public final class SkeletonCombat {
         rt.nextSwap = now + 20;
     }
     /** A one-block, flat-footprint check. Refuse cliffs, fluids, cramped spaces and damaging floors. */
-    public static boolean safeStep(AbstractSkeleton mob, double dx, double dz) {
+    public static boolean safeStep(Mob mob, double dx, double dz) {
         double length = Math.sqrt(dx * dx + dz * dz);
         if (length < .001) return true;
         double half = mob.getBbWidth() / 2 + .05;

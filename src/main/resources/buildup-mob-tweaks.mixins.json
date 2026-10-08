@@ -3,7 +3,7 @@
 	"package": "com.davidblackcn.buildupmobtweaks.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"ExampleMixin", "SkeletonMixin", "SkeletonTickMixin", "SkeletonBowGoalMixin", "DrownedMixin", "TridentMixin", "ZombieLifecycleMixin"
+		"ExampleMixin", "SkeletonMixin", "SkeletonTickMixin", "SkeletonBowGoalMixin", "DrownedMixin", "TridentMixin", "ZombieLifecycleMixin", "RaidMobMixin", "PillagerCrossbowMixin", "EvokerSummonMixin", "WitchPotionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

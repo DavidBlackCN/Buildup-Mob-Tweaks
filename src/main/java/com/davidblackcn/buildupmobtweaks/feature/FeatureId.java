@@ -6,6 +6,13 @@ import net.minecraft.resources.Identifier;
 public enum FeatureId {
     DIAGNOSTIC_PROBE("diagnostic_probe"),
     TRAITS("traits"),
+    PILLAGER_RETREAT("pillager_retreat"),
+    PILLAGER_WEAPON_SWITCH("pillager_weapon_switch"),
+    VINDICATOR_SUPPORT("vindicator_support"),
+    EVOKER_VEX_LIMIT("evoker_vex_limit"),
+    EVOKER_SUMMON_COOLDOWN("evoker_summon_cooldown"),
+    WITCH_WINDUP("witch_windup"),
+    WITCH_THROW_COOLDOWN("witch_throw_cooldown"),
     ZOMBIE_SHIELD_USE("zombie_shield_use"),
     ZOMBIE_DOOR_GUARD("zombie_door_guard"),
     ZOMBIE_ACTIVE_GUARD("zombie_active_guard"),

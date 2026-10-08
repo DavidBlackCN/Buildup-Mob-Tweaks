@@ -13,7 +13,8 @@
       "com.davidblackcn.buildupmobtweaks.EquipmentTests",
       "com.davidblackcn.buildupmobtweaks.SkeletonTests",
       "com.davidblackcn.buildupmobtweaks.ZombieTests",
-      "com.davidblackcn.buildupmobtweaks.TridentTests"
+      "com.davidblackcn.buildupmobtweaks.TridentTests",
+      "com.davidblackcn.buildupmobtweaks.RaidTests"
     ]
   },
   "depends": { "buildupmobtweaks": "*" }

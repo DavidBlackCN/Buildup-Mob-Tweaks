@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "buildupmobtweaks",
+	"version": "${version}",
+	"name": "Buildup Mob Tweaks",
+	"description": "Vanilla+ mob behavior and AI improvements for Buildup. S0 infrastructure baseline; gameplay features are not implemented.",
+	"authors": [
+		"Buildup contributors"
+	],
+	"license": "CC0-1.0",
+	"icon": "assets/buildupmobtweaks/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.davidblackcn.buildupmobtweaks.BuildupMobTweaks"
+		],
+		"client": [
+			"com.davidblackcn.buildupmobtweaks.client.BuildupMobTweaksClient"
+		],
+		"fabric-datagen": [
+			"com.davidblackcn.buildupmobtweaks.client.BuildupMobTweaksDataGenerator"
+		]
+	},
+	"mixins": [
+		"buildup-mob-tweaks.mixins.json",
+		{
+			"config": "buildup-mob-tweaks.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

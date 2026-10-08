@@ -3,11 +3,11 @@
 遵循根目录 AGENTS.md、MOB_TWEAKS_SPEC.md、CODEX_STAGE1_TASKS.md 和 CODE_REVIEW.md。
 
 - 唯一工程目标为本目录，Java 25；使用 Wrapper，保持 common/client 隔离及官方未混淆命名。
-- S1-A、S1-B 已由用户明确验收通过；本轮只做 S1-C 装备与 Data Pack 最小闭环。完成后停止，未获新指令不得开始 S2-A、正式生物 AI 或 Boss 实现。
+- S1-A、S1-B、S1-C 已由用户明确验收并授权后续；本轮只做 S2-A 骷髅系战斗。完成后停止，未获新指令不得开始 S2-B 或 Boss 实现。
 - Mod ID 为 `buildupmobtweaks`，包名为 `com.davidblackcn.buildupmobtweaks`；本项目使用 MIT，第三方许可独立保留。
 - 上游复制前检查 ../docs/UPSTREAM_AUDIT.md 的许可边界；JAR 不是源码基线。
 - Fzzy Config 使用真实发布 API，不内嵌其 JAR；所有正式功能通过 FeatureRegistry 查询独立开关。新增附魔及其战利品/玩法全部排除。
-- Traits 仍是牛和僵尸系的诊断标记；装备池仅对新僵尸/尸壳/溺尸尝试一次、只填空槽、保持掉率。未知 Traits/装备分配数据保留且不重试；Boss Owner、村民不实现。
+- 牛和僵尸系 Traits 保持诊断标记，三种骷髅使用独立持久特性及冷却；装备池仅对新僵尸/尸壳/溺尸尝试一次、只填空槽、保持掉率。未知 Traits/装备分配数据保留且不重试；Boss Owner、村民不实现。
 - 默认客户端与服务端共用 run/，顺序执行；持久化脚本与 GameTest 使用独立目录，并行联机验收同样必须隔离。26.3 Tag 必须在原版正式绑定后解析，规则数据归当前服务端资源快照所有。缓存、测试世界、日志、下载 ZIP 或构建 JAR 不提交。
 - 未运行验证明确标记 NOT RUN；构建及窗口启动不替代 GUI/单机/多人验收。
 

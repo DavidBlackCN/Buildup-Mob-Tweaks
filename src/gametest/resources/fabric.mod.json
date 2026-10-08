@@ -6,10 +6,12 @@
   "license": "MIT",
   "environment": "server",
   "entrypoints": {
+    "main": ["com.davidblackcn.buildupmobtweaks.CombatTestItems"],
     "fabric-gametest": [
       "com.davidblackcn.buildupmobtweaks.TraitSamplingTests",
       "com.davidblackcn.buildupmobtweaks.TraitLifecycleTests",
-      "com.davidblackcn.buildupmobtweaks.EquipmentTests"
+      "com.davidblackcn.buildupmobtweaks.EquipmentTests",
+      "com.davidblackcn.buildupmobtweaks.SkeletonTests"
     ]
   },
   "depends": { "buildupmobtweaks": "*" }

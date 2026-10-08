@@ -1,6 +1,7 @@
 package com.davidblackcn.buildupmobtweaks.equipment;
 
 import java.util.Set;
+import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -15,7 +16,7 @@ public final class EquipmentCapabilities {
     public static Set<Ability> identify(ItemStack stack) {
         if (stack.isEmpty()) return Set.of();
         Item item = stack.getItem();
-        if (item == Items.BOW) return Set.of(Ability.BOW);
+        if (item instanceof BowItem) return Set.of(Ability.BOW);
         if (item == Items.CROSSBOW) return Set.of(Ability.CROSSBOW);
         if (item == Items.TRIDENT) return Set.of(Ability.TRIDENT);
         if (item == Items.SHIELD) return Set.of(Ability.SHIELD);

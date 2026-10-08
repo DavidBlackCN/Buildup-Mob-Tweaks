@@ -1,1 +1,5 @@
-{"tag.item.buildupmobtweaks.test_weapons":"Test weapons","tag.item.buildupmobtweaks.empty_test":"Empty test tag"}
+{
+  "tag.item.buildupmobtweaks.test_weapons": "Test weapons",
+  "tag.item.buildupmobtweaks.empty_test": "Empty test tag",
+  "item.buildupmobtweaks-test.bow": "Test bow"
+}

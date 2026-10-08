@@ -1,6 +1,6 @@
 # Traits 诊断骨架（S1-B）
 
-> 本页只描述 Traits 子模块；S1-B 已获用户验收。S1-C 的独立装备分配另见 [装备池说明](EQUIPMENT_POOLS.md)，不改变 Traits 的诊断性质。
+> 本页只描述 Traits 子模块；S1-B 已获用户验收。S1-C 的独立装备分配另见 [装备池说明](EQUIPMENT_POOLS.md)，不改变本页诊断标记的性质。S2-A 的真实战斗特性使用独立 attachment、同一 Traits 总开关，详见 [骷髅战斗](SKELETON_COMBAT.md)。
 
 仅服务端计算。当前只给 `minecraft:cow`、`minecraft:zombie`、`minecraft:husk`、`minecraft:drowned` 保存诊断标记；没有增加 Goal、修改属性、分配装备、产生弹药或改变掉落。其他实体不进入池，包含凋灵、龙、远古守卫者、劫掠兽、监守者和全部未知 Mod 实体。
 

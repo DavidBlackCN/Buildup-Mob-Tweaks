@@ -1,6 +1,6 @@
 # Buildup Mob Tweaks — 26.3
 
-Minecraft 原版增强项目，采用 MIT。S1-A、S1-B 已获用户验收。本轮实现 S1-C：可重载的装备池 JSON、实体/物品 Tag、一次性空槽分配及原版装备能力识别；保留已完成的诊断 Traits。正式战斗 AI、Boss 与村民机制尚未实现。详见 [装备池说明](docs/EQUIPMENT_POOLS.md)、[Traits 说明](docs/TRAITS.md) 与 [S1-C 报告](docs/S1C_REPORT.md)。
+Minecraft 原版增强项目，采用 MIT。S1-A、S1-B、S1-C 已获用户验收。本轮实现 S2-A：三种骷髅的安全横移、无效目标释放、已有弓剑切换、标准 BowItem 支持及持久化条件攻击。保留已有 Traits 和装备池；Boss 与村民机制尚未实现。见 [骷髅战斗说明](docs/SKELETON_COMBAT.md)、[S2-A 报告](docs/S2A_REPORT.md)、[装备池](docs/EQUIPMENT_POOLS.md) 与 [诊断 Traits](docs/TRAITS.md)。
 
 | 项目 | 版本/标识 |
 |---|---|
@@ -38,7 +38,7 @@ $env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.3'
 
 本项目使用 [MIT License](LICENSE)，版权属于 DavidBlackCN 与项目贡献者。Fabric 模板原 CC0 来源及外部依赖许可见 [NOTICE](NOTICE.md)。项目参考 Mob AI Tweaks，当前未复制其实现或素材，也不是其官方续作。
 
-新增附魔的注册、战利品及关联玩法全部排除。Stellarity 等项目的 Boss 让位机制只保留设计方向，不宣称已兼容。本轮停在 S1-C；S2-A 需要人工验收与下一条指令。
+新增附魔的注册、战利品及关联玩法全部排除。Stellarity 等项目的 Boss 让位机制只保留设计方向，不宣称已兼容。本轮停在 S2-A；S2-B 需要人工验收与下一条指令。
 
 工作区共享资料：[SPEC](../MOB_TWEAKS_SPEC.md)、[任务表](../CODEX_STAGE1_TASKS.md)、[功能矩阵](../docs/FEATURE_MATRIX.md)、[上游审计](../docs/UPSTREAM_AUDIT.md)、[历史 S0 报告](../docs/TEST_REPORT.md)。这些父目录文件不在本 Git 仓库内，单独 clone 不会包含它们；本目录 docs/ 的配置和当前阶段报告会随提交保存。
 

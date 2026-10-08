@@ -3,7 +3,7 @@
 	"id": "buildupmobtweaks",
 	"version": "${version}",
 	"name": "Buildup Mob Tweaks",
-	"description": "Vanilla+ mob behavior and AI improvements for Buildup. Configurable diagnostic traits and data-driven birth equipment pools; advanced AI is not implemented.",
+	"description": "Vanilla+ mob behavior and AI improvements for Buildup. Configurable skeleton combat, persistent mob traits and data-driven birth equipment pools.",
 	"authors": [
 		"Buildup contributors"
 	],

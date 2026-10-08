@@ -7,11 +7,11 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 3)
+@Version(version = 4)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
-    public ConfigSection hostile = new ConfigSection();
+    public Hostile hostile = new Hostile();
     public ConfigSection neutral = new ConfigSection();
     public ConfigSection passive = new ConfigSection();
     public ConfigSection bosses = new ConfigSection();
@@ -33,6 +33,23 @@ public final class BuildupConfig extends Config {
     public static final class General extends ConfigSection {
         public ValidatedBoolean enabled = new ValidatedBoolean(true);
         public ValidatedBoolean diagnosticProbe = new ValidatedBoolean(true);
+    }
+
+    public static final class Hostile extends ConfigSection {
+        public Skeleton skeleton = new Skeleton();
+    }
+
+    public static final class Skeleton extends ConfigSection {
+        public ValidatedBoolean safeStrafing = new ValidatedBoolean(true);
+        public ValidatedBoolean targetValidation = new ValidatedBoolean(true);
+        public ValidatedBoolean weaponSwitching = new ValidatedBoolean(true);
+        public ValidatedBoolean bowCompatibility = new ValidatedBoolean(true);
+        public ValidatedBoolean skeletonSniping = new ValidatedBoolean(true);
+        public ValidatedBoolean strayJumpShot = new ValidatedBoolean(true);
+        public ValidatedBoolean boggedSporeRetreat = new ValidatedBoolean(true);
+        public ValidatedInt skeletonChance = new ValidatedInt(70, 1000, 0);
+        public ValidatedInt strayChance = new ValidatedInt(70, 1000, 0);
+        public ValidatedInt boggedChance = new ValidatedInt(10, 1000, 0);
     }
 
     public static final class Equipment extends ConfigSection {

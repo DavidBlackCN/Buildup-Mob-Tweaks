@@ -8,7 +8,8 @@
   "entrypoints": {
     "fabric-gametest": [
       "com.davidblackcn.buildupmobtweaks.TraitSamplingTests",
-      "com.davidblackcn.buildupmobtweaks.TraitLifecycleTests"
+      "com.davidblackcn.buildupmobtweaks.TraitLifecycleTests",
+      "com.davidblackcn.buildupmobtweaks.EquipmentTests"
     ]
   },
   "depends": { "buildupmobtweaks": "*" }

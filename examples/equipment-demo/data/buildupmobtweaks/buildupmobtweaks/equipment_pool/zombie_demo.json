@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "entities": ["#buildupmobtweaks:demo_zombies"],
+  "slot": "offhand",
+  "adult_only": true,
+  "dimensions": ["minecraft:overworld"],
+  "difficulties": ["easy", "normal", "hard"],
+  "entries": [{ "item": "#buildupmobtweaks:demo_equipment", "weight": 1 }]
+}

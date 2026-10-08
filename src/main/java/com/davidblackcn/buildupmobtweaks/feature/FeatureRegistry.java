@@ -17,6 +17,7 @@ public final class FeatureRegistry {
         this.config = config;
         declarations = Map.of(FeatureId.DIAGNOSTIC_PROBE,
                 new Declaration(FeatureId.DIAGNOSTIC_PROBE, () -> config.general.diagnosticProbe.get()),
+                FeatureId.EQUIPMENT_ASSIGNMENT, new Declaration(FeatureId.EQUIPMENT_ASSIGNMENT, () -> config.equipment.poolAssignment.get()),
                 FeatureId.TRAITS, new Declaration(FeatureId.TRAITS, () -> config.traits.enabled.get()),
                 FeatureId.TRAIT_COMMON_MARKER, new Declaration(FeatureId.TRAIT_COMMON_MARKER,
                         () -> config.traits.enabled.get() && config.traits.commonMarker.get()),
@@ -45,6 +46,8 @@ public final class FeatureRegistry {
                 isEnabled(FeatureId.TRAIT_ADVANCED_MARKER) ? chances.advanced.get() : 0,
                 isEnabled(FeatureId.TRAIT_RARE_MARKER) ? chances.rare.get() : 0);
     }
+
+    public int equipmentChance() { return config.equipment.assignmentChance.get(); }
 
     public int diagnosticLines() {
         return config.performance.diagnosticLines.get();

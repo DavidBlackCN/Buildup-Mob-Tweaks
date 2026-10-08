@@ -2,6 +2,9 @@ package com.davidblackcn.buildupmobtweaks;
 
 import com.davidblackcn.buildupmobtweaks.command.DiagnosticCommands;
 import com.davidblackcn.buildupmobtweaks.command.TraitCommands;
+import com.davidblackcn.buildupmobtweaks.command.EquipmentCommands;
+import com.davidblackcn.buildupmobtweaks.equipment.EquipmentPools;
+import com.davidblackcn.buildupmobtweaks.equipment.EquipmentService;
 import com.davidblackcn.buildupmobtweaks.traits.TraitService;
 import com.davidblackcn.buildupmobtweaks.config.BuildupConfig;
 import com.davidblackcn.buildupmobtweaks.feature.FeatureRegistry;
@@ -34,7 +37,10 @@ public class BuildupMobTweaks implements ModInitializer {
 		TraitService traits = new TraitService(features);
 		traits.register();
 		TraitCommands.register(traits);
-		LOGGER.info("Buildup Mob Tweaks configuration initialized (S1-B).");
+        EquipmentPools.register();
+        new EquipmentService(features).register();
+        EquipmentCommands.register();
+		LOGGER.info("Buildup Mob Tweaks configuration initialized (S1-C).");
 	}
 
 	public static Identifier id(String path) {

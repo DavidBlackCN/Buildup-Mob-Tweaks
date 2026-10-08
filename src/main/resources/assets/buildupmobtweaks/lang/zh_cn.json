@@ -3,7 +3,7 @@
   "buildupmobtweaks.main.desc": "服务端配置。仅服务器所有者（权限等级 4）可应用修改。生效范围见每项说明。",
   "buildupmobtweaks.main.general": "常规",
   "buildupmobtweaks.main.general.enabled": "启用功能",
-  "buildupmobtweaks.main.general.enabled.desc": "总开关。关闭后立即停用诊断演示及特性标记；仍可查询存档和状态。",
+  "buildupmobtweaks.main.general.enabled.desc": "总开关。停用诊断演示、特性标记和新实体装备分配；保留存档与现有装备，仍可只读查询。",
   "buildupmobtweaks.main.general.diagnosticProbe": "诊断演示",
   "buildupmobtweaks.main.general.diagnosticProbe.desc": "允许服务器所有者执行 /buildupmobtweaks probe 获取有限行诊断回复。不改变世界，立即生效。",
   "buildupmobtweaks.main.performance": "性能",
@@ -27,7 +27,7 @@
   "buildupmobtweaks.main.fixes": "修复",
   "buildupmobtweaks.main.fixes.desc": "预留分类，目前没有可用设置或玩法改动。",
   "buildupmobtweaks.main.equipment": "装备",
-  "buildupmobtweaks.main.equipment.desc": "预留分类，目前没有可用设置或玩法改动。",
+  "buildupmobtweaks.main.equipment.desc": "僵尸、尸壳和溺尸的出生装备池。只填空槽，已保存的分配尝试不会重复。",
   "buildupmobtweaks.main.traits.advancedMarker": "进阶标记",
   "buildupmobtweaks.main.traits.advancedMarker.desc": "默认开启。关闭后立即停用已有标记并从新抽取中排除；已保存结果不会重掷。",
   "buildupmobtweaks.main.traits.enabled": "启用诊断特性",
@@ -52,5 +52,12 @@
   "buildupmobtweaks.main.traits.zombieFamily.advanced.desc": "范围 0–1000，默认 30。仅影响新实体；0 不抽取此标记，总和不足 1000 的剩余部分为不带标记。",
   "buildupmobtweaks.main.traits.zombieFamily.rare": "稀有权重",
   "buildupmobtweaks.main.traits.zombieFamily.rare.desc": "范围 0–1000，默认 5。仅影响新实体；0 不抽取此标记，总和不足 1000 的剩余部分为不带标记。",
-  "commands.buildupmobtweaks.traits": "实体 %s 的特性：存档=%s；启用=%s"
+  "commands.buildupmobtweaks.traits": "实体 %s 的特性：存档=%s；启用=%s",
+  "buildupmobtweaks.main.equipment.poolAssignment": "从数据包装备池分配装备",
+  "buildupmobtweaks.main.equipment.poolAssignment.desc": "默认开启，仅新实体生效。关闭时保留现有物品，重新开启不补发旧实体装备。不改变 AI 或掉率。",
+  "buildupmobtweaks.main.equipment.assignmentChance": "装备分配概率（千分比）",
+  "buildupmobtweaks.main.equipment.assignmentChance.desc": "范围 0–1000，默认 100（10%）。符合规则且目标槽为空的新实体只尝试一次，装备池权重决定物品。与 Traits 独立。",
+  "commands.buildupmobtweaks.equipment_pools": "装备池：有效=%s；已拒绝=%s",
+  "commands.buildupmobtweaks.equipment": "实体 %s 的装备：存档=%s；能力=%s",
+  "tag.item.buildupmobtweaks.demo_equipment": "示例生物装备"
 }

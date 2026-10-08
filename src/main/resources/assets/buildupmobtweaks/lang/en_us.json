@@ -3,7 +3,7 @@
   "buildupmobtweaks.main.desc": "Server settings. Only server owners (permission level 4) may apply changes. See each option for its effective scope.",
   "buildupmobtweaks.main.general": "General",
   "buildupmobtweaks.main.general.enabled": "Enable features",
-  "buildupmobtweaks.main.general.enabled.desc": "Master switch. Disables diagnostics and active trait markers immediately; read-only status remains available.",
+  "buildupmobtweaks.main.general.enabled.desc": "Master switch. Stops active diagnostics, trait markers and new equipment assignments. Saved data and existing equipment are preserved; read-only queries remain available.",
   "buildupmobtweaks.main.general.diagnosticProbe": "Diagnostic probe",
   "buildupmobtweaks.main.general.diagnosticProbe.desc": "Allow /buildupmobtweaks probe to print a bounded response for server owners. Does not change the world. Effective immediately.",
   "buildupmobtweaks.main.performance": "Performance",
@@ -27,7 +27,7 @@
   "buildupmobtweaks.main.fixes": "Fixes",
   "buildupmobtweaks.main.fixes.desc": "Reserved category. No settings or gameplay changes are available yet.",
   "buildupmobtweaks.main.equipment": "Equipment",
-  "buildupmobtweaks.main.equipment.desc": "Reserved category. No settings or gameplay changes are available yet.",
+  "buildupmobtweaks.main.equipment.desc": "Birth equipment pools for zombies, husks and drowned. Empty slots only; saved attempts never repeat.",
   "buildupmobtweaks.main.traits.advancedMarker": "Advanced marker",
   "buildupmobtweaks.main.traits.advancedMarker.desc": "Enabled by default. Turning off masks saved markers immediately and excludes them from new rolls; saved results are never re-rolled.",
   "buildupmobtweaks.main.traits.enabled": "Enable diagnostic traits",
@@ -52,5 +52,12 @@
   "buildupmobtweaks.main.traits.zombieFamily.advanced.desc": "0–1000; default 30. New entities only. Zero excludes this marker; unused weight below 1000 means no marker.",
   "buildupmobtweaks.main.traits.zombieFamily.rare": "rare weight",
   "buildupmobtweaks.main.traits.zombieFamily.rare.desc": "0–1000; default 5. New entities only. Zero excludes this marker; unused weight below 1000 means no marker.",
-  "commands.buildupmobtweaks.traits": "Traits for %s: saved=%s; active=%s"
+  "commands.buildupmobtweaks.traits": "Traits for %s: saved=%s; active=%s",
+  "buildupmobtweaks.main.equipment.poolAssignment": "Assign equipment from data packs",
+  "buildupmobtweaks.main.equipment.poolAssignment.desc": "Enabled by default. Applies to new entities only. Disabling preserves existing items; re-enabling does not equip old entities. Does not change AI or drop rates.",
+  "buildupmobtweaks.main.equipment.assignmentChance": "Equipment chance (per thousand)",
+  "buildupmobtweaks.main.equipment.assignmentChance.desc": "0–1000; default 100 (10%). One attempt for a new eligible entity with an empty target slot. Pool weights choose the item; independent of Traits.",
+  "commands.buildupmobtweaks.equipment_pools": "Equipment pools: active=%s; rejected=%s",
+  "commands.buildupmobtweaks.equipment": "Equipment for %s: saved=%s; abilities=%s",
+  "tag.item.buildupmobtweaks.demo_equipment": "Example mob equipment"
 }

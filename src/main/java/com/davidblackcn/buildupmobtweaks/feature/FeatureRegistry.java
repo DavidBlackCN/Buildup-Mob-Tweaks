@@ -44,6 +44,9 @@ public final class FeatureRegistry {
         add(gates, FeatureId.EVOKER_SUMMON_COOLDOWN, () -> config.hostile.raid.evokerSummonCooldown.get());
         add(gates, FeatureId.WITCH_WINDUP, () -> config.hostile.raid.witchWindup.get());
         add(gates, FeatureId.WITCH_THROW_COOLDOWN, () -> config.hostile.raid.witchThrowCooldown.get());
+        add(gates, FeatureId.VEX_FIXED_CHARGE, () -> config.hostile.vex.fixedCharge.get());
+        add(gates, FeatureId.VEX_RECOVERY_PAUSE, () -> config.hostile.vex.recoveryPause.get());
+        add(gates, FeatureId.VEX_CLOSE_RANGE_GUARD, () -> config.hostile.vex.closeRangeGuard.get());
         declarations = Map.copyOf(gates);
     }
 
@@ -99,6 +102,9 @@ public final class FeatureRegistry {
         };
     }
     public int tridentTimeout() { return config.hostile.drowned.recoveryTimeout.get(); }
+
+    public int vexRecoveryTicks() { return config.hostile.vex.recoveryTicks.get(); }
+    public int vexMinimumDistance() { return config.hostile.vex.minimumChargeDistance.get(); }
 
     public int vexLimit() { return config.hostile.raid.vexLimit.get(); }
     public int summonCooldown() { return config.hostile.raid.summonCooldown.get(); }

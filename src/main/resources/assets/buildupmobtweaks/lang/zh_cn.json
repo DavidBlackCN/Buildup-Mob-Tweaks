@@ -146,5 +146,18 @@
   "buildupmobtweaks.main.hostile.raid.vexLimit.desc": "3–24，默认 6；按三只整批预留，32 格外或未加载的恼鬼不计入。",
   "buildupmobtweaks.main.hostile.raid.witchCooldownTicks": "投药冷却（tick）",
   "buildupmobtweaks.main.hostile.raid.witchCooldownTicks.desc": "60–400 tick，默认 100；仅影响新投掷，保留已有冷却。",
-  "commands.buildupmobtweaks.raider": "袭击生物 %s：保存=%s；待投=%s；开关=%s"
+  "commands.buildupmobtweaks.raider": "袭击生物 %s：保存=%s；待投=%s；开关=%s",
+
+  "buildupmobtweaks.main.hostile.vex.recoveryTicks.desc": "范围 10–60，默认 20；停顿期间仍可受到外部击退。",
+  "buildupmobtweaks.main.hostile.vex.minimumChargeDistance": "冲刺最小距离（格）",
+  "buildupmobtweaks.main.hostile.vex.recoveryPause": "冲刺后停顿",
+  "buildupmobtweaks.main.hostile.vex.fixedCharge.desc": "起手时瞄准一次，未命中的冲刺最多持续 40 tick；保留原版伤害与起手声音。",
+  "buildupmobtweaks.main.hostile.vex.minimumChargeDistance.desc": "范围 2–6，默认 3；只有超过此距离才能起手，仍遵循原版随机判定。",
+  "buildupmobtweaks.main.hostile.vex.fixedCharge": "固定冲刺落点",
+  "buildupmobtweaks.main.hostile.vex": "恼鬼战斗",
+  "buildupmobtweaks.main.hostile.vex.closeRangeGuard.desc": "将原版两格起手边界扩展到配置距离；不会取消已经开始的冲刺。",
+  "commands.buildupmobtweaks.vex": "恼鬼 %s：存档=%s；开关=%s",
+  "buildupmobtweaks.main.hostile.vex.recoveryTicks": "停顿时长（tick）",
+  "buildupmobtweaks.main.hostile.vex.closeRangeGuard": "近距离禁止起手冲刺",
+  "buildupmobtweaks.main.hostile.vex.recoveryPause.desc": "冲刺结束后暂停自主飞行，冷却跨重载保存；未完成冲刺预留最多 40 tick 加停顿时间。"
 }

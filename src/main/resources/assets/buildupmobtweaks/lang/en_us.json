@@ -146,5 +146,18 @@
   "buildupmobtweaks.main.hostile.raid.vexLimit.desc": "3-24; default 6. Full batches of three only. Unloaded vexes and those outside 32 blocks are excluded.",
   "buildupmobtweaks.main.hostile.raid.witchCooldownTicks": "Potion cooldown (ticks)",
   "buildupmobtweaks.main.hostile.raid.witchCooldownTicks.desc": "60-400 ticks; default 100. New throws only; saved cooldowns retained.",
-  "commands.buildupmobtweaks.raider": "Raider for %s: saved=%s; pending=%s; gates=%s"
+  "commands.buildupmobtweaks.raider": "Raider for %s: saved=%s; pending=%s; gates=%s",
+
+  "buildupmobtweaks.main.hostile.vex.recoveryTicks.desc": "10-60 ticks; default 20. External knockback remains possible while AI flight pauses.",
+  "buildupmobtweaks.main.hostile.vex.minimumChargeDistance": "Minimum charge distance (blocks)",
+  "buildupmobtweaks.main.hostile.vex.recoveryPause": "Pause after charging",
+  "buildupmobtweaks.main.hostile.vex.fixedCharge.desc": "Aim once at charge start; stop missed charges after 40 ticks. Keeps vanilla hit damage and charge sound.",
+  "buildupmobtweaks.main.hostile.vex.minimumChargeDistance.desc": "2-6 blocks; default 3. Start only beyond this distance, keeping vanilla random checks.",
+  "buildupmobtweaks.main.hostile.vex.fixedCharge": "Fixed charge endpoint",
+  "buildupmobtweaks.main.hostile.vex": "Vex combat",
+  "buildupmobtweaks.main.hostile.vex.closeRangeGuard.desc": "Extend the vanilla two-block start boundary to the configured distance. Does not cancel a charge already in progress.",
+  "commands.buildupmobtweaks.vex": "Vex for %s: saved=%s; gates=%s",
+  "buildupmobtweaks.main.hostile.vex.recoveryTicks": "Recovery duration (ticks)",
+  "buildupmobtweaks.main.hostile.vex.closeRangeGuard": "Prevent close-range charge starts",
+  "buildupmobtweaks.main.hostile.vex.recoveryPause.desc": "Pause AI flight after a charge. Saves recovery across reloads; interrupted charges reserve up to 40 ticks plus recovery."
 }

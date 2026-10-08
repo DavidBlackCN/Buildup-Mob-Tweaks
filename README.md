@@ -1,6 +1,6 @@
 # Buildup Mob Tweaks — 26.3
 
-Minecraft 原版增强项目，采用 MIT。本轮完成 S2-C1 袭击核心批次：掠夺者退让/已有弩斧切换、卫道士支援、唤魔者恼鬼局部数量和持久冷却、女巫投药前摇/频率控制。整个 S2-C 仍 PARTIAL，其他敌对生物和高级招式未完成。见 [袭击说明](docs/RAID_COMBAT.md)、[本批报告](docs/S2C1_REPORT.md)、[僵尸系](docs/ZOMBIE_COMBAT.md)、[骷髅战斗](docs/SKELETON_COMBAT.md)。
+Minecraft 原版增强项目，采用 MIT。本轮完成 S2-C2 恼鬼冲刺批次：固定落点、结束后停顿和近距离起手限制，三项独立默认开启。S2-C1 袭击策略继续保留，整个 S2-C 仍 PARTIAL。见 [恼鬼说明](docs/VEX_COMBAT.md)、[本批报告](docs/S2C2_REPORT.md)、[袭击说明](docs/RAID_COMBAT.md)、[僵尸系](docs/ZOMBIE_COMBAT.md)、[骷髅战斗](docs/SKELETON_COMBAT.md)。
 
 | 项目 | 版本/标识 |
 |---|---|
@@ -38,7 +38,7 @@ $env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.3'
 
 本项目使用 [MIT License](LICENSE)，版权属于 DavidBlackCN 与项目贡献者。Fabric 模板原 CC0 来源及外部依赖许可见 [NOTICE](NOTICE.md)。项目参考 Mob AI Tweaks，当前未复制其实现或素材，也不是其官方续作。
 
-新增附魔的注册、战利品及关联玩法全部排除。Stellarity 等项目的 Boss 让位机制只保留设计方向，不宣称已兼容。本轮停在 S2-C1；人工验收后继续 S2-C 剩余批次，不跳到 S2-D。
+新增附魔的注册、战利品及关联玩法全部排除。Stellarity 等项目的 Boss 让位机制只保留设计方向，不宣称已兼容。本轮停在 S2-C2；人工验收后继续 S2-C 剩余批次，不跳到 S2-D。
 
 工作区共享资料：[SPEC](../MOB_TWEAKS_SPEC.md)、[任务表](../CODEX_STAGE1_TASKS.md)、[功能矩阵](../docs/FEATURE_MATRIX.md)、[上游审计](../docs/UPSTREAM_AUDIT.md)、[历史 S0 报告](../docs/TEST_REPORT.md)。这些父目录文件不在本 Git 仓库内，单独 clone 不会包含它们；本目录 docs/ 的配置和当前阶段报告会随提交保存。
 

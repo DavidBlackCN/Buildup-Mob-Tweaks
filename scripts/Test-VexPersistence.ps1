@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 if (-not $AcceptEula) { throw 'Read https://aka.ms/MinecraftEULA and pass -AcceptEula only after agreeing.' }
 if (-not $env:JAVA_HOME) { throw 'Set JAVA_HOME to JDK 25 first.' }
 $projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$testId = 'zombie-test-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N').Substring(0,6)
+$testId = 'vex-test-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N').Substring(0,6)
 $testRoot = Join-Path $projectRoot "run/$testId"
 $evidence = Join-Path $projectRoot ".gradle/$testId"
 $utf8 = [Text.UTF8Encoding]::new($false)
@@ -11,9 +11,10 @@ New-Item -ItemType Directory -Force "$testRoot/config/buildupmobtweaks", $eviden
 [IO.File]::WriteAllText("$testRoot/eula.txt", "eula=true`n", $utf8)
 [IO.File]::WriteAllText("$testRoot/server.properties", @"
 server-ip=127.0.0.1
-server-port=25589
+server-port=25591
 level-name=world
 level-type=minecraft:flat
+generator-settings={"layers":[{"block":"minecraft:bedrock","height":1},{"block":"minecraft:dirt","height":2},{"block":"minecraft:grass_block","height":1}],"biome":"minecraft:plains","features":false,"lakes":false}
 generate-structures=false
 gamemode=creative
 view-distance=2
@@ -22,7 +23,7 @@ pause-when-empty-seconds=0
 max-players=2
 "@, $utf8)
 $configPath = "$testRoot/config/buildupmobtweaks/main.toml"
-[IO.File]::WriteAllText($configPath, "version = 4`n[general]`nenabled = true`ndiagnosticProbe = false`n[performance]`ndiagnosticLines = 3`n", $utf8)
+[IO.File]::WriteAllText($configPath, "version = 6`n[general]`nenabled = true`ndiagnosticProbe = false`n[performance]`ndiagnosticLines = 3`n", $utf8)
 $groovyRoot = $testRoot.Replace('\','/').Replace("'", "\'")
 $initFile = "$evidence/server-input.gradle"
 [IO.File]::WriteAllText($initFile, "gradle.projectsEvaluated { rootProject.loom.runs.named('server') { runDir('$groovyRoot') }; rootProject.tasks.named('runServer') { standardInput = System.in } }", $utf8)
@@ -70,49 +71,49 @@ function Invoke-TestServer([string]$case, [object[]]$steps) {
         if (Test-Path $log) { Copy-Item -LiteralPath $log -Destination "$evidence/$case-latest.log" }
     }
     if ($process.ExitCode -ne 0) { throw "$case failed: exit $($process.ExitCode); see $evidence" }
+    if ((Get-Content "$evidence/$case-latest.log" -Raw) -match '\[.*?/ERROR\]|MixinApplyError|InvalidInjectionException') {
+        throw "$case contains server errors; see $evidence"
+    }
     Write-Host "${case}: server exited normally"
 }
 
 Invoke-TestServer 'migration' @('buildupmobtweaks status', 'save-all flush')
 $config = Get-Content $configPath -Raw
 if ($config -notmatch 'version = 7' -or $config -notmatch 'diagnosticProbe = false' -or $config -notmatch 'diagnosticLines = 3' -or
-    $config -notmatch 'doorChance = 30' -or $config -notmatch 'tridentRecovery = true' -or $config -notmatch 'recoveryTimeout = 200') {
-    throw 'Config version 4 -> 7 did not preserve old values or add defaults'
+    $config -notmatch 'fixedCharge = true' -or $config -notmatch 'recoveryTicks = 20' -or $config -notmatch 'minimumChargeDistance = 3') {
+    throw 'Config version 6 -> 7 did not preserve old values or add defaults'
 }
-$config = $config.Replace('guardChance = 70', 'guardChance = 1000').Replace('doorChance = 30', 'doorChance = 0')
-[IO.File]::WriteAllText($configPath, $config, $utf8)
 Invoke-TestServer 'unload-reload' @(
+    'gamerule minecraft:mob_griefing false',
     'forceload add 16000 16000', 3,
     'fill 16004 80 16004 16012 80 16012 minecraft:stone',
-    'summon minecraft:zombie 16008 81 16008 {Tags:["bmt_s2b"],NoAI:1b,Invulnerable:1b,PersistenceRequired:1b,IsBaby:0b}',
-    'buildupmobtweaks zombie @e[tag=bmt_s2b,limit=1]',
+    'summon minecraft:vex 16008 81 16008 {Tags:["bmt_s2c2"],NoAI:1b,Invulnerable:1b,PersistenceRequired:1b}',
+    'data modify entity @e[tag=bmt_s2c2,limit=1] "fabric:attachments"."buildupmobtweaks:vex_combat".recover_until set value 987654321L',
+    'buildupmobtweaks vex @e[tag=bmt_s2c2,limit=1]',
     'save-all flush', 'forceload remove 16000 16000', 40,
-    'buildupmobtweaks zombie @e[tag=bmt_s2b,limit=1]',
+    'buildupmobtweaks vex @e[tag=bmt_s2c2,limit=1]',
     'forceload add 16000 16000', 3,
-    'buildupmobtweaks zombie @e[tag=bmt_s2b,limit=1]', 'save-all flush'
+    'buildupmobtweaks vex @e[tag=bmt_s2c2,limit=1]', 'save-all flush'
 )
 $config = Get-Content $configPath -Raw
-$config = $config.Replace('guardChance = 1000', 'guardChance = 0')
-foreach ($key in @('shieldUse','doorGuard','activeGuard','sandBurrow','babyRider','tridentConservation','tridentRecovery','tridentPlayerPickup')) {
+foreach ($key in @('fixedCharge','recoveryPause','closeRangeGuard')) {
     $config = $config.Replace("$key = true", "$key = false")
 }
 [IO.File]::WriteAllText($configPath, $config, $utf8)
-Invoke-TestServer 'restart-disabled' @('forceload add 16000 16000', 3, 'buildupmobtweaks zombie @e[tag=bmt_s2b,limit=1]', 'save-all flush')
+Invoke-TestServer 'restart-disabled' @('forceload add 16000 16000', 3, 'buildupmobtweaks vex @e[tag=bmt_s2c2,limit=1]', 'save-all flush')
 $first = Get-Content "$evidence/unload-reload-latest.log" -Raw
 $second = Get-Content "$evidence/restart-disabled-latest.log" -Raw
-$pattern = 'Zombie for ([0-9a-f-]+): saved=(.*?); flight=(.*?); owned=(.*?); gates=([^\r\n]+)'
-$observed = [regex]::Matches($first, $pattern)
-$restarted = [regex]::Matches($second, $pattern)
+$pattern = 'Vex for ([0-9a-f-]+): saved=(.*?); gates=([^\r\n]+)'
+$observed = [regex]::Matches($first, $pattern); $restarted = [regex]::Matches($second, $pattern)
 if ($observed.Count -ne 2 -or $restarted.Count -ne 1 -or $first -notmatch 'No entity was found') {
     throw "Missing actual unload/reload/restart observations; inspect $evidence"
 }
 if ($observed[0].Value -ne $observed[1].Value -or $observed[0].Groups[1].Value -ne $restarted[0].Groups[1].Value -or
-    $observed[0].Groups[2].Value -ne $restarted[0].Groups[2].Value -or $observed[0].Groups[2].Value -notmatch 'zombie_active_guard' -or
-    $observed[0].Groups[5].Value -match '=false' -or $restarted[0].Groups[5].Value -match '=true') {
-    throw "Saved trait changed or disabled gates ineffective; inspect $evidence"
+    $observed[0].Groups[2].Value -ne $restarted[0].Groups[2].Value -or $observed[0].Groups[2].Value -notmatch '987654321L' -or
+    $observed[0].Groups[3].Value -match '=false' -or $restarted[0].Groups[3].Value -match '=true') {
+    throw "Saved cooldown changed or disabled gates ineffective; inspect $evidence"
 }
-Write-Host 'PASS: v4 -> v7 preserves old values; actual unload/reload/restart preserves zombie trait; eight gates disabled.'
-Write-Host $observed[0].Value
-Write-Host $restarted[0].Value
+Write-Host 'PASS: v6 -> v7 preserves old values; actual unload/reload/restart preserves nonzero cooldown; three gates disabled.'
+Write-Host $observed[0].Value; Write-Host $restarted[0].Value
 Write-Host "Evidence: $evidence"
 Write-Host "Isolated test world retained: $testRoot"

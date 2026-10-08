@@ -3,9 +3,11 @@ package com.davidblackcn.buildupmobtweaks;
 import com.davidblackcn.buildupmobtweaks.combat.SkeletonCombat;
 import com.davidblackcn.buildupmobtweaks.combat.ZombieCombat;
 import com.davidblackcn.buildupmobtweaks.combat.RaidCombat;
+import com.davidblackcn.buildupmobtweaks.combat.VexCombat;
 import com.davidblackcn.buildupmobtweaks.combat.DrownedTridents;
 import com.davidblackcn.buildupmobtweaks.command.ZombieCommands;
 import com.davidblackcn.buildupmobtweaks.command.RaidCommands;
+import com.davidblackcn.buildupmobtweaks.command.VexCommands;
 import com.davidblackcn.buildupmobtweaks.command.SkeletonCommands;
 import com.davidblackcn.buildupmobtweaks.command.DiagnosticCommands;
 import com.davidblackcn.buildupmobtweaks.command.TraitCommands;
@@ -52,9 +54,11 @@ public class BuildupMobTweaks implements ModInitializer {
         new ZombieCombat(features).register();
         new DrownedTridents(features).register();
         ZombieCommands.register(features);
+        new VexCombat(features).register();
+        VexCommands.register(features);
         new RaidCombat(features).register();
         RaidCommands.register(features);
-		LOGGER.info("Buildup Mob Tweaks configuration initialized (S2-C1).");
+		LOGGER.info("Buildup Mob Tweaks configuration initialized (S2-C2).");
 	}
 
 	public static Identifier id(String path) {

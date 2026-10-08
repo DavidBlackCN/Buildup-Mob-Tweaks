@@ -7,7 +7,7 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 6)
+@Version(version = 7)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
@@ -40,6 +40,7 @@ public final class BuildupConfig extends Config {
         public Zombie zombie = new Zombie();
         public Drowned drowned = new Drowned();
         public Raid raid = new Raid();
+        public Vex vex = new Vex();
     }
 
     public static final class Skeleton extends ConfigSection {
@@ -89,6 +90,14 @@ public final class BuildupConfig extends Config {
         public ValidatedInt summonCooldown = new ValidatedInt(680, 2400, 340);
         public ValidatedInt witchWindupTicks = new ValidatedInt(20, 60, 10);
         public ValidatedInt witchCooldownTicks = new ValidatedInt(100, 400, 60);
+    }
+
+    public static final class Vex extends ConfigSection {
+        public ValidatedBoolean fixedCharge = new ValidatedBoolean(true);
+        public ValidatedBoolean recoveryPause = new ValidatedBoolean(true);
+        public ValidatedBoolean closeRangeGuard = new ValidatedBoolean(true);
+        public ValidatedInt recoveryTicks = new ValidatedInt(20, 60, 10);
+        public ValidatedInt minimumChargeDistance = new ValidatedInt(3, 6, 2);
     }
 
     public static final class Equipment extends ConfigSection {

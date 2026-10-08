@@ -75,9 +75,9 @@ function Invoke-TestServer([string]$case, [object[]]$steps) {
 
 Invoke-TestServer 'migration' @('buildupmobtweaks status', 'save-all flush')
 $config = Get-Content $configPath -Raw
-if ($config -notmatch 'version = 6' -or $config -notmatch 'diagnosticProbe = false' -or $config -notmatch 'diagnosticLines = 3' -or
+if ($config -notmatch 'version = 7' -or $config -notmatch 'diagnosticProbe = false' -or $config -notmatch 'diagnosticLines = 3' -or
     $config -notmatch 'vexLimit = 6' -or $config -notmatch 'witchWindup = true' -or $config -notmatch 'summonCooldown = 680') {
-    throw 'Config version 5 -> 6 did not preserve old values or add defaults'
+    throw 'Config version 5 -> 7 did not preserve old values or add defaults'
 }
 Invoke-TestServer 'unload-reload' @(
     'gamerule minecraft:mob_griefing false',
@@ -109,7 +109,7 @@ if ($observed[0].Value -ne $observed[1].Value -or $observed[0].Groups[1].Value -
     $observed[0].Groups[4].Value -match '=false' -or $restarted[0].Groups[4].Value -match '=true') {
     throw "Saved cooldown changed or disabled gates ineffective; inspect $evidence"
 }
-Write-Host 'PASS: v5 -> v6 preserves old values; actual unload/reload/restart preserves nonzero cooldown; seven gates disabled.'
+Write-Host 'PASS: v5 -> v7 preserves old values; actual unload/reload/restart preserves nonzero cooldown; seven gates disabled.'
 Write-Host $observed[0].Value; Write-Host $restarted[0].Value
 Write-Host "Evidence: $evidence"
 Write-Host "Isolated test world retained: $testRoot"

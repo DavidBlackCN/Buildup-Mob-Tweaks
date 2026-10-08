@@ -76,9 +76,9 @@ function Invoke-TestServer([string]$case, [object[]]$steps) {
 
 Invoke-TestServer 'migration' @('buildupmobtweaks status', 'save-all flush')
 $config = Get-Content $configPath -Raw
-if ($config -notmatch 'version = 6' -or $config -notmatch 'diagnosticProbe = false' -or
+if ($config -notmatch 'version = 7' -or $config -notmatch 'diagnosticProbe = false' -or
     $config -notmatch 'diagnosticLines = 4' -or $config -notmatch 'commonMarker = false') {
-    throw 'Config version 2 -> 6 did not preserve old values'
+    throw 'Config version 2 -> 7 did not preserve old values'
 }
 $config = $config.Replace('assignmentChance = 100', 'assignmentChance = 1000')
 [IO.File]::WriteAllText($configPath, $config, $utf8)

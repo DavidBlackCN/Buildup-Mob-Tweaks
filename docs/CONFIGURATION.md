@@ -1,10 +1,10 @@
-# 配置（S1-A 至 S2-C1）
+# 配置（S1-A 至 S2-C2）
 
 安装 Fzzy Config `0.7.7+fix3+26.3`、Fabric Language Kotlin `1.14.1+kotlin.2.4.20`、Fabric API 和 Fabric Loader。项目 JAR 不内嵌这些依赖。可选客户端 Mod Menu `21.0.0` 仅提供入口；服务端不需要它。
 
 Fzzy 使用 `RegisterType.BOTH` 注册 `buildupmobtweaks:main`。文件位于游戏运行目录 `config/buildupmobtweaks/main.toml`。专用服务端读自己的文件，客户端修改本地文件不能改写服务端规则；GUI 更新沿用 Fzzy 的权限及同步流程。修改权限设为等级 4，普通玩家可查询状态。S1-A 已获用户人工验收确认；原始自动测试边界保留于阶段报告。
 
-入口：装有 Mod Menu 时选择 Buildup Mob Tweaks 的配置按钮；无 Mod Menu 时进入世界，执行 Fzzy 的 `/configure buildupmobtweaks.main`。S1-A 界面验收已由用户确认，S1-B 已获用户验收；S1-C 已获用户验收；S2-A 已获后续授权；S2-B 已获后续授权；S2-C1 袭击字段仍需人工复查。
+入口：装有 Mod Menu 时选择 Buildup Mob Tweaks 的配置按钮；无 Mod Menu 时进入世界，执行 Fzzy 的 `/configure buildupmobtweaks.main`。S1-A 界面验收已由用户确认，S1-B 已获用户验收；S1-C 已获用户验收；S2-A 已获后续授权；S2-B 已获后续授权；S2-C1 已获后续授权；S2-C2 恼鬼字段与实际多人同步仍需人工复查。
 
 | 分组/选项 | 默认值 | 范围与作用 | 生效时机 |
 |---|---|---|---|
@@ -20,7 +20,7 @@ Fzzy 使用 `RegisterType.BOTH` 注册 `buildupmobtweaks:main`。文件位于游
 
 ## 版本演进
 
-- 当前 `@Version(6)`：v1→v2 增加 traits，v2→v3 增加 equipment，v3→v4 增加 hostile.skeleton，v4→v5 增加 hostile.zombie / hostile.drowned，v5→v6 增加 hostile.raid；保留旧键。真实服务端升级已保留 diagnosticProbe=false、diagnosticLines=4、traits.commonMarker=false。由 Fzzy 添加默认字段和写回版本，无需改名转换逻辑。
+- 当前 `@Version(7)`：v1→v2 增加 traits，v2→v3 增加 equipment，v3→v4 增加 hostile.skeleton，v4→v5 增加 hostile.zombie / hostile.drowned，v5→v6 增加 hostile.raid，v6→v7 增加 hostile.vex；保留旧键。真实服务端升级已保留 diagnosticProbe=false、diagnosticLines=4、traits.commonMarker=false。由 Fzzy 添加默认字段和写回版本，无需改名转换逻辑。
 - 稳定保持 mod ID、文件名、分组和字段键。新增字段采用默认值，保留现有已知字段的用户值。
 - 删除/改名/改变字段语义前必须增加版本并实现 Fzzy `Config.update(int)` 迁移，保留配置备份并测试旧版本样本；当前没有虚构的升级映射。
 - 不手动修改自动生成的 `version`，不把未来版本配置当作已支持的回退格式。降级前备份整个配置目录。
@@ -30,7 +30,7 @@ Fzzy 使用 `RegisterType.BOTH` 注册 `buildupmobtweaks:main`。文件位于游
 
 ## S1-B Traits
 
-traits 分组已加入总开关、三项独立诊断标记开关及 cow / zombieFamily 两套千分权重。开关立即影响 active 查询；权重只影响新实体。存档与互斥规则见 [Traits 说明](TRAITS.md)。S1-B 当时引入配置版本 2（当前为 6）；配置版本与实体 Traits 数据版本 1 是不同的版本号。
+traits 分组已加入总开关、三项独立诊断标记开关及 cow / zombieFamily 两套千分权重。开关立即影响 active 查询；权重只影响新实体。存档与互斥规则见 [Traits 说明](TRAITS.md)。S1-B 当时引入配置版本 2（当前为 7）；配置版本与实体 Traits 数据版本 1 是不同的版本号。
 
 ## S1-C 装备
 
@@ -48,3 +48,7 @@ hostile.zombie 增加五个行为开关、四套千分权重和独立冷却；ho
 ## S2-C1 袭击核心批次
 
 hostile.raid 新增七项默认开启的独立行为和四个数值配置；不依赖高级 Traits。v5→v6 保留旧字段；持久冷却和前摇取消规则见 [袭击战斗](RAID_COMBAT.md)。新增字段 GUI 和真实多人同步仍需人工验收。
+
+## S2-C2 恼鬼冲刺
+
+hostile.vex 增加 fixedCharge、recoveryPause、closeRangeGuard 三项独立开关，默认 true；recoveryTicks 默认 20（10–60 tick），minimumChargeDistance 默认 3（2–6 格）。不依赖 Traits。配置 v7；开关、恢复预留、重载中断和 40 tick 上限的精确语义见 [恼鬼说明](VEX_COMBAT.md)。GUI 字段、实际多人服务端同步本轮仍需人工验收。

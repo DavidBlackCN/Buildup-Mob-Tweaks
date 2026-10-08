@@ -14,7 +14,8 @@
       "com.davidblackcn.buildupmobtweaks.SkeletonTests",
       "com.davidblackcn.buildupmobtweaks.ZombieTests",
       "com.davidblackcn.buildupmobtweaks.TridentTests",
-      "com.davidblackcn.buildupmobtweaks.RaidTests"
+      "com.davidblackcn.buildupmobtweaks.RaidTests",
+      "com.davidblackcn.buildupmobtweaks.VexTests"
     ]
   },
   "depends": { "buildupmobtweaks": "*" }

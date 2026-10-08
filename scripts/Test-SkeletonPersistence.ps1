@@ -75,9 +75,9 @@ function Invoke-TestServer([string]$case, [object[]]$steps) {
 
 Invoke-TestServer 'migration' @('buildupmobtweaks status', 'save-all flush')
 $config = Get-Content $configPath -Raw
-if ($config -notmatch 'version = 6' -or $config -notmatch 'diagnosticProbe = false' -or $config -notmatch 'diagnosticLines = 3' -or
+if ($config -notmatch 'version = 7' -or $config -notmatch 'diagnosticProbe = false' -or $config -notmatch 'diagnosticLines = 3' -or
     $config -notmatch 'skeletonChance = 70' -or $config -notmatch 'boggedSporeRetreat = true') {
-    throw 'Config version 3 -> 6 did not preserve old values or add defaults'
+    throw 'Config version 3 -> 7 did not preserve old values or add defaults'
 }
 $config = $config.Replace('skeletonChance = 70', 'skeletonChance = 1000')
 [IO.File]::WriteAllText($configPath, $config, $utf8)
@@ -111,7 +111,7 @@ if ($observed[0].Value -ne $observed[1].Value -or $observed[0].Groups[1].Value -
     $restarted[0].Groups[3].Value -ne 'false' -or $restarted[0].Groups[4].Value -match '=true') {
     throw "Saved trait changed or disabled gates ineffective; inspect $evidence"
 }
-Write-Host 'PASS: v3 -> v6 preserves old values; real unload/reload/restart preserves skeleton trait; seven disabled gates mask it.'
+Write-Host 'PASS: v3 -> v7 preserves old values; real unload/reload/restart preserves skeleton trait; seven disabled gates mask it.'
 Write-Host $observed[0].Value
 Write-Host $restarted[0].Value
 Write-Host "Evidence: $evidence"

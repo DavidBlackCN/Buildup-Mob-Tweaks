@@ -6,6 +6,9 @@ import net.minecraft.resources.Identifier;
 public enum FeatureId {
     DIAGNOSTIC_PROBE("diagnostic_probe"),
     TRAITS("traits"),
+    VEX_FIXED_CHARGE("vex_fixed_charge"),
+    VEX_RECOVERY_PAUSE("vex_recovery_pause"),
+    VEX_CLOSE_RANGE_GUARD("vex_close_range_guard"),
     PILLAGER_RETREAT("pillager_retreat"),
     PILLAGER_WEAPON_SWITCH("pillager_weapon_switch"),
     VINDICATOR_SUPPORT("vindicator_support"),

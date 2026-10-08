@@ -60,3 +60,9 @@
 Code Review: **PASS WITH RISKS**。无已知代码 BLOCKER/MAJOR；未验证项如上。目标 JAR 仅 6 个 rebuild Mixin，旧 combat/Mixin 类及上游/原版类没有打包。旧 `26.3-tests` 的 Git 状态、HEAD 和 169 个跟踪文件哈希与开始一致。MIT 全文已进入 JAR，JSON 和 git diff --check 通过。外层 `verification.json` 记录产物和证据哈希。
 
 人工验收完成前不进入下一阶段。完整检查表及失败迭代记录见外层 R2-A 报告；本 Git 提交不包含外层报告、日志、下载、缓存、构建产物或测试世界。
+
+## 人工验收后修正：死亡食物掉落
+
+用户已确认 R2-A 实机验收通过。按反馈，背包中带 FOOD 组件的物品作为 AI 消耗补给，死亡时清除而不掉落；存活期间仍正常保存/食用。进食中死亡先归还原副手，再丢弃食物，弩/盾等非食物保留原掉落规则。旧 version 1 存档无需转换，即使 drop_i=1 也适用；禁用 AI 不绕过结算。以上替代本报告早先 bread=3 落地的历史断言。
+
+实际目标目录 `./gradlew.bat build -PtestEula=true --console=plain` PASS，17 required tests；新增多种旧存档食物死亡与禁用回归，调整进食死亡场景为 food=0 / bow=1 / shield=1。断言变化对应本次用户要求，不代表隐藏旧失败。日志在外层 docs/rebuild/evidence/r2a-food-fix/build.log。CODE_REVIEW 自检 PASS；本次掉落修正尚未另行人工复测。下一阶段仅已整理 R2B_MIGRATION_PLAN.md，尚未实施骷髅 AI。

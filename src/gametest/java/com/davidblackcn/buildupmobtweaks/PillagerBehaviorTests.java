@@ -129,7 +129,7 @@ public class PillagerBehaviorTests {
         });
     }
     @GameTest(structure=ARENA,maxTicks=110)
-    public void deathDuringMealDropsOwnedStacksOnce(GameTestHelper h) {
+    public void deathDuringMealDiscardsFoodButDropsOwnedEquipmentOnce(GameTestHelper h) {
         floor(h);var p=pillager(h,8,8);p.setHealth(15);p.getInventory().setItem(0,new ItemStack(Items.BREAD,3));
         p.setItemSlot(EquipmentSlot.OFFHAND,new ItemStack(Items.SHIELD));
         p.setDropChance(EquipmentSlot.MAINHAND,2);p.setDropChance(EquipmentSlot.OFFHAND,2);
@@ -143,7 +143,7 @@ public class PillagerBehaviorTests {
                 var stack=item.getItem();if(stack.is(Items.BREAD))bread+=stack.getCount();if(stack.is(Items.CROSSBOW))bow+=stack.getCount();if(stack.is(Items.SHIELD))shield+=stack.getCount();
             }
             evidence("P03_death_observation",p,"bread="+bread+" bow="+bow+" shield="+shield);
-            h.assertTrue(bread==3&&bow==1&&shield==1,"Death drops each owned stack once, including reserved hand");
+            h.assertTrue(bread==0&&bow==1&&shield==1,"Death discards AI food but drops owned equipment once, including reserved hand");
             evidence("P03_death",p,"bread="+bread+" bow="+bow+" shield="+shield);h.succeed();
         });
     }
@@ -297,6 +297,33 @@ public class PillagerBehaviorTests {
             var loaded=CombatTestWorld.reload(h,p);
             h.assertValueEqual(count(loaded,Items.STONE_AXE),0,"Lost/removed supply is never refilled on reload");
             evidence("default_birth_reload",loaded,"axe_before=1 axe_after_removal_reload=0");loaded.discard();h.succeed();
+        });
+    }
+    @GameTest(structure=ARENA,maxTicks=40)
+    public void loadedDisabledPillagerDoesNotDropMultipleBackpackFoods(GameTestHelper h) {
+        floor(h);var p=pillager(h,8,8);
+        Item[] foods={Items.BREAD,Items.APPLE,Items.CARROT,Items.GOLDEN_APPLE,Items.GOLDEN_CARROT};
+        for(int i=0;i<foods.length;i++) {
+            p.getInventory().setItem(i,new ItemStack(foods[i],3));
+            // Legacy R2-A birth supplies were persisted with a guaranteed drop policy.
+            p.getAttached(PillagerBehavior.DATA).putFloat("drop_"+i,1f);
+        }
+        p.setDropChance(EquipmentSlot.MAINHAND,2);
+        var loaded=CombatTestWorld.reload(h,p);loaded.addTag(PillagerBehavior.VANILLA_TAG);
+        h.runAtTickTime(10,()->{
+            for(Item item:foods)h.assertValueEqual(count(loaded,item),3,"Reload keeps living inventory for use");
+            loaded.hurtServer(h.getLevel(),loaded.damageSources().generic(),1000);
+        });
+        h.runAtTickTime(20,()->{
+            int foodDrops=0,bows=0;
+            for(var drop:h.getLevel().getEntitiesOfClass(ItemEntity.class,loaded.getBoundingBox().inflate(8))) {
+                var stack=drop.getItem();if(stack.has(DataComponents.FOOD))foodDrops+=stack.getCount();
+                if(stack.is(Items.CROSSBOW))bows+=stack.getCount();
+            }
+            h.assertValueEqual(foodDrops,0,"No backpack food loot, including saved golden foods with AI disabled");
+            h.assertValueEqual(bows,1,"Normal weapon drop preserved");
+            h.assertTrue(loaded.getInventory().isEmpty(),"Death clears supplies once");
+            evidence("P03_loaded_food_death",loaded,"food=0 crossbow=1 inventory_empty=true");h.succeed();
         });
     }
 

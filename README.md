@@ -16,7 +16,7 @@ Fzzy Config 服务端配置 v9。总开关、hostile 分组和各项独立开关
 
 - 主手弩与背包实际斧/剑交换；小于 3 格近战，大于 3 格换回弩。不会凭空补武器。
 - 出生补给仅首次有效出生执行，食物按局部难度随机，不保证每只都有。读取存档不补发。
-- 脱战受伤等待 60 tick，副手使用真实背包食物，完成原版消费后按 nutrition 回血；中断、禁用、死亡及重载恢复原槽位。
+- 脱战受伤等待 60 tick，副手使用真实背包食物，完成原版消费后按 nutrition 回血；中断、禁用、死亡及重载恢复原槽位；死亡结算时背包食物不掉落，非食物装备保留原掉落规则。
 - 持续举盾超过 60 tick 时接近，实际近战斧命中才可能造成原版盾冷却。
 - `buildupmobtweaks:vanilla_ai` 实体标签退出新 AI；`buildupmobtweaks:disable_<feature_id>` 可单项退出。实体类型标签 pillager_ai_excluded、物品标签 ranged_items_excluded 排除兼容接管，pillager_melee_weapons 扩展近战武器（默认 swords，axes 固有支持）。
 - 兼容标准 CrossbowItem 子类；没有验证第三方枪械、非标准武器系统、整合包或旧 S2 存档迁移。
@@ -25,6 +25,6 @@ Fzzy Config 服务端配置 v9。总开关、hostile 分组和各项独立开关
 
 ## 阶段状态
 
-实现与自动行为证据见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。外层 docs/rebuild/REBUILD_REPORT_R2A.md 保存完整工作报告、原始日志索引及人工验收清单；这些共享文件不在本 Git 根内。自动测试通过不等于人工实机验收完成。本阶段结束后等待人工确认，不进入 R2-B。
+实现与自动行为证据见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。外层 docs/rebuild/REBUILD_REPORT_R2A.md 保存完整工作报告、原始日志索引及人工验收清单；这些共享文件不在本 Git 根内。R2-A 已获用户人工验收，死亡背包食物掉落反馈已修正并通过自动回归，修复项人工复测待执行。下一阶段已准备 [R2-B 迁移方案](docs/R2B_MIGRATION_PLAN.md)，尚未实施骷髅 AI。
 
 本项目不是上游官方续作。参考恢复的官方发行源码，保留 [NOTICE.md](NOTICE.md) 与 [上游 MIT 文本](licenses/Mob-AI-Tweaks-MIT.txt)。

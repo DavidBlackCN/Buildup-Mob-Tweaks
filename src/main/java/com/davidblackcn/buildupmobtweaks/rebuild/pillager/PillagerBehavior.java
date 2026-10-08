@@ -64,11 +64,14 @@ public final class PillagerBehavior {
         });
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (!(entity instanceof Pillager mob) || !(mob.level() instanceof ServerLevel level) || !known(mob)) return;
-            // Vanilla drops equipment but not this container. Clear exactly once, even with mob drops off.
+            // Backpack food is an AI supply, not bonus loot (including supplies saved by earlier R2-A builds).
+            // Restore the borrowed hand before this point; preserve non-food equipment drop policy.
+            // Clear exactly once, even with mob drops off.
             for (int i = 0; i < mob.getInventory().getContainerSize(); i++) {
                 ItemStack stack = mob.getInventory().removeItemNoUpdate(i);
                 float chance = data(mob).getFloatOr("drop_" + i, 1f);
-                if (!stack.isEmpty() && !EnchantmentHelper.has(stack, EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)
+                if (!stack.isEmpty() && !stack.has(DataComponents.FOOD)
+                        && !EnchantmentHelper.has(stack, EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)
                         && level.getGameRules().get(GameRules.MOB_DROPS) && mob.getRandom().nextFloat() < chance)
                     mob.spawnAtLocation(level, stack);
             }

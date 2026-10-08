@@ -95,10 +95,13 @@ sourceSets.main.java {
     include 'com/davidblackcn/buildupmobtweaks/mixin/rebuild/**'
 }
 sourceSets.client.java {
+    include 'com/davidblackcn/buildupmobtweaks/client/rebuild/**'
+    include 'com/davidblackcn/buildupmobtweaks/client/mixin/rebuild/**'
     include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksClient.java'
     include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksDataGenerator.java'
 }
 sourceSets.gametest.java {
+    include 'com/davidblackcn/buildupmobtweaks/SkeletonBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/PillagerBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestWorld.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestItems.java'

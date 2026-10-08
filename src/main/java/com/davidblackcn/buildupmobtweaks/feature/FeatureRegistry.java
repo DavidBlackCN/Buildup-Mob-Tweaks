@@ -26,9 +26,9 @@ public final class FeatureRegistry {
         add(gates, FeatureId.SKELETON_TARGET_VALIDATION, () -> config.hostile.skeleton.targetValidation.get());
         add(gates, FeatureId.SKELETON_WEAPON_SWITCHING, () -> config.hostile.skeleton.weaponSwitching.get());
         add(gates, FeatureId.SKELETON_BOW_COMPATIBILITY, () -> config.hostile.skeleton.bowCompatibility.get());
-        add(gates, FeatureId.SKELETON_SNIPING, () -> config.traits.enabled.get() && config.hostile.skeleton.skeletonSniping.get());
-        add(gates, FeatureId.STRAY_JUMP_SHOT, () -> config.traits.enabled.get() && config.hostile.skeleton.strayJumpShot.get());
-        add(gates, FeatureId.BOGGED_SPORE_RETREAT, () -> config.traits.enabled.get() && config.hostile.skeleton.boggedSporeRetreat.get());
+        add(gates, FeatureId.SKELETON_SNIPING, () -> config.hostile.skeleton.skeletonSniping.get());
+        add(gates, FeatureId.STRAY_JUMP_SHOT, () -> config.hostile.skeleton.strayJumpShot.get());
+        add(gates, FeatureId.BOGGED_SPORE_RETREAT, () -> config.hostile.skeleton.boggedSporeRetreat.get());
         add(gates, FeatureId.ZOMBIE_SHIELD_USE, () -> config.hostile.zombie.shieldUse.get());
         add(gates, FeatureId.ZOMBIE_DOOR_GUARD, () -> config.traits.enabled.get() && config.hostile.zombie.doorGuard.get());
         add(gates, FeatureId.ZOMBIE_ACTIVE_GUARD, () -> config.traits.enabled.get() && config.hostile.zombie.activeGuard.get());
@@ -163,7 +163,12 @@ public final class FeatureRegistry {
 
     /** Legacy IDs/config values remain readable, but cannot claim an active R2-A implementation. */
     public static boolean supported(FeatureId id) {
-        return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_");
+        return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_")
+                || switch(id) {
+                    case SKELETON_SAFE_STRAFING, SKELETON_TARGET_VALIDATION, SKELETON_WEAPON_SWITCHING,
+                         SKELETON_BOW_COMPATIBILITY, SKELETON_SNIPING, STRAY_JUMP_SHOT, BOGGED_SPORE_RETREAT, SKELETON_SHELTER, RANGED_REPOSITION -> true;
+                    default -> false;
+                };
     }
 
     public boolean isTraitEnabled(String id) {

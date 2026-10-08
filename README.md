@@ -1,8 +1,8 @@
-# Buildup Mob Tweaks — R2-A
+# Buildup Mob Tweaks — R2-A / R2-B
 
-Minecraft Fabric 26.3 的独立 MIT 项目。本阶段只启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
+Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 
-旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。其他生物当前保持原版行为。旧配置值保留，但非掠夺者功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。
+旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。现已加入普通骷髅、流浪者、沼骸的 S01～S04 与 S06 重建；其余生物保持原版。旧配置值保留，未在本批白名单的功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。
 
 ## 环境与验证
 
@@ -21,10 +21,12 @@ Fzzy Config 服务端配置 v9。总开关、hostile 分组和各项独立开关
 - `buildupmobtweaks:vanilla_ai` 实体标签退出新 AI；`buildupmobtweaks:disable_<feature_id>` 可单项退出。实体类型标签 pillager_ai_excluded、物品标签 ranged_items_excluded 排除兼容接管，pillager_melee_weapons 扩展近战武器（默认 swords，axes 固有支持）。
 - 兼容标准 CrossbowItem 子类；没有验证第三方枪械、非标准武器系统、整合包或旧 S2 存档迁移。
 
-管理员只读诊断：`/buildupmobtweaks pillager <实体选择器>`，查看目标、阶段、真实背包及事件计数。实体背包 /item 槽位为 mob.inventory.0～mob.inventory.4。
+骷髅系列使用真实备用武器、昼夜狙击/走射、流浪者翻转雪球、沼骸闪避毒云与独立屋顶寻路。旧 Traits 概率不控制这些行为，开关和过滤仍独立。标准 BowItem 子类按实际持手使用，未知弹射武器退出接管；配置与兼容边界见 R2-B 文档。
+
+管理员另可用 `/buildupmobtweaks skeleton <实体>` 查看备用物品和模式计数。管理员只读诊断：`/buildupmobtweaks pillager <实体选择器>`，查看目标、阶段、真实背包及事件计数。实体背包 /item 槽位为 mob.inventory.0～mob.inventory.4。
 
 ## 阶段状态
 
-实现与自动行为证据见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。外层 docs/rebuild/REBUILD_REPORT_R2A.md 保存完整工作报告、原始日志索引及人工验收清单；这些共享文件不在本 Git 根内。R2-A 已获用户人工验收，死亡背包食物掉落反馈已修正并通过自动回归，修复项人工复测待执行。下一阶段已准备 [R2-B 迁移方案](docs/R2B_MIGRATION_PLAN.md)，尚未实施骷髅 AI。
+实现与自动行为证据见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。外层 docs/rebuild/REBUILD_REPORT_R2A.md 保存完整工作报告、原始日志索引及人工验收清单；这些共享文件不在本 Git 根内。R2-A 已获用户人工验收，死亡背包食物掉落反馈已修正并通过自动回归，修复项人工复测待执行。R2-B 方案已获批准并完成实现与自动验证，详见 [R2-B 实现、证据与人工清单](docs/R2B_REBUILD.md)；等待人工验收，不进入下一批。
 
 本项目不是上游官方续作。参考恢复的官方发行源码，保留 [NOTICE.md](NOTICE.md) 与 [上游 MIT 文本](licenses/Mob-AI-Tweaks-MIT.txt)。

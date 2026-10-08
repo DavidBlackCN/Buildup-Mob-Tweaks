@@ -8,7 +8,13 @@
     "rebuild.PillagerConsumptionMixin",
     "rebuild.PillagerWeaponMixin",
     "rebuild.PillagerCrossbowHandMixin",
-    "rebuild.PillagerInventoryMixin"
+    "rebuild.PillagerInventoryMixin",
+    "rebuild.SkeletonLifecycleMixin",
+    "rebuild.SkeletonAiMixin",
+    "rebuild.SkeletonBowHandMixin",
+    "rebuild.SkeletonSniperGoalMixin",
+    "rebuild.SkeletonSnowballMixin",
+    "rebuild.SkeletonStrafeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

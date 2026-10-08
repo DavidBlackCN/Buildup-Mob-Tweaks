@@ -2,7 +2,11 @@
   "required": true,
   "package": "com.davidblackcn.buildupmobtweaks.client.mixin",
   "compatibilityLevel": "JAVA_25",
-  "client": [],
+  "client": [
+    "rebuild.SkeletonRenderStateMixin",
+    "rebuild.SkeletonRendererMixin",
+    "rebuild.SkeletonRotationMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },

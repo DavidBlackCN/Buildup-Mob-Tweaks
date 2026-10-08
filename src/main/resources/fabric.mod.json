@@ -3,7 +3,7 @@
   "id": "buildupmobtweaks",
   "version": "${version}",
   "name": "Buildup Mob Tweaks",
-  "description": "Independent configurable mob behavior rebuild. Current R2-A baseline implements pillager equipment switching, retreat, food recovery, shield pressure and target lifecycle.",
+  "description": "Independent configurable mob behavior rebuild for pillagers, skeletons, strays and bogged: real equipment switching, ranged and melee combat, recovery, shelter, special movement and target lifecycle.",
   "authors": [
     "Buildup contributors"
   ],

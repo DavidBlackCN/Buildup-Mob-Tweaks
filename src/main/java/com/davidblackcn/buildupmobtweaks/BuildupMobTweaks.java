@@ -1,5 +1,10 @@
 package com.davidblackcn.buildupmobtweaks;
 
+import com.davidblackcn.buildupmobtweaks.command.DiagnosticCommands;
+import com.davidblackcn.buildupmobtweaks.config.BuildupConfig;
+import com.davidblackcn.buildupmobtweaks.feature.FeatureRegistry;
+import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
+import me.fzzyhmstrs.fzzy_config.api.RegisterType;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.resources.Identifier;
@@ -21,7 +26,9 @@ public class BuildupMobTweaks implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Buildup Mob Tweaks initialized (S0 baseline).");
+		BuildupConfig config = ConfigApiJava.registerAndLoadConfig(BuildupConfig::new, RegisterType.BOTH);
+		DiagnosticCommands.register(new FeatureRegistry(config));
+		LOGGER.info("Buildup Mob Tweaks configuration initialized (S1-A).");
 	}
 
 	public static Identifier id(String path) {

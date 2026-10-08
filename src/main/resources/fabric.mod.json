@@ -3,11 +3,11 @@
 	"id": "buildupmobtweaks",
 	"version": "${version}",
 	"name": "Buildup Mob Tweaks",
-	"description": "Vanilla+ mob behavior and AI improvements for Buildup. S0 infrastructure baseline; gameplay features are not implemented.",
+	"description": "Vanilla+ mob behavior and AI improvements for Buildup. Configuration foundation; gameplay features are not implemented.",
 	"authors": [
 		"Buildup contributors"
 	],
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/buildupmobtweaks/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -32,6 +32,8 @@
 		"fabricloader": ">=0.19.5",
 		"minecraft": "~26.3",
 		"java": ">=25",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"fzzy_config": "=0.7.7+fix3+26.3",
+		"fabric-language-kotlin": ">=1.14.1+kotlin.2.4.20"
 	}
 }

@@ -7,7 +7,7 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 4)
+@Version(version = 5)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
@@ -37,6 +37,8 @@ public final class BuildupConfig extends Config {
 
     public static final class Hostile extends ConfigSection {
         public Skeleton skeleton = new Skeleton();
+        public Zombie zombie = new Zombie();
+        public Drowned drowned = new Drowned();
     }
 
     public static final class Skeleton extends ConfigSection {
@@ -50,6 +52,28 @@ public final class BuildupConfig extends Config {
         public ValidatedInt skeletonChance = new ValidatedInt(70, 1000, 0);
         public ValidatedInt strayChance = new ValidatedInt(70, 1000, 0);
         public ValidatedInt boggedChance = new ValidatedInt(10, 1000, 0);
+    }
+
+    public static final class Zombie extends ConfigSection {
+        public ValidatedBoolean shieldUse = new ValidatedBoolean(true);
+        public ValidatedBoolean doorGuard = new ValidatedBoolean(true);
+        public ValidatedBoolean activeGuard = new ValidatedBoolean(true);
+        public ValidatedBoolean sandBurrow = new ValidatedBoolean(true);
+        public ValidatedBoolean babyRider = new ValidatedBoolean(true);
+        public ValidatedInt doorChance = new ValidatedInt(30, 1000, 0);
+        public ValidatedInt guardChance = new ValidatedInt(70, 1000, 0);
+        public ValidatedInt burrowChance = new ValidatedInt(30, 1000, 0);
+        public ValidatedInt riderChance = new ValidatedInt(10, 1000, 0);
+        public ValidatedInt guardCooldown = new ValidatedInt(100, 2400, 40);
+        public ValidatedInt doorCooldown = new ValidatedInt(60, 2400, 20);
+        public ValidatedInt burrowCooldown = new ValidatedInt(200, 2400, 60);
+        public ValidatedInt riderCooldown = new ValidatedInt(200, 2400, 40);
+    }
+    public static final class Drowned extends ConfigSection {
+        public ValidatedBoolean tridentConservation = new ValidatedBoolean(true);
+        public ValidatedBoolean tridentRecovery = new ValidatedBoolean(true);
+        public ValidatedBoolean tridentPlayerPickup = new ValidatedBoolean(true);
+        public ValidatedInt recoveryTimeout = new ValidatedInt(200, 1200, 40);
     }
 
     public static final class Equipment extends ConfigSection {

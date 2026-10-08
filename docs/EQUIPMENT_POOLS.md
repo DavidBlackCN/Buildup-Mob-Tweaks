@@ -94,3 +94,6 @@ $env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.3'
 装备脚本每次创建唯一 `run/equipment-test-*` 世界与 `.gradle/equipment-test-*` 日志目录，回环端口 25587；Traits 脚本使用 25586。二者均正常 stop 并保留证据，不删除旧世界。完整结果、失败修正和人工项见 [S1-C 报告](S1C_REPORT.md)。
 
 接口证据：本地 Fabric resource-loader-v1 **3.0.4+fcdff87f5d** 源码，以及目标 Minecraft 26.3 的 WorldLoader、MinecraftServer、MappedRegistry 和 ItemStack 字节码；[Fabric 资源接口迁移说明](https://docs.fabricmc.net/develop/porting/fabric-api) 仅作辅助。
+## S2-B 边界
+
+僵尸/尸壳高级战斗特性使用独立 zombie_special 互斥组和持久冷却；旧诊断标记不授予战斗能力。基础盾牌、三叉戟使用与 Traits 解耦；池仍只分配一次，不因投掷空手而补发。行为、守恒和卸载限制见 [僵尸系说明](ZOMBIE_COMBAT.md)。

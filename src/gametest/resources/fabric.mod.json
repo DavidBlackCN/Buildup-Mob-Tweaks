@@ -11,7 +11,9 @@
       "com.davidblackcn.buildupmobtweaks.TraitSamplingTests",
       "com.davidblackcn.buildupmobtweaks.TraitLifecycleTests",
       "com.davidblackcn.buildupmobtweaks.EquipmentTests",
-      "com.davidblackcn.buildupmobtweaks.SkeletonTests"
+      "com.davidblackcn.buildupmobtweaks.SkeletonTests",
+      "com.davidblackcn.buildupmobtweaks.ZombieTests",
+      "com.davidblackcn.buildupmobtweaks.TridentTests"
     ]
   },
   "depends": { "buildupmobtweaks": "*" }

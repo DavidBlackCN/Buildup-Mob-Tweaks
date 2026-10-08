@@ -29,6 +29,14 @@ public final class FeatureRegistry {
         add(gates, FeatureId.SKELETON_SNIPING, () -> config.traits.enabled.get() && config.hostile.skeleton.skeletonSniping.get());
         add(gates, FeatureId.STRAY_JUMP_SHOT, () -> config.traits.enabled.get() && config.hostile.skeleton.strayJumpShot.get());
         add(gates, FeatureId.BOGGED_SPORE_RETREAT, () -> config.traits.enabled.get() && config.hostile.skeleton.boggedSporeRetreat.get());
+        add(gates, FeatureId.ZOMBIE_SHIELD_USE, () -> config.hostile.zombie.shieldUse.get());
+        add(gates, FeatureId.ZOMBIE_DOOR_GUARD, () -> config.traits.enabled.get() && config.hostile.zombie.doorGuard.get());
+        add(gates, FeatureId.ZOMBIE_ACTIVE_GUARD, () -> config.traits.enabled.get() && config.hostile.zombie.activeGuard.get());
+        add(gates, FeatureId.HUSK_SAND_BURROW, () -> config.traits.enabled.get() && config.hostile.zombie.sandBurrow.get());
+        add(gates, FeatureId.ZOMBIE_BABY_RIDER, () -> config.traits.enabled.get() && config.hostile.zombie.babyRider.get());
+        add(gates, FeatureId.DROWNED_TRIDENT_CONSERVATION, () -> config.hostile.drowned.tridentConservation.get());
+        add(gates, FeatureId.DROWNED_TRIDENT_RECOVERY, () -> config.hostile.drowned.tridentRecovery.get());
+        add(gates, FeatureId.DROWNED_TRIDENT_PLAYER_PICKUP, () -> config.hostile.drowned.tridentPlayerPickup.get());
         declarations = Map.copyOf(gates);
     }
 
@@ -64,6 +72,26 @@ public final class FeatureRegistry {
                 isEnabled(FeatureId.TRAIT_ADVANCED_MARKER) ? chances.advanced.get() : 0,
                 isEnabled(FeatureId.TRAIT_RARE_MARKER) ? chances.rare.get() : 0);
     }
+
+    public int zombieChance(FeatureId id) {
+        return switch (id) {
+            case ZOMBIE_DOOR_GUARD -> config.hostile.zombie.doorChance.get();
+            case ZOMBIE_ACTIVE_GUARD -> config.hostile.zombie.guardChance.get();
+            case HUSK_SAND_BURROW -> config.hostile.zombie.burrowChance.get();
+            case ZOMBIE_BABY_RIDER -> config.hostile.zombie.riderChance.get();
+            default -> 0;
+        };
+    }
+    public int zombieCooldown(FeatureId id) {
+        return switch (id) {
+            case ZOMBIE_DOOR_GUARD -> config.hostile.zombie.doorCooldown.get();
+            case ZOMBIE_ACTIVE_GUARD -> config.hostile.zombie.guardCooldown.get();
+            case HUSK_SAND_BURROW -> config.hostile.zombie.burrowCooldown.get();
+            case ZOMBIE_BABY_RIDER -> config.hostile.zombie.riderCooldown.get();
+            default -> 80;
+        };
+    }
+    public int tridentTimeout() { return config.hostile.drowned.recoveryTimeout.get(); }
 
     public int equipmentChance() { return config.equipment.assignmentChance.get(); }
 

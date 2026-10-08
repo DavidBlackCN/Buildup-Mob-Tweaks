@@ -1,6 +1,9 @@
 package com.davidblackcn.buildupmobtweaks;
 
 import com.davidblackcn.buildupmobtweaks.combat.SkeletonCombat;
+import com.davidblackcn.buildupmobtweaks.combat.ZombieCombat;
+import com.davidblackcn.buildupmobtweaks.combat.DrownedTridents;
+import com.davidblackcn.buildupmobtweaks.command.ZombieCommands;
 import com.davidblackcn.buildupmobtweaks.command.SkeletonCommands;
 import com.davidblackcn.buildupmobtweaks.command.DiagnosticCommands;
 import com.davidblackcn.buildupmobtweaks.command.TraitCommands;
@@ -44,7 +47,10 @@ public class BuildupMobTweaks implements ModInitializer {
         EquipmentCommands.register();
         new SkeletonCombat(features).register();
         SkeletonCommands.register(features);
-		LOGGER.info("Buildup Mob Tweaks configuration initialized (S2-A).");
+        new ZombieCombat(features).register();
+        new DrownedTridents(features).register();
+        ZombieCommands.register(features);
+		LOGGER.info("Buildup Mob Tweaks configuration initialized (S2-B).");
 	}
 
 	public static Identifier id(String path) {

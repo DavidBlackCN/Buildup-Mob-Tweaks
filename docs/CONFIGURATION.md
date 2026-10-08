@@ -1,10 +1,10 @@
-# 配置（S1-A 至 S2-A）
+# 配置（S1-A 至 S2-B）
 
 安装 Fzzy Config `0.7.7+fix3+26.3`、Fabric Language Kotlin `1.14.1+kotlin.2.4.20`、Fabric API 和 Fabric Loader。项目 JAR 不内嵌这些依赖。可选客户端 Mod Menu `21.0.0` 仅提供入口；服务端不需要它。
 
 Fzzy 使用 `RegisterType.BOTH` 注册 `buildupmobtweaks:main`。文件位于游戏运行目录 `config/buildupmobtweaks/main.toml`。专用服务端读自己的文件，客户端修改本地文件不能改写服务端规则；GUI 更新沿用 Fzzy 的权限及同步流程。修改权限设为等级 4，普通玩家可查询状态。S1-A 已获用户人工验收确认；原始自动测试边界保留于阶段报告。
 
-入口：装有 Mod Menu 时选择 Buildup Mob Tweaks 的配置按钮；无 Mod Menu 时进入世界，执行 Fzzy 的 `/configure buildupmobtweaks.main`。S1-A 界面验收已由用户确认，S1-B 已获用户验收；S1-C 已获用户验收；S2-A 新增骷髅字段仍需人工复查。
+入口：装有 Mod Menu 时选择 Buildup Mob Tweaks 的配置按钮；无 Mod Menu 时进入世界，执行 Fzzy 的 `/configure buildupmobtweaks.main`。S1-A 界面验收已由用户确认，S1-B 已获用户验收；S1-C 已获用户验收；S2-A 已获后续授权；S2-B 新增僵尸/溺尸字段仍需人工复查。
 
 | 分组/选项 | 默认值 | 范围与作用 | 生效时机 |
 |---|---|---|---|
@@ -20,7 +20,7 @@ Fzzy 使用 `RegisterType.BOTH` 注册 `buildupmobtweaks:main`。文件位于游
 
 ## 版本演进
 
-- 当前 `@Version(4)`：v1→v2 增加 traits，v2→v3 增加 equipment，v3→v4 增加 hostile.skeleton；保留旧键。真实服务端升级已保留 diagnosticProbe=false、diagnosticLines=4、traits.commonMarker=false。由 Fzzy 添加默认字段和写回版本，无需改名转换逻辑。
+- 当前 `@Version(5)`：v1→v2 增加 traits，v2→v3 增加 equipment，v3→v4 增加 hostile.skeleton，v4→v5 增加 hostile.zombie / hostile.drowned；保留旧键。真实服务端升级已保留 diagnosticProbe=false、diagnosticLines=4、traits.commonMarker=false。由 Fzzy 添加默认字段和写回版本，无需改名转换逻辑。
 - 稳定保持 mod ID、文件名、分组和字段键。新增字段采用默认值，保留现有已知字段的用户值。
 - 删除/改名/改变字段语义前必须增加版本并实现 Fzzy `Config.update(int)` 迁移，保留配置备份并测试旧版本样本；当前没有虚构的升级映射。
 - 不手动修改自动生成的 `version`，不把未来版本配置当作已支持的回退格式。降级前备份整个配置目录。
@@ -30,7 +30,7 @@ Fzzy 使用 `RegisterType.BOTH` 注册 `buildupmobtweaks:main`。文件位于游
 
 ## S1-B Traits
 
-traits 分组已加入总开关、三项独立诊断标记开关及 cow / zombieFamily 两套千分权重。开关立即影响 active 查询；权重只影响新实体。存档与互斥规则见 [Traits 说明](TRAITS.md)。S1-B 当时引入配置版本 2（当前为 4）；配置版本与实体 Traits 数据版本 1 是不同的版本号。
+traits 分组已加入总开关、三项独立诊断标记开关及 cow / zombieFamily 两套千分权重。开关立即影响 active 查询；权重只影响新实体。存档与互斥规则见 [Traits 说明](TRAITS.md)。S1-B 当时引入配置版本 2（当前为 5）；配置版本与实体 Traits 数据版本 1 是不同的版本号。
 
 ## S1-C 装备
 
@@ -40,3 +40,7 @@ JSON 决定实体/物品匹配、环境过滤和权重；配置控制总开关�
 ## S2-A 骷髅战斗
 
 hostile.skeleton 的七项独立行为默认开启，三种千分概率默认 70/70/10；基础装备行为与 Traits 解耦。详细条件、关闭回退、生效时机和持久化边界见 [骷髅战斗说明](SKELETON_COMBAT.md)。
+
+## S2-B 僵尸系与溺尸
+
+hostile.zombie 增加五个行为开关、四套千分权重和独立冷却；hostile.drowned 增加三个开关与回收超时。八项默认开启。高级特性受 Traits 控制，基础盾牌和三叉戟独立；总开关关闭仍安全清理已有三叉戟归属。完整默认值、升级与关闭语义见 [僵尸系说明](ZOMBIE_COMBAT.md)。

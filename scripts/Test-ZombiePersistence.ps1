@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 if (-not $AcceptEula) { throw 'Read https://aka.ms/MinecraftEULA and pass -AcceptEula only after agreeing.' }
 if (-not $env:JAVA_HOME) { throw 'Set JAVA_HOME to JDK 25 first.' }
 $projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$testId = 'skeleton-test-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N').Substring(0,6)
+$testId = 'zombie-test-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N').Substring(0,6)
 $testRoot = Join-Path $projectRoot "run/$testId"
 $evidence = Join-Path $projectRoot ".gradle/$testId"
 $utf8 = [Text.UTF8Encoding]::new($false)
@@ -11,7 +11,7 @@ New-Item -ItemType Directory -Force "$testRoot/config/buildupmobtweaks", $eviden
 [IO.File]::WriteAllText("$testRoot/eula.txt", "eula=true`n", $utf8)
 [IO.File]::WriteAllText("$testRoot/server.properties", @"
 server-ip=127.0.0.1
-server-port=25588
+server-port=25589
 level-name=world
 level-type=minecraft:flat
 generate-structures=false
@@ -22,7 +22,7 @@ pause-when-empty-seconds=0
 max-players=2
 "@, $utf8)
 $configPath = "$testRoot/config/buildupmobtweaks/main.toml"
-[IO.File]::WriteAllText($configPath, "version = 3`n[general]`nenabled = true`ndiagnosticProbe = false`n[performance]`ndiagnosticLines = 3`n", $utf8)
+[IO.File]::WriteAllText($configPath, "version = 4`n[general]`nenabled = true`ndiagnosticProbe = false`n[performance]`ndiagnosticLines = 3`n", $utf8)
 $groovyRoot = $testRoot.Replace('\','/').Replace("'", "\'")
 $initFile = "$evidence/server-input.gradle"
 [IO.File]::WriteAllText($initFile, "gradle.projectsEvaluated { rootProject.loom.runs.named('server') { runDir('$groovyRoot') }; rootProject.tasks.named('runServer') { standardInput = System.in } }", $utf8)
@@ -76,42 +76,42 @@ function Invoke-TestServer([string]$case, [object[]]$steps) {
 Invoke-TestServer 'migration' @('buildupmobtweaks status', 'save-all flush')
 $config = Get-Content $configPath -Raw
 if ($config -notmatch 'version = 5' -or $config -notmatch 'diagnosticProbe = false' -or $config -notmatch 'diagnosticLines = 3' -or
-    $config -notmatch 'skeletonChance = 70' -or $config -notmatch 'boggedSporeRetreat = true') {
-    throw 'Config version 3 -> 5 did not preserve old values or add defaults'
+    $config -notmatch 'doorChance = 30' -or $config -notmatch 'tridentRecovery = true' -or $config -notmatch 'recoveryTimeout = 200') {
+    throw 'Config version 4 -> 5 did not preserve old values or add defaults'
 }
-$config = $config.Replace('skeletonChance = 70', 'skeletonChance = 1000')
+$config = $config.Replace('guardChance = 70', 'guardChance = 1000').Replace('doorChance = 30', 'doorChance = 0')
 [IO.File]::WriteAllText($configPath, $config, $utf8)
 Invoke-TestServer 'unload-reload' @(
     'forceload add 16000 16000', 3,
     'fill 16004 80 16004 16012 80 16012 minecraft:stone',
-    'summon minecraft:skeleton 16008 81 16008 {Tags:["bmt_s2a"],NoAI:1b,Invulnerable:1b,PersistenceRequired:1b}',
-    'buildupmobtweaks skeleton @e[tag=bmt_s2a,limit=1]',
+    'summon minecraft:zombie 16008 81 16008 {Tags:["bmt_s2b"],NoAI:1b,Invulnerable:1b,PersistenceRequired:1b,IsBaby:0b}',
+    'buildupmobtweaks zombie @e[tag=bmt_s2b,limit=1]',
     'save-all flush', 'forceload remove 16000 16000', 40,
-    'buildupmobtweaks skeleton @e[tag=bmt_s2a,limit=1]',
+    'buildupmobtweaks zombie @e[tag=bmt_s2b,limit=1]',
     'forceload add 16000 16000', 3,
-    'buildupmobtweaks skeleton @e[tag=bmt_s2a,limit=1]', 'save-all flush'
+    'buildupmobtweaks zombie @e[tag=bmt_s2b,limit=1]', 'save-all flush'
 )
 $config = Get-Content $configPath -Raw
-$config = $config.Replace('skeletonChance = 1000', 'skeletonChance = 0')
-foreach ($key in @('safeStrafing','targetValidation','weaponSwitching','bowCompatibility','skeletonSniping','strayJumpShot','boggedSporeRetreat')) {
+$config = $config.Replace('guardChance = 1000', 'guardChance = 0')
+foreach ($key in @('shieldUse','doorGuard','activeGuard','sandBurrow','babyRider','tridentConservation','tridentRecovery','tridentPlayerPickup')) {
     $config = $config.Replace("$key = true", "$key = false")
 }
 [IO.File]::WriteAllText($configPath, $config, $utf8)
-Invoke-TestServer 'restart-disabled' @('forceload add 16000 16000', 3, 'buildupmobtweaks skeleton @e[tag=bmt_s2a,limit=1]', 'save-all flush')
+Invoke-TestServer 'restart-disabled' @('forceload add 16000 16000', 3, 'buildupmobtweaks zombie @e[tag=bmt_s2b,limit=1]', 'save-all flush')
 $first = Get-Content "$evidence/unload-reload-latest.log" -Raw
 $second = Get-Content "$evidence/restart-disabled-latest.log" -Raw
-$pattern = 'Skeleton for ([0-9a-f-]+): saved=(.*?); active=(true|false); gates=([^\r\n]+)'
+$pattern = 'Zombie for ([0-9a-f-]+): saved=(.*?); flight=(.*?); owned=(.*?); gates=([^\r\n]+)'
 $observed = [regex]::Matches($first, $pattern)
 $restarted = [regex]::Matches($second, $pattern)
 if ($observed.Count -ne 2 -or $restarted.Count -ne 1 -or $first -notmatch 'No entity was found') {
     throw "Missing actual unload/reload/restart observations; inspect $evidence"
 }
 if ($observed[0].Value -ne $observed[1].Value -or $observed[0].Groups[1].Value -ne $restarted[0].Groups[1].Value -or
-    $observed[0].Groups[2].Value -ne $restarted[0].Groups[2].Value -or $observed[0].Groups[3].Value -ne 'true' -or
-    $restarted[0].Groups[3].Value -ne 'false' -or $restarted[0].Groups[4].Value -match '=true') {
+    $observed[0].Groups[2].Value -ne $restarted[0].Groups[2].Value -or $observed[0].Groups[2].Value -notmatch 'zombie_active_guard' -or
+    $observed[0].Groups[5].Value -match '=false' -or $restarted[0].Groups[5].Value -match '=true') {
     throw "Saved trait changed or disabled gates ineffective; inspect $evidence"
 }
-Write-Host 'PASS: v3 -> v5 preserves old values; real unload/reload/restart preserves skeleton trait; seven disabled gates mask it.'
+Write-Host 'PASS: v4 -> v5 preserves old values; actual unload/reload/restart preserves zombie trait; eight gates disabled.'
 Write-Host $observed[0].Value
 Write-Host $restarted[0].Value
 Write-Host "Evidence: $evidence"

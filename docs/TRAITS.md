@@ -71,3 +71,7 @@ $env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.3'
 已测刷怪笼/试炼刷怪笼的生成原因入口，未构造带玩家的完整刷怪笼方块场景；自然群体生成、第三方转换、跨维度旅行及新增 GUI 字段仍需人工回归。详见 [S1-B 报告](S1B_REPORT.md)。
 
 依据：本地 Fabric API 0.162.0+26.3 源码和 Minecraft 26.3 类签名；[Fabric 附件说明](https://docs.fabricmc.net/develop/serialization/data-attachments)、[GameTest 说明](https://docs.fabricmc.net/develop/automatic-testing) 作辅助。文档站当前标注 26.2，接口以本地 26.3 实物为准。
+
+## S2-B 边界
+
+僵尸/尸壳高级战斗特性使用独立 zombie_special 互斥组和持久冷却；旧诊断标记不授予战斗能力。基础盾牌、三叉戟使用与 Traits 解耦；池仍只分配一次，不因投掷空手而补发。行为、守恒和卸载限制见 [僵尸系说明](ZOMBIE_COMBAT.md)。

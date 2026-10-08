@@ -51,7 +51,7 @@ public final class SkeletonCombat {
                 || entity.getType() == EntityTypes.STRAY || entity.getType() == EntityTypes.BOGGED);
     }
     public boolean enabled(Entity entity, FeatureId id) {
-        return eligible(entity) && !entity.level().isClientSide() && features.isEnabled(id);
+        return eligible(entity) && !entity.level().isClientSide() && !(id==FeatureId.SKELETON_BOW_COMPATIBILITY && entity.getType().builtInRegistryHolder().is(S2Tags.VANILLA_BOW)) && features.isEnabled(id);
     }
     public static FeatureId special(Entity entity) {
         if (entity.getType() == EntityTypes.SKELETON) return FeatureId.SKELETON_SNIPING;
@@ -83,7 +83,7 @@ public final class SkeletonCombat {
     }
     public boolean supportedBow(Entity entity, ItemStack stack) {
         return !stack.isEmpty() && (stack.getItem() == Items.BOW
-                || enabled(entity, FeatureId.SKELETON_BOW_COMPATIBILITY) && EquipmentCapabilities.identify(stack).contains(EquipmentCapabilities.Ability.BOW));
+                || enabled(entity, FeatureId.SKELETON_BOW_COMPATIBILITY) && !stack.is(S2Tags.RANGED_ITEMS_EXCLUDED) && EquipmentCapabilities.identify(stack).contains(EquipmentCapabilities.Ability.BOW));
     }
     public boolean usesBow(AbstractSkeleton mob) {
         if (enabled(mob, FeatureId.SKELETON_WEAPON_SWITCHING) && sword(mob.getMainHandItem())
@@ -91,7 +91,7 @@ public final class SkeletonCombat {
         return supportedBow(mob, mob.getMainHandItem()) || supportedBow(mob, mob.getOffhandItem());
     }
     public boolean handlesWeapons(Entity entity) {
-        return enabled(entity, FeatureId.SKELETON_BOW_COMPATIBILITY) || enabled(entity, FeatureId.SKELETON_WEAPON_SWITCHING);
+        return !entity.getType().builtInRegistryHolder().is(S2Tags.VANILLA_BOW) && (enabled(entity, FeatureId.SKELETON_BOW_COMPATIBILITY) || enabled(entity, FeatureId.SKELETON_WEAPON_SWITCHING));
     }
     public InteractionHand bowHand(AbstractSkeleton mob, InteractionHand original) {
         if (!handlesWeapons(mob)) return original;

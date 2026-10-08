@@ -119,14 +119,18 @@ public class ZombieTests {
         cfg.hostile.zombie.shieldUse.accept(false); h.assertFalse(goal.canUse(), "Basic guard independently disabled");
         mob.discard(); target.discard(); h.succeed();
     }
-    @GameTest(structure = ARENA, maxTicks = 40)
+    @GameTest(structure = ARENA, maxTicks = 60)
     public void huskSandMoveHasWindupAndDoesNotBreakTerrain(GameTestHelper h) {
-        floor(h, Blocks.SAND); var husk = mob(h, EntityTypes.HUSK, 3, 3); service(config(FeatureId.HUSK_SAND_BURROW)).initialize(husk);
+        floor(h, Blocks.SAND);
+        for(int x=0;x<16;x++)for(int z=0;z<16;z++){h.setBlock(new BlockPos(x,-2,z),Blocks.STONE);h.setBlock(new BlockPos(x,-1,z),Blocks.SAND);h.setBlock(new BlockPos(x,0,z),Blocks.SAND);}
+        var husk = mob(h, EntityTypes.HUSK, 3, 3); service(config(FeatureId.HUSK_SAND_BURROW)).initialize(husk);
         var target = mob(h, EntityTypes.COW, 11, 3); h.getLevel().addFreshEntity(target); h.getLevel().addFreshEntity(husk);
         husk.setTarget(target); husk.setNoAi(false); double start = husk.getX();
         h.runAtTickTime(8, () -> h.assertTrue(husk.getX() < start + 1, "Telegraph before displacement"));
-        h.runAtTickTime(24, () -> {
-            h.assertTrue(husk.getX() > start + 2.5, "Actual short sand reposition");
+        h.runAtTickTime(26, () -> h.assertTrue(husk.getY() < target.getY()-1, "Actual subterranean travel"));
+        h.runAtTickTime(42, () -> {
+            h.assertFalse(husk.noPhysics || husk.isNoGravity(), "Physics restored after emerging" );
+            h.assertTrue(husk.getX() > start + 2.5, "Actual short sand reposition: dx="+(husk.getX()-start)+", pos="+husk.position()+", data="+husk.getAttached(ZombieCombat.DATA));
             h.assertTrue(husk.getAttached(ZombieCombat.DATA).getLongOr("next_special_at", 0) > h.getLevel().getGameTime(), "Cooldown persisted");
             h.assertTrue(h.getBlockState(new BlockPos(5, 1, 3)).is(Blocks.SAND), "No terrain destruction");
             husk.discard(); target.discard(); h.succeed();

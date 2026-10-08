@@ -75,9 +75,9 @@ function Invoke-TestServer([string]$case, [object[]]$steps) {
 
 Invoke-TestServer 'migration' @('buildupmobtweaks status', 'save-all flush')
 $config = Get-Content $configPath -Raw
-if ($config -notmatch 'version = 7' -or $config -notmatch 'diagnosticProbe = false' -or $config -notmatch 'diagnosticLines = 3' -or
+if ($config -notmatch 'version = 8' -or $config -notmatch 'diagnosticProbe = false' -or $config -notmatch 'diagnosticLines = 3' -or
     $config -notmatch 'vexLimit = 6' -or $config -notmatch 'witchWindup = true' -or $config -notmatch 'summonCooldown = 680') {
-    throw 'Config version 5 -> 7 did not preserve old values or add defaults'
+    throw 'Config version 5 -> 8 did not preserve old values or add defaults'
 }
 Invoke-TestServer 'unload-reload' @(
     'gamerule minecraft:mob_griefing false',

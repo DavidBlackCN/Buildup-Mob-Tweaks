@@ -13,7 +13,14 @@ public abstract class PillagerCrossbowMixin {
     @Inject(method = "isHoldingCrossbow()Z", at = @At("HEAD"), cancellable = true)
     private void buildup$meleeHand(CallbackInfoReturnable<Boolean> cir) {
         if (mob instanceof Pillager pillager && RaidCombat.instance() != null && RaidCombat.instance().melee(pillager)) cir.setReturnValue(false);
+        else if (HostileCombat.instance() != null && HostileCombat.instance().crossbow(mob)) cir.setReturnValue(true);
     }
+    @Redirect(method = "tick()V", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/ai/goal/RangedCrossbowAttackGoal;attackRadiusSqr:F"))
+    private float buildup$range(RangedCrossbowAttackGoal<?> goal) {
+        return HostileCombat.instance() != null && mob instanceof Pillager && HostileCombat.instance().enabled(mob,
+                com.davidblackcn.buildupmobtweaks.feature.FeatureId.PILLAGER_RANGE) ? 15 * 15 : attackRadiusSqr;
+    }
+    @Shadow @Final private float attackRadiusSqr;
     @Redirect(method = "stop()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Monster;setTarget(Lnet/minecraft/world/entity/LivingEntity;)V"))
     private void buildup$retainSwitchTarget(Monster entity, LivingEntity target) {
         if (entity instanceof Pillager pillager && RaidCombat.instance() != null && RaidCombat.instance().melee(pillager)

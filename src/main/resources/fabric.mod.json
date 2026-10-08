@@ -3,7 +3,7 @@
 	"id": "buildupmobtweaks",
 	"version": "${version}",
 	"name": "Buildup Mob Tweaks",
-	"description": "Vanilla+ mob behavior and AI improvements for Buildup. Configurable skeleton and zombie combat, conserved drowned tridents, bounded raid combat, readable vex charges, persistent mob traits and data-driven equipment pools.",
+	"description": "Vanilla+ mob behavior and AI improvements for Buildup. Configurable hostile combat and independent fixes, telegraphed rare abilities, conserved equipment, persistent mob traits and data-driven equipment pools.",
 	"authors": [
 		"Buildup contributors"
 	],

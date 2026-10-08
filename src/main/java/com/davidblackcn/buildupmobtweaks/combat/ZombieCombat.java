@@ -38,7 +38,7 @@ public final class ZombieCombat {
         instance = this;
         ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
             if (!eligible(entity)) return;
-            var mob = (Zombie) entity; initialize(mob);
+            var mob = (Zombie) entity; initialize(mob); restoreBurrow(mob);
             if (!mob.hasAttached(GOALS)) {
                 mob.setAttached(GOALS, true);
                 mob.getGoalSelector().addGoal(0, burrowGoal(mob));
@@ -48,6 +48,9 @@ public final class ZombieCombat {
         ServerLivingEntityEvents.MOB_CONVERSION.register((old, converted, context) -> {
             if (old.hasAttached(DATA)) converted.setAttached(DATA, old.getAttached(DATA).copy());
         });
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> !(entity instanceof Zombie mob && eligible(mob)
+                && mob.getAttached(DATA) != null && mob.getAttached(DATA).getIntOr("version",-1)==1
+                && mob.getAttached(DATA).getBooleanOr("burrow_active",false) && source.is(net.minecraft.world.damagesource.DamageTypes.IN_WALL)));
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> !(eligible(entity)
                 && blockWithDoor((Zombie) entity, source, amount)));
     }
@@ -72,7 +75,7 @@ public final class ZombieCombat {
     }
     public boolean active(Zombie mob, FeatureId id) {
         var data = mob.getAttached(DATA);
-        return eligible(mob) && !mob.level().isClientSide() && applicable(mob, id) && features.isEnabled(id)
+        return eligible(mob) && mob.getType().builtInRegistryHolder().is(S2Tags.ZOMBIE_SPECIALS) && !mob.level().isClientSide() && applicable(mob, id) && features.isEnabled(id)
                 && data != null && data.getIntOr("version", -1) == 1 && data.getStringOr("trait", "").equals(id.id().toString());
     }
     private boolean ready(Zombie mob) { return mob.level().getGameTime() >= mob.getAttached(DATA).getLongOr("next_special_at", Long.MAX_VALUE); }
@@ -161,20 +164,53 @@ public final class ZombieCombat {
         @Override public void stop() { if (mob.getUseItem() == held) mob.stopUsingItem(); }
         @Override public boolean requiresUpdateEveryTick() { return true; }
     }
+    public static void restoreBurrow(Zombie mob) {
+        var data=mob.getAttached(DATA);
+        if(data==null||data.getIntOr("version",-1)!=1||!data.getBooleanOr("burrow_active",false))return;
+        double x=data.getDoubleOr("burrow_x",mob.getX()),y=data.getDoubleOr("burrow_y",mob.getY()),z=data.getDoubleOr("burrow_z",mob.getZ());
+        // Prefer the original surface. A bounded upward search handles a block placed over the exit while unloaded.
+        for(int offset=0;offset<=8;offset++){
+            Vec3 point=new Vec3(x,y+offset,z);
+            if(mob.level().noCollision(mob,mob.getBoundingBox().move(point.subtract(mob.position())))){y+=offset;break;}
+        }
+        mob.teleportTo(x,y,z);mob.noPhysics=false;mob.setNoGravity(false);mob.setDeltaMovement(Vec3.ZERO);
+        data=data.copy();data.putBoolean("burrow_active",false);mob.setAttached(DATA,data);
+    }
+    private boolean sandTunnel(Zombie mob,Vec3 start,Vec3 end){
+        if(!((ServerLevel)mob.level()).getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_GRIEFING))return false;
+        for(int i=0;i<=6;i++){
+            var pos=BlockPos.containing(start.lerp(end,i/6.0));
+            if(!mob.level().getBlockState(pos).isAir()||!mob.level().getBlockState(pos.above()).isAir())return false;
+            for(int depth=1;depth<=3;depth++)if(!mob.level().getBlockState(pos.below(depth)).is(BlockTags.SAND))return false;
+        }
+        return true;
+    }
     private final class BurrowGoal extends Goal {
-        private final Zombie mob; private long until; private UUID target; private boolean finished;
-        BurrowGoal(Zombie mob) { this.mob = mob; setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); }
-        @Override public boolean canUse() { return active(mob, FeatureId.HUSK_SAND_BURROW) && ready(mob) && burrowDestination(mob) != null; }
-        @Override public void start() { until = mob.level().getGameTime() + 15; target = mob.getTarget().getUUID(); finished = false; cooldown(mob, FeatureId.HUSK_SAND_BURROW); particles(mob); }
-        @Override public boolean canContinueToUse() { return !finished && active(mob, FeatureId.HUSK_SAND_BURROW) && mob.getTarget() != null && mob.getTarget().getUUID().equals(target) && burrowDestination(mob) != null; }
-        @Override public void tick() {
-            mob.getNavigation().stop();
-            if (mob.level().getGameTime() >= until) {
-                var dest = burrowDestination(mob);
-                if (dest != null) { mob.teleportTo(dest.x, dest.y, dest.z); particles(mob); }
-                finished = true;
+        private final Zombie mob;private UUID target;private int ticks;private Vec3 start,end;private boolean finished;
+        BurrowGoal(Zombie mob){this.mob=mob;setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));}
+        @Override public boolean canUse(){
+            end=burrowDestination(mob);return end!=null&&ready(mob)&&!mob.noPhysics&&!mob.isNoGravity()&&sandTunnel(mob,mob.position(),end);
+        }
+        @Override public void start(){
+            start=mob.position();target=mob.getTarget().getUUID();ticks=0;finished=false;cooldown(mob,FeatureId.HUSK_SAND_BURROW);particles(mob);
+            var data=mob.getAttached(DATA).copy();data.putBoolean("burrow_active",true);data.putDouble("burrow_x",start.x);data.putDouble("burrow_y",start.y);data.putDouble("burrow_z",start.z);mob.setAttached(DATA,data);
+        }
+        @Override public boolean canContinueToUse(){return !finished&&mob.isAlive()&&active(mob,FeatureId.HUSK_SAND_BURROW)&&mob.getTarget()!=null&&mob.getTarget().isAlive()
+                &&mob.getTarget().getUUID().equals(target)&&sandTunnel(mob,start,end);}
+        @Override public void tick(){
+            if(!canContinueToUse()){finished=true;restoreBurrow(mob);return;}
+            ticks++;mob.getNavigation().stop();mob.getMoveControl().setWait();mob.setDeltaMovement(Vec3.ZERO);
+            if(ticks<=15){if(ticks%5==0)particles(mob);return;}
+            mob.noPhysics=true;mob.setNoGravity(true);
+            double progress=Math.min(1,(ticks-15)/20.0);Vec3 point=start.lerp(end,progress).add(0,-Math.sin(progress*Math.PI)*2.2,0);
+            mob.teleportTo(point.x,point.y,point.z);
+            if(ticks%4==0)((ServerLevel)mob.level()).sendParticles(ParticleTypes.CLOUD,point.x,start.y,point.z,4,.2,0,.2,0);
+            if(progress>=1){
+                var data=mob.getAttached(DATA).copy();data.putDouble("burrow_x",end.x);data.putDouble("burrow_y",end.y);data.putDouble("burrow_z",end.z);mob.setAttached(DATA,data);
+                finished=true;restoreBurrow(mob);particles(mob);
             }
         }
-        @Override public boolean requiresUpdateEveryTick() { return true; }
+        @Override public void stop(){restoreBurrow(mob);finished=true;}
+        @Override public boolean requiresUpdateEveryTick(){return true;}
     }
 }

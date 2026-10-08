@@ -15,7 +15,12 @@
       "com.davidblackcn.buildupmobtweaks.ZombieTests",
       "com.davidblackcn.buildupmobtweaks.TridentTests",
       "com.davidblackcn.buildupmobtweaks.RaidTests",
-      "com.davidblackcn.buildupmobtweaks.VexTests"
+      "com.davidblackcn.buildupmobtweaks.VexTests",
+      "com.davidblackcn.buildupmobtweaks.RangedExpansionTests",
+      "com.davidblackcn.buildupmobtweaks.EnvironmentExpansionTests",
+      "com.davidblackcn.buildupmobtweaks.AdvancedHostileTests",
+      "com.davidblackcn.buildupmobtweaks.S2CompletionTests",
+      "com.davidblackcn.buildupmobtweaks.S2RegressionTests"
     ]
   },
   "depends": { "buildupmobtweaks": "*" }

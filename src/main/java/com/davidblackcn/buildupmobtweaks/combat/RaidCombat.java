@@ -21,6 +21,8 @@ import net.minecraft.world.level.entity.EntityTypeTest;
 public final class RaidCombat {
     public static final AttachmentType<CompoundTag> DATA = AttachmentRegistry.createPersistent(BuildupMobTweaks.id("raid_combat"), CompoundTag.CODEC);
     private static final AttachmentType<Runtime> RUNTIME = AttachmentRegistry.createDefaulted(BuildupMobTweaks.id("raid_runtime"), Runtime::new);
+    public static final AttachmentType<ItemStack> POTION_PREVIEW = AttachmentRegistry.create(BuildupMobTweaks.id("potion_preview"),
+            builder -> builder.syncWith(ItemStack.OPTIONAL_STREAM_CODEC, AttachmentSyncPredicate.all()));
     private static RaidCombat instance;
     private final FeatureRegistry features;
     private static final class Runtime {
@@ -30,7 +32,7 @@ public final class RaidCombat {
         LivingEntity supportTarget, requestTarget;
         Pending pending;
     }
-    private record Pending(Projectile.ProjectileFactory<?> factory, ItemStack stack, LivingEntity target, long until, float speed, float uncertainty) {}
+    private record Pending(Projectile.ProjectileFactory<?> factory, ItemStack stack, LivingEntity target, long until, float speed, float uncertainty, boolean jumpOnly) {}
     public RaidCombat(FeatureRegistry features) { this.features = features; }
     public static RaidCombat instance() { return instance; }
     public static boolean eligible(Entity entity) {
@@ -39,6 +41,7 @@ public final class RaidCombat {
     }
     public void register() {
         instance = this;
+        VexOwnership.register();
         ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
             if (!eligible(entity)) return;
             var mob = (Mob) entity; initialize(mob);
@@ -121,14 +124,7 @@ public final class RaidCombat {
         }
     }
     public int ownedVexes(Evoker mob, boolean fresh) {
-        var rt = mob.getAttachedOrCreate(RUNTIME); long now = mob.level().getGameTime();
-        if (fresh || now >= rt.nextCount) {
-            var found = new ArrayList<Vex>();
-            mob.level().getEntities(EntityTypeTest.forClass(Vex.class), mob.getBoundingBox().inflate(32),
-                    vex -> vex.isAlive() && vex.getOwner() == mob, found, 24);
-            rt.cachedVexes = found.size(); rt.nextCount = now + 20;
-        }
-        return rt.cachedVexes;
+        return VexOwnership.count(mob);
     }
     public boolean canSummon(Evoker mob, boolean fresh) {
         if (enabled(mob, FeatureId.EVOKER_SUMMON_COOLDOWN)
@@ -149,16 +145,21 @@ public final class RaidCombat {
     }
     public boolean allowPotion(Witch mob, LivingEntity target) {
         var rt = mob.getAttachedOrCreate(RUNTIME); rt.requestTarget = target;
-        if (!enabled(mob, FeatureId.WITCH_WINDUP) && !enabled(mob, FeatureId.WITCH_THROW_COOLDOWN)) return true;
+        if (!enabled(mob, FeatureId.WITCH_WINDUP) && !enabled(mob, FeatureId.WITCH_THROW_COOLDOWN) && !EnvironmentCombat.on(mob, FeatureId.WITCH_JUMP_THROW)) return true;
         return rt.pending == null && (mob.isDrinkingPotion() || potionTarget(mob, target)
                 && (!enabled(mob, FeatureId.WITCH_THROW_COOLDOWN) || mob.level().getGameTime() >= mob.getAttached(DATA).getLongOr("next_potion_at", Long.MAX_VALUE)));
     }
     public Projectile potion(Projectile.ProjectileFactory<?> factory, ServerLevel level, ItemStack stack, Witch mob,
                              double dx, double dy, double dz, float speed, float uncertainty) {
         if (enabled(mob, FeatureId.WITCH_THROW_COOLDOWN)) reserve(mob, "next_potion_at", features.witchCooldownTicks());
-        if (!enabled(mob, FeatureId.WITCH_WINDUP)) return Projectile.spawnProjectileUsingShoot(factory, level, stack, mob, dx, dy, dz, speed, uncertainty);
+        boolean windup = enabled(mob, FeatureId.WITCH_WINDUP);
+        var requested = mob.getAttachedOrCreate(RUNTIME).requestTarget;
+        boolean jump = EnvironmentCombat.on(mob, FeatureId.WITCH_JUMP_THROW) && requested != null && requested.getY() > mob.getY()+1
+                && HostileCombat.instance().ready(mob,"witch_jump") && mob.onGround() && !mob.isInWater();
+        if (!windup && !jump) return Projectile.spawnProjectileUsingShoot(factory, level, stack, mob, dx, dy, dz, speed, uncertainty);
         var rt = mob.getAttachedOrCreate(RUNTIME);
-        rt.pending = new Pending(factory, stack, rt.requestTarget, level.getGameTime() + features.witchWindupTicks(), speed, uncertainty);
+        rt.pending = new Pending(factory, stack, rt.requestTarget, level.getGameTime() + (windup ? features.witchWindupTicks() : 8), speed, uncertainty, !windup);
+        mob.setAttached(POTION_PREVIEW, stack.copy());
         preview(mob, stack); return null; // Vanilla immediately discards the return value; no projectile was spawned yet.
     }
     private static void preview(Witch mob, ItemStack stack) {
@@ -173,11 +174,16 @@ public final class RaidCombat {
         var rt = mob.getAttachedOrCreate(RUNTIME); var pending = rt.pending;
         if (pending == null) return;
         var target = pending.target;
-        if (!enabled(mob, FeatureId.WITCH_WINDUP) || !potionTarget(mob, target) || mob.isDrinkingPotion()
-                || (mob.getTarget() != target && !(target instanceof Raider && mob.getTarget() == null))) { rt.pending = null; return; }
+        if (!(pending.jumpOnly ? EnvironmentCombat.on(mob, FeatureId.WITCH_JUMP_THROW) : enabled(mob, FeatureId.WITCH_WINDUP)) || !potionTarget(mob, target) || mob.isDrinkingPotion()
+                || (mob.getTarget() != target && !(target instanceof Raider && mob.getTarget() == null))) { rt.pending = null; mob.removeAttached(POTION_PREVIEW); return; }
         long now = mob.level().getGameTime();
+        if (pending.until - now <= 8 && pending.until > now && EnvironmentCombat.on(mob,FeatureId.WITCH_JUMP_THROW)
+                && target.getY() > mob.getY()+1 && mob.onGround() && !mob.isInWater()
+                && HostileCombat.instance().ready(mob,"witch_jump") && mob.level().noCollision(mob,mob.getBoundingBox().move(0,1,0))) {
+            mob.getJumpControl().jump(); HostileCombat.instance().reserve(mob,"witch_jump",100);
+        }
         if (now < pending.until) { if (mob.tickCount % 5 == 0) preview(mob, pending.stack); return; }
-        rt.pending = null;
+        rt.pending = null; mob.removeAttached(POTION_PREVIEW);
         double dx = target.getX() - mob.getX(), dz = target.getZ() - mob.getZ();
         double dy = target.getEyeY() - 1.1 - mob.getY() + Math.sqrt(dx * dx + dz * dz) * .2;
         Projectile.spawnProjectileUsingShoot(pending.factory, (ServerLevel) mob.level(), pending.stack, mob, dx, dy, dz, pending.speed, pending.uncertainty);

@@ -30,6 +30,8 @@ public abstract class SkeletonBowGoalMixin {
     }
     @Inject(method = "tick()V", at = @At("TAIL"))
     private void buildup$retreat(org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
+        if (com.davidblackcn.buildupmobtweaks.combat.EnvironmentCombat.on(mob,com.davidblackcn.buildupmobtweaks.feature.FeatureId.SKELETON_AIM_FIX)
+                && SkeletonCombat.validTarget(mob,mob.getTarget())) mob.getLookControl().setLookAt(mob.getTarget(),30,30);
         if (mob instanceof AbstractSkeleton skeleton && SkeletonCombat.instance() != null) SkeletonCombat.instance().afterBowTick(skeleton);
     }
     @WrapOperation(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/control/MoveControl;strafe(FF)V"))

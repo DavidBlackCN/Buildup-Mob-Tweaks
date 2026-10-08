@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class RaidMobMixin {
     @Inject(method = "serverAiStep()V", at = @At("HEAD"))
     private void buildup$raidTick(CallbackInfo ci) {
+        if (com.davidblackcn.buildupmobtweaks.combat.AdvancedHostiles.instance() != null) com.davidblackcn.buildupmobtweaks.combat.AdvancedHostiles.instance().tick((Mob)(Object)this);
         if (RaidCombat.instance() != null) RaidCombat.instance().tick((Mob) (Object) this);
     }
 }

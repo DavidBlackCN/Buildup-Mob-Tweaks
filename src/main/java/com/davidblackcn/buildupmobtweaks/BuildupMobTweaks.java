@@ -54,11 +54,14 @@ public class BuildupMobTweaks implements ModInitializer {
         new ZombieCombat(features).register();
         new DrownedTridents(features).register();
         ZombieCommands.register(features);
+        new com.davidblackcn.buildupmobtweaks.combat.HostileCombat(features).register();
+        new com.davidblackcn.buildupmobtweaks.combat.AdvancedHostiles(features).register();
         new VexCombat(features).register();
         VexCommands.register(features);
         new RaidCombat(features).register();
         RaidCommands.register(features);
-		LOGGER.info("Buildup Mob Tweaks configuration initialized (S2-C2).");
+        com.davidblackcn.buildupmobtweaks.command.S2Commands.register(features);
+		LOGGER.info("Buildup Mob Tweaks configuration initialized (S2).");
 	}
 
 	public static Identifier id(String path) {

@@ -3,7 +3,9 @@
 	"package": "com.davidblackcn.buildupmobtweaks.client.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"ExampleClientMixin"
+    "EvokerTotemVisualMixin",
+    "SkeletonArmsMixin", "DrownedSwimMixin",
+		"ExampleClientMixin", "GhastVisualMixin", "WitchPreviewMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

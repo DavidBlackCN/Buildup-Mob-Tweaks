@@ -1,4 +1,4 @@
-# 配置（S1-A 至 S2-C2）
+# 配置（S1-A 至 S2）
 
 安装 Fzzy Config `0.7.7+fix3+26.3`、Fabric Language Kotlin `1.14.1+kotlin.2.4.20`、Fabric API 和 Fabric Loader。项目 JAR 不内嵌这些依赖。可选客户端 Mod Menu `21.0.0` 仅提供入口；服务端不需要它。
 
@@ -20,7 +20,7 @@ Fzzy 使用 `RegisterType.BOTH` 注册 `buildupmobtweaks:main`。文件位于游
 
 ## 版本演进
 
-- 当前 `@Version(7)`：v1→v2 增加 traits，v2→v3 增加 equipment，v3→v4 增加 hostile.skeleton，v4→v5 增加 hostile.zombie / hostile.drowned，v5→v6 增加 hostile.raid，v6→v7 增加 hostile.vex；保留旧键。真实服务端升级已保留 diagnosticProbe=false、diagnosticLines=4、traits.commonMarker=false。由 Fzzy 添加默认字段和写回版本，无需改名转换逻辑。
+- 当前 `@Version(8)`：v1→v2 增加 traits，v2→v3 增加 equipment，v3→v4 增加 hostile.skeleton，v4→v5 增加 hostile.zombie / hostile.drowned，v5→v6 增加 hostile.raid，v6→v7 增加 hostile.vex，v7→v8 增加 hostile.extended；保留旧键。真实服务端升级已保留 diagnosticProbe=false、diagnosticLines=4、traits.commonMarker=false。由 Fzzy 添加默认字段和写回版本，无需改名转换逻辑。
 - 稳定保持 mod ID、文件名、分组和字段键。新增字段采用默认值，保留现有已知字段的用户值。
 - 删除/改名/改变字段语义前必须增加版本并实现 Fzzy `Config.update(int)` 迁移，保留配置备份并测试旧版本样本；当前没有虚构的升级映射。
 - 不手动修改自动生成的 `version`，不把未来版本配置当作已支持的回退格式。降级前备份整个配置目录。
@@ -30,7 +30,7 @@ Fzzy 使用 `RegisterType.BOTH` 注册 `buildupmobtweaks:main`。文件位于游
 
 ## S1-B Traits
 
-traits 分组已加入总开关、三项独立诊断标记开关及 cow / zombieFamily 两套千分权重。开关立即影响 active 查询；权重只影响新实体。存档与互斥规则见 [Traits 说明](TRAITS.md)。S1-B 当时引入配置版本 2（当前为 7）；配置版本与实体 Traits 数据版本 1 是不同的版本号。
+traits 分组已加入总开关、三项独立诊断标记开关及 cow / zombieFamily 两套千分权重。开关立即影响 active 查询；权重只影响新实体。存档与互斥规则见 [Traits 说明](TRAITS.md)。S1-B 当时引入配置版本 2（当前为 8）；配置版本与实体 Traits 数据版本 1 是不同的版本号。
 
 ## S1-C 装备
 
@@ -52,3 +52,8 @@ hostile.raid 新增七项默认开启的独立行为和四个数值配置；不�
 ## S2-C2 恼鬼冲刺
 
 hostile.vex 增加 fixedCharge、recoveryPause、closeRangeGuard 三项独立开关，默认 true；recoveryTicks 默认 20（10–60 tick），minimumChargeDistance 默认 3（2–6 格）。不依赖 Traits。配置 v7；开关、恢复预留、重载中断和 40 tick 上限的精确语义见 [恼鬼说明](VEX_COMBAT.md)。GUI 字段、实际多人服务端同步本轮仍需人工验收。
+## S2 收口
+
+当前 v8 新增 91 个独立行为开关及概率/冷却数值，默认开启；修复与战斗开关独立，字段、出生抽取、关闭边界、数据包退出标签见 [S2_COMBAT](S2_COMBAT.md)。所有新增开关已做逐项独立门控回归，369 对双语键完成静态校验；GUI 视觉与真实多人同步仍列人工验收。
+
+真实独立服 v7→v8 已保留 diagnosticProbe=false、diagnosticLines=3，并写入新增默认值；同一世界第二次启动验证关闭 evoker_fireball 和 skeleton_aim_fix 后各自为 false，已有高级特性/冷却不被删除。旧批次 v7 历史测试不改写成 v8。

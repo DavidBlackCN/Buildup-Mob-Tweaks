@@ -38,7 +38,9 @@ public class BuildupMobTweaks implements ModInitializer {
         EquipmentCommands.register();
         new com.davidblackcn.buildupmobtweaks.rebuild.pillager.PillagerBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.skeleton.SkeletonBehavior(features).register();
-        LOGGER.info("Buildup Mob Tweaks initialized: R2-A pillager and R2-B skeleton rebuild.");
+        new com.davidblackcn.buildupmobtweaks.rebuild.zombie.ZombieBehavior(features).register();
+        new com.davidblackcn.buildupmobtweaks.rebuild.drowned.DrownedBehavior(features).register();
+        LOGGER.info("Buildup Mob Tweaks initialized: R2-A/B/C behavior rebuild.");
 	}
 
 	public static Identifier id(String path) {

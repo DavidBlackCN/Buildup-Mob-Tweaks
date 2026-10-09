@@ -11,7 +11,9 @@
     ],
     "fabric-gametest": [
       "com.davidblackcn.buildupmobtweaks.PillagerBehaviorTests",
-      "com.davidblackcn.buildupmobtweaks.SkeletonBehaviorTests"
+      "com.davidblackcn.buildupmobtweaks.SkeletonBehaviorTests",
+      "com.davidblackcn.buildupmobtweaks.ZombieBehaviorTests",
+      "com.davidblackcn.buildupmobtweaks.DrownedBehaviorTests"
     ]
   },
   "depends": {

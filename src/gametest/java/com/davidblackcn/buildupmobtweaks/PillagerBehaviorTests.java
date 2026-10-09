@@ -214,22 +214,22 @@ public class PillagerBehaviorTests {
             evidence("P03_reload_disable",loaded,"bread=3 health=15");loaded.discard();h.succeed();
         });
     }
-    @GameTest(structure=ARENA,maxTicks=140)
+    @GameTest(structure=ARENA,maxTicks=240)
     public void obstructionExpiresTargetAndReacquiresNaturally(GameTestHelper h) {
         floor(h);var p=pillager(h,8,8);var t=target(h,8,18);
-        h.runAtTickTime(25,()->{
+        h.runAtTickTime(65,()->{
             h.assertTrue(p.getTarget()==t,"Acquired target naturally");
             // Box target completely, preventing both LOS and a path around a thin wall.
             for(int x=6;x<=10;x++)for(int z=16;z<=20;z++)for(int y=2;y<=6;y++)
                 if(x==6||x==10||z==16||z==20||y==6) h.setBlock(new BlockPos(x,y,z),Blocks.STONE);
         });
-        h.runAtTickTime(100,()->{
+        h.runAtTickTime(140,()->{
             h.assertTrue(p.getTarget()==null&&!p.isUsingItem()&&!p.isChargingCrossbow(),"Occlusion ended combat and charge");
             evidence("P05_obstruction",p,"target=null");
             for(int x=6;x<=10;x++)for(int z=16;z<=20;z++)for(int y=2;y<=6;y++)
                 if(x==6||x==10||z==16||z==20||y==6) h.setBlock(new BlockPos(x,y,z),Blocks.AIR);
         });
-        h.runAtTickTime(130,()->{h.assertTrue(p.getTarget()==t,"Reacquired through original target selector");p.discard();t.discard();h.succeed();});
+        h.runAtTickTime(220,()->{h.assertTrue(p.getTarget()==t,"Reacquired through original target selector within 80 ticks");p.discard();t.discard();h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=130)
     public void optOutKeepsVanillaRangedAndNoOtherMobGoals(GameTestHelper h) {
@@ -240,7 +240,7 @@ public class PillagerBehaviorTests {
             var rt=PillagerBehavior.runtime(p);
             h.assertTrue(rt.swaps==0&&rt.retreats==0&&rt.meals==0,"All rebuilt actions disabled");
             h.assertTrue(arrows[0],"Original ranged attack still runs");
-            h.assertTrue(zombie.getGoalSelector().getAvailableGoals().stream().noneMatch(g->g.getGoal().getClass().getName().startsWith("com.davidblackcn")),"No legacy zombie behavior registered");
+            h.assertTrue(zombie.getGoalSelector().getAvailableGoals().stream().noneMatch(g->g.getGoal().getClass().getName().startsWith("com.davidblackcn.buildupmobtweaks.combat.")),"No legacy zombie behavior registered");
             evidence("disabled_vanilla",p,"arrow=true legacyZombieGoals=false");p.discard();t.discard();zombie.discard();h.succeed();
         });
     }

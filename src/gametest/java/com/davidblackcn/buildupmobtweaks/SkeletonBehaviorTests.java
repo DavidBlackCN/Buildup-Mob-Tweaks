@@ -164,10 +164,10 @@ public class SkeletonBehaviorTests {
         });
         h.runAtTickTime(325,()->{h.assertTrue(m.getTarget()==t,"Original selector reacquires within 80 ticks after obstruction removed");evidence("lifecycle_obstruction",m,"target_reacquired=true clouds=0");m.discard();t.discard();h.succeed();});
     }
-    private record PlayerFixture(net.minecraft.server.level.ServerPlayer player,io.netty.channel.embedded.EmbeddedChannel channel,net.minecraft.network.Connection connection){
+    record PlayerFixture(net.minecraft.server.level.ServerPlayer player,io.netty.channel.embedded.EmbeddedChannel channel,net.minecraft.network.Connection connection){
         void close(){player.level().getServer().getConnection().getConnections().remove(connection);player.level().getServer().getPlayerList().remove(player);player.discard();channel.finishAndReleaseAll();}
     }
-    private static PlayerFixture player(GameTestHelper h){
+    static PlayerFixture player(GameTestHelper h){
         var profile=new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(),"R2B_"+java.util.UUID.randomUUID().toString().substring(0,8));
         var cookie=net.minecraft.server.network.CommonListenerCookie.createInitial(profile,false);
         var p=new net.minecraft.server.level.ServerPlayer(h.getLevel().getServer(),h.getLevel(),profile,cookie.clientInformation()){@Override public boolean isClientAuthoritative(){return false;}};
@@ -184,7 +184,7 @@ public class SkeletonBehaviorTests {
         h.runAtTickTime(60,()->{h.assertTrue(m.getTarget()==null&&!m.isUsingItem(),"Creative releases target and draw");p.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);});
         h.runAtTickTime(105,()->{h.assertTrue(m.getTarget()==p,"Survival reacquires");p.setGameMode(net.minecraft.world.level.GameType.SPECTATOR);});
         h.runAtTickTime(125,()->{h.assertTrue(m.getTarget()==null&&!m.isUsingItem(),"Spectator releases target");p.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);});
-        h.runAtTickTime(170,()->{h.assertTrue(m.getTarget()==p,"Reacquires again");p.snapTo(m.position().add(45,0,0),0,0);});
+        h.runAtTickTime(170,()->{evidence("player_reacquire_fixture",m,"playerHealth="+p.getHealth()+" playerPos="+p.position()+" target="+m.getTarget());h.assertTrue(m.getTarget()==p,"Reacquires again");p.snapTo(m.position().add(45,0,0),0,0);});
         h.runAtTickTime(190,()->{h.assertTrue(m.getTarget()==null&&!m.isUsingItem(),"Beyond follow range releases");evidence("lifecycle_player_modes",m,"creative_spectator_distance=true");m.discard();fixture.close();h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=55)

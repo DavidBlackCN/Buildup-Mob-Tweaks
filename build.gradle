@@ -101,6 +101,8 @@ sourceSets.client.java {
     include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksDataGenerator.java'
 }
 sourceSets.gametest.java {
+    include 'com/davidblackcn/buildupmobtweaks/ZombieBehaviorTests.java'
+    include 'com/davidblackcn/buildupmobtweaks/DrownedBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/SkeletonBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/PillagerBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestWorld.java'

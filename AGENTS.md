@@ -3,7 +3,7 @@
 遵循根目录 AGENTS.md、MOB_TWEAKS_SPEC.md、CODEX_STAGE1_TASKS.md 和 CODE_REVIEW.md。
 
 - 唯一目标为本目录，Java 25、Wrapper、官方未混淆命名，保持 common/client 隔离。
-- R2-A 掠夺者已获人工验收，死亡食物反馈已修正。用户已明确批准 docs/R2B_MIGRATION_PLAN.md；本轮 R2-B 仅普通骷髅、流浪者、沼骸，证据见 docs/R2B_REBUILD.md。R2-B 交付后等待人工验收，不得扩展下一批、S3/Boss。S2 文档是历史记录，不代表当前启用或验收。
+- R2-A 掠夺者已获人工验收，死亡食物反馈已修正；R2-B 已交付。用户明确批准 docs/R2C_MIGRATION_PLAN.md，本批仅普通僵尸、尸壳、溺尸的 Z01～Z04/D01，证据见 docs/R2C_REBUILD.md。完成后等待人工验收，不扩展下一批、S3/Boss。S2 文档是历史记录，不代表当前启用或验收。
 - Mod ID buildupmobtweaks，包 com.davidblackcn.buildupmobtweaks；项目 MIT，第三方许可独立保留。上游核心参考为 R0/R1 已核验、恢复的官方发行源码；查阅外层 docs/rebuild/ 的原始 JAR 哈希、许可证及行为证据，不把上游潜在 Bug 当作必须复制的行为。
 - Fzzy Config 真实发布 API，不内嵌依赖；所有行为经 FeatureRegistry 独立开关。配置 v9，当前字段见 docs/R2A_REBUILD.md；未知附件版本原样保留，出生特性/装备不重抽，不补发丢失物品。
 - 高影响技能互斥、可预判、有次数/冷却预算。三叉戟只保存所有权引用，无备用物品。恼鬼世界索引保留卸载名额、销毁释放；升级前未加载旧恼鬼的追溯限制必须披露。

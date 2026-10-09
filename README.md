@@ -1,8 +1,8 @@
-# Buildup Mob Tweaks — R2-A / R2-B
+# Buildup Mob Tweaks — R2-A / R2-B / R2-C
 
 Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 
-旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。现已加入普通骷髅、流浪者、沼骸的 S01～S04 与 S06 重建；其余生物保持原版。旧配置值保留，未在本批白名单的功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。
+旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。现已加入普通骷髅、流浪者、沼骸的 S01～S04/S06，以及普通僵尸、尸壳、溺尸的 Z01～Z04/D01；其余生物保持原版。旧配置值保留，未在本批白名单的功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。
 
 ## 环境与验证
 
@@ -23,10 +23,14 @@ Fzzy Config 服务端配置 v9。总开关、hostile 分组和各项独立开关
 
 骷髅系列使用真实备用武器、昼夜狙击/走射、流浪者翻转雪球、沼骸闪避毒云与独立屋顶寻路。旧 Traits 概率不控制这些行为，开关和过滤仍独立。标准 BowItem 子类按实际持手使用，未知弹射武器退出接管；配置与兼容边界见 R2-B 文档。
 
+僵尸系列使用原版门方块上下半部展示、10° 正面材质耐久格挡、已有副手盾的实际格挡与损耗；尸壳在三层沙及 mobGriefing 条件下下沉、按目标位置快照换位并上浮。门盾/最多一个同族幼体在首次合格出生互斥抽取；不删除已有装备，读档不重抽。溺尸将手中实际三叉戟投出、寻回与归还；在途保存 UUID 引用，没有备用物品副本。配置 v9 不变，旧高级主动盾和相关未使用字段暂不生效。详见 [R2-C 范围、配置与验收](docs/R2C_REBUILD.md)。
+
 管理员另可用 `/buildupmobtweaks skeleton <实体>` 查看备用物品和模式计数。管理员只读诊断：`/buildupmobtweaks pillager <实体选择器>`，查看目标、阶段、真实背包及事件计数。实体背包 /item 槽位为 mob.inventory.0～mob.inventory.4。
 
 ## 阶段状态
 
-实现与自动行为证据见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。外层 docs/rebuild/REBUILD_REPORT_R2A.md 保存完整工作报告、原始日志索引及人工验收清单；这些共享文件不在本 Git 根内。R2-A 已获用户人工验收，死亡背包食物掉落反馈已修正并通过自动回归，修复项人工复测待执行。R2-B 方案已获批准并完成实现与自动验证，详见 [R2-B 实现、证据与人工清单](docs/R2B_REBUILD.md)；等待人工验收，不进入下一批。
+实现与自动行为证据见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。外层 docs/rebuild/REBUILD_REPORT_R2A.md 保存完整工作报告、原始日志索引及人工验收清单；这些共享文件不在本 Git 根内。R2-A 已获用户人工验收，死亡背包食物掉落反馈已修正并通过自动回归，修复项人工复测待执行。R2-B 方案已获批准并完成实现与自动验证，详见 [R2-B 实现、证据与人工清单](docs/R2B_REBUILD.md)；其人工结果尚未记录；用户已授权本次 R2-C，完成后停止。
+
+R2-C 已获方案批准，自动实际行为与保存/重启证据见 [R2-C 文档](docs/R2C_REBUILD.md)。管理员只读诊断另有 `/buildupmobtweaks zombie <实体>`、`/buildupmobtweaks drowned <实体>`；实体类型标签 `buildupmobtweaks:zombie_ai_excluded` 排除本批接管。人工视觉、多人、完整 L3 和旧 S2 附件迁移未验收；完成本批后停止。
 
 本项目不是上游官方续作。参考恢复的官方发行源码，保留 [NOTICE.md](NOTICE.md) 与 [上游 MIT 文本](licenses/Mob-AI-Tweaks-MIT.txt)。

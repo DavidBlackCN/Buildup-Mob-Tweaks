@@ -14,7 +14,13 @@
     "rebuild.SkeletonBowHandMixin",
     "rebuild.SkeletonSniperGoalMixin",
     "rebuild.SkeletonSnowballMixin",
-    "rebuild.SkeletonStrafeMixin"
+    "rebuild.SkeletonStrafeMixin",
+    "rebuild.ZombieLifecycleMixin",
+    "rebuild.ZombieAiMixin",
+    "rebuild.DoorPositionMixin",
+    "rebuild.DrownedLifecycleMixin",
+    "rebuild.OwnedTridentMixin",
+    "rebuild.ZombieShieldWearMixin"
   ],
   "injectors": {
     "defaultRequire": 1

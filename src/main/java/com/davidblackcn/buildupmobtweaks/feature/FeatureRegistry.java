@@ -32,7 +32,7 @@ public final class FeatureRegistry {
         add(gates, FeatureId.ZOMBIE_SHIELD_USE, () -> config.hostile.zombie.shieldUse.get());
         add(gates, FeatureId.ZOMBIE_DOOR_GUARD, () -> config.traits.enabled.get() && config.hostile.zombie.doorGuard.get());
         add(gates, FeatureId.ZOMBIE_ACTIVE_GUARD, () -> config.traits.enabled.get() && config.hostile.zombie.activeGuard.get());
-        add(gates, FeatureId.HUSK_SAND_BURROW, () -> config.traits.enabled.get() && config.hostile.zombie.sandBurrow.get());
+        add(gates, FeatureId.HUSK_SAND_BURROW, () -> config.hostile.zombie.sandBurrow.get());
         add(gates, FeatureId.ZOMBIE_BABY_RIDER, () -> config.traits.enabled.get() && config.hostile.zombie.babyRider.get());
         add(gates, FeatureId.DROWNED_TRIDENT_CONSERVATION, () -> config.hostile.drowned.tridentConservation.get());
         add(gates, FeatureId.DROWNED_TRIDENT_RECOVERY, () -> config.hostile.drowned.tridentRecovery.get());
@@ -166,7 +166,9 @@ public final class FeatureRegistry {
         return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_")
                 || switch(id) {
                     case SKELETON_SAFE_STRAFING, SKELETON_TARGET_VALIDATION, SKELETON_WEAPON_SWITCHING,
-                         SKELETON_BOW_COMPATIBILITY, SKELETON_SNIPING, STRAY_JUMP_SHOT, BOGGED_SPORE_RETREAT, SKELETON_SHELTER, RANGED_REPOSITION -> true;
+                         SKELETON_BOW_COMPATIBILITY, SKELETON_SNIPING, STRAY_JUMP_SHOT, BOGGED_SPORE_RETREAT, SKELETON_SHELTER, RANGED_REPOSITION,
+                         ZOMBIE_SHIELD_USE, ZOMBIE_DOOR_GUARD, HUSK_SAND_BURROW, ZOMBIE_BABY_RIDER,
+                         DROWNED_TRIDENT_CONSERVATION, DROWNED_TRIDENT_RECOVERY, DROWNED_TRIDENT_PLAYER_PICKUP -> true;
                     default -> false;
                 };
     }

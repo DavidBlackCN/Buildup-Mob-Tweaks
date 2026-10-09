@@ -1,5 +1,7 @@
 # R4 剩余旧 S2 功能审计台账
 
+> R4-E1-a最新限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
+
 > R4-E0现已将下列68/68 ID逐项裁决，见[最新取舍](PHASE1_FEATURE_DISPOSITION.md)、[56项现有入口](PHASE1_ACTIVE_FEATURES.md)和[额外上游候选](PHASE1_UPSTREAM_GAPS.md)。下表保留R4-D历史状态，不把裁决ADAPT/PORT等写成新AI已实现；当前白名单仍56项。
 
 本表来自 FeatureId 与实际 FeatureRegistry.supported 白名单逐项对照。配置字段保留不表示代码生效。旧入口仍隔离；未完成的内容不作 R4 已完成声明，不自动整体恢复。

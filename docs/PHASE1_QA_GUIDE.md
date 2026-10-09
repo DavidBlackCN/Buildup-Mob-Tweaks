@@ -40,6 +40,15 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 | `evoker` | 单项birth=fireball，实际原版施法仍可先占用；运动速度0只是定向夹具 | 三枚真实火球绕身并释放，约14秒；不强行跳过原版施法仲裁 |
 | `door` | 单项birth=door，oak_door/40耐久；头盔仅防晒，AI仍运行 | 上下门连续，随身和转向，半扇在脚部及+1；约3秒。可用`off`确认清理 |
 
+| scene（E1-a新增） | 输入 | 观察 |
+| --- | --- | --- |
+| `parched` | 已持实际弓、birth=spin，原生Goal自行拉弓及仲裁 | 20tick预警后旋转跳跃横移；约15秒，保留原版虚弱箭 |
+| `wither_bow` | 已持实际原版弓、birth=none，不分配出生弓或备用剑 | 原版主手燃烧箭/真实耐久，约10秒；off仅关新增耐久消耗，原版仍射击 |
+| `wither_skull` | 真实石剑、birth=skull；静止射手/1000HP铁傀儡仅是场景输入，AI正常 | 首次400tick后30tick前摇，一枚实际头颅与伤害；约25秒，无持续凋零/方块破坏 |
+| `wither_homing` | 同头颅，目标附Trial Omen；同时要求头颅配置开启 | 最初40tick轻微追踪，约25秒；off仅停止追踪，弹道仍保留 |
+
+新模块inspect显示phase/spins/skulls/homing/hits/shots/inFlight及保存冷却；check解释实际弓、排除门控及不祥前置。已有实体force同样不发装备、未知版本拒绝；已有冷却不返还。四项独立门语义不同，不能用off后仍原版射击/弹道判断关闭失败。详见[R4-E1-a短清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。
+
 场景使用固定实体RNG种子480000+scene序号，并明确设置装备/位置/屋顶；不会强制随机特性中奖率为100%。记录`R4E0_QA`的实际world tick、目标、Goal运行标志/优先级/Flags、阶段/冷却/计数到服务端日志。自动撤销期限1200tick（20TPS为60秒）；时间流逝是原版服务器时钟，不手工tick AI。无玩家专服启用正常空服tick，脚本加速100TPS仅缩短墙钟观察时间。
 
 ## 选取现有实体、退出与诊断
@@ -53,9 +62,9 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 /buildupqa cleanup
 ```
 
-`force`只支持五种精确原版类型，要求实体存活、闲置、NoAI=false、无目标/乘客/骑乘/使用物品；未知附件版本拒绝。只赋本场景单项出生状态，**现有装备仅校验，绝不替换/复制**。Pillager/Skeleton必须已有真实弩+容器斧或持弓+备用剑；缺少时`check`给装备原因，请用原版命令在测试世界先设置或直接使用spawn场景。创造/旁观、死亡、同盟、跨维度目标拒绝。
+`force`支持下表九种场景及其精确原版类型，要求实体存活、闲置、NoAI=false、无目标/乘客/骑乘/使用物品；未知附件版本拒绝。只赋本场景单项出生状态，**现有装备仅校验，绝不替换/复制**。Pillager/Skeleton必须已有真实弩+容器斧或持弓+备用剑；缺少时`check`给装备原因，请用原版命令在测试世界先设置或直接使用spawn场景。创造/旁观、死亡、同盟、跨维度目标拒绝。
 
-`inspect`可检查任何Mob的Goal列表，五种标杆额外显示持手/容器/备用、出生来源/fromDisk、附件Trait、阶段和保存冷却；只显示原版Brain对象身份，不宣称支持所有Brain记忆查询。`check`显示无目标、装备不符、NoAI/dead、gate关闭、LOS和剩余冷却；前置满足仍可能在原版Goal仲裁、距离条件或施法中，查看running/Flags即可。排除类型Tag/其他Mod控制者的全部原因未提供通用推断；用现有只读`buildupmobtweaks`诊断和日志核对。
+`inspect`可检查任何Mob的Goal列表，已支持场景额外显示持手/容器/备用、出生来源/fromDisk、附件Trait、阶段和保存冷却；只显示原版Brain对象身份，不宣称支持所有Brain记忆查询。`check`显示无目标、装备不符、NoAI/dead、gate关闭、LOS和剩余冷却；前置满足仍可能在原版Goal仲裁、距离条件或施法中，查看running/Flags即可。排除类型Tag/其他Mod控制者的全部原因未提供通用推断；用现有只读`buildupmobtweaks`诊断和日志核对。
 
 `off`只加本场景对应单项disable标签；目标和其他能力保持正常，等数tick看独立回退。`cleanup`删除自己生成的生物/目标以及会话期间观察到的该生物所属新弹体/恼鬼，清理门展示并恢复工具布置的石板/屋顶。原版已有子实体和外部新标签不删；修改过的场地/方块实体不覆盖。选中现有实体则先临时让原版跑两个清理tick，再恢复QA改写的birth/door字段与自己加入的退出标签；实际物品/耐久/健康和已产生冷却不回滚、不补发。
 
@@ -63,7 +72,7 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 
 ## 没有安全强制接口的机制
 
-工具只实现五种标杆，未给其余51个ID伪造“强制技能”按钮。其他已实现机制使用`src/gametest`现有真实Tick夹具：女巫用RaidBehaviorTests的高目标饮药/预告场景；尸壳用ZombieBehaviorTests三层沙与mobGriefing场景；溺尸用DrownedBehaviorTests实际三叉戟发射回收；烈焰人/蠹虫/旋风人用RemainingBehaviorTests原生Goal/Brain场景。入口、方法清单见[56项索引](PHASE1_ACTIVE_FEATURES.md)和其JSON。构建运行这些夹具，明确标为自动L2；玩家不能用未经实现的CLI强制这些技能，人工专项仍按原清单。
+工具现实现九种场景，未给其他ID伪造“强制技能”按钮。其他已实现机制使用`src/gametest`现有真实Tick夹具：女巫用RaidBehaviorTests的高目标饮药/预告场景；尸壳用ZombieBehaviorTests三层沙与mobGriefing场景；溺尸用DrownedBehaviorTests实际三叉戟发射回收；烈焰人/蠹虫/旋风人用RemainingBehaviorTests原生Goal/Brain场景。入口、方法清单见[现有功能索引](PHASE1_ACTIVE_FEATURES.md)和其JSON。构建运行这些夹具，明确标为自动L2；玩家不能用未经实现的CLI强制这些技能，人工专项仍按原清单。
 
 ## 5～10分钟人工短清单
 

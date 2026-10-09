@@ -15,3 +15,5 @@ Phase 1现以外层PHASE1_RESTORATION_PLAN.md及用户本轮具体授权为准�
 - 未执行验证标 NOT RUN；构建/窗口加载不替代 GUI、视觉、完整袭击与多人。旧报告保留历史证据，不伪装为当前重新执行。
 
 用户持续授权每次任务完成验证及自检后，按 Gitmoji + Conventional Commits 做一次本地 commit，包含适用 UPDATE_NOTES.md；不推送、不发布。只提交本轮内容。父目录共享文档在本 Git 根之外，须披露未纳入提交。
+
+R4-E1-a已逐批批准实施，范围/停止点见docs/R4E1A_REBUILD.md；下一批E1-b仍待批准。SkeletonBehavior.supported范围保持旧三种，ExtendedSkeleton模块与附件独立；wither_skeleton_bow仅既有普通弓行为，出生发弓仍E2。

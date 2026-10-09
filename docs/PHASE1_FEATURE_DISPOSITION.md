@@ -1,5 +1,7 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
+> R4-E1-a最新限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
+
 基线 26.3 / HEAD `6eec6387a33d23a98f63c15f78a77b1ea0891423`。这是逐项审计决定，不是新增功能验收。68/68 ID 一次归属；当前56白名单不变。本轮只实现开发QA，不移植以下未生效AI。裁决计数：{'REPLACE': 5, 'ADAPT': 50, 'EXCLUDE': 4, 'PORT': 1, 'DEFER': 8}。
 
 原始证据是 R0 已核验官方 CExkBTN8（26.2 Beta）和 bFb56Zw2（1.21.11），MIT采用依据及历史CC0残留保留于[ARTIFACTS](../../docs/rebuild/ARTIFACTS.md)，不删原版权。完整类/方法、注入声明、实际配置调用行、原始默认值、逐文件SHA256和两版差异见[upstream-index.json](../../docs/rebuild/evidence/r4e0/upstream-index.json)与[disposition.json](../../docs/rebuild/evidence/r4e0/disposition.json)。上游类门控不是本项目该ID的默认值；默认数值仅作为设计证据，不能跨版本机械复制。bFb56Zw2方法有intermediary命名；不据字符串差异宣称行为改变。未确定完整运行差异=NOT RUN。
@@ -19,10 +21,10 @@
 | `skeleton_offhand_visual`：副手拉弓挥手与同步姿势仍有独立视觉缺口 | UPSTREAM；`RangedBowAttackGoalMixin`, `SkeletonEntityModelMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_skeleton_offhand_visual` 仅待实现；左右惯用手/实际BowItem/client同步；不能复制箭；**NOT RUN** |
 | `skeleton_trap_variants`：陷阱坐骑与骑手变体仅在原版陷阱事件追加有限选择 | UPSTREAM；`SkeletonTrapMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_trap_variants` 仅待实现；原版队伍/生成为一次/骑乘递归保存；不额外材料；**NOT RUN** |
 | `skeleton_wither_conversion`：转为凋灵骷髅保留装备所有权，不原样套用上游转换 | UPSTREAM；`SkeletonEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_wither_conversion` 仅待实现；具体触发条件待批次核实；UUID/主副手/备用/冷却；**NOT RUN** |
-| `wither_skeleton_bow`：真实弓替代武器与出生条件分别实施，支持已有弓不意味着普遍发弓 | UPSTREAM；`WitherSkeletonEntityMixin` | **ADAPT** / E1行为/E2出生 / 是（含替代说明） | 独立门 `disable_wither_skeleton_bow` 仅待实现；原近战/非玩家/主副手守恒，出生默认10与局部难度250%另审；**NOT RUN** |
-| `wither_skeleton_homing`：头颅追踪只对合法既有目标、有期限与半径预算；不复制OP分支 | UPSTREAM；`SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_wither_skeleton_homing` 仅待实现；投射物归属/目标失效/不可拾取高价值资源/关闭；**NOT RUN** |
-| `wither_skeleton_skull`：保留有限特殊头颅攻击与前摇/冷却，不复制原版Boss状态机 | UPSTREAM；`WitherSkeletonEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_wither_skeleton_skull` 仅待实现；真实弹体/伤害/爆炸规则/预算/重载；默认200仅参考；**NOT RUN** |
-| `parched_dodge`：还原焦骸旋转位移；不照搬已发现旋转及速度Bug | UPSTREAM；`ParchedEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_parched_dodge` 仅待实现；目标变化/碰撞/有限阶段/回退；默认120参考；**NOT RUN** |
+| `wither_skeleton_bow`：真实弓替代武器与出生条件分别实施，支持已有弓不意味着普遍发弓 | UPSTREAM；`WitherSkeletonEntityMixin` | **ADAPT** / E1行为/E2出生 / 是（含替代说明） | E1-a既有普通弓原版覆盖REPLACE+真实耐久ADAPT，主副手/近战/守恒L2 **PASS**；出生部分仍E2/**NOT RUN** |
+| `wither_skeleton_homing`：头颅追踪只对合法既有目标、有期限与半径预算；不复制OP分支 | UPSTREAM；`SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a原生弹体/移动不祥目标实际弯曲命中、固定归属/退出/独立关闭L2 **PASS**；人工/完整L3 **NOT RUN** |
+| `wither_skeleton_skull`：保留有限特殊头颅攻击与前摇/冷却，不复制原版Boss状态机 | UPSTREAM；`WitherSkeletonEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a30tick前摇/一枚/400冷却/100寿命；真实伤害、保护、预算、关闭/保存L2 **PASS**；人工/完整L3 **NOT RUN** |
+| `parched_dodge`：还原焦骸旋转位移；不照搬已发现旋转及速度Bug | UPSTREAM；`ParchedEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a20tick预警/10tick旋转位移/120冷却；实际Tick/退出及客户端状态L2 **PASS**；肉眼/完整L3 **NOT RUN** |
 | `bogged_omen_mushrooms`：旧S2额外蘑菇投射物与已有孢子撤退不同；仅补上游已核实的不祥目标分支 | UPSTREAM；`SkeletonSpecificGoal`, `BoggedEntityMixin` | **ADAPT** / E1差异子项 / 是（含替代说明） | 独立门 `disable_bogged_omen_mushrooms` 仅待实现；与BOGGED_SPORE_RETREAT同阶段互斥，禁止双生成；效果实体预算；**NOT RUN** |
 | `stray_omen_snow`：不祥目标雪球差异独立于已有跃射；接在同一雪球链 | UPSTREAM；`SkeletonSpecificGoal`, `StrayEntityMixin` | **ADAPT** / E1差异子项 / 是（含替代说明） | 独立门 `disable_stray_omen_snow` 仅待实现；不创建第二攻击Goal；速度/效果/目标退出；**NOT RUN** |
 | `stray_snow_barrage`：已有STRAY_JUMP_SHOT承担起跳与三雪球；旧独立稀有连发不得双重运行 | UPSTREAM；`SkeletonSpecificGoal`, `StrayEntityMixin` | **REPLACE** / E1确认/R5说明 / 是（含替代说明） | 独立门 `disable_stray_snow_barrage` 仅待实现；检查不祥差异另属stray_omen_snow；既有L2不升级为完整L3；**NOT RUN** |

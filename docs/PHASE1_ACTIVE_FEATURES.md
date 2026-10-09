@@ -1,5 +1,7 @@
 # 56项当前白名单：入口与测试缺口
 
+> R4-E1-a最新限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
+
 来源是实际FeatureId及FeatureRegistry.supported，不按配置字段数推断功能。每项默认gate由FeatureRegistry运行时读取，general.enabled及实体vanilla_ai/disable_id与对应排除Tag都可能拦截；有Trait选择的才受具体出生附件约束。注册链统一BuildupMobTweaks.onInitialize→对应Behavior.register→ENTITY_LOAD/已核实Mixin→原版Selector/Brain。以下相关测试是定位索引，不等于每项独立的默认/确定性/关闭/所有生命周期/多人/性能矩阵全PASS。
 
 当前最小版本MC26.3/Buildup1.0.0/config v9。旧135项本轮全量回归结果在R4E0_REPORT；DIAGNOSTIC_PROBE只读基础设施，无战斗L2含义。历史L3有限、HUMAN_PARTIAL不提升。所有条目共同缺口：自然刷怪器完整样本、完整上游量化对照、实际双人/整合包与性能NOT RUN。JSON逐ID给门控表达式、精确源码行、测试组全部方法名，以便后续分配专项证据。
@@ -64,3 +66,14 @@
 | `bogged_spore_retreat` | `SkeletonBehavior:113`；`SkeletonSpecificGoals:28` | `SkeletonBehaviorTests`；限定受控L2，默认概率/全生命周期组合/HUMAN NOT RUN |
 
 详细入口与行为说明仍以[R3](R2A_REBUILD.md)、[R4-A](R2B_REBUILD.md)、[R4-B](R2C_REBUILD.md)、[R4-C](R4C_REBUILD.md)、[R4-D](R4D_REBUILD.md)和反馈报告为准。[active-features.json](../../docs/rebuild/evidence/r4e0/active-features.json)是可复查索引，不能代替行为日志。当前QA最小工具仅直接强制五个标杆；其他机制继续用现有真实Tick夹具或原版命令+状态附件，不编造未实现强制接口。
+
+## R4-E1-a追加入口（旧56项索引保持）
+
+| ID | 实际入口与门控 | 状态 |
+| --- | --- | --- |
+| parched_dodge | ExtendedSkeletonBehavior ENTITY_LOAD→ExtendedSkeletonGoal→SPIN同步/客户端Renderer；traits/general/独立项/排除标签 | L2 PASS，肉眼NOT RUN |
+| wither_skeleton_bow | 原版AbstractSkeleton bowGoal/performRangedAttack；ExtendedSkeletonMixin RETURN真实耐久/计数 | 既有普通弓PASS；出生发弓E2 NOT RUN |
+| wither_skeleton_skull | ExtendedSkeletonGoal前摇→原版WitherSkull→局部Tick/碰撞保护 | L2 PASS，完整L3 NOT RUN |
+| wither_skeleton_homing | ExtendedSkeletonBehavior.skullTick固定不祥目标与预算；独立配置/标签 | L2 PASS，完整L3 NOT RUN |
+
+四项原始失败/实际证据与兼容性细节见[R4E1A_REBUILD](R4E1A_REBUILD.md)。支持ID60并不表示Phase1完成。

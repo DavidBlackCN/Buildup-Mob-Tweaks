@@ -1,5 +1,7 @@
 # 正式阶段编号与历史证据对照
 
+> R4-E1-a最新限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
+
 PLAN.md 第 4 节是阶段定义。此前 R2-A 合并了基础框架与掠夺者标杆，但后续继续称 R2-B/R2-C 是 Agent 编号延续错误；不将全部迁移工作归入 R2。
 
 | 正式阶段 | 内容 | 历史证据文件名 | 状态 |

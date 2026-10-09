@@ -16,7 +16,7 @@ public abstract class SkeletonRotationMixin {
         if(Math.abs(a.buildup$ticks())>=10)return;
         float pivot=state.boundingBoxHeight/state.scale/2;
         pose.translate(0,pivot,0);
-        pose.rotate(Axis.XP.rotationDegrees(-(a.buildup$ticks()-Math.signum(a.buildup$ticks())*a.buildup$partial())*36));
+        pose.rotate((a.buildup$kind()==3?Axis.YP:Axis.XP).rotationDegrees(-(a.buildup$ticks()-Math.signum(a.buildup$ticks())*a.buildup$partial())*36));
         pose.translate(0,-pivot,0);
     }
 }

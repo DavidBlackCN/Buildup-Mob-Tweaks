@@ -180,11 +180,12 @@ public class SkeletonBehaviorTests {
             var clock=h.getLevel().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.WORLD_CLOCK).getOrThrow(net.minecraft.world.clock.WorldClocks.OVERWORLD);
             h.getLevel().clockManager().setTotalTicks(clock,18000);
             refs[0]=skeleton(h,EntityTypes.SKELETON,8,8);refs[0].addTag("buildupmobtweaks:disable_skeleton_shelter");targets[0]=target(h,8,18);
+            targets[0].getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(1000);targets[0].setHealth(1000);
         });
         h.runAtTickTime(980,()->{var m=refs[0];h.assertTrue(!h.getLevel().isBrightOutside()&&SkeletonState.runtime(m).mode.equals("walk")&&seen[0][0]&&!seen[0][1],"Night sky uses actual walking attack");
             evidence("S01_night",m,"arrow=true critical=false");
             var clock=h.getLevel().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.WORLD_CLOCK).getOrThrow(net.minecraft.world.clock.WorldClocks.OVERWORLD);h.getLevel().clockManager().setTotalTicks(clock,6000);});
-        h.runAtTickTime(1200,()->{var m=refs[0];h.assertTrue(h.getLevel().isBrightOutside()&&SkeletonState.runtime(m).mode.equals("sniper")&&seen[0][1],"Day transition really fires critical arrow");
+        h.runAtTickTime(1200,()->{var m=refs[0];evidence("day_transition_probe",m,"bright="+h.getLevel().isBrightOutside()+" targetAlive="+targets[0].isAlive()+" targetHP="+targets[0].getHealth()+" targetDistance="+m.distanceTo(targets[0])+" bow="+m.getMainHandItem());h.assertTrue(h.getLevel().isBrightOutside()&&SkeletonState.runtime(m).mode.equals("sniper")&&seen[0][1],"Day transition really fires critical arrow");
             evidence("S01_day",m,"critical=true");m.discard();targets[0].discard();h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=45)
@@ -226,6 +227,7 @@ public class SkeletonBehaviorTests {
     @GameTest(structure=ARENA,maxTicks=240)
     public void realPlayerCreativeSpectatorAndDistanceReleaseTarget(GameTestHelper h){
         floor(h,true);var m=skeleton(h,EntityTypes.SKELETON,8,8);var fixture=player(h);var p=fixture.player();
+        p.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(1000);p.setHealth(1000);
         m.addTag("buildupmobtweaks:disable_ranged_reposition");
         h.runAtTickTime(40,()->{h.assertTrue(m.getTarget()==p,"Natural survival aggro");p.setGameMode(net.minecraft.world.level.GameType.CREATIVE);});
         h.runAtTickTime(60,()->{h.assertTrue(m.getTarget()==null&&!m.isUsingItem(),"Creative releases target and draw");p.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);});
@@ -241,7 +243,10 @@ public class SkeletonBehaviorTests {
         var future=EntityTypes.SKELETON.create(h.getLevel(),EntitySpawnReason.LOAD);future.snapTo(h.absolutePos(new BlockPos(18,2,8)),0,0);
         var state=new net.minecraft.nbt.CompoundTag();state.putInt("version",99);state.putString("sentinel","unchanged");future.setAttached(SkeletonState.DATA,state);
         future.setItemSlot(EquipmentSlot.MAINHAND,new ItemStack(Items.BOW));h.getLevel().addFreshEntity(future);
-        h.runAtTickTime(35,()->{for(var m:new AbstractSkeleton[]{wither,parched,future})h.assertTrue(m.getGoalSelector().getAvailableGoals().stream().noneMatch(g->g.getGoal().getClass().getName().startsWith("com.davidblackcn.buildupmobtweaks.rebuild.skeleton")),"Excluded mob has no new skeleton Goals");
+        h.runAtTickTime(35,()->{for(var m:new AbstractSkeleton[]{wither,parched,future})h.assertTrue(m.getGoalSelector().getAvailableGoals().stream().noneMatch(g->g.getGoal().getClass().getName().startsWith("com.davidblackcn.buildupmobtweaks.rebuild.skeleton.Skeleton")),"Excluded from R4-A: no R4-A skeleton Goals");
+            for(var m:new AbstractSkeleton[]{wither,parched}){h.assertTrue(!m.hasAttached(SkeletonState.DATA)&&!m.hasAttached(SkeletonState.RESERVE),"Extended variants have no R4-A state or fabricated reserve");
+                h.assertTrue(m.getGoalSelector().getAvailableGoals().stream().anyMatch(g->g.getGoal().getClass().getSimpleName().equals("ExtendedSkeletonGoal")),"E1-a installs only its separate finite Goal");}
+            h.assertTrue(future.getGoalSelector().getAvailableGoals().stream().noneMatch(g->g.getGoal().getClass().getName().startsWith("com.davidblackcn.buildupmobtweaks.rebuild.skeleton")),"Future R4-A state still has no Buildup skeleton Goals");
             h.assertTrue(future.getAttached(SkeletonState.DATA).getStringOr("sentinel","").equals("unchanged"),"Future data unchanged");wither.discard();parched.discard();future.discard();h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=250)

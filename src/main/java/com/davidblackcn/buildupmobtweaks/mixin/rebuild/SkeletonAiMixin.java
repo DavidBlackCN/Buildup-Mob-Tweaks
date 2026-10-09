@@ -11,7 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Mob.class)
 public abstract class SkeletonAiMixin {
     @Inject(method="serverAiStep()V",at=@At("HEAD"))
-    private void buildup$beforeAi(CallbackInfo ci){if((Object)this instanceof AbstractSkeleton m&&SkeletonBehavior.instance()!=null)SkeletonBehavior.instance().beforeAi(m);}
+    private void buildup$beforeAi(CallbackInfo ci){if((Object)this instanceof AbstractSkeleton m){
+        if(SkeletonBehavior.instance()!=null)SkeletonBehavior.instance().beforeAi(m);
+        if(ExtendedSkeletonBehavior.instance()!=null)ExtendedSkeletonBehavior.instance().beforeAi(m);
+    }}
     @Inject(method="setTarget(Lnet/minecraft/world/entity/LivingEntity;)V",at=@At("HEAD"),cancellable=true)
     private void buildup$target(LivingEntity target,CallbackInfo ci){if(target!=null&&(Object)this instanceof AbstractSkeleton m&&SkeletonBehavior.instance()!=null
             &&SkeletonBehavior.instance().enabled(m,FeatureId.SKELETON_TARGET_VALIDATION)&&!SkeletonBehavior.valid(m,target))ci.cancel();}

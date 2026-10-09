@@ -1,5 +1,7 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
+> R4-E1-a已按逐批批准实施，见[方案](R4E1A_MIGRATION_PLAN.md)/[结果](R4E1A_REBUILD.md)。下一批建议E1-b四项猪灵/僵尸猪灵，仍待批准；下列E0冻结名单保留，不表示后续已授权。
+
 本轮只交付R4-E0；以下均待用户逐批批准，不是本轮实现。裁决源[68项](PHASE1_FEATURE_DISPOSITION.md)与[额外候选](PHASE1_UPSTREAM_GAPS.md)。56白名单保持；50 ADAPT /1 PORT是待实施或经原版核验后可安全替代的意图，不可只加白名单。REPLACE项需补说明和必要的差异回归，不重装旧S2。所有批次实施前写具体Migration Plan、查26.3签名/控制链；批末实际验证、自检、本地提交、停止。
 
 ## 下一批：R4-E1-a 焦骸与凋灵骷髅

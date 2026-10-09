@@ -18,8 +18,8 @@ public abstract class SkeletonRendererMixin {
             &&BuildupMobTweaks.config().hostile.skeleton.bowCompatibility.get()&&m.isUsingItem()&&m.getUseItem().getItem() instanceof BowItem;}
     @Inject(method="extractRenderState(Lnet/minecraft/world/entity/monster/skeleton/AbstractSkeleton;Lnet/minecraft/client/renderer/entity/state/SkeletonRenderState;F)V",at=@At("TAIL"))
     private void buildup$state(AbstractSkeleton mob,SkeletonRenderState state,float partial,CallbackInfo ci){
-        int kind=mob.getType()==EntityTypes.STRAY?1:mob.getType()==EntityTypes.BOGGED?2:0;
-        ((SkeletonAnimationState)state).buildup$animation(kind,((SkeletonAccess)mob).buildup$special(),partial);
+        int kind=mob.getType()==EntityTypes.STRAY?1:mob.getType()==EntityTypes.BOGGED?2:mob.getType()==EntityTypes.PARCHED?3:0;
+        ((SkeletonAnimationState)state).buildup$animation(kind,kind==3?mob.getAttachedOrCreate(ExtendedSkeletonState.SPIN):((SkeletonAccess)mob).buildup$special(),partial);
         if(rebuiltBow(mob))state.isHoldingBow=true;
     }
     @Inject(method="getArmPose(Lnet/minecraft/world/entity/monster/skeleton/AbstractSkeleton;Lnet/minecraft/world/entity/HumanoidArm;)Lnet/minecraft/client/model/HumanoidModel$ArmPose;",at=@At("HEAD"),cancellable=true)

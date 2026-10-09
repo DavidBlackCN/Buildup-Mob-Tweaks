@@ -97,12 +97,59 @@ public class SkeletonBehaviorTests {
     @GameTest(structure=ARENA,maxTicks=140)
     public void meleeSaveLoadAndDeathConserveBothWeapons(GameTestHelper h){
         floor(h,true);var holder=new AbstractSkeleton[]{skeleton(h,EntityTypes.SKELETON,8,8)};var t=target(h,8,10);
+        var external=new ItemStack(Items.WOODEN_SWORD);external.setDamageValue(9);external.set(DataComponents.CUSTOM_NAME,Component.literal("External owned sword"));
+        holder[0].setAttached(SkeletonState.RESERVE,external);
         h.runAtTickTime(65,()->{var m=holder[0];h.assertTrue(m.getMainHandItem().is(Items.WOODEN_SWORD),"Actual melee before save");holder[0]=CombatTestWorld.reload(h,m);
             var loaded=holder[0];h.assertTrue(loaded.getMainHandItem().is(Items.BOW)&&SkeletonState.reserve(loaded).is(Items.WOODEN_SWORD),"Reload restores owned bow and one sword");
             loaded.addTag("buildupmobtweaks:vanilla_ai");loaded.setDropChance(EquipmentSlot.MAINHAND,2);loaded.getAttached(SkeletonState.DATA).putFloat("reserve_drop",2);t.discard();});
         h.runAtTickTime(85,()->holder[0].hurtServer(h.getLevel(),holder[0].damageSources().generic(),1000));
         h.runAtTickTime(100,()->{int bows=0,swords=0;for(var e:h.getLevel().getEntitiesOfClass(ItemEntity.class,holder[0].getBoundingBox().inflate(8))){if(e.getItem().is(Items.BOW))bows+=e.getItem().getCount();if(e.getItem().is(Items.WOODEN_SWORD))swords+=e.getItem().getCount();}
-            h.assertTrue(bows==1&&swords==1,"Exactly one actual bow and sword dropped after real death");evidence("S02_reload_death",holder[0],"bow=1 sword=1");h.succeed();});
+            h.assertTrue(bows==1&&swords==1,"Exactly one actual bow and externally supplied sword dropped after real death");
+            h.assertTrue(h.getLevel().getEntitiesOfClass(ItemEntity.class,holder[0].getBoundingBox().inflate(8)).stream().anyMatch(e->e.getItem().is(Items.WOODEN_SWORD)&&e.getItem().getDamageValue()==9&&e.getItem().getHoverName().getString().equals("External owned sword")),"External sword components preserved");
+            evidence("S02_reload_death",holder[0],"bow=1 external_sword=1 damage=9");h.succeed();});
+    }
+    @GameTest(structure=ARENA,maxTicks=110)
+    public void generatedSwordsNeverDropAfterActualVariantMelee(GameTestHelper h){
+        floor(h,true);var mobs=new AbstractSkeleton[]{skeleton(h,EntityTypes.SKELETON,6,8),skeleton(h,EntityTypes.STRAY,14,8),skeleton(h,EntityTypes.BOGGED,22,8)};
+        var targets=new IronGolem[]{target(h,6,10),target(h,14,10),target(h,22,10)};
+        h.runAtTickTime(70,()->{for(int i=0;i<mobs.length;i++){var m=mobs[i];h.assertTrue(m.getMainHandItem().is(Items.WOODEN_SWORD)&&SkeletonState.generatedSword(m.getMainHandItem()),"Actual Goal equipped generated sword");
+            h.assertTrue(targets[i].getHealth()<100,"Actual melee hit before death");m.setDropChance(EquipmentSlot.MAINHAND,2);m.getAttached(SkeletonState.DATA).putFloat("reserve_drop",2);
+            m.hurtServer(h.getLevel(),m.damageSources().generic(),1000);targets[i].discard();}});
+        h.runAtTickTime(95,()->{int swords=0,bows=0;for(var item:h.getLevel().getEntitiesOfClass(ItemEntity.class,mobs[1].getBoundingBox().inflate(28))){if(item.getItem().is(Items.WOODEN_SWORD))swords+=item.getItem().getCount();if(item.getItem().is(Items.BOW))bows+=item.getItem().getCount();}
+            h.assertTrue(swords==0&&bows==3,"All three generated swords suppressed while each original bow drops once");evidence("S02_generated_death",mobs[0],"variants=3 generated_swords=0 bows=3 forced_drop=2");h.succeed();});
+    }
+    @GameTest(structure=ARENA,maxTicks=130)
+    public void generatedSwordReloadAndOptOutStillSuppressDeathDrop(GameTestHelper h){
+        floor(h,true);var holder=new AbstractSkeleton[]{skeleton(h,EntityTypes.SKELETON,8,8)};var t=target(h,8,10);
+        h.runAtTickTime(65,()->{h.assertTrue(SkeletonState.generatedSword(holder[0].getMainHandItem()),"Actual melee before serialization");holder[0]=CombatTestWorld.reload(h,holder[0]);
+            h.assertTrue(holder[0].getMainHandItem().is(Items.BOW)&&SkeletonState.generatedSword(SkeletonState.reserve(holder[0])),"Provenance moves and persists with actual sword");holder[0].addTag("buildupmobtweaks:vanilla_ai");t.discard();});
+        h.runAtTickTime(85,()->{var m=holder[0];m.setDropChance(EquipmentSlot.MAINHAND,2);m.getAttached(SkeletonState.DATA).putFloat("reserve_drop",2);m.hurtServer(h.getLevel(),m.damageSources().generic(),1000);});
+        h.runAtTickTime(105,()->{var drops=h.getLevel().getEntitiesOfClass(ItemEntity.class,holder[0].getBoundingBox().inflate(8));h.assertTrue(drops.stream().noneMatch(e->e.getItem().is(Items.WOODEN_SWORD))&&drops.stream().filter(e->e.getItem().is(Items.BOW)).mapToInt(e->e.getItem().getCount()).sum()==1,"Reload and disable cannot turn generated sword into loot");evidence("S02_generated_reload_disable",holder[0],"generated_swords=0 bow=1");h.succeed();});
+    }
+    @GameTest(structure=ARENA,maxTicks=70)
+    public void legacyPlainSwordMigratesOnceButExternalSwordRemainsLoot(GameTestHelper h){
+        floor(h,true);var mobs=new AbstractSkeleton[]{skeleton(h,EntityTypes.SKELETON,6,8),skeleton(h,EntityTypes.SKELETON,14,8),skeleton(h,EntityTypes.SKELETON,22,8)};
+        for(var m:mobs){m.setNoAi(true);m.getAttached(SkeletonState.DATA).remove("generated_sword_policy");m.setAttached(SkeletonState.RESERVE,new ItemStack(Items.WOODEN_SWORD));}
+        // Legacy melee save has its plain sword in hand and the real bow in reserve.
+        var oldBow=mobs[1].getMainHandItem();mobs[1].setItemSlot(EquipmentSlot.MAINHAND,new ItemStack(Items.WOODEN_SWORD));mobs[1].setAttached(SkeletonState.RESERVE,oldBow);
+        SkeletonState.reserve(mobs[2]).set(DataComponents.CUSTOM_NAME,Component.literal("Legacy external sword"));SkeletonState.reserve(mobs[2]).setDamageValue(7);
+        h.runAtTickTime(10,()->{for(int i=0;i<mobs.length;i++)mobs[i]=CombatTestWorld.reload(h,mobs[i]);
+            h.assertTrue(SkeletonState.generatedSword(SkeletonState.reserve(mobs[0]))&&SkeletonState.generatedSword(SkeletonState.reserve(mobs[1])),"Both legacy ownership positions migrated through real save/load");
+            h.assertTrue(!SkeletonState.generatedSword(SkeletonState.reserve(mobs[2])),"Named damaged external sword is not classified as generated");
+            for(var m:mobs){m.addTag("buildupmobtweaks:vanilla_ai");m.setDropChance(EquipmentSlot.MAINHAND,2);m.getAttached(SkeletonState.DATA).putFloat("reserve_drop",2);m.hurtServer(h.getLevel(),m.damageSources().generic(),1000);}});
+        h.runAtTickTime(40,()->{var drops=h.getLevel().getEntitiesOfClass(ItemEntity.class,mobs[1].getBoundingBox().inflate(28));
+            h.assertTrue(drops.stream().filter(e->e.getItem().is(Items.WOODEN_SWORD)).mapToInt(e->e.getItem().getCount()).sum()==1&&drops.stream().anyMatch(e->e.getItem().getHoverName().getString().equals("Legacy external sword")&&e.getItem().getDamageValue()==7),"Only actual external sword drops with original components");evidence("S02_legacy_generated_death",mobs[0],"legacy_generated_swords=0 external_sword=1 damage=7");h.succeed();});
+    }
+    @GameTest(structure=ARENA,maxTicks=110)
+    public void externalPlainSwordDropsButGeneratedSwordWithoutBowDoesNot(GameTestHelper h){
+        floor(h,true);var external=skeleton(h,EntityTypes.SKELETON,6,8);var generated=skeleton(h,EntityTypes.SKELETON,18,8);
+        external.setAttached(SkeletonState.RESERVE,new ItemStack(Items.WOODEN_SWORD));var t1=target(h,6,10);var t2=target(h,18,10);
+        h.runAtTickTime(70,()->{h.assertTrue(external.getMainHandItem().is(Items.WOODEN_SWORD)&&!SkeletonState.generatedSword(external.getMainHandItem())&&SkeletonState.generatedSword(generated.getMainHandItem()),"Actual melee distinguishes even an unmodified external wooden sword");
+            // The original bow is gone; death cleanup must also suppress the generated sword still in hand.
+            generated.removeAttached(SkeletonState.RESERVE);
+            for(var m:new AbstractSkeleton[]{external,generated}){m.setDropChance(EquipmentSlot.MAINHAND,2);m.getAttached(SkeletonState.DATA).putFloat("reserve_drop",2);m.hurtServer(h.getLevel(),m.damageSources().generic(),1000);}t1.discard();t2.discard();});
+        h.runAtTickTime(95,()->{var drops=h.getLevel().getEntitiesOfClass(ItemEntity.class,external.getBoundingBox().inflate(28));
+            h.assertTrue(drops.stream().filter(e->e.getItem().is(Items.WOODEN_SWORD)).mapToInt(e->e.getItem().getCount()).sum()==1&&drops.stream().filter(e->e.getItem().is(Items.BOW)).mapToInt(e->e.getItem().getCount()).sum()==1,"Only the external sword and its actual bow drop; no replacement bow or generated sword");evidence("S02_generated_orphan_external",external,"generated_swords=0 external_plain_sword=1 bow=1");h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=210)
     public void liveOptOutRestoresOriginalVanillaGoalAndBow(GameTestHelper h){

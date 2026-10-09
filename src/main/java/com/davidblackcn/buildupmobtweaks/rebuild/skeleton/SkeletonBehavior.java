@@ -67,12 +67,12 @@ public final class SkeletonBehavior {
                 cleanupSpecial(from);
             }
         });
-        ServerLivingEntityEvents.ALLOW_DEATH.register((e,s,a)->{if(e instanceof AbstractSkeleton m&&supported(m)&&SkeletonState.known(m)){restoreBow(m);cleanupSpecial(m);}return true;});
+        ServerLivingEntityEvents.ALLOW_DEATH.register((e,s,a)->{if(e instanceof AbstractSkeleton m&&supported(m)&&SkeletonState.known(m)){restoreBow(m);SkeletonState.discardGeneratedSword(m);cleanupSpecial(m);}return true;});
         ServerLivingEntityEvents.AFTER_DEATH.register((e,s)->{
             if(!(e instanceof AbstractSkeleton m)||!supported(m)||!SkeletonState.known(m)||!(m.level() instanceof ServerLevel level))return;
             ItemStack reserve=SkeletonState.reserve(m);m.removeAttached(SkeletonState.RESERVE);
             float chance=m.getAttached(SkeletonState.DATA).getFloatOr("reserve_drop",.085f);
-            if(!reserve.isEmpty()&&!EnchantmentHelper.has(reserve,EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)
+            if(!reserve.isEmpty()&&!SkeletonState.generatedSword(reserve)&&!EnchantmentHelper.has(reserve,EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)
                     &&level.getGameRules().get(GameRules.MOB_DROPS)&&m.getRandom().nextFloat()<chance)m.spawnAtLocation(level,reserve);
         });
         SkeletonCommands.register();
@@ -80,13 +80,14 @@ public final class SkeletonBehavior {
     private void install(AbstractSkeleton mob){
         var rt=SkeletonState.runtime(mob);if(rt.installed)return;rt.installed=true;
         if(!mob.hasAttached(SkeletonState.DATA)){
-            var state=new CompoundTag();state.putInt("version",1);state.putFloat("reserve_drop",.085f);mob.setAttached(SkeletonState.DATA,state);
+            var state=new CompoundTag();state.putInt("version",1);state.putInt("generated_sword_policy",1);state.putFloat("reserve_drop",.085f);mob.setAttached(SkeletonState.DATA,state);
             boolean fresh=!mob.isLoadedFromDisk()&&mob.spawnReason()!=null&&mob.spawnReason()!=EntitySpawnReason.LOAD
                     &&mob.spawnReason()!=EntitySpawnReason.CONVERSION&&mob.spawnReason()!=EntitySpawnReason.DIMENSION_TRAVEL;
             if(fresh&&enabled(mob,FeatureId.SKELETON_WEAPON_SWITCHING)&&mob.getMainHandItem().is(Items.BOW)&&!mob.hasAttached(SkeletonState.RESERVE))
-                mob.setAttached(SkeletonState.RESERVE,new ItemStack(Items.WOODEN_SWORD));
+                mob.setAttached(SkeletonState.RESERVE,SkeletonState.generatedSword());
         }
         if(!SkeletonState.known(mob))return;
+        SkeletonState.migrateGeneratedSword(mob);
         ((SkeletonAccess)mob).buildup$special(0);
         rt.attacks.add(new SkeletonGoals.Melee(mob,this));rt.attacks.add(new SkeletonGoals.Walk(mob,this));rt.attacks.add(new SkeletonGoals.Sniper(mob,this));
         mob.getGoalSelector().addGoal(0,new SkeletonGoals.Switch(mob,this));

@@ -1,4 +1,6 @@
-# Buildup Mob Tweaks — R2-A / R2-B / R2-C
+# Buildup Mob Tweaks — R3 / R4-A / R4-B
+
+正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
 
 Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 
@@ -29,8 +31,8 @@ Fzzy Config 服务端配置 v9。总开关、hostile 分组和各项独立开关
 
 ## 阶段状态
 
-实现与自动行为证据见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。外层 docs/rebuild/REBUILD_REPORT_R2A.md 保存完整工作报告、原始日志索引及人工验收清单；这些共享文件不在本 Git 根内。R2-A 已获用户人工验收，死亡背包食物掉落反馈已修正并通过自动回归，修复项人工复测待执行。R2-B 方案已获批准并完成实现与自动验证，详见 [R2-B 实现、证据与人工清单](docs/R2B_REBUILD.md)；其人工结果尚未记录；用户已授权本次 R2-C，完成后停止。
+R3 掠夺者已获用户人工验收，死亡背包食物掉落反馈已修正。历史证据见 [R2A_REBUILD](docs/R2A_REBUILD.md)。R4-A 骷髅与 R4-B 僵尸已经实现，用户已进行了实机验收并反馈生成木剑掉落；本次反馈修复通过 66 项实际行为回归和隔离专服重启/死亡测试，见 [修复报告](docs/R4A_SWORD_FIX.md)。未提供的专项验收结果不推定为 PASS。外层报告和原始证据不在本 Git 根内。
 
-R2-C 已获方案批准，自动实际行为与保存/重启证据见 [R2-C 文档](docs/R2C_REBUILD.md)。管理员只读诊断另有 `/buildupmobtweaks zombie <实体>`、`/buildupmobtweaks drowned <实体>`；实体类型标签 `buildupmobtweaks:zombie_ai_excluded` 排除本批接管。人工视觉、多人、完整 L3 和旧 S2 附件迁移未验收；完成本批后停止。
+R4-B 的历史自动证据见 [R2C_REBUILD](docs/R2C_REBUILD.md)。管理员只读诊断另有 `/buildupmobtweaks zombie <实体>`、`/buildupmobtweaks drowned <实体>`；实体类型标签 `buildupmobtweaks:zombie_ai_excluded` 排除接管。用户已授权进入 R4-C 女巫/唤魔者/恼鬼，但具体 Migration Plan 输出后仍须按版本迁移规范单独批准；新 AI 尚未实施。多人、完整 L3 和旧 S2 附件迁移保持各报告的实际状态。
 
 本项目不是上游官方续作。参考恢复的官方发行源码，保留 [NOTICE.md](NOTICE.md) 与 [上游 MIT 文本](licenses/Mob-AI-Tweaks-MIT.txt)。

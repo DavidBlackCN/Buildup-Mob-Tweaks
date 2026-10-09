@@ -20,7 +20,19 @@
     "rebuild.DoorPositionMixin",
     "rebuild.DrownedLifecycleMixin",
     "rebuild.OwnedTridentMixin",
-    "rebuild.ZombieShieldWearMixin"
+    "rebuild.ZombieShieldWearMixin",
+    "rebuild.WitchRebuildMixin",
+    "rebuild.RaidAiMixin",
+    "rebuild.EvokerTickMixin",
+    "rebuild.EvokerSummonMixin",
+    "rebuild.EvokerNativeSpellMixin",
+    "rebuild.EvokerBallMixin",
+    "rebuild.EvokerBallPositionMixin",
+    "rebuild.EvokerFireImpactMixin",
+    "rebuild.VexRebuildMixin",
+    "rebuild.VexChargeGoalMixin",
+    "rebuild.VexMoveMixin",
+    "rebuild.RaidDeathMixin"
   ],
   "injectors": {
     "defaultRequire": 1

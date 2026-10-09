@@ -10,6 +10,7 @@
       "com.davidblackcn.buildupmobtweaks.CombatTestItems"
     ],
     "fabric-gametest": [
+      "com.davidblackcn.buildupmobtweaks.RaidBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.PillagerBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.SkeletonBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.ZombieBehaviorTests",

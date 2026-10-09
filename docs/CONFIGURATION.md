@@ -59,3 +59,7 @@ hostile.vex 增加 fixedCharge、recoveryPause、closeRangeGuard 三项独立开
 当前 v8 新增 91 个独立行为开关及概率/冷却数值，默认开启；修复与战斗开关独立，字段、出生抽取、关闭边界、数据包退出标签见 [S2_COMBAT](S2_COMBAT.md)。所有新增开关已做逐项独立门控回归，369 对双语键完成静态校验；GUI 视觉与真实多人同步仍列人工验收。
 
 真实独立服 v7→v8 已保留 diagnosticProbe=false、diagnosticLines=3，并写入新增默认值；同一世界第二次启动验证关闭 evoker_fireball 和 skeleton_aim_fix 后各自为 false，已有高级特性/冷却不被删除。旧批次 v7 历史测试不改写成 v8。
+
+## 正式 R4-C 当前生效字段
+
+配置 v9 不变，历史 S1/S2 章节保留，不代表全部旧功能生效。R4-C 启用 hostile.raid 的 witchWindup / witchThrowCooldown / evokerVexLimit / evokerSummonCooldown 和对应参数；hostile.vex 的 fixedCharge / recoveryPause / closeRangeGuard / recoveryTicks / minimumChargeDistance；hostile.extended 的 witch_leaping_potion / witch_jump_throw / evoker_fireball / evoker_totem / evoker_fireball_no_fire、两项 chance 和 special_cooldown。默认值、瞬态中断和出生概率仅影响新实体等语义见 [R4C_REBUILD](R4C_REBUILD.md)。门控受 general.enabled，出生特性还受 traits.enabled。未批准的 evoker_flee_speed、evoker_avoid_target_fix、vex_projectile_weakness 仍不生效。

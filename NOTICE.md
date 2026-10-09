@@ -14,3 +14,6 @@ Fzzy Config 是外部依赖，使用 Timefall Development Licence – Modified 1
 R2-B 骷髅系列继续按同一 MIT 声明改编 CExkBTN8 的 AbstractSkeletonEntityMixin、RangedBowAttackGoalMixin、RangedAttackGoalMixin、SkeletonSpecificGoal、StrayEntityMixin、BoggedEntityMixin 与 LivingEntityRendererMixin。对应实现为 rebuild/skeleton、mixin/rebuild/Skeleton* 与客户端 client/mixin/rebuild/Skeleton*。Copyright (c) 2024 N0t_UN_Owen。真实备用物品所有权、生命周期清理、安全落脚和独立屋顶搜索由 Buildup 重写；不复用上游入口、奖励链或资源素材。
 
 R2-C 按同一 MIT 声明参考 CExkBTN8 的 AbstractZombieEntityMixin、HuskEntityMixin、HuskBurrowGoal、DrownedEntityMixin、DrownedTridentAttackGoalMixin 与 TridentEntityMixin，bFb56Zw2 作交叉参考。Copyright (c) 2024 N0t_UN_Owen。对应实现为 rebuild/zombie、rebuild/drowned 与 mixin/rebuild 中的 Zombie/Door/Drowned/OwnedTrident 类。普通已有盾 Goal 属 Buildup 独立行为；材质门盾的安全展示、出生同族单一乘客、下潜恢复和持久 UUID 实际三叉戟所有权由 Buildup 改编/重写。不复制上游入口、附魔、奖励链或资源素材。
+
+
+R4-C 按同一 MIT 声明参考/改编 CExkBTN8 与 bFb56Zw2 的 WitchEntityMixin、EvokerEntityMixin、EvokerCastFireballGoal、EvokerSummonVexGoalMixin、VexEntityMixin 与 SmallFireballEntityMixin。Copyright (c) 2024 N0t_UN_Owen。对应实现为 rebuild/witch、rebuild/evoker、rebuild/vex、rebuild/raid 及 mixin/rebuild 的 Witch/Evoker/Vex/Raid 类；独立世界预算、真实临时副手图腾、持久名额索引、未知数据保护和固定方向绝对终点由 Buildup 改编/重写。保留原版选药、复活、施法与攻击链，不复制 OP、附魔、奖励、额外投射物倍率、WindCharge 爆炸或资源素材。

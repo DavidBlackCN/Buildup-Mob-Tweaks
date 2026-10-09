@@ -29,10 +29,10 @@ final class CombatTestWorld {
         h.getLevel().addFreshEntity(loaded); return loaded;
     }
     private CombatTestWorld() {}
-    static net.minecraft.world.entity.monster.zombie.Zombie reloadPassengers(GameTestHelper h, net.minecraft.world.entity.monster.zombie.Zombie entity) {
+    static <T extends Entity> T reloadPassengers(GameTestHelper h, T entity) {
         var output=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,h.getLevel().registryAccess());entity.saveWithoutId(output);
         for(var child:java.util.List.copyOf(entity.getPassengers()))child.discard();entity.discard();
-        var loaded=(net.minecraft.world.entity.monster.zombie.Zombie)EntityType.loadEntityRecursive(entity.getType(),output.buildResult(),h.getLevel(),EntitySpawnReason.LOAD,e->e);
+        @SuppressWarnings("unchecked") T loaded=(T)EntityType.loadEntityRecursive(entity.getType(),output.buildResult(),h.getLevel(),EntitySpawnReason.LOAD,e->e);
         h.getLevel().addFreshEntityWithPassengers(loaded);return loaded;
     }
 }

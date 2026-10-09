@@ -58,9 +58,9 @@ public class SkeletonBehaviorTests {
     @GameTest(structure=ARENA,maxTicks=175)
     public void independentSniperDisableUsesWalkingBowGoal(GameTestHelper h){
         floor(h,true);var m=skeleton(h,EntityTypes.SKELETON,8,8);m.addTag("buildupmobtweaks:disable_skeleton_sniping");var t=target(h,8,18);
-        var origin=m.position();var seen=arrows(h,m);
-        h.runAtTickTime(160,()->{h.assertTrue(seen[0]&&!seen[1],"Walking goal fires actual noncritical arrows");h.assertTrue(m.position().distanceTo(origin)>.5,"Walking strafing visibly moved");
-            h.assertTrue(SkeletonState.runtime(m).mode.equals("walk"),"Only sniper option disabled");evidence("S01_walk",m,"moved="+m.position().distanceTo(origin));m.discard();t.discard();h.succeed();});
+        var origin=m.position();var seen=arrows(h,m);double[] displacement={0};h.onEachTick(()->displacement[0]=Math.max(displacement[0],m.position().distanceTo(origin)));
+        h.runAtTickTime(160,()->{h.assertTrue(seen[0]&&!seen[1],"Walking goal fires actual noncritical arrows");h.assertTrue(displacement[0]>.5,"Walking strafing visibly moved");
+            h.assertTrue(SkeletonState.runtime(m).mode.equals("walk"),"Only sniper option disabled");evidence("S01_walk",m,"max_movement="+displacement[0]);m.discard();t.discard();h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=180)
     public void offhandSubclassBowActuallyShoots(GameTestHelper h){

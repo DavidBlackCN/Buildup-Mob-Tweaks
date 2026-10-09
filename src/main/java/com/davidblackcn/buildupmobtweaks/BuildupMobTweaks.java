@@ -32,6 +32,7 @@ public class BuildupMobTweaks implements ModInitializer {
 
 		config = ConfigApiJava.registerAndLoadConfig(BuildupConfig::new, RegisterType.BOTH);
 		FeatureRegistry features = new FeatureRegistry(config);
+        com.davidblackcn.buildupmobtweaks.rebuild.raid.RaidState.bootstrap();
 		DiagnosticCommands.register(features);
         // R2-A: legacy S2 services stay unregistered until individually rebuilt.
         EquipmentPools.register();
@@ -40,7 +41,10 @@ public class BuildupMobTweaks implements ModInitializer {
         new com.davidblackcn.buildupmobtweaks.rebuild.skeleton.SkeletonBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.zombie.ZombieBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.drowned.DrownedBehavior(features).register();
-        LOGGER.info("Buildup Mob Tweaks initialized: R2-A/B/C behavior rebuild.");
+        new com.davidblackcn.buildupmobtweaks.rebuild.witch.WitchBehavior(features).register();
+        new com.davidblackcn.buildupmobtweaks.rebuild.evoker.EvokerBehavior(features).register();
+        new com.davidblackcn.buildupmobtweaks.rebuild.vex.VexBehavior(features).register();
+        LOGGER.info("Buildup Mob Tweaks initialized: R3/R4-A/B/C behavior rebuild.");
 	}
 
 	public static Identifier id(String path) {

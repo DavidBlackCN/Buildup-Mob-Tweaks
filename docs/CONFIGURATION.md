@@ -63,3 +63,9 @@ hostile.vex 增加 fixedCharge、recoveryPause、closeRangeGuard 三项独立开
 ## 正式 R4-C 当前生效字段
 
 配置 v9 不变，历史 S1/S2 章节保留，不代表全部旧功能生效。R4-C 启用 hostile.raid 的 witchWindup / witchThrowCooldown / evokerVexLimit / evokerSummonCooldown 和对应参数；hostile.vex 的 fixedCharge / recoveryPause / closeRangeGuard / recoveryTicks / minimumChargeDistance；hostile.extended 的 witch_leaping_potion / witch_jump_throw / evoker_fireball / evoker_totem / evoker_fireball_no_fire、两项 chance 和 special_cooldown。默认值、瞬态中断和出生概率仅影响新实体等语义见 [R4C_REBUILD](R4C_REBUILD.md)。门控受 general.enabled，出生特性还受 traits.enabled。未批准的 evoker_flee_speed、evoker_avoid_target_fix、vex_projectile_weakness 仍不生效。
+
+## 正式 R4-D 当前生效字段
+
+配置 v9 不变。hostile.extended：ghast_slow_fireball/cooldown/telegraph，blaze_orbit/difficulty_volley/strafe，silverfish_burrow/call_pause/call_particles/shovel_weakness，enderman_speed/combo/combo_animation/chance，creeper_embedded_arrows/hit_delay/fire_visual，spider_hunts_pests，breeze_takeoff_burst/landing_burst。末影人特性仅新自然/刷怪蛋出生一次抽取，默认 chance=70/1000，traits.enabled 关闭不新赋予/执行连击；special_cooldown 默认400，范围200–2400，预留保存世界期限，配置修改不重写已启动预算。其他行为独立于 Traits，仍受 general.enabled 与 hostile 分组内的单项 gate。
+
+三弹难度为2/3/4，不再旧1/2/3；蠹虫 burrow 字段 ID 保留但语义为跳起/落地躲藏，不再复制旧钻块替代；铲子2倍，隐藏不免疫。说明与双语 UI 同步。独立标签和保存语义见 [R4D_REBUILD](R4D_REBUILD.md)。历史 S2 默认开启字段可能不生效，准确白名单/未接入列表见 [台账](R4_REMAINING_AUDIT.md)，真实 GUI/多人同步尚待统一人工验收。

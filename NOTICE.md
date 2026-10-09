@@ -17,3 +17,5 @@ R2-C 按同一 MIT 声明参考 CExkBTN8 的 AbstractZombieEntityMixin、HuskEnt
 
 
 R4-C 按同一 MIT 声明参考/改编 CExkBTN8 与 bFb56Zw2 的 WitchEntityMixin、EvokerEntityMixin、EvokerCastFireballGoal、EvokerSummonVexGoalMixin、VexEntityMixin 与 SmallFireballEntityMixin。Copyright (c) 2024 N0t_UN_Owen。对应实现为 rebuild/witch、rebuild/evoker、rebuild/vex、rebuild/raid 及 mixin/rebuild 的 Witch/Evoker/Vex/Raid 类；独立世界预算、真实临时副手图腾、持久名额索引、未知数据保护和固定方向绝对终点由 Buildup 改编/重写。保留原版选药、复活、施法与攻击链，不复制 OP、附魔、奖励、额外投射物倍率、WindCharge 爆炸或资源素材。
+
+R4-D 按同一 MIT 声明参考/改编两版发行源码的 GhastShootGoalMixin、GhastEntityRendererMixin、BlazeShootGoalMixin、BlazeEntityMixin、SilverfishEntityMixin 的匿名 HideGoal、SilverfishCallForHelpGoalMixin、EndermanEntityMixin 的匿名 MeleeAttackGoal、CreeperEntityMixin、SpiderEntityMixin 与 BreezeJumpTaskMixin（精确恢复路径见外层 source-evidence.json）。Copyright (c) 2024 N0t_UN_Owen。对应 rebuild/remaining、mixin/rebuild 的 Remaining/Ghast/Blaze/Silverfish/Creeper/Breeze 类及客户端 GhastRebuildVisualMixin。有限生命周期、保存冷却、目标/模式退出、独立开关与安全清理由 Buildup 重写；保留原版 Goal/Brain、近战/火球/援军/爆炸链，不复制 OP、附魔、掉泪/火焰弹奖励或蠹虫全伤害免疫。恶魂慢弹为 Buildup 独立设计，不能声称上游等价。

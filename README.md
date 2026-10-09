@@ -1,10 +1,10 @@
-# Buildup Mob Tweaks — R3 / R4-A / R4-B / R4-C
+# Buildup Mob Tweaks — R3 / R4-A / R4-B / R4-C / R4-D
 
 正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
 
 Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 
-旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。现已加入普通骷髅、流浪者、沼骸的 S01～S04/S06，以及普通僵尸、尸壳、溺尸的 Z01～Z04/D01，以及女巫 W01/W02、唤魔者 E01/E02/E03、恼鬼 V01；其余生物保持原版。旧配置值保留，未在本批白名单的功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。
+旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。现已加入普通骷髅、流浪者、沼骸的 S01～S04/S06，以及普通僵尸、尸壳、溺尸的 Z01～Z04/D01，以及女巫 W01/W02、唤魔者 E01/E02/E03、恼鬼 V01，以及恶魂/烈焰人/蠹虫/末影人与苦力怕/蜘蛛/旋风人选定机制；未列入白名单的其余功能保持原版。旧配置值保留，未在本批白名单的功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。
 
 ## 环境与验证
 
@@ -33,9 +33,11 @@ Fzzy Config 服务端配置 v9。总开关、hostile 分组和各项独立开关
 
 R3 掠夺者已获用户人工验收，死亡背包食物掉落反馈已修正。历史证据见 [R2A_REBUILD](docs/R2A_REBUILD.md)。R4-A 骷髅与 R4-B 僵尸已经实现，用户已进行了实机验收并反馈生成木剑掉落；本次反馈修复通过 66 项实际行为回归和隔离专服重启/死亡测试，见 [修复报告](docs/R4A_SWORD_FIX.md)。未提供的专项验收结果不推定为 PASS。外层报告和原始证据不在本 Git 根内。
 
-R4-B 的历史自动证据见 [R2C_REBUILD](docs/R2C_REBUILD.md)。管理员只读诊断另有 `/buildupmobtweaks zombie <实体>`、`/buildupmobtweaks drowned <实体>`；实体类型标签 `buildupmobtweaks:zombie_ai_excluded` 排除接管。R4-C 具体方案已获批准并实施，95 项真实调度测试、专服冷启动和远区块卸载、各难度及有限上游/原版对照已验证；[报告与人工清单](docs/R4C_REBUILD.md)。当前停止等待人工验收。多人、完整 L3 和旧 S2 附件迁移保持各报告的实际状态。
+R4-B 的历史自动证据见 [R2C_REBUILD](docs/R2C_REBUILD.md)。管理员只读诊断另有 `/buildupmobtweaks zombie <实体>`、`/buildupmobtweaks drowned <实体>`；实体类型标签 `buildupmobtweaks:zombie_ai_excluded` 排除接管。R4-C 具体方案已获批准并实施，95 项真实调度测试、专服冷启动和远区块卸载、各难度及有限上游/原版对照已验证；[报告与人工清单](docs/R4C_REBUILD.md)。R4-D 已按最新用户授权实施，当前统一等待完整 R4 的人工验收。多人、完整 L3 和旧 S2 附件迁移保持各报告的实际状态。
 
 本项目不是上游官方续作。参考恢复的官方发行源码，保留 [NOTICE.md](NOTICE.md) 与 [上游 MIT 文本](licenses/Mob-AI-Tweaks-MIT.txt)。
 
 
 R4-C 配置仍为 v9：真实药水预告与默认 20/100 ticks 独立预算；互斥出生火球/图腾特性 70/10 千分权重；三个真实径向释放火球、400 ticks 冷却；低于 20% 血量的一生一次图腾 40 ticks 窗口；恼鬼名额 6、召唤冷却 680、固定冲锋最多 40 与恢复 20 ticks。只读 `/buildupmobtweaks raid <实体>` 辅助检查；类型标签 `raid_ai_excluded`、`vex_ai_excluded` 排除接管。旧未加载恼鬼不能追溯，详见报告限制。
+
+R4-D 的原版真实火球乘客、蠹虫躲藏/实际援军、有限末影人连击与其他机制见 [本批报告](docs/R4D_REBUILD.md)；131 项必需真实行为测试通过，客户端加载仅 L1。统一实机清单见 [R4 验收](docs/R4_ACCEPTANCE_CHECKLIST.md)，[剩余旧 S2 台账](docs/R4_REMAINING_AUDIT.md) 明确未迁移项。管理员 `/buildupmobtweaks remaining <实体>` 为只读诊断；类型标签 remaining_ai_excluded，配置 v9 与独立门控保留。不进入 R5/S3。

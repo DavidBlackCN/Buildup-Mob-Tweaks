@@ -5,7 +5,8 @@
   "client": [
     "rebuild.SkeletonRenderStateMixin",
     "rebuild.SkeletonRendererMixin",
-    "rebuild.SkeletonRotationMixin"
+    "rebuild.SkeletonRotationMixin",
+    "rebuild.GhastRebuildVisualMixin"
   ],
   "injectors": {
     "defaultRequire": 1

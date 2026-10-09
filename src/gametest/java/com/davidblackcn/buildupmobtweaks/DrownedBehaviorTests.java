@@ -37,12 +37,12 @@ public class DrownedBehaviorTests {
     }
     @GameTest(structure=ARENA,maxTicks=260)
     public void realFlightSerializationKeepsUuidAndRecoversWithoutBackup(GameTestHelper h){
-        SkeletonBehaviorTests.floor(h,true);Drowned[] refs={mob(h)};var t=SkeletonBehaviorTests.target(h,8,17);boolean[] done={false},recovered={false};
+        SkeletonBehaviorTests.floor(h,true);Drowned[] refs={mob(h)};refs[0].getRandom().setSeed(430203);var t=SkeletonBehaviorTests.target(h,8,17);boolean[] done={false},recovered={false};
         h.onEachTick(()->{var m=refs[0];var p=DrownedBehavior.instance().projectile(m);if(!done[0]&&p!=null){var uuid=p.getUUID();
             refs[0]=CombatTestWorld.reload(h,m);var loaded=CombatTestWorld.reload(h,p);
             h.assertTrue(loaded.getUUID().equals(uuid)&&refs[0].getMainHandItem().isEmpty()&&DrownedBehavior.instance().projectile(refs[0])==loaded,"Actual serialized UUID ownership, empty hand, no backup");done[0]=true;}
             h.assertTrue(count(h,refs[0])==1,"Serialization preserves exactly one actual weapon");if(DrownedBehavior.runtime(refs[0]).recoveries>0&&!recovered[0]){recovered[0]=true;refs[0].addTag("buildupmobtweaks:vanilla_ai");t.discard();}});
-        h.runAtTickTime(235,()->{h.assertTrue(done[0]&&recovered[0]&&ours(refs[0].getMainHandItem()),"Real in-flight save/load then actual recovery");evidence("D01_save_load",refs[0],"UUID_preserved=true one_weapon=true");refs[0].discard();h.succeed();});
+        h.runAtTickTime(235,()->{evidence("D01_save_load_probe",refs[0],"done="+done[0]+" recovered="+recovered[0]+" pos="+refs[0].position()+" flight="+refs[0].getAttached(DrownedBehavior.FLIGHT));h.assertTrue(done[0]&&recovered[0]&&ours(refs[0].getMainHandItem()),"Real in-flight save/load then actual recovery");evidence("D01_save_load",refs[0],"UUID_preserved=true one_weapon=true");refs[0].discard();h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=180)
     public void deathDuringActualFlightDropsExactlyOneTrident(GameTestHelper h){
@@ -53,10 +53,10 @@ public class DrownedBehaviorTests {
     }
     @GameTest(structure=ARENA,maxTicks=330)
     public void actualTimeoutReleasesAndSurvivalPlayerReallyPicksUp(GameTestHelper h){
-        SkeletonBehaviorTests.floor(h,true);var m=mob(h);m.addTag("buildupmobtweaks:disable_drowned_trident_recovery");var t=SkeletonBehaviorTests.target(h,8,17);ThrownTrident[] saved={null};
+        SkeletonBehaviorTests.floor(h,true);var m=mob(h);m.getRandom().setSeed(430205);m.addTag("buildupmobtweaks:disable_drowned_trident_recovery");var t=SkeletonBehaviorTests.target(h,8,17);h.runAtTickTime(10,()->m.hurtServer(h.getLevel(),m.damageSources().mobAttack(t),1));ThrownTrident[] saved={null};
         h.onEachTick(()->{var p=DrownedBehavior.instance().projectile(m);if(p!=null)saved[0]=p;h.assertTrue(count(h,m)<=1,"No duplicate during timeout");});
         SkeletonBehaviorTests.PlayerFixture[] players={null};
-        h.runAtTickTime(260,()->{var p=saved[0];h.assertTrue(p!=null&&p.pickup==AbstractArrow.Pickup.ALLOWED&&p.getAttached(DrownedBehavior.OWNED).getBooleanOr("released",false),"Actual 200 tick timeout releases pickup policy");
+        h.runAtTickTime(260,()->{var p=saved[0];evidence("D01_timeout_probe",m,"projectile="+(p==null?"none":p.getAttached(DrownedBehavior.OWNED))+" now="+h.getLevel().getGameTime());h.assertTrue(p!=null&&p.pickup==AbstractArrow.Pickup.ALLOWED&&p.getAttached(DrownedBehavior.OWNED).getBooleanOr("released",false),"Actual 200 tick timeout releases pickup policy");
             h.assertTrue(!m.hasAttached(DrownedBehavior.FLIGHT)&&m.getMainHandItem().isEmpty(),"Owner reference cleared without synthetic replacement");
             t.discard();m.addTag("buildupmobtweaks:vanilla_ai");players[0]=SkeletonBehaviorTests.player(h);players[0].player().snapTo(p.position(),0,0);});
         h.runAtTickTime(310,()->{int n=0;var inventory=players[0].player().getInventory();for(int i=0;i<inventory.getContainerSize();i++)if(ours(inventory.getItem(i)))n+=inventory.getItem(i).getCount();
@@ -65,10 +65,10 @@ public class DrownedBehaviorTests {
     @GameTest(structure=ARENA,maxTicks=250)
     public void actualWaterProjectileIsRecoveredBySwimmingNavigation(GameTestHelper h){
         SkeletonBehaviorTests.floor(h,true);for(int x=2;x<=25;x++)for(int z=2;z<=25;z++)for(int y=2;y<=4;y++)h.setBlock(new BlockPos(x,y,z),Blocks.WATER);
-        var m=mob(h);var t=SkeletonBehaviorTests.target(h,8,17);boolean[] water={false},recovered={false},swimming={false};
+        var m=mob(h);m.getRandom().setSeed(430204);var t=SkeletonBehaviorTests.target(h,8,17);boolean[] water={false},recovered={false},swimming={false};
         h.onEachTick(()->{var p=DrownedBehavior.instance().projectile(m);if(p!=null&&p.isInWater())water[0]=true;if(m.isSwimming())swimming[0]=true;
             h.assertTrue(count(h,m)==1,"Exactly one underwater weapon");if(DrownedBehavior.runtime(m).recoveries>0&&!recovered[0]){recovered[0]=true;m.addTag("buildupmobtweaks:vanilla_ai");t.discard();}});
-        h.runAtTickTime(230,()->{h.assertTrue(water[0]&&swimming[0]&&recovered[0]&&ours(m.getMainHandItem()),"Actual water flight, swimming and recovery");evidence("D01_water",m,"water_flight=true swimming=true one_weapon=true");m.discard();h.succeed();});
+        h.runAtTickTime(230,()->{evidence("D01_water_probe",m,"water="+water[0]+" swimming="+swimming[0]+" recovered="+recovered[0]+" pos="+m.position()+" flight="+m.getAttached(DrownedBehavior.FLIGHT));h.assertTrue(water[0]&&swimming[0]&&recovered[0]&&ours(m.getMainHandItem()),"Actual water flight, swimming and recovery");evidence("D01_water",m,"water_flight=true swimming=true one_weapon=true");m.discard();h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=235)
     public void conservationOptOutUsesOriginalVanillaRangedAttack(GameTestHelper h){

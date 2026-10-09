@@ -32,7 +32,18 @@
     "rebuild.VexRebuildMixin",
     "rebuild.VexChargeGoalMixin",
     "rebuild.VexMoveMixin",
-    "rebuild.RaidDeathMixin"
+    "rebuild.RaidDeathMixin",
+    "rebuild.GhastRebuildGoalMixin",
+    "rebuild.BlazeRebuildGoalMixin",
+    "rebuild.RemainingAiMixin",
+    "rebuild.RemainingEntityMixin",
+    "rebuild.BlazeBallRebuildMixin",
+    "rebuild.RemainingDeathMixin",
+    "rebuild.SilverfishRebuildMixin",
+    "rebuild.SilverfishRebuildHelpMixin",
+    "rebuild.CreeperRebuildMixin",
+    "rebuild.BreezeRebuildJumpMixin",
+    "rebuild.RemainingTargetAccess"
   ],
   "injectors": {
     "defaultRequire": 1

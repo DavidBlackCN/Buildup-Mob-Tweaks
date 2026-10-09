@@ -2,6 +2,8 @@
 
 遵循根目录 AGENTS.md、MOB_TWEAKS_SPEC.md、CODEX_STAGE1_TASKS.md 和 CODE_REVIEW.md。
 
+Phase 1现以外层PHASE1_RESTORATION_PLAN.md及用户本轮具体授权为准；旧R4-D停止声明保留历史语境。R4-E0只审计取舍/独立QA与回归，结果见docs/R4E0_REPORT.md；E1～E4/Boss须逐子批授权，不进入R5/Phase2/Phase3。QA源集只用于gametest/独立qaJar，严禁打入正式主包/源码包；不得整体恢复旧S2服务/Mixin。
+
 - 唯一目标为本目录，Java 25、Wrapper、官方未混淆命名，保持 common/client 隔离。
 - 正式阶段以外层 PLAN.md 为准；历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 docs/STAGE_INDEX.md。R4-C 已实施，用户明确授权直接执行 R4-D，完成后统一人工验收完整 R4，无需再次方案停顿；本批范围/结果见 docs/R4D_REBUILD.md，剩余未迁移 ID 见 docs/R4_REMAINING_AUDIT.md。停止在 R4-D，不自动进入 R5/S3/Boss，不发布。S2 仅历史对照。
 - Mod ID buildupmobtweaks，包 com.davidblackcn.buildupmobtweaks；项目 MIT，第三方许可独立保留。上游核心参考为 R0/R1 已核验、恢复的官方发行源码；查阅外层 docs/rebuild/ 的原始 JAR 哈希、许可证及行为证据，不把上游潜在 Bug 当作必须复制的行为。

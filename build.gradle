@@ -101,6 +101,9 @@ sourceSets.client.java {
     include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksDataGenerator.java'
 }
 sourceSets.gametest.java {
+    srcDir 'src/qa/java'
+    include 'com/davidblackcn/buildupmobtweaks/qa/**'
+    include 'com/davidblackcn/buildupmobtweaks/QaHarnessTests.java'
     include 'com/davidblackcn/buildupmobtweaks/RemainingBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/RaidBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/ZombieBehaviorTests.java'
@@ -109,6 +112,24 @@ sourceSets.gametest.java {
     include 'com/davidblackcn/buildupmobtweaks/PillagerBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestWorld.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestItems.java'
+}
+
+// Independent developer mod. No QA source/output is added to main, client or sourcesJar.
+sourceSets {
+    qa {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+}
+tasks.register('qaJar', Jar) {
+    archiveClassifier = 'qa'
+    from sourceSets.qa.output
+}
+if (providers.gradleProperty('qaHarness').map { it.toBoolean() }.getOrElse(false)) {
+    loom.runs {
+        qaServer { server(); runDir 'run/qa-server' }
+        qaClient { client(); runDir 'run/qa-client' }
+    }
 }
 
 tasks.withType(Jar).configureEach {

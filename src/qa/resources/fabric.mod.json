@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "buildupmobtweaks-qa",
+  "version": "1.0.0",
+  "name": "Buildup Mob Tweaks Development QA",
+  "description": "Isolated operator scenarios for 26.3. Install only in a disposable QA world.",
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {"main": ["com.davidblackcn.buildupmobtweaks.qa.QaHarness"]},
+  "depends": {"minecraft": "~26.3", "java": ">=25", "fabricloader": ">=0.19.5", "fabric-api": "*", "buildupmobtweaks": "=1.0.0"}
+}

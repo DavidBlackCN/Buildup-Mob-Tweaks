@@ -7,9 +7,11 @@
   "environment": "server",
   "entrypoints": {
     "main": [
-      "com.davidblackcn.buildupmobtweaks.CombatTestItems"
+      "com.davidblackcn.buildupmobtweaks.CombatTestItems",
+      "com.davidblackcn.buildupmobtweaks.qa.QaHarness"
     ],
     "fabric-gametest": [
+      "com.davidblackcn.buildupmobtweaks.QaHarnessTests",
       "com.davidblackcn.buildupmobtweaks.RemainingBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.RaidBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.PillagerBehaviorTests",

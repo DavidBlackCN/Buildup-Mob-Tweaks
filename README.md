@@ -2,6 +2,8 @@
 
 正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
 
+Phase 1当前交付为[R4-E0](docs/R4E0_REPORT.md)：[68项取舍](docs/PHASE1_FEATURE_DISPOSITION.md)、[上游缺口](docs/PHASE1_UPSTREAM_GAPS.md)、[独立QA工具](docs/PHASE1_QA_GUIDE.md)和[下一批名单](docs/PHASE1_IMPLEMENTATION_PLAN.md)。生产白名单仍为56项；独立开发QA包只在测试实例安装。
+
 Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 
 旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。现已加入普通骷髅、流浪者、沼骸的 S01～S04/S06，以及普通僵尸、尸壳、溺尸的 Z01～Z04/D01，以及女巫 W01/W02、唤魔者 E01/E02/E03、恼鬼 V01，以及恶魂/烈焰人/蠹虫/末影人与苦力怕/蜘蛛/旋风人选定机制；未列入白名单的其余功能保持原版。旧配置值保留，未在本批白名单的功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。

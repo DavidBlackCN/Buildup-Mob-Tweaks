@@ -1,0 +1,96 @@
+# Phase 1 功能逐项取舍（R4-E0）
+
+基线 26.3 / HEAD `6eec6387a33d23a98f63c15f78a77b1ea0891423`。这是逐项审计决定，不是新增功能验收。68/68 ID 一次归属；当前56白名单不变。本轮只实现开发QA，不移植以下未生效AI。裁决计数：{'REPLACE': 5, 'ADAPT': 50, 'EXCLUDE': 4, 'PORT': 1, 'DEFER': 8}。
+
+原始证据是 R0 已核验官方 CExkBTN8（26.2 Beta）和 bFb56Zw2（1.21.11），MIT采用依据及历史CC0残留保留于[ARTIFACTS](../../docs/rebuild/ARTIFACTS.md)，不删原版权。完整类/方法、注入声明、实际配置调用行、原始默认值、逐文件SHA256和两版差异见[upstream-index.json](../../docs/rebuild/evidence/r4e0/upstream-index.json)与[disposition.json](../../docs/rebuild/evidence/r4e0/disposition.json)。上游类门控不是本项目该ID的默认值；默认数值仅作为设计证据，不能跨版本机械复制。bFb56Zw2方法有intermediary命名；不据字符串差异宣称行为改变。未确定完整运行差异=NOT RUN。
+
+所有68项当前 `FeatureRegistry.supported=false`，未安装旧S2 Goal/Mixin，配置v9保留读取。ADAPT/PORT未实施状态均NOT RUN；REPLACE只给已有行为归宿，不把旧ID升级为PASS。DEFER/EXCLUDE不计Phase1实施门槛；后续R5逐项更新UI/迁移说明，E0不删字段。每项还必须在所属批次核对26.3原版是否已有修复，给出确切新Goal优先级/Flags或注入描述符及默认配置；本审计不授权新增注入。
+
+统一验证要求：L1加载；L2真实Tick/Goal/Brain、QA定向、独立关闭、创造/旁观、死亡/转换/存档/卸载；L3隔离两版上游对照（不能运行则BLOCKED及替代依据）；默认出生样本与强制QA分开。多人/整合包/性能未验证不得写PASS。
+
+| ID / 用户可见行为及决定理由 | 来源 / 上游证据类 | 决策 / 批次 / Phase1门槛 | 相互影响与验证重点 / 状态 |
+| --- | --- | --- | --- |
+| `traits`：通用抽签入口由各重建模块出生附件承担；保留traits.enabled总门，不恢复示例TraitService | PRODUCT_SPEC；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **REPLACE** / R5说明收口 / 是（含替代说明） | 独立门 `disable_traits` 仅待实现；首次出生/转换/加载不重抽；模块互斥概率；不是新增全局Trait抽签；**NOT RUN** |
+| `equipment_assignment`：装备池数据已加载但服务未注册且ID不支持；重建出生分配闭环，不恢复原服务整体 | PRODUCT_SPEC；`MobAITweaks` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_equipment_assignment` 仅待实现；空槽/来源/权重/组件/死亡；必须先于职业AI；**NOT RUN** |
+| `demo_common`：演示Marker不构成生物技能，后续配置说明弃用 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_common` 仅待实现；不改变现有模块出生概率；**NOT RUN** |
+| `demo_advanced`：演示Marker无正式执行能力，排除 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_advanced` 仅待实现；不伪称高级AI生效；**NOT RUN** |
+| `demo_rare`：演示Marker无正式执行能力，排除 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_rare` 仅待实现；不伪称稀有技能生效；**NOT RUN** |
+| `skeleton_aim_fix`：lookAtTarget意图由SkeletonGoals.Walk及Sniper原版控制承担，不重新注入旧BowGoal | UPSTREAM；`RangedBowAttackGoalMixin` | **REPLACE** / E1确认/R5说明 / 是（含替代说明） | 独立门 `disable_skeleton_aim_fix` 仅待实现；走射/高低目标/关闭组合；完整原版26.3二次修复必要性待查；**NOT RUN** |
+| `skeleton_offhand_visual`：副手拉弓挥手与同步姿势仍有独立视觉缺口 | UPSTREAM；`RangedBowAttackGoalMixin`, `SkeletonEntityModelMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_skeleton_offhand_visual` 仅待实现；左右惯用手/实际BowItem/client同步；不能复制箭；**NOT RUN** |
+| `skeleton_trap_variants`：陷阱坐骑与骑手变体仅在原版陷阱事件追加有限选择 | UPSTREAM；`SkeletonTrapMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_trap_variants` 仅待实现；原版队伍/生成为一次/骑乘递归保存；不额外材料；**NOT RUN** |
+| `skeleton_wither_conversion`：转为凋灵骷髅保留装备所有权，不原样套用上游转换 | UPSTREAM；`SkeletonEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_wither_conversion` 仅待实现；具体触发条件待批次核实；UUID/主副手/备用/冷却；**NOT RUN** |
+| `wither_skeleton_bow`：真实弓替代武器与出生条件分别实施，支持已有弓不意味着普遍发弓 | UPSTREAM；`WitherSkeletonEntityMixin` | **ADAPT** / E1行为/E2出生 / 是（含替代说明） | 独立门 `disable_wither_skeleton_bow` 仅待实现；原近战/非玩家/主副手守恒，出生默认10与局部难度250%另审；**NOT RUN** |
+| `wither_skeleton_homing`：头颅追踪只对合法既有目标、有期限与半径预算；不复制OP分支 | UPSTREAM；`SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_wither_skeleton_homing` 仅待实现；投射物归属/目标失效/不可拾取高价值资源/关闭；**NOT RUN** |
+| `wither_skeleton_skull`：保留有限特殊头颅攻击与前摇/冷却，不复制原版Boss状态机 | UPSTREAM；`WitherSkeletonEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_wither_skeleton_skull` 仅待实现；真实弹体/伤害/爆炸规则/预算/重载；默认200仅参考；**NOT RUN** |
+| `parched_dodge`：还原焦骸旋转位移；不照搬已发现旋转及速度Bug | UPSTREAM；`ParchedEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_parched_dodge` 仅待实现；目标变化/碰撞/有限阶段/回退；默认120参考；**NOT RUN** |
+| `bogged_omen_mushrooms`：旧S2额外蘑菇投射物与已有孢子撤退不同；仅补上游已核实的不祥目标分支 | UPSTREAM；`SkeletonSpecificGoal`, `BoggedEntityMixin` | **ADAPT** / E1差异子项 / 是（含替代说明） | 独立门 `disable_bogged_omen_mushrooms` 仅待实现；与BOGGED_SPORE_RETREAT同阶段互斥，禁止双生成；效果实体预算；**NOT RUN** |
+| `stray_omen_snow`：不祥目标雪球差异独立于已有跃射；接在同一雪球链 | UPSTREAM；`SkeletonSpecificGoal`, `StrayEntityMixin` | **ADAPT** / E1差异子项 / 是（含替代说明） | 独立门 `disable_stray_omen_snow` 仅待实现；不创建第二攻击Goal；速度/效果/目标退出；**NOT RUN** |
+| `stray_snow_barrage`：已有STRAY_JUMP_SHOT承担起跳与三雪球；旧独立稀有连发不得双重运行 | UPSTREAM；`SkeletonSpecificGoal`, `StrayEntityMixin` | **REPLACE** / E1确认/R5说明 / 是（含替代说明） | 独立门 `disable_stray_snow_barrage` 仅待实现；检查不祥差异另属stray_omen_snow；既有L2不升级为完整L3；**NOT RUN** |
+| `zombified_piglin_anger_fix`：旧S2禁止同类目标；上游此类只提供弩行为，非直接修复证据 | LEGACY_ONLY；`ZombifiedPiglinEntityMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_zombified_piglin_anger_fix` 仅待实现；26.3原版群体仇恨复现后窄修，不破坏玩家/同伴警戒；**NOT RUN** |
+| `piglin_shot_swing`：onShoot原版弩射后挥实际使用手 | UPSTREAM；`PiglinEntityMixin` | **PORT** / E1 / 是（含替代说明） | 独立门 `disable_piglin_shot_swing` 仅待实现；Brain真实射击/副手/禁用/客户端观感；**NOT RUN** |
+| `piglin_item_dodge`：上游是近距正在用弩后跳10tick；旧S2按稀有Trait和掉落物闪避语义有偏差 | UPSTREAM；`PiglinEntityMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_piglin_item_dodge` 仅待实现；真实Brain目标/弩蓄力/近距/安全地面，不伪称物品躲闪；**NOT RUN** |
+| `piglin_crossbow_compatibility`：公开CrossbowItem继承适配；不承诺所有特殊枪械 | UPSTREAM；`PiglinBrainMixin`, `PiglinEntityMixin`, `RangedCrossbowAttackTaskMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_piglin_crossbow_compatibility` 仅待实现；Brain装备丢弃/使用手/真实发射/标签退出；**NOT RUN** |
+| `zombified_piglin_spawn_crossbow`：出生20与局部难度250%参考，纳入一次装备分配 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombified_piglin_spawn_crossbow` 仅待实现；自然/刷怪蛋/召唤/重载来源，真实弩无隐藏备份；**NOT RUN** |
+| `zombified_piglin_crossbow`：给已经持弩实体原版调度远程使用，不额外复制装备 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombified_piglin_crossbow` 仅待实现；仇恨/距离/弹体/退回原近战/掉落；**NOT RUN** |
+| `illager_zombie_conflict`：窄阵营冲突，保留玩家优先而非全局setTarget覆盖 | UPSTREAM；`IllagerEntityMixin`, `AbstractZombieEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_illager_zombie_conflict` 仅待实现；完整袭击/村庄/玩家目标/禁用/互相索敌；**NOT RUN** |
+| `illager_zombie_villager`：僵尸村民独立敌对关系与普通僵尸重叠按一次处理 | UPSTREAM；`IllagerEntityMixin`, `ZombieVillagerEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_illager_zombie_villager` 仅待实现；职业/转化/袭击/玩家优先；**NOT RUN** |
+| `illager_boats`：自动寻找与使用船会改变袭击/运输控制，首发暂缓 | UPSTREAM；`IllagerEntityMixin`, `RaiderUseBoatGoal` | **DEFER** / Phase3生态/整合包 / 否 | 独立门 `disable_illager_boats` 仅待实现；不阻断Phase1；所有权与玩家船/卸载另审；**NOT RUN** |
+| `illusioner_omen_spawn`：becomeIllusioner会丢弃原动物并生成幻术师；不采用这种破坏生态的出生 | UPSTREAM；`LivingEntityMixin` | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_illusioner_omen_spawn` 仅待实现；后续幻术师采用明确场景/命令，不替换玩家宠物；**NOT RUN** |
+| `illusioner_swap`：分身换位采用有限合法位置和真实目标，保持原版隐身 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_illusioner_swap` 仅待实现；位置安全/旁观退出/同步/不复活已死分身；**NOT RUN** |
+| `illusioner_shoot_pause`：简化弓攻击阶段与换位间暂停；不增加隐藏并行射击 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_illusioner_shoot_pause` 仅待实现；Goal优先级MOVE/LOOK与原版施法互斥；**NOT RUN** |
+| `illusioner_clone_arrows`：真实箭从有限分身位置发射，归属同一个幻术师 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_illusioner_clone_arrows` 仅待实现；伤害/拾取/友伤/卸载/次数预算；不得复制可拾取箭；**NOT RUN** |
+| `vindicator_support`：旧S2卫道士支援是Buildup选择性玩法，非已确认上游技能 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_vindicator_support` 仅待实现；同队/范围/短冷却；完整袭击，不全局增强伤害；**NOT RUN** |
+| `evoker_flee_speed`：旧S2避让速度参数；上游这两类未证明同项独立配置 | LEGACY_ONLY；`EvokerEntityMixin`, `FleeEntityGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_evoker_flee_speed` 仅待实现；26.3原版AvoidEntityGoal实测需求后窄适配，不改已通过火球仲裁；**NOT RUN** |
+| `evoker_avoid_target_fix`：旧S2避免目标处理候选，非明确上游独立修复 | LEGACY_ONLY；`EvokerEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_evoker_avoid_target_fix` 仅待实现；复现当前Bug优先，LOS/创造/旁观与真实施法回归；**NOT RUN** |
+| `drowned_fishing_pull`：真实钓竿浮漂与拉拽，复用原版物品/归属链 | UPSTREAM；`DrownedAttackGoalMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_drowned_fishing_pull` 仅待实现；水陆/目标丢失/浮漂销毁/死亡掉落；**NOT RUN** |
+| `zombie_fisherman_rod`：上游职业僵尸村民渔夫，不将普通僵尸全体变职业 | UPSTREAM；`ZombieVillagerEntityMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombie_fisherman_rod` 仅待实现；实际竿和职业前置/耐久/同一装备池；**NOT RUN** |
+| `zombie_cleric_potions`：上游牧师职业使用真实药水；不复制女巫伪背包 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombie_cleric_potions` 仅待实现；有限消耗/目标/效果/玩家物品守恒；**NOT RUN** |
+| `zombie_fletcher_crossbow`：上游制箭师职业弩，需要真实装备适配闭环 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombie_fletcher_crossbow` 仅待实现；职业转换/目标/弩弹体/全关闭近战；**NOT RUN** |
+| `zombie_active_guard`：旧高级格挡由已实现ZOMBIE_SHIELD_USE真实盾牌承担；不叠加第二Trait格挡 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **REPLACE** / R5说明收口 / 是（含替代说明） | 独立门 `disable_zombie_active_guard` 仅待实现；Z01独立门与装备耐久/停用，旧字段后续迁移说明；**NOT RUN** |
+| `husk_spear_charge`：现有原版矛及尸壳坐骑条件下有限冲刺；不生成新武器 | UPSTREAM；`ChargeSpearGoalMixin`, `ChargeSpearTaskMixin`, `HuskEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_husk_spear_charge` 仅待实现；ATTACK_RANGE/击中预算/距离/碰撞/骑乘停止；**NOT RUN** |
+| `husk_camel_circle`：骆驼尸壳载体环绕原版目标，保留控制乘客 | UPSTREAM；`CamelHuskEntityMixin`, `HuskEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_husk_camel_circle` 仅待实现；原版26.3CamelHusk生命周期/骑手退出/半径；**NOT RUN** |
+| `skeleton_horse_charge`：原版骷髅马骑手特殊冲刺，有限冷却 | UPSTREAM；`SkeletonEntityMixin`, `SkeletonHorseEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_horse_charge` 仅待实现；骑手和坐骑只有一套移动控制/加载/目标退出；**NOT RUN** |
+| `chicken_jockey_charge`：鸡骑士原版ZombieAttackGoal近距扑击，非额外生成骑士 | UPSTREAM；`ZombieAttackGoalMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_chicken_jockey_charge` 仅待实现；同一原生Chicken/NoAI/原版伤害/卸载/恢复速度；**NOT RUN** |
+| `zombie_slime_carrier`：史莱姆携带与生成/分裂/递归骑乘风险，首发暂缓 | UPSTREAM；`AbstractZombieEntityMixin` | **DEFER** / Phase3变种审批 / 否 | 独立门 `disable_zombie_slime_carrier` 仅待实现；不阻断Phase1；无限拆分和保存需专项；**NOT RUN** |
+| `zombie_horse_leader`：首领与马/召集会增加实体预算及掉落，首发暂缓 | UPSTREAM；`AbstractZombieEntityMixin`, `ZombieHorseEntityMixin` | **DEFER** / Phase3变种审批 / 否 | 独立门 `disable_zombie_horse_leader` 仅待实现；不阻断Phase1；自然样本/刷怪塔/同伴生命周期；**NOT RUN** |
+| `rider_friendly_fire`：精准排除自己的坐骑/乘客，保留敌方骑乘命中 | UPSTREAM；`PersistentProjectileEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_rider_friendly_fire` 仅待实现；箭/三叉戟/关系改变/友伤；避免广泛免伤；**NOT RUN** |
+| `strafe_hazard_check`：现有SkeletonBehavior.safeStep提供目标骨架范围的危地检查；不恢复全局isWalkable覆盖 | UPSTREAM；`MoveControlMixin` | **REPLACE** / E4确认/R5说明 / 是（含替代说明） | 独立门 `disable_strafe_hazard_check` 仅待实现；火/落差/阻挡/其余原版不接管；并非所有生物同等复原；**NOT RUN** |
+| `movement_jump_input`：jumpMotionFix意图只在验证过的重建实体保留跳跃横移输入 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_movement_jump_input` 仅待实现；禁止反射枚举/吞Throwable；先对照26.3原版输入；**NOT RUN** |
+| `movement_clear_strafe`：keepMovingForward/stopSidewaysMovement防遗留横移，只窄控制器适配 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_movement_clear_strafe` 仅待实现；已通过走射/后撤/连击不得倒退；**NOT RUN** |
+| `strafe_obstacle_jump`：水平碰撞时小障碍起跳，门/栅栏/天花板安全优先 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_strafe_obstacle_jump` 仅待实现；JumpControl真实起跳；不照搬反射+ordinal脆弱钩子；**NOT RUN** |
+| `sense_glowing`：有限距离发光可感知，不能绕过团队/不可攻击条件 | UPSTREAM；`LivingEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_glowing` 仅待实现；隔墙/范围/创造/非敌对原版，独立gate；**NOT RUN** |
+| `sense_blindness`：失明缩短感知；旧S2系数.25和上游1/3不同 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_blindness` 仅待实现；窄目标选择+保持既有伤害仇恨，不全局覆盖LOS；**NOT RUN** |
+| `sense_darkness`：旧S2按周期改变感知距离，未定位上游对应配置 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **DEFER** / Phase2规则 / 否 | 独立门 `disable_sense_darkness` 仅待实现；不阻断Phase1；先制定独立新规则；**NOT RUN** |
+| `sense_nausea`：反胃影响视距与弹道；只对正式支持实体 | UPSTREAM；`ActiveTargetGoalMixin`, `ProjectileEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_nausea` 仅待实现；玩家射击不改/真实命中分布/独立gate；**NOT RUN** |
+| `sense_invisibility`：隐身前置感知；原版已有隐身距离缩放需避免重复缩放 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_invisibility` 仅待实现；受击追踪/装备可见度/退出目标；**NOT RUN** |
+| `sense_crawling`：爬行降低发现距离，上游1/3供参考 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_crawling` 仅待实现；原版姿态与几何高度，不改玩家hitbox；**NOT RUN** |
+| `sense_crouching`：潜行降低发现距离，上游1/2供参考 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_crouching` 仅待实现；原版已有潜行规则，不能二次无意倍乘；**NOT RUN** |
+| `melee_effect_interval`：急迫/疲劳调节原版攻击间隔，设置下限 | UPSTREAM；`MeleeAttackGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_melee_effect_interval` 仅待实现；上游加减tick与旧S2倍率不同；伤害冷却/多目标；**NOT RUN** |
+| `melee_high_target_jump`：困难/小型/近高目标JumpControl起跳 | UPSTREAM；`MeleeAttackGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_melee_high_target_jump` 仅待实现；原版高度/地板/水/骑乘/冷却回退；**NOT RUN** |
+| `omen_pressure`：旧S2不祥加速攻击，不能当作上游ominous_mobs全部语义 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **DEFER** / Phase2平衡规范 / 否 | 独立门 `disable_omen_pressure` 仅待实现；不阻断Phase1；避免无条件增伤/加速；**NOT RUN** |
+| `hostile_rest`：坐下/关AI影响索敌和实体状态，首发不纳入 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase3生态 / 否 | 独立门 `disable_hostile_rest` 仅待实现；不阻断Phase1；保存/唤醒/多人需专项；**NOT RUN** |
+| `rest_sound_wake`：声响惊醒依赖休息，随父功能暂缓 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase3依赖hostile_rest / 否 | 独立门 `disable_rest_sound_wake` 仅待实现；不新增每Tick全世界声学扫描；**NOT RUN** |
+| `golem_friendly_fire_fix`：原版仍有可复现同族互相目标时窄过滤 | UPSTREAM；`IronGolemEntityMixin`, `SnowGolemEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_golem_friendly_fire_fix` 仅待实现；不得禁止合法敌对；雪球/铁傀儡/第三方继承另审；**NOT RUN** |
+| `drowned_swim_visual`：游泳姿态和模型同步仍独立于已实现三叉戟 | UPSTREAM；`DrownedEntityMixin`, `DrownedEntityModelMixin`, `DrownedEntityRendererMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_drowned_swim_visual` 仅待实现；仅视觉前置；与原版26.3泳姿复核，专服同步；**NOT RUN** |
+| `burning_projectile_visual`：真实燃烧弹体粒子，保留原版伤害与点火规则 | UPSTREAM；`PersistentProjectileEntityMixin`, `SmallFireballEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burning_projectile_visual` 仅待实现；client效果可见/频率/现有no-fire不倒退；**NOT RUN** |
+| `burn_freeze_visual`：燃烧/冻结低频视觉，仅已支持实体 | UPSTREAM；`HostileEntityMixin`, `LivingEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burn_freeze_visual` 仅待实现；原版已有视觉先比较；不影响免疫/伤害；**NOT RUN** |
+| `undead_horse_sunburn`：亡灵马日烧仅已决定场景，不破坏玩家坐骑掉落 | UPSTREAM；`SkeletonHorseEntityMixin`, `ZombieHorseEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_undead_horse_sunburn` 仅待实现；原版26.3日晒/装备/骑乘/关闭；**NOT RUN** |
+| `hostile_escape_seat`：受伤时有条件离船，限定原生敌对与空安全落点 | UPSTREAM；`HostileEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_hostile_escape_seat` 仅待实现；玩家船/既有特殊坐骑不能脱离/概率另测；**NOT RUN** |
+| `hostile_spawn_effect`：随机出生效果与现有出生互斥/概率再设计，首发暂缓 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase2平衡规范 / 否 | 独立门 `disable_hostile_spawn_effect` 仅待实现；不阻断Phase1；旧开启字段不可当作生效；**NOT RUN** |
+| `vex_projectile_weakness`：受投射物额外伤害，独立于已实现固定方向冲锋 | UPSTREAM；`VexEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_vex_projectile_weakness` 仅待实现；真实arrow命中/伤害来源/倍数配置；默认200%参考；**NOT RUN** |
+
+## 56 项已启用范围及证据缺口
+
+逐ID代码注册链、相关生产源码和独立门控、测试方法名见[PHASE1_ACTIVE_FEATURES.md](PHASE1_ACTIVE_FEATURES.md)。原135项本轮重新回归，新增QA不是额外正式生物能力。全局禁用/独立门的受控测试不能外推到每项所有组合。现有HUMAN反馈保持PARTIAL；完整L3、自然刷怪器分布、多人和性能NOT RUN。门盾和备用剑本轮复核另见[R4E0_REPORT.md](R4E0_REPORT.md)。
+
+## 原旧ID之外的上游候选
+
+独立于68项的逐候选裁决及全部136/135 Mixin覆盖见[PHASE1_UPSTREAM_GAPS.md](PHASE1_UPSTREAM_GAPS.md)。Allay保持历史BLOCKED，不重试；Boss只审计且独立审批，不算本轮获准开发。
+
+## 装备分配迁移方案（只分析）
+
+入口 `BuildupMobTweaks.onInitialize → EquipmentPools.register → DataResourceLoader → SimpleReloadListener.prepare/apply → server DataResourceStore → SERVER_STARTING/END_DATA_PACK_RELOAD → Snapshot.rules → /buildupmobtweaks equipment` 已接入。规则当前仅zombie/husk/drowned，v1 JSON选择实体/维度/难度/成人/空槽、Item/Tag权重，不支持任意组件或覆盖槽。匹配按规则ID排序后首条，不是多池叠加。官方26.3命名，无Yarn；数据错误按单规则拒绝。
+
+旧 `EquipmentService.initialize` 编译入基础设施但**未register**；实体出生附件→来源检查→装备gate→首规则→空槽→assignmentChance→真实单Stack→原dropChance的链当前未触发。仅把ID加白名单或只register并不能解决跨模块顺序：Skeleton先生成备用剑、Pillager容器发补给、门盾出生互斥及原版finalizeSpawn装备必须优先明确。Service来源范围还包括COMMAND/刷怪笼等，不能凭旧代码视为产品已批准。
+
+E2方案：先扩展受支持原版实体与必要组件受控Codec（若改v1格式须单列Migration Plan）；定义finalizeSpawn后一次空槽分配与rebuild安装顺序，NATURAL/SPAWN_ITEM_USE/SPAWNER/COMMAND/CONVERSION/LOAD/DIMENSION_TRAVEL分别决策；附件记录单次尝试/来源/池/物品，未知版本不写/不补发；应用装备后让真实Goal/Brain发现武器，不复制虚拟库存；保存实际Stack和组件，死亡沿原版规则结算，来源标记区分工具/物品。随后实现职业竿/弩/药水。QA固定装备不提供自然池概率证据；默认样本须预先确定N/容差、真实生成方式及配置快照。

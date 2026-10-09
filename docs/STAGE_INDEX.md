@@ -15,3 +15,5 @@ PLAN.md 第 4 节是阶段定义。此前 R2-A 合并了基础框架与掠夺者
 历史文件名、日志前缀、测试资源 ID、提交消息和原始验证结果保留，避免破坏引用；历史 R2-A/R2-B/R2-C 只作别名。正式阶段号不会改变 L1/L2/L3 判定，也不会将尚未验证的多人、自然生成或完整对照自动升级为 PASS。
 
 当前统一人工清单：[R4_ACCEPTANCE_CHECKLIST.md](R4_ACCEPTANCE_CHECKLIST.md)。R4 批次全部交付不表示 68 个非生效旧 ID 已迁移；[逐项台账](R4_REMAINING_AUDIT.md)。
+
+Phase 1新路线以外层PHASE1_RESTORATION_PLAN.md为准。本次R4-E0完成取舍与独立QA基础，[报告](R4E0_REPORT.md)及[E1～E4名单](PHASE1_IMPLEMENTATION_PLAN.md)；当前56项AI不变，后续子批分别审批、提交后停止。Boss仅独立候选审批，未进入R5/Phase2/Phase3。

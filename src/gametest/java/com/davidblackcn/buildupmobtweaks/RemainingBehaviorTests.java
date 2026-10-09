@@ -17,6 +17,43 @@ import net.minecraft.core.BlockPos;
 import java.util.*;
 /** Fixtures supply combat inputs; only actual Server Tick and native Goal/Brain schedules run AI. */
 public class RemainingBehaviorTests {
+    static void actualArrow(GameTestHelper h,boolean off,boolean pierce){
+        var m=mob(h,EntityTypes.CREEPER);m.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
+        m.getAttribute(Attributes.MAX_HEALTH).setBaseValue(100);m.setHealth(100);
+        if(off)m.addTag("buildupmobtweaks:vanilla_ai");
+        var f=player(h);java.util.List<net.minecraft.world.entity.projectile.arrow.Arrow> fired=new ArrayList<>();
+        Set<UUID> released=new HashSet<>();
+        h.runAtTickTime(10,()->{var a=new net.minecraft.world.entity.projectile.arrow.Arrow(h.getLevel(),m.getX(),m.getY()+.9,m.getZ()-4,new ItemStack(Items.ARROW),null);
+            if(pierce){var tag=new net.minecraft.nbt.CompoundTag();tag.putByte("PierceLevel",(byte)1);a.load(net.minecraft.world.level.storage.TagValueInput.create(net.minecraft.util.ProblemReporter.DISCARDING,m.registryAccess(),tag));a.setPos(m.getX(),m.getY()+.9,m.getZ()-4);}
+            a.setOwner(f.player());a.setNoGravity(true);a.setDeltaMovement(0,0,1);h.getLevel().addFreshEntity(a);fired.add(a);});
+        h.runAtTickTime(20,()->{BuildupMobTweaks.LOGGER.info("R4_FEEDBACK arrow off={} pierce={} hp={} embedded={} removed={} velocity={}",off,pierce,m.getHealth(),m.getArrowCount(),fired.getFirst().isRemoved(),fired.getFirst().getDeltaMovement());
+            h.assertTrue(m.getHealth()<100,"Real native projectile Tick must damage creeper");h.assertTrue(m.getArrowCount()==(pierce?0:1),"Native non-piercing hit embeds exactly one arrow; piercing does not embed");
+            h.assertTrue(pierce||fired.getFirst().isRemoved(),"Accepted normal hit consumes projectile");m.ignite();});
+        h.onEachTick(()->{for(var a:h.getLevel().getEntitiesOfClass(net.minecraft.world.entity.projectile.arrow.Arrow.class,m.getBoundingBox().inflate(20),a->!fired.contains(a))){
+            released.add(a.getUUID());h.assertTrue(a.pickup==AbstractArrow.Pickup.DISALLOWED,"Burst ammunition remains unpickable");}});
+        h.runAtTickTime(60,()->{h.assertTrue(m.isRemoved()&&released.size()==(!off&&!pierce?1:0),"Actual native fuse releases only arrows embedded by real hits");
+            BuildupMobTweaks.LOGGER.info("R4_FEEDBACK burst off={} pierce={} released={}",off,pierce,released.size());
+            for(var a:h.getLevel().getEntitiesOfClass(net.minecraft.world.entity.projectile.arrow.Arrow.class,m.getBoundingBox().inflate(20)))a.discard();f.close();clean(m);h.succeed();});
+    }
+    @GameTest(environment="buildupmobtweaks:r4d",structure=SkeletonBehaviorTests.ARENA,maxTicks=80)
+    public void creeperActualArrowFlightEmbedsAndExplodes(GameTestHelper h){actualArrow(h,false,false);}
+    @GameTest(environment="buildupmobtweaks:r4d",structure=SkeletonBehaviorTests.ARENA,maxTicks=80)
+    public void creeperAllOffActualArrowFlightEmbeds(GameTestHelper h){actualArrow(h,true,false);}
+    @GameTest(environment="buildupmobtweaks:r4d",structure=SkeletonBehaviorTests.ARENA,maxTicks=80)
+    public void creeperActualPiercingArrowDoesNotProduceEmbeddedBurst(GameTestHelper h){actualArrow(h,false,true);}
+    @GameTest(environment="buildupmobtweaks:r4d",structure=SkeletonBehaviorTests.ARENA,maxTicks=75)
+    public void creeperNativeDamageCooldownRejectsRapidArrowThenRecovers(GameTestHelper h){
+        var m=mob(h,EntityTypes.CREEPER);m.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);m.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
+        var f=player(h);java.util.List<net.minecraft.world.entity.projectile.arrow.Arrow> arrows=new ArrayList<>();boolean[] bounced={false};
+        java.util.function.Consumer<Double> fire=distance->{var a=new net.minecraft.world.entity.projectile.arrow.Arrow(h.getLevel(),m.getX(),m.getY()+.9,m.getZ()-distance,new ItemStack(Items.ARROW),null);
+            a.setOwner(f.player());a.setNoGravity(true);a.setDeltaMovement(0,0,1);h.getLevel().addFreshEntity(a);arrows.add(a);};
+        h.runAtTickTime(10,()->fire.accept(1.0));h.runAtTickTime(13,()->fire.accept(1.0));
+        h.onEachTick(()->{if(arrows.size()>1&&arrows.get(1).getDeltaMovement().z<0)bounced[0]=true;});
+        h.runAtTickTime(22,()->{h.assertTrue(m.getArrowCount()==1&&bounced[0],"Real rapid equal-damage second arrow bounces during native damage cooldown");});
+        h.runAtTickTime(35,()->fire.accept(1.0));
+        h.runAtTickTime(45,()->{h.assertTrue(m.getArrowCount()==2&&m.getHealth()==16,"After native cooldown a real third arrow damages and embeds normally");BuildupMobTweaks.LOGGER.info("R4_FEEDBACK cooldown bounce={} hp={} embedded={}",bounced[0],m.getHealth(),m.getArrowCount());
+            for(var a:arrows)a.discard();f.close();clean(m);h.succeed();});
+    }
     static final String ARENA=SkeletonBehaviorTests.ARENA;
     static <T extends Mob>T mob(GameTestHelper h,EntityType<T> type){SkeletonBehaviorTests.floor(h,false);if(type==EntityTypes.SILVERFISH)for(int x=0;x<28;x++)for(int z=0;z<28;z++)h.setBlock(new BlockPos(x,1,z),Blocks.OBSIDIAN);var m=type.create(h.getLevel(),EntitySpawnReason.COMMAND);m.snapTo(h.absolutePos(new BlockPos(8,2,8)),0,0);m.setPersistenceRequired();
         if(m instanceof Ghast){m.getAttribute(Attributes.FLYING_SPEED).setBaseValue(0);m.setNoGravity(true);}h.getLevel().addFreshEntity(m);return m;}

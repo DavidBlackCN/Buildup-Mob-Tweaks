@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.entity.npc.villager.VillagerType;
 
 public final class ZombieBehavior {
+    private final java.util.Set<BlockDisplay> pending=java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
     private static ZombieBehavior instance;
     private final FeatureRegistry features;
     public static final TagKey<EntityType<?>> EXCLUDED=TagKey.create(Registries.ENTITY_TYPE,BuildupMobTweaks.id("zombie_ai_excluded"));
@@ -57,8 +58,11 @@ public final class ZombieBehavior {
     }
     public void register(){
         instance=this;
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server->pending.clear());
+        // Tracking callbacks may run while vanilla iterates an entity section. Retire displays after that iteration.
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(server->{var batch=java.util.List.copyOf(pending);pending.clear();for(var d:batch)if(!d.isRemoved())d.discard();});
         ServerEntityEvents.ENTITY_LOAD.register((e,l)->{
-            if(e instanceof BlockDisplay&&Boolean.TRUE.equals(e.getAttached(ZombieState.DISPLAY))&&!Boolean.TRUE.equals(e.getAttached(ZombieState.DISPLAY_LIVE)))e.discard();
+            if(e instanceof BlockDisplay d&&Boolean.TRUE.equals(e.getAttached(ZombieState.DISPLAY))&&!Boolean.TRUE.equals(e.getAttached(ZombieState.DISPLAY_LIVE)))pending.add(d);
             if(e instanceof Zombie m&&supported(m)){
                 initialize(m);if(!ZombieState.known(m))return;ZombieGoals.restore(m);
                 var r=ZombieState.runtime(m);if(!r.installed){r.installed=true;m.getGoalSelector().addGoal(1,new ZombieGoals.Guard(m,this));
@@ -66,7 +70,7 @@ public final class ZombieBehavior {
                 beforeAi(m);
             }
         });
-        ServerEntityEvents.ENTITY_UNLOAD.register((e,l)->{if(e instanceof Zombie m&&supported(m)&&ZombieState.known(m)){ZombieGoals.restore(m);clearDoor(m);}});
+        ServerEntityEvents.ENTITY_UNLOAD.register((e,l)->{if(e instanceof Zombie m&&supported(m)&&ZombieState.known(m)){ZombieGoals.restore(m);unloadDoor(m);}});
         ServerLivingEntityEvents.ALLOW_DEATH.register((e,s,a)->{if(e instanceof Zombie m&&supported(m)&&ZombieState.known(m)){ZombieGoals.restore(m);clearDoor(m);}return true;});
         ServerLivingEntityEvents.MOB_CONVERSION.register((old,next,c)->{if(old instanceof Zombie m&&supported(m)&&ZombieState.known(m)){ZombieGoals.restore(m);clearDoor(m);detachRider(m);}});
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((e,s,a)->!(e instanceof Zombie m&&block(m,s,a)));
@@ -119,6 +123,7 @@ public final class ZombieBehavior {
         }
     }
     public void clearDoor(Zombie m){for(var d:ZombieState.runtime(m).displays)d.discard();ZombieState.runtime(m).displays.clear();doorAttributes(m,false);}
+    private void unloadDoor(Zombie m){for(var d:ZombieState.runtime(m).displays){d.setAttached(ZombieState.DISPLAY_LIVE,false);pending.add(d);}ZombieState.runtime(m).displays.clear();doorAttributes(m,false);}
     private void detachRider(Zombie m){String id=m.getAttached(ZombieState.DATA).getStringOr("rider","");for(var p:m.getPassengers())if(p.getUUID().toString().equals(id))p.stopRiding();}
     public boolean block(Zombie m,DamageSource source,float damage){
         if(!enabled(m,FeatureId.ZOMBIE_DOOR_GUARD)||ZombieState.runtime(m).displays.size()!=2||source.is(DamageTypeTags.BYPASSES_SHIELD)||damage<=0)return false;

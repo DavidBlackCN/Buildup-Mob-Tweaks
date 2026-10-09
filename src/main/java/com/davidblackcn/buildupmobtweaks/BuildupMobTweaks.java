@@ -32,6 +32,7 @@ public class BuildupMobTweaks implements ModInitializer {
 
 		config = ConfigApiJava.registerAndLoadConfig(BuildupConfig::new, RegisterType.BOTH);
 		FeatureRegistry features = new FeatureRegistry(config);
+        com.davidblackcn.buildupmobtweaks.rebuild.zombie.ZombieState.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.raid.RaidState.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.remaining.RemainingState.bootstrap();
 		DiagnosticCommands.register(features);

@@ -10,6 +10,8 @@ import net.minecraft.world.entity.Display.BlockDisplay;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 
 public final class ZombieState {
+    /** Register synced door types before Fabric negotiates attachments when a client joins. */
+    public static void bootstrap(){}
     public static final AttachmentType<CompoundTag> DATA=AttachmentRegistry.createPersistent(BuildupMobTweaks.id("zombie_rebuild"),CompoundTag.CODEC);
     public static final AttachmentType<Boolean> DISPLAY=AttachmentRegistry.create(BuildupMobTweaks.id("door_rebuild_display"),b->b.persistent(com.mojang.serialization.Codec.BOOL).syncWith(net.minecraft.network.codec.ByteBufCodecs.BOOL,AttachmentSyncPredicate.all()));
     public static final AttachmentType<Integer> DISPLAY_HALF=AttachmentRegistry.create(BuildupMobTweaks.id("door_rebuild_half"),b->b.initializer(()->0).syncWith(net.minecraft.network.codec.ByteBufCodecs.VAR_INT,AttachmentSyncPredicate.all()));

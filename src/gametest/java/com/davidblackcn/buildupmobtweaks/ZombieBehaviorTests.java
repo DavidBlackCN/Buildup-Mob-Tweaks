@@ -47,11 +47,12 @@ public class ZombieBehaviorTests {
     }
     @GameTest(structure=ARENA,maxTicks=85)
     public void doorMaterialReloadDisableAndDeathCleanActualDisplays(GameTestHelper h){
-        SkeletonBehaviorTests.floor(h,true);Zombie[] refs={mob(h,EntityTypes.ZOMBIE,8,8,2)};door(refs[0],"minecraft:iron_door");var t=target(h,10,2);
+        SkeletonBehaviorTests.floor(h,true);Zombie[] refs={mob(h,EntityTypes.ZOMBIE,8,8,2)};BlockDisplay[] stale={null};door(refs[0],"minecraft:iron_door");var t=target(h,10,2);
         h.runAtTickTime(10,()->{var m=refs[0];m.yBodyRot=0;t.snapTo(m.position().add(0,0,2),0,0);m.hurtServer(h.getLevel(),m.damageSources().mobAttack(t),10);
             h.assertTrue(m.getAttached(ZombieState.DATA).getFloatOr("door_health",0)>30,"Iron material loses less durability");
-            var display=ZombieState.runtime(m).displays.getFirst();var old=CombatTestWorld.reload(h,display);h.assertTrue(old.isRemoved(),"Saved transient display not resurrected");
+            var display=ZombieState.runtime(m).displays.getFirst();stale[0]=CombatTestWorld.reload(h,display);h.assertTrue(!Boolean.TRUE.equals(stale[0].getAttached(ZombieState.DISPLAY_LIVE)),"Saved transient display is not a live owned door");
             refs[0]=CombatTestWorld.reload(h,m);});
+        h.runAtTickTime(11,()->h.assertTrue(stale[0].isRemoved(),"Actual end-server-tick retires loaded transient display outside entity-section iteration"));
         h.runAtTickTime(25,()->{var m=refs[0];h.assertTrue(ZombieState.runtime(m).displays.size()==2,"Reload rebuilt exactly two displays");
             h.assertTrue(h.getLevel().getEntitiesOfClass(BlockDisplay.class,m.getBoundingBox().inflate(10)).size()==2,"No orphan or duplicate display");m.addTag("buildupmobtweaks:disable_zombie_door_guard");});
         h.runAtTickTime(40,()->{var m=refs[0];h.assertTrue(ZombieState.runtime(m).displays.isEmpty()&&m.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)<.5,"Independent disable removes displays and attribute");

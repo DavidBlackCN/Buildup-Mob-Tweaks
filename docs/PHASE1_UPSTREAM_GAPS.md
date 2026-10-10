@@ -1,5 +1,7 @@
 # 旧68项之外的上游特性缺口审计
 
+> 2026-10-10 E3规划补审：[总方案](R4E3_PLAN.md)。G34只在上游OP分支成立，不能当普通默认技能直接移植；如保留需单独批准Vanilla+预算。下文56支持数是E0历史时点，当前77支持/47未生效、v10、QA25不变。本轮未实现候选，E3验证均NOT RUN。
+
 > R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。
 
 > R4-E2-b历史完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
@@ -41,7 +43,7 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 | G31 火药物品/火箭坐骑/龟帽 | **EXCLUDE** / 不计门槛 | `FireworkRocketItemMixin`, `FireworkRocketEntityRendererMixin`, `FireworkRocketEntityRenderStateMixin`, `TridentItemMixin`, `EntityMixin`, `LivingEntityMixin`；独立物品使用/附魔/成长/奖励和硬帽伤害分支不恢复；同类中的其他生物钩子分开裁决 | NOT RUN |
 | G32 恶魂眼泪 | **EXCLUDE** / 不计门槛 | `GhastEntityMixin`；额外可收集材料生成，每60tick参考；与当前恶魂慢弹/前摇不同 | NOT RUN |
 | G33 骷髅幼体/错峰拉弓 | **ADAPT** / IN_PHASE1 / E3幼体/E4错峰 | `AbstractSkeletonEntityMixin`, `RangedBowAttackGoalMixin`, `RangedAttackGoalMixin`；旧ID未覆盖幼体出生、同类错峰射击；默认出生率与成长/装备/原生调度须明确，不双射 | NOT RUN |
-| G34 旋风人散弹 | **ADAPT** / IN_PHASE1 / E3小批 | `BreezeShootTaskMixin`；windChargeShotgun独立于现有起跳/落地爆发；只限定数量与Brain原射击阶段 | NOT RUN |
+| G34 旋风人散弹 | 批准候选**ADAPT** / IN_PHASE1 / E3-c-3；独立改造预算待裁决 | 两版`BreezeShootTaskMixin`额外两发**仅MOBS_ARE_OP分支**；Beta原弹±20°、总3发。不是普通默认技能；如保留须明确Vanilla+数量/冷却/击中预算及现有起跳/落地互斥，不恢复OP游戏规则；不接受改造则建议DEFER | NOT RUN |
 | G35 原版弩/投射物通用修复 | **ADAPT** / IN_PHASE1 / E4必要部分 | `CrossbowItemMixin`, `CrossbowPullPropertyMixin`, `IsUsingItemPropertyMixin`, `RangedCrossbowAttackGoalMixin`, `ProjectileEntityMixin`, `BodyControlMixin`；必须先验证26.3缺陷及现有适配是否覆盖，只保留精准必需项；其余枪械/附魔注入EXCLUDE | NOT RUN |
 | G36 其余共享钩子 | **DEFER** / Phase3单独必要性审批 | `GoalSelectorMixin`, `MobEntityMixin`, `DisplayEntityMixin`, `ItemHolderEntityRenderStateMixin`, `LivingEntityRenderStateMixin`, `LivingEntityRendererMixin`, `ChargeSpearGoalMixin`, `ChargeSpearTaskMixin`；全局Goal/通用数据/渲染辅助不是已迁移功能；已在68或现有模块使用的意图归相应条目；未选剩余不整体复活 | NOT RUN |
 | G37 全局OP/新附魔/专属奖励 | **EXCLUDE** / 不计门槛 | `MobAITweaks`, `MobEntityMixin`, `MeleeAttackGoalMixin`, `LivingEntityMixin`；crazyMobs/新附魔/注册药水或物品/奖励推进排除，不能借基础共享钩子夹带恢复 | NOT RUN |

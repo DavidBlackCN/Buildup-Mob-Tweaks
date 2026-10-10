@@ -42,7 +42,7 @@ public final class SkeletonState {
     public static final class Runtime {
         public boolean installed,managed;
         public String mode="vanilla";
-        public int swaps,shots,flips,dodges,snowballs,snowHits,shelters,repositions,exits,unseen;
+        public int swaps,shots,flips,dodges,snowballs,snowHits,shelters,repositions,exits,unseen,drawSwings,mushrooms,mushroomHits,mushroomClouds;
         public LivingEntity remembered;
         final List<Goal> attacks=new ArrayList<>();
         public final List<AreaEffectCloud> clouds=new ArrayList<>();

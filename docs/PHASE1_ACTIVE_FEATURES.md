@@ -1,6 +1,9 @@
-# 56项当前白名单：入口与测试缺口
+# Phase 1白名单入口与测试缺口（E0基线56项）
 
-> R4-E1-b当前限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
+> R4-E1-c当前限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
+
+
+> E1-b历史限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
 
 > E1-a历史限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
 
@@ -90,3 +93,12 @@
 | `zombified_piglin_anger_fix` | 原HurtByTargetGoal起步/TargetGoal继续/setTarget窄门及已加载怒气清理 | 原版同类群体复现、玩家保留、禁用/重启门L2 PASS；上游Beta仅有限对照 |
 
 当前完整证据见[R4E1B_REBUILD](R4E1B_REBUILD.md)，旧56项索引和E1-a历史结果不重写。
+
+## E1-c新增执行入口
+
+| ID | 执行入口 | 实际证据/缺口 |
+| --- | --- | --- |
+| `skeleton_offhand_visual` | SkeletonDrawMixin → SkeletonDifferences.draw；同步VISUAL/BOW_VISUAL → SkeletonRendererMixin | 真正左右主臂×主副手、原版Goal单独开启、单项关闭、实际客户端模型PASS；人眼/第三方组合NOT RUN |
+| `bogged_omen_mushrooms` | SkeletonSpecificGoals DODGE → release；Snowball.onHit → impact；BoggedCloudMixin.serverTick → affects；END_SERVER_TICK退役 | 真实两色碰撞云/伤害/亡灵盟友保护/保存退出PASS；Beta有限对照、正式版源码；完整L3 NOT RUN |
+
+实际FeatureRegistry现为66个支持ID。旧瞄准/雪球重复ID仍未生效，流浪者不祥雪球DEFER，见[R4E1C_REBUILD](R4E1C_REBUILD.md)。E0 JSON索引仍是旧56项定位快照。

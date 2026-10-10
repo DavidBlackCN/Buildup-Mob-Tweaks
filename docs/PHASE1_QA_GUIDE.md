@@ -95,3 +95,13 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 命令与短清单见[R4E1B_ACCEPTANCE_CHECKLIST](R4E1B_ACCEPTANCE_CHECKLIST.md)。前两场目标仍1000HP静止铁傀儡；anger例外为僵尸猪灵。每场使用spawn/check/inspect/off/cleanup，不改变全局出生概率。inspect增加实际Brain ATTACK_TARGET/ANGRY_AT、活动、姿势、shots/swings/dodges/cancels/保存冷却；ZP显示真实持久仇恨。anger保护后的无目标是预期，检查提示不能当失败。
 
 已有猪灵force/target必须是已知版本且空闲，不正在战斗/有ANGRY_AT；force只改出生结果，不发装备/退款冷却。target通过真实1点受伤输入让原版Brain获取目标，会实际扣血，cleanup不恢复血量或真实装备消耗；不用setTarget伪造Brain目标。QA新增三场在真实专服从独立qaJar加载，off/清理及地形恢复通过，已有9场回归；主副手原版客户端状态探针通过，肉眼仍待人工。
+
+## E1-c新增三场景（当前15场景）
+
+| 场景 | 确定性夹具 | 人工观察 |
+| --- | --- | --- |
+| `skeleton_draw` | 同一真实弓，默认屋顶；140tick移副手、280tick切左主臂、420tick移回主手 | 四种组合真实拉弓反手挥动/箭伤；off仅停止新增挥动，装备/箭仍正常 |
+| `bogged_omen` | 3格NoAI铁傀儡目标带TRIAL_OMEN，实际石剑，生成场初始special_ready=+40，原120冷却 | 现有孢子后撤阶段红/棕两枚蘑菇、紫色伤害云；普通目标没有新增蘑菇，off仍保留原孢子 |
+| `stray_flip` | 实际石剑以稳定满足现有无弓跃射，生成场初始+40，原120冷却 | 一次跃射三雪球；普通/不祥同链，旧ID不启动第二Goal；off为STRAY_JUMP_SHOT |
+
+新三场 `force` 只接入已有空闲生物的QA会话，不改birth/冷却/装备/目标效果；真实装备、距离、不祥目标和原技能门由操作者设置。生成场的+40初始夹具冷却不修改全局默认，也不能推断自然发生概率。inspect显示swings/flips/snow/dodges/mushrooms/mushroomHits/mushroomClouds/visual；check明确底层spore门/不祥效果/实际弓前提。cleanup只退役QA生成的自有弹体/云，恢复地形，不回滚消耗。新场和原12场的实际调度证据分列，见[R4E1C_REBUILD](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。

@@ -37,12 +37,14 @@ public class BuildupMobTweaks implements ModInitializer {
         com.davidblackcn.buildupmobtweaks.rebuild.remaining.RemainingState.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.skeleton.ExtendedSkeletonState.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.piglin.PiglinState.bootstrap();
+        com.davidblackcn.buildupmobtweaks.rebuild.skeleton.SkeletonDifferences.bootstrap();
 		DiagnosticCommands.register(features);
         // R2-A: legacy S2 services stay unregistered until individually rebuilt.
         EquipmentPools.register();
         EquipmentCommands.register();
         new com.davidblackcn.buildupmobtweaks.rebuild.pillager.PillagerBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.skeleton.SkeletonBehavior(features).register();
+        com.davidblackcn.buildupmobtweaks.rebuild.skeleton.SkeletonDifferences.register();
         new com.davidblackcn.buildupmobtweaks.rebuild.skeleton.ExtendedSkeletonBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.zombie.ZombieBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.drowned.DrownedBehavior(features).register();

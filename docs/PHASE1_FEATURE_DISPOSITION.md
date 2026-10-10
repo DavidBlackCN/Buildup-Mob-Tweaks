@@ -1,6 +1,11 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
-> R4-E1-b当前限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
+> R4-E1-c当前限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
+
+当前68项取舍计数为 PORT 1 / ADAPT 49 / REPLACE 5 / DEFER 9 / EXCLUDE 4；与下文保留的E0计数区别仅为流浪者不祥项来源纠正。这是取舍分类，不是当前生效ID计数。
+
+
+> E1-b历史限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
 
 > E1-a历史限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
 
@@ -19,17 +24,17 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `demo_common`：演示Marker不构成生物技能，后续配置说明弃用 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_common` 仅待实现；不改变现有模块出生概率；**NOT RUN** |
 | `demo_advanced`：演示Marker无正式执行能力，排除 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_advanced` 仅待实现；不伪称高级AI生效；**NOT RUN** |
 | `demo_rare`：演示Marker无正式执行能力，排除 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_rare` 仅待实现；不伪称稀有技能生效；**NOT RUN** |
-| `skeleton_aim_fix`：lookAtTarget意图由SkeletonGoals.Walk及Sniper原版控制承担，不重新注入旧BowGoal | UPSTREAM；`RangedBowAttackGoalMixin` | **REPLACE** / E1确认/R5说明 / 是（含替代说明） | 独立门 `disable_skeleton_aim_fix` 仅待实现；走射/高低目标/关闭组合；完整原版26.3二次修复必要性待查；**NOT RUN** |
-| `skeleton_offhand_visual`：副手拉弓挥手与同步姿势仍有独立视觉缺口 | UPSTREAM；`RangedBowAttackGoalMixin`, `SkeletonEntityModelMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_skeleton_offhand_visual` 仅待实现；左右惯用手/实际BowItem/client同步；不能复制箭；**NOT RUN** |
+| `skeleton_aim_fix`：lookAtTarget意图由SkeletonGoals.Walk及Sniper原版控制承担，不重新注入旧BowGoal | UPSTREAM；`RangedBowAttackGoalMixin` | **REPLACE** / E1-c确认/R5说明 / 是（含替代说明） | 旧ID保持未生效；已有看向/射箭链实际高位横移后再次命中，限定L2 **PASS**；第三方所有武器兼容 **NOT RUN** |
+| `skeleton_offhand_visual`：真实新拉弓时挥动实际用弓手的另一只手，由服务端同步门控制模型 | UPSTREAM；`RangedBowAttackGoalMixin`, `SkeletonEntityModelMixin` | **ADAPT** / E1-c / 是（含替代说明） | 独立门、四种主臂/用弓手、仅visual开启原版Goal及真实客户端模型 **PASS**；不复制箭；人眼验收 **NOT RUN** |
 | `skeleton_trap_variants`：陷阱坐骑与骑手变体仅在原版陷阱事件追加有限选择 | UPSTREAM；`SkeletonTrapMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_trap_variants` 仅待实现；原版队伍/生成为一次/骑乘递归保存；不额外材料；**NOT RUN** |
 | `skeleton_wither_conversion`：转为凋灵骷髅保留装备所有权，不原样套用上游转换 | UPSTREAM；`SkeletonEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_wither_conversion` 仅待实现；具体触发条件待批次核实；UUID/主副手/备用/冷却；**NOT RUN** |
 | `wither_skeleton_bow`：真实弓替代武器与出生条件分别实施，支持已有弓不意味着普遍发弓 | UPSTREAM；`WitherSkeletonEntityMixin` | **ADAPT** / E1行为/E2出生 / 是（含替代说明） | E1-a既有普通弓原版覆盖REPLACE+真实耐久ADAPT，主副手/近战/守恒L2 **PASS**；出生部分仍E2/**NOT RUN** |
 | `wither_skeleton_homing`：头颅追踪只对合法既有目标、有期限与半径预算；不复制OP分支 | UPSTREAM；`SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a原生弹体/移动不祥目标实际弯曲命中、固定归属/退出/独立关闭L2 **PASS**；人工/完整L3 **NOT RUN** |
 | `wither_skeleton_skull`：保留有限特殊头颅攻击与前摇/冷却，不复制原版Boss状态机 | UPSTREAM；`WitherSkeletonEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a30tick前摇/一枚/400冷却/100寿命；真实伤害、保护、预算、关闭/保存L2 **PASS**；人工/完整L3 **NOT RUN** |
 | `parched_dodge`：还原焦骸旋转位移；不照搬已发现旋转及速度Bug | UPSTREAM；`ParchedEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a20tick预警/10tick旋转位移/120冷却；实际Tick/退出及客户端状态L2 **PASS**；肉眼/完整L3 **NOT RUN** |
-| `bogged_omen_mushrooms`：旧S2额外蘑菇投射物与已有孢子撤退不同；仅补上游已核实的不祥目标分支 | UPSTREAM；`SkeletonSpecificGoal`, `BoggedEntityMixin` | **ADAPT** / E1差异子项 / 是（含替代说明） | 独立门 `disable_bogged_omen_mushrooms` 仅待实现；与BOGGED_SPORE_RETREAT同阶段互斥，禁止双生成；效果实体预算；**NOT RUN** |
-| `stray_omen_snow`：不祥目标雪球差异独立于已有跃射；接在同一雪球链 | UPSTREAM；`SkeletonSpecificGoal`, `StrayEntityMixin` | **ADAPT** / E1差异子项 / 是（含替代说明） | 独立门 `disable_stray_omen_snow` 仅待实现；不创建第二攻击Goal；速度/效果/目标退出；**NOT RUN** |
-| `stray_snow_barrage`：已有STRAY_JUMP_SHOT承担起跳与三雪球；旧独立稀有连发不得双重运行 | UPSTREAM；`SkeletonSpecificGoal`, `StrayEntityMixin` | **REPLACE** / E1确认/R5说明 / 是（含替代说明） | 独立门 `disable_stray_snow_barrage` 仅待实现；检查不祥差异另属stray_omen_snow；既有L2不升级为完整L3；**NOT RUN** |
+| `bogged_omen_mushrooms`：已有孢子后撤内补上游已核实的不祥目标双蘑菇分支 | UPSTREAM；`SkeletonSpecificGoal`, `BoggedEntityMixin` | **ADAPT** / E1-c / 是（含替代说明） | 独立门与底层孢子门、真实碰撞/伤害云、两球两云预算、目标退出及保存清理，L2 **PASS**；Beta有限对照 **PASS**，完整L3及人工 **NOT RUN** |
+| `stray_omen_snow`：旧S2渐加速雪球；E1-c纠正E0误判，上游FLIP无ominous分支 | **LEGACY_ONLY**；旧SkeletonExtras snow_omen；两版上游仅Bogged有ominous分支，Stray缓慢属OP | **DEFER** / Phase2独立平衡设计 / 否 | ID仍未生效；同一跃射雪球链普通/不祥无额外速度差异，实际REPLACE回归PASS；新自创玩法NOT RUN |
+| `stray_snow_barrage`：已有STRAY_JUMP_SHOT承担起跳与三雪球；不双重运行 | UPSTREAM；两版SkeletonSpecificGoal FLIP | **REPLACE** / E1-c已核验 / 是（替代说明） | 旧ID保持未生效；真实一次跃射三雪球，普通/不祥同链PASS；统一由disable_stray_jump_shot控制；无独立不祥分支 |
 | `zombified_piglin_anger_fix`：复现原版同类伤害/同伴仇恨后窄修，保留受伤和玩家警戒 | UPSTREAM + LEGACY_ONLY；`ZombifiedPiglinEntityMixin`的HurtByTargetGoal忽略同类。纠正E0“只提供弩”误分类，历史JSON不改 | **ADAPT** / E1-b / 是 | 原Goal不替换；禁用/重新启用缓存目标、实际群体与玩家、创造/旁观L2 **PASS**；Beta有限对照，完整L3/人工 **NOT RUN** |
 | `piglin_shot_swing`：真实弩发射后挥实际手，按26.3 swingForAttack适配 | UPSTREAM；`PiglinEntityMixin` | **PORT**（当前API适配） / E1-b / 是 | native Brain真正主副手射击、空射不计、独立关闭；客户端28/28挥手样本 **PASS**；人工/完整L3 **NOT RUN** |
 | `piglin_item_dodge`：近距蓄弩后跳，不是掉落物闪避 | UPSTREAM；`PiglinEntityMixin`；旧S2语义偏差 | **ADAPT** / E1-b / 是 | 成人出生一次7%、200冷却、10动作窗口、合法地面一次冲量；真实位移/危险回退、门控/保存L2 **PASS**；自然刷怪器/人工/完整L3 **NOT RUN** |
@@ -98,3 +103,7 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 旧 `EquipmentService.initialize` 编译入基础设施但**未register**；实体出生附件→来源检查→装备gate→首规则→空槽→assignmentChance→真实单Stack→原dropChance的链当前未触发。仅把ID加白名单或只register并不能解决跨模块顺序：Skeleton先生成备用剑、Pillager容器发补给、门盾出生互斥及原版finalizeSpawn装备必须优先明确。Service来源范围还包括COMMAND/刷怪笼等，不能凭旧代码视为产品已批准。
 
 E2方案：先扩展受支持原版实体与必要组件受控Codec（若改v1格式须单列Migration Plan）；定义finalizeSpawn后一次空槽分配与rebuild安装顺序，NATURAL/SPAWN_ITEM_USE/SPAWNER/COMMAND/CONVERSION/LOAD/DIMENSION_TRAVEL分别决策；附件记录单次尝试/来源/池/物品，未知版本不写/不补发；应用装备后让真实Goal/Brain发现武器，不复制虚拟库存；保存实际Stack和组件，死亡沿原版规则结算，来源标记区分工具/物品。随后实现职业竿/弩/药水。QA固定装备不提供自然池概率证据；默认样本须预先确定N/容差、真实生成方式及配置快照。
+
+## E1-c现行覆盖与来源纠正
+
+`skeleton_offhand_visual`、`bogged_omen_mushrooms`两项ADAPT已接入；两个旧重复ID `skeleton_aim_fix`、`stray_snow_barrage`通过已有原版看向/STRAY_JUMP_SHOT链REPLACE，不开启旧ID。`stray_omen_snow`改为LEGACY_ONLY/Phase2 DEFER：E0误把上游OP流浪者效果当不祥，实际两版唯独Bogged有该不祥分支。E0原始JSON/证据保持历史快照，当前取舍以上述纠正行和[R4E1C_REBUILD](R4E1C_REBUILD.md)为准。当前66/58、QA15；新功能受控L2和客户端/有限Beta对照与完整L3/人工验收分开。

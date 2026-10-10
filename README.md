@@ -2,7 +2,7 @@
 
 正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
 
-Phase 1当前交付为[R4-E0](docs/R4E0_REPORT.md)：[68项取舍](docs/PHASE1_FEATURE_DISPOSITION.md)、[上游缺口](docs/PHASE1_UPSTREAM_GAPS.md)、[独立QA工具](docs/PHASE1_QA_GUIDE.md)和[下一批名单](docs/PHASE1_IMPLEMENTATION_PLAN.md)。生产白名单仍为56项；独立开发QA包只在测试实例安装。
+Phase 1当前交付为[R4-E1-c](docs/R4E1C_REBUILD.md)：实际拉弓反手挥动、同阶段不祥沼骸蘑菇；既有瞄准/流浪者三雪球替代旧重复ID，旧流浪者不祥渐加速未恢复。当前66支持/58未生效；[独立QA15场景](docs/PHASE1_QA_GUIDE.md)只在测试实例安装。实机清单见[验收](docs/R4E1C_ACCEPTANCE_CHECKLIST.md)，下一批E2-a未实施。
 
 Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 

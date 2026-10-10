@@ -62,7 +62,8 @@ public final class SkeletonSpecificGoals extends Goal {
             cloud.setAttached(CLOUD,true);cloud.setAttached(CLOUD_LIVE,true);
             cloud.setRadius(.4f);cloud.setRadiusPerTick(.1f);cloud.setRadiusOnUse(.1f);cloud.setCustomParticle(ParticleTypes.CRIMSON_SPORE);
             cloud.setPotionContents(new PotionContents(Optional.empty(),Optional.empty(),List.of(new MobEffectInstance(MobEffects.POISON,200)),Optional.empty()));
-            level.addFreshEntity(cloud);rt.clouds.add(cloud);mob.push(impulse.x,.2,impulse.z);remaining=10;access.buildup$special(distance>6?-10:10);rt.dodges++;
+            level.addFreshEntity(cloud);rt.clouds.add(cloud);SkeletonDifferences.release(mob,target);
+            mob.push(impulse.x,.2,impulse.z);remaining=10;access.buildup$special(distance>6?-10:10);rt.dodges++;
         }
         mob.getAttached(SkeletonState.DATA).putLong("special_ready",level.getGameTime()+120);
     }

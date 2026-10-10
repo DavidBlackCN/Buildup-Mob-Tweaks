@@ -14,8 +14,9 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
 @Mixin(AbstractSkeletonRenderer.class)
 public abstract class SkeletonRendererMixin {
-    private static boolean rebuiltBow(AbstractSkeleton m){return SkeletonBehavior.supported(m)&&BuildupMobTweaks.config().general.enabled.get()
-            &&BuildupMobTweaks.config().hostile.skeleton.bowCompatibility.get()&&m.isUsingItem()&&m.getUseItem().getItem() instanceof BowItem;}
+    private static boolean rebuiltBow(AbstractSkeleton m){return SkeletonBehavior.supported(m)
+            &&(m.getAttachedOrCreate(SkeletonDifferences.BOW_VISUAL)||m.getAttachedOrCreate(SkeletonDifferences.VISUAL))
+            &&m.isUsingItem()&&m.getUseItem().getItem() instanceof BowItem;}
     @Inject(method="extractRenderState(Lnet/minecraft/world/entity/monster/skeleton/AbstractSkeleton;Lnet/minecraft/client/renderer/entity/state/SkeletonRenderState;F)V",at=@At("TAIL"))
     private void buildup$state(AbstractSkeleton mob,SkeletonRenderState state,float partial,CallbackInfo ci){
         int kind=mob.getType()==EntityTypes.STRAY?1:mob.getType()==EntityTypes.BOGGED?2:mob.getType()==EntityTypes.PARCHED?3:0;

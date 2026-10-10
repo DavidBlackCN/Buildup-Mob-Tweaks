@@ -1,6 +1,9 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
-> R4-E1-b当前限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
+> R4-E1-c当前限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
+
+
+> E1-b历史限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
 
 > R4-E1-a已按逐批批准实施，见[方案](R4E1A_MIGRATION_PLAN.md)/[结果](R4E1A_REBUILD.md)。下一批建议E1-b四项猪灵/僵尸猪灵，仍待批准；下列E0冻结名单保留，不表示后续已授权。
 
@@ -19,7 +22,7 @@
 | 子批 | 明确名单 | 要求 |
 | --- | --- | --- |
 | E1-b 猪灵基础 | `piglin_shot_swing`、`piglin_item_dodge`（改正名称说明：近距用弩后跳）、`piglin_crossbow_compatibility`、`zombified_piglin_anger_fix` | 真实Piglin Brain/原仇恨，物品丢弃/主副手、近距躲避与关闭；仇恨修复先复现26.3缺陷，不凭旧代码判断Bug |
-| E1-c 骷髅差异 | `skeleton_offhand_visual`、`stray_omen_snow`、`bogged_omen_mushrooms`；`skeleton_aim_fix`、`stray_snow_barrage`按REPLACE核验 | 共用现有跃射/孢子阶段，只补不祥目标独立差异，禁止双启动；实际客户端左右手/保存门控与原功能回归 |
+| E1-c 骷髅差异（本批已实施） | `skeleton_offhand_visual`、`bogged_omen_mushrooms`两项；`skeleton_aim_fix`、`stray_snow_barrage`已有链REPLACE；`stray_omen_snow`纠正来源后DEFER | 复用原版拉弓/已有孢子阶段，无新Goal；真实客户端四手臂组合/门盾及生命周期回归。流浪者上游无不祥分支，不编造特性 |
 
 ## R4-E2：先装备闭环，后职业及袭击
 
@@ -52,3 +55,15 @@ E4-a感知：`sense_glowing`、`sense_blindness`、`sense_nausea`、`sense_invis
 E1-b已获明确批准并完成四项实现、24项新真实调度测试（全178）、独立QA三场景、专服/客户端探针及有限上游对照，见[R4E1B_REBUILD](R4E1B_REBUILD.md)。本批停止，尚未收到E1-c实施批准。
 
 下一建议E1-c：先核对26.3原版Skeleton模型/实际使用手和现有SkeletonGoals；编写具体Migration Plan。`skeleton_offhand_visual`只补真实左右手视觉；`stray_omen_snow`复用已有跃射雪球链，只补不祥目标差异；`bogged_omen_mushrooms`复用已有孢子阶段，防双弹体。`skeleton_aim_fix`、`stray_snow_barrage`按REPLACE核验并说明旧ID归宿，不能只加白名单。新真实Tick/原阶段仲裁测试、独立门控/保存退出、左右手客户端以及原门盾/生成剑回归必须随批验证；不祥效果/次数数值待源码和具体方案冻结。E2装备/出生发弩仍未实施。
+
+## E1-c批末与下一批具体任务
+
+本轮用户授权方案确认后直接实施，方案见[R4E1C_MIGRATION_PLAN](R4E1C_MIGRATION_PLAN.md)，交付及停止点见[R4E1C_REBUILD](R4E1C_REBUILD.md)。上文“E1-c待批准”的叙述仅E1-b历史时点，不再作为现行状态。
+
+下一批仅建议 **E2-a**，本轮未实施：
+
+1. 核对现有EquipmentPools与上游finalizeSpawn顺序；冻结equipment_assignment支持实体/规则/池、真实来源、空槽与NBT格式，不覆盖原版/外部装备，不在load/转换重复发放。
+2. 完成 `wither_skeleton_bow` 出生装备部分（已有弓行为已在E1-a完成），以及 `zombified_piglin_spawn_crossbow` 成人出生装备；明确与下一E2-b用弩行为的边界，不因发弩偷偷接入AI。
+3. `traits`按现有模块birth附件REPLACE，保持持久选择；不恢复S2 Marker抽签。新增独立QA验装备来源/组件/掉落/无空槽/重启转换与抽样，真实Server Tick及既有技能回归。
+
+先出具体Environment/Migration Plan并核对API；沿用户授权的批次边界推进，不以本批完成自动启动下一批。E2-b职业、E2-c袭击、E3/E4/Boss/R5未进入。

@@ -1,5 +1,12 @@
 # Phase 1 确定性 QA 使用说明
 
+## E3-b 当前九场景（总44场景）
+
+独立 QA JAR 的 `/buildupqa e3b spawn <scene>` / `check` / `off` / `cleanup`，场景为 ink、gaze、chicken_escape、group_panic、pet_recovery、cat_dodge、horn、trader_defense、sniffer。完整输入与人工判定见 [整b清单](R4E3B_ACCEPTANCE_CHECKLIST.md)。安装正式JAR和独立QA JAR；正式包不包含工具。三套工具共用每服务器一会话、权限4、1200刻到期；加载的25×25×7空场租用地形恢复，仅在专用测试世界使用。
+
+固定真实输入/触发时间，不手工调用Goal、技能或entity.tick，不改全局概率/配置；原生随机路径不承诺每坐标一致。E3-b允许功能关闭时建立普通夹具观察回退，旧工具“拒绝关闭技能”的规则只适用于对应旧场景。`off` 添加实体vanilla_ai标签，不撤销原版药效/伤害。宠物需真实在线主人，gaze需面对、horn需生存玩家真正吹角，sniffer需成年/潜行生存玩家持白名单物品；控制台运行不能代替这些真人输入。清理只处理自身记录实体/弹与借用方块，不承诺清理任意外来死亡掉落；不要在共享正常存档运行。
+
+
 ## E3-a 独立场景补充
 
 原25场景及原命令不变；新增10场景通过 `/buildupqa e3 spawn <scene>`、`check`、`off`、`cleanup` 操作，完整路径见 [E3-a人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。场景名为 relation_zombie、relation_villager、golem_misfire、chicken、boat、camel、horse、trap、conversion、rider。使用25×25×7已加载空空气场，中心仍固定Z+8；地板/屋顶恢复，仅清理本会话及对应转换/陷阱事件后代和rider原生箭，60秒自动结束。两套工具互斥，每台服务器仍只允许一个会话，要求owner权限4。

@@ -16,6 +16,15 @@ public final class FeatureRegistry {
     public FeatureRegistry(BuildupConfig config) {
         this.config = config;
         var gates = new java.util.EnumMap<FeatureId, Declaration>(FeatureId.class);
+        add(gates, FeatureId.SQUID_INK_DEFENSE, () -> config.passive.squid_ink_defense.get());
+        add(gates, FeatureId.GLOW_SQUID_GAZE, () -> config.passive.glow_squid_gaze.get());
+        add(gates, FeatureId.CHICKEN_THREAT_ESCAPE, () -> config.passive.chicken_threat_escape.get());
+        add(gates, FeatureId.ANIMAL_GROUP_PANIC, () -> config.passive.animal_group_panic.get());
+        add(gates, FeatureId.TAMEABLE_RECOVERY, () -> config.passive.tameable_recovery.get());
+        add(gates, FeatureId.CAT_PROJECTILE_DODGE, () -> config.passive.cat_projectile_dodge.get());
+        add(gates, FeatureId.GOAT_HORN_AGGRO, () -> config.passive.goat_horn_aggro.get());
+        add(gates, FeatureId.TRADER_SELF_DEFENSE, () -> config.passive.trader_self_defense.get());
+        add(gates, FeatureId.SNIFFER_SEARCH, () -> config.passive.sniffer_search.get());
         add(gates, FeatureId.DIAGNOSTIC_PROBE, () -> config.general.diagnosticProbe.get());
         add(gates, FeatureId.EQUIPMENT_ASSIGNMENT, () -> config.equipment.poolAssignment.get());
         add(gates, FeatureId.TRAITS, () -> config.traits.enabled.get());
@@ -165,7 +174,8 @@ public final class FeatureRegistry {
     public static boolean supported(FeatureId id) {
         return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_")
                 || switch(id) {
-                    case RIDER_FRIENDLY_FIRE, GOLEM_FRIENDLY_FIRE_FIX, ILLAGER_ZOMBIE_CONFLICT, ILLAGER_ZOMBIE_VILLAGER, CHICKEN_JOCKEY_CHARGE, HOSTILE_ESCAPE_SEAT,
+                    case SQUID_INK_DEFENSE, GLOW_SQUID_GAZE, CHICKEN_THREAT_ESCAPE, ANIMAL_GROUP_PANIC, TAMEABLE_RECOVERY, CAT_PROJECTILE_DODGE, GOAT_HORN_AGGRO, TRADER_SELF_DEFENSE, SNIFFER_SEARCH,
+                         RIDER_FRIENDLY_FIRE, GOLEM_FRIENDLY_FIRE_FIX, ILLAGER_ZOMBIE_CONFLICT, ILLAGER_ZOMBIE_VILLAGER, CHICKEN_JOCKEY_CHARGE, HOSTILE_ESCAPE_SEAT,
                          HUSK_CAMEL_CIRCLE, SKELETON_HORSE_CHARGE, SKELETON_TRAP_VARIANTS, SKELETON_WITHER_CONVERSION,
                          ILLUSIONER_SWAP, ILLUSIONER_SHOOT_PAUSE, ILLUSIONER_CLONE_ARROWS, VINDICATOR_SUPPORT,
                          DROWNED_FISHING_PULL, ZOMBIE_FISHERMAN_ROD, ZOMBIE_CLERIC_POTIONS, ZOMBIE_FLETCHER_CROSSBOW, ZOMBIFIED_PIGLIN_CROSSBOW,

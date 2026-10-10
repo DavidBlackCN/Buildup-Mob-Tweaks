@@ -64,3 +64,5 @@
 - 🐛 fix(golem): suppress native iron and snow golem friendly retaliation while preserving damage and player revenge
 
 - 🐛 fix(riding): protect only the current riding tree from an active mob shooter’s arrows and tridents
+
+- ✨ feat(ecology): 新增有限范围墨汁与注视、鸡避让和群体惊慌、有主宠物恢复、猫真实避弹、山羊角引敌、商人自卫与仅查询已加载区域的嗅探兽探索；提供九个独立开关并保留原版伤害和装备。

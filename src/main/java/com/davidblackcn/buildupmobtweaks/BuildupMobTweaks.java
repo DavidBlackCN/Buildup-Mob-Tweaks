@@ -61,6 +61,7 @@ public class BuildupMobTweaks implements ModInitializer {
         new com.davidblackcn.buildupmobtweaks.rebuild.illusion.IllusionBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.relations.RelationBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.riding.RidingBehavior(features).register();
+        new com.davidblackcn.buildupmobtweaks.rebuild.ecology.EcologyBehavior(features).register();
         LOGGER.info("Buildup Mob Tweaks initialized: R3/R4-A/B/C/D behavior rebuild.");
 	}
 

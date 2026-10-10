@@ -4,6 +4,16 @@ import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
 import net.minecraft.resources.Identifier;
 
 public enum FeatureId {
+    SQUID_INK_DEFENSE("squid_ink_defense"),
+    GLOW_SQUID_GAZE("glow_squid_gaze"),
+    CHICKEN_THREAT_ESCAPE("chicken_threat_escape"),
+    ANIMAL_GROUP_PANIC("animal_group_panic"),
+    TAMEABLE_RECOVERY("tameable_recovery"),
+    CAT_PROJECTILE_DODGE("cat_projectile_dodge"),
+    GOAT_HORN_AGGRO("goat_horn_aggro"),
+    TRADER_SELF_DEFENSE("trader_self_defense"),
+    SNIFFER_SEARCH("sniffer_search"),
+
     PILLAGER_TARGET_LIFECYCLE("pillager_target_lifecycle"),
     PILLAGER_SPAWN_SUPPLIES("pillager_spawn_supplies"),
     SKELETON_AIM_FIX("skeleton_aim_fix"),

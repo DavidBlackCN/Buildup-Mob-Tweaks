@@ -1,5 +1,7 @@
 # 旧68项之外的上游特性缺口审计
 
+> 2026-10-10 **R4-E3-b-1/2/3/4 整组开发完成，等待人工验收**：[工作报告](R4E3B_REBUILD.md) / [统一人工清单](R4E3B_ACCEPTANCE_CHECKLIST.md)。新增九项 ADAPT，当前 **133 声明、96 支持/37 未生效、配置 v11、独立 QA 44 场景**；最终 Wrapper build/qaJar 与 **397 项必需真实调度测试（47 新增）PASS**。普通专服/冷重启、实际客户端与上游仅在报告列明范围内限定 PASS；人工、完整两版 L3、多人/整合包、自然分布和长期性能 NOT RUN。旧 68 项取舍仍 PORT1/ADAPT47/REPLACE6/DEFER10/EXCLUDE4；G04 由 PORT 精化为 ADAPT 不计入旧68。以下旧计数、BLOCKED、待批准与停止点均为各批历史时点，最新状态以本段为准。整 b 提交后停止，不进入 E3-c/E4/Boss/R5/Phase2/3，不推送发布。
+
 E3-a补审：`rider_friendly_fire` 从上游来源改为 **LEGACY_ONLY**，两版恢复 PersistentProjectileEntityMixin 均无当前骑乘树过滤；是否作为Buildup安全修正保留仍待产品裁决。`undead_horse_sunburn` 已明确 Phase2 DEFER。目标26.3原生SpearUseGoal的坐骑速度/真实武器已实测覆盖尸壳矛，按REPLACE处理，旧ID仍不生效。傀儡雪球误击报复已实际复现并窄修，不再停留于静态推测。这些来源纠正不新增生态功能，不改变其他G候选门槛。
 
 > 2026-10-10 E3-a完整开发范围现已覆盖：[工作报告](R4E3A_REBUILD.md) / [骑乘安全补充](R4E3A_RIDER_ADDENDUM.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。用户已明确批准rider_friendly_fire作为LEGACY_ONLY来源的Buildup窄安全修正；前批产品裁决阻塞解除，十项接入、尸壳矛原版REPLACE、亡灵马日烧已批准Phase2 DEFER。当前124声明、87支持/37未生效、配置v10、独立QA35场景。下文旧计数、BLOCKED和仅规划语句为历史时点；现在停止等待整a人工验收，人工/完整L3/默认自然分布/多人性能NOT RUN。没有进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
@@ -16,20 +18,20 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 
 | 候选 | 决策 / 范围 | 真实证据类与玩家表现、主动限制 | 当前验证 |
 | --- | --- | --- | --- |
-| G01 嗅探兽探索 | **ADAPT** / IN_PHASE1 / E3 | `SnifferEntityMixin`；潜行持物找生物群系/地下方块并指向；上游同步findClosestBiome3d半径6400与33×65×33扫描必须限时预算、Tag白名单和取消机制 | NOT RUN |
-| G02 鱿鱼墨汁 | **ADAPT** / IN_PHASE1 / E3 | `SquidEntityMixin`；直接攻击者失明/荧光和附近范围递减；上游范围分支缺开关一致性需修；100tick半径8只参考 | NOT RUN |
-| G03 荧光鱿鱼注视 | **ADAPT** / IN_PHASE1 / E3 | `SquidEntityMixin`；每60tick注视判定给夜视600tick；需要距离/LOS/冷却/服务端权威而非无限距离玩家扫描 | NOT RUN |
-| G04 鸡逃离威胁 | **PORT** / IN_PHASE1 / E3 | `ChickenEntityMixin`；原版AvoidEntityGoal玩家8格优先5、Monster6格优先6，速度.8/1.2；喂食优先/禁用要另测 | NOT RUN |
+| G01 嗅探兽探索 | **ADAPT** / IN_PHASE1 / E3 | `SnifferEntityMixin`；潜行持物找生物群系/地下方块并指向；上游同步findClosestBiome3d半径6400与33×65×33扫描必须限时预算、Tag白名单和取消机制 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
+| G02 鱿鱼墨汁 | **ADAPT** / IN_PHASE1 / E3 | `SquidEntityMixin`；直接攻击者失明/荧光和附近范围递减；上游范围分支缺开关一致性需修；100tick半径8只参考 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
+| G03 荧光鱿鱼注视 | **ADAPT** / IN_PHASE1 / E3 | `SquidEntityMixin`；每60tick注视判定给夜视600tick；需要距离/LOS/冷却/服务端权威而非无限距离玩家扫描 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
+| G04 鸡逃离威胁 | **ADAPT** / IN_PHASE1 / E3 | `ChickenEntityMixin`；原版AvoidEntityGoal玩家8格优先5、Monster6格优先6，速度.8/1.2；喂食优先/禁用要另测 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G05 鸡掉羽毛 | **DEFER** / Phase3生态平衡 | `LivingEntityMixin`；额外周期资源生成/50chance，首发不做；并非鸡逃跑附带奖励 | NOT RUN |
-| G06 动物群体惊慌 | **ADAPT** / IN_PHASE1 / E3 | `EscapeDangerGoalMixin`；16格传播惊慌，次数/集合大小限额、仅明确原生动物；不永久覆盖Brain | NOT RUN |
+| G06 动物群体惊慌 | **ADAPT** / IN_PHASE1 / E3 | `EscapeDangerGoalMixin`；16格传播惊慌，次数/集合大小限额、仅明确原生动物；不永久覆盖Brain | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G07 潜行接近动物 | **ADAPT** / IN_PHASE1 / E4 | `FleeEntityGoalMixin`；sneak_to_approach_animals减少AvoidEntityGoal逃离，限动物不改已有敌对避让 | NOT RUN |
-| G08 宠物低侵入恢复 | **ADAPT** / IN_PHASE1 / E3 | `LivingEntityMixin`；有主人且不在排除Tag才每20tick恢复1；需冷却/伤害后等待及存档，不能无条件超速恢复 | NOT RUN |
+| G08 宠物低侵入恢复 | **ADAPT** / IN_PHASE1 / E3 | `LivingEntityMixin`；有主人且不在排除Tag才每20tick恢复1；需冷却/伤害后等待及存档，不能无条件超速恢复 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G09 飞行主人宠物传送 | **DEFER** / Phase3宠物专项 | `TameableEntityMixin`；追随飞行主人涉及落点/维度/卸载；首发不接管 | NOT RUN |
 | G10 鹦鹉伴飞 | **DEFER** / Phase3宠物专项 | `ParrotEntityMixin`；飞行Goal/飞行跟随不是基础Bug，需专用多人/肩膀生命周期 | NOT RUN |
-| G11 猫避弹 | **ADAPT** / IN_PHASE1 / E3 | `CatEntityMixin`；避真实投射物，保留伤害与主人/坐下状态；不复制上游闪避无敌 | NOT RUN |
+| G11 猫避弹 | **ADAPT** / IN_PHASE1 / E3 | `CatEntityMixin`；避真实投射物，保留伤害与主人/坐下状态；不复制上游闪避无敌 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G12 动物刷毛 | **EXCLUDE** / 不计门槛 | `BrushItemMixin`；刷毛新增羽毛/线/鳞甲/骨粉奖励链和工具消耗，当前禁止恢复独立物品玩法 | NOT RUN |
 | G13 动物紫颂果 | **DEFER** / Phase3交互 | `AnimalEntityMixin`；喂食传送需领地/落点/主人授权，不纳首发 | NOT RUN |
-| G14 山羊角引仇恨 | **ADAPT** / IN_PHASE1 / E3 | `MobAITweaks`；正在使用INSTRUMENT物品时吸引敌对；原版物品只加限定范围/目标有效性，绝不全维度扫描 | NOT RUN |
+| G14 山羊角引仇恨 | **ADAPT** / IN_PHASE1 / E3 | `MobAITweaks`；正在使用INSTRUMENT物品时吸引敌对；原版物品只加限定范围/目标有效性，绝不全维度扫描 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G15 炽足兽临时骑乘 | **DEFER** / Phase3骑乘专项 | `StriderEntityMixin`；无鞍喂食临时控制后强制下马，暂缓玩家骑乘安全与工具兼容 | NOT RUN |
 | G16 雪傀儡重做 | **ADAPT** / IN_PHASE1 / E3小批 | `SnowGolemEntityMixin`, `SnowGolemEntityModelMixin`；南瓜归还/防御/精度/真实投球动画分独立项；不把铁傀儡友伤修复当整组已实现 | NOT RUN |
 | G17 铁傀儡特殊反击/镐弱点 | **DEFER** / Phase2中立战斗规则 | `IronGolemEntityMixin`；独立于68中的同族友伤；desperation攻击/镐额外伤害需规则与平衡 | NOT RUN |
@@ -38,7 +40,7 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 | G20 幻翼重做/不祥Boss | **DEFER** / Phase3复杂幻翼 | `PhantomEntityMixin`, `PhantomMoveControlMixin`, `PhantomEntityModelMixin`, `PhantomEntityRendererMixin`, `PhantomEyesFeatureRendererMixin`；失眠/尺寸/中立变敌对/Spawner行为和100HP Boss是独立玩法，未获本Phase1Boss清单批准 | NOT RUN |
 | G21 潜影贝养殖/染色/丝触 | **EXCLUDE** / 不计门槛 | `ShulkerEntityMixin`, `LivingEntityMixin`；繁殖/掉物与丝触收集是资源奖励链，不以生物AI复原名义恢复 | NOT RUN |
 | G22 潜影弹变种/追踪 | **DEFER** / Phase3末地控制者确定 | `ShulkerBulletEntityMixin`, `ShulkerBulletEntityRendererMixin`, `ShulkerBulletRenderStateMixin`；额外药效/追踪/染色与末地整合方案有关，首发暂缓 | NOT RUN |
-| G23 流浪商人自卫 | **ADAPT** / IN_PHASE1 / E3 | `WanderingTraderEntityMixin`；受攻击时失明反馈；短窗口/目标有效性/药水物品使用不得无限生成 | NOT RUN |
+| G23 流浪商人自卫 | **ADAPT** / IN_PHASE1 / E3 | `WanderingTraderEntityMixin`；受攻击时失明反馈；短窗口/目标有效性/药水物品使用不得无限生成 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G24 村民饮食/特殊职业 | **DEFER** / Phase3村民智能 | `VillagerEntityMixin`, `VillagerHeldItemFeatureRendererMixin`；完整职业与生活生态不在Phase1；职业僵尸与此不同 | NOT RUN |
 | G25 监守者钟声/血条 | **ADAPT** / Boss独立审批 | `WardenEntityMixin`, `WardenSonicBoomTask`；基础声学交互与保存晕眩/血条，仅审计候选；不立即修改AI | NOT RUN |
 | G26 凋灵基础模块 | **ADAPT** / Boss独立审批 | `WitherEntityMixin`, `WitherSkullEntityMixin`, `WitherEntityRendererMixin`, `WitherEntityModelMixin`, `WitherEntityRenderStateMixin`；分阶段/冲刺/特殊弹参考，禁用专属下界合金奖励；控制权与破坏预算需用户另批 | NOT RUN |

@@ -1,5 +1,7 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
+> 2026-10-10 **R4-E3-b-1/2/3/4 整组开发完成，等待人工验收**：[工作报告](R4E3B_REBUILD.md) / [统一人工清单](R4E3B_ACCEPTANCE_CHECKLIST.md)。新增九项 ADAPT，当前 **133 声明、96 支持/37 未生效、配置 v11、独立 QA 44 场景**；最终 Wrapper build/qaJar 与 **397 项必需真实调度测试（47 新增）PASS**。普通专服/冷重启、实际客户端与上游仅在报告列明范围内限定 PASS；人工、完整两版 L3、多人/整合包、自然分布和长期性能 NOT RUN。旧 68 项取舍仍 PORT1/ADAPT47/REPLACE6/DEFER10/EXCLUDE4；G04 由 PORT 精化为 ADAPT 不计入旧68。以下旧计数、BLOCKED、待批准与停止点均为各批历史时点，最新状态以本段为准。整 b 提交后停止，不进入 E3-c/E4/Boss/R5/Phase2/3，不推送发布。
+
 E3-a用户已授权完整a组连续制作，九项实施和原生矛REPLACE见[R4E3A_REBUILD](R4E3A_REBUILD.md)。现唯一开发裁决门为骑乘过滤保留/暂缓；亡灵马日烧不再阻塞a，已批准Phase2 DEFER。该裁决答复前不新增过滤，完整a状态BLOCKED。先处理裁决及统一人工清单；E3-b/c、E4/Boss未获本批实施授权，不自动推进。68项取舍现PORT1/ADAPT47/REPLACE6/DEFER10/EXCLUDE4（含待裁决rider的历史ADAPT占位），最终更改该项分类需明确记录。
 
 > 2026-10-10 E3-a完整开发范围现已覆盖：[工作报告](R4E3A_REBUILD.md) / [骑乘安全补充](R4E3A_RIDER_ADDENDUM.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。用户已明确批准rider_friendly_fire作为LEGACY_ONLY来源的Buildup窄安全修正；前批产品裁决阻塞解除，十项接入、尸壳矛原版REPLACE、亡灵马日烧已批准Phase2 DEFER。当前124声明、87支持/37未生效、配置v10、独立QA35场景。下文旧计数、BLOCKED和仅规划语句为历史时点；现在停止等待整a人工验收，人工/完整L3/默认自然分布/多人性能NOT RUN。没有进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
@@ -103,3 +105,7 @@ E2-a限定闭环已完成，范围/证据/风险见R4E2A_REBUILD；旧E2-a待实
 下一批具体建议 **E3-a-1（最多三ID）**：`illager_zombie_conflict`、`illager_zombie_villager`、`golem_friendly_fire_fix`。先审计两版官方发行源码的阵营/目标取得/友伤链，核对26.3原版已修内容与已有本项目Goal；再确定“原版覆盖/REPLACE”或窄ADAPT。使用真实阵营/村庄/铁傀儡、双向伤害/目标、关闭回退和目标生命周期测试，避免全局LivingEntity钩子、广域扫描及新增伤害。若当前原版已覆盖，不应仅加白名单制造已实现状态。骑乘、陷阱转换、生态生成和Boss另批。本轮只输出建议，没有实施E3；后续仍由用户确认具体批次。
 
 E3-a rider decision resolved: user explicitly retains `rider_friendly_fire` as Buildup safety / LEGACY_ONLY ADAPT. Implemented and actual native Tick collision tests verified; prior pending/BLOCKED/inactive remarks are history. Current 87 supported / 37 inactive, v10, QA35; whole a development covered, human acceptance pending. No E3-b/c/E4 or later phase. Details: [rider addendum](R4E3A_RIDER_ADDENDUM.md).
+
+## E3-b 批末及下一具体任务
+
+本次连续完成 b-1/2/3/4，按授权停止等待整b人工验收。下一建议沿既定 [E3规划](R4E3_PLAN.md) **c-1雪傀儡南瓜归还/防御（G16）**：先核对剪切和原生交互、冻结实际消费/掉落守恒及条件护甲数值、独立门控/存档，再补真实交互与伤害和QA。c-2投球视觉与c-3幼体骷髅另批；G34仅OP来源，Vanilla+预算仍待产品裁决。没有在本批实施。

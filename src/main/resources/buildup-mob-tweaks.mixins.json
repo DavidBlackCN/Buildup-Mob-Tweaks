@@ -3,6 +3,11 @@
   "package": "com.davidblackcn.buildupmobtweaks.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "rebuild.EcologySquidMixin",
+    "rebuild.EcologyPanicMixin",
+    "rebuild.EcologyTickMixin",
+    "rebuild.EcologyHornMixin",
+    "rebuild.EcologySnifferMixin",
     "rebuild.RiderProjectileMixin",
     "rebuild.E3BoundaryMixin",
     "rebuild.SkeletonWitherConversionMixin",

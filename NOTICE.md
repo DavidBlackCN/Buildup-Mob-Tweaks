@@ -1,5 +1,7 @@
 # 来源与许可
 
+R4-E3-b 按同一 MIT 声明参考/改编两版官方发行恢复的 SquidEntityMixin、ChickenEntityMixin、EscapeDangerGoalMixin、CatEntityMixin、WanderingTraderEntityMixin、SnifferEntityMixin、LivingEntityMixin 与 MobAITweaks 乐器/嗅探映射分支。Copyright (c) 2024 N0t_UN_Owen。对应 rebuild/ecology 与 mixin/rebuild/Ecology*；有限候选与冷却、原生 Goal 退出、慢速伤后恢复、真实不免伤闪避、无物品生成商人反馈、主线程已加载区块请求队列由 Buildup 重写。保留原版 Brain、喂食、交易与物品；不复制同步远距离区块生成搜索、猫弹药奖励/免伤、OP、附魔或资源素材。精确来源 SHA256 与改造边界见 docs/R4E3B_MIGRATION_PLAN.md 及外层 docs/rebuild/evidence/r4e3b/upstream-source-audit.json。
+
 Buildup Mob Tweaks 使用 [MIT License](LICENSE)。
 Copyright (c) 2026 DavidBlackCN and Buildup Mob Tweaks contributors.
 

@@ -1,3 +1,11 @@
+> 当前E3-b配置v11；下述S1/S2历史段落不代表重新启用旧代码。133声明/96支持/37未生效，新增配置全部受总开关和实体退出门控。
+
+## E3-b 独立生态开关（v11）
+
+`passive.squid_ink_defense`、`glow_squid_gaze`、`chicken_threat_escape`、`animal_group_panic`、`tameable_recovery`、`cat_projectile_dodge`、`goat_horn_aggro`、`trader_self_defense`、`sniffer_search`（后八项同属passive）默认true。实际v10→v11专服迁移保留旧字段值，原passive保留节没有正式字段。关闭不撤销已有原版药效/伤害，不抹除自然马回血。实体`buildupmobtweaks:vanilla_ai` / `buildupmobtweaks:disable_<id>`退出，类型标签 `ecology_ai_excluded` / `tameable_no_recovery` 默认空，可由数据包扩展。
+
+21个 `sniffer_*_items` 物品标签与8个 `sniffer_*_targets` 方块标签用于有限查询。矿石水平8/地下8，最多2601采样；群系每水平轴128/步长16，最多289采样；近处优先首个匹配，不保证严格最近。全服64查询/刻，最多8请求、每请求32方块或8群系查询/刻、100刻超时/100刻请求冷却；仅已加载区块。停用/物品或潜行/距离等变化、卸载取消；找到后固定指向60刻，无物品消费/奖励；不是6400格定位工具。这些是内部硬预算，不是未批准的新全局调节项。完整语义见 [方案](R4E3B_MIGRATION_PLAN.md)。
+
 > R2-A 提示：本文保留旧 S2 配置说明。当前只有掠夺者重建功能生效，其他旧行为休眠；现行差异见 [R2A_REBUILD.md](R2A_REBUILD.md)。
 
 # 配置（S1-A 至 S2）

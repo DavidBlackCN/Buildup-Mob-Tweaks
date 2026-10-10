@@ -7,13 +7,13 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 10)
+@Version(version = 11)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
     public Hostile hostile = new Hostile();
     public ConfigSection neutral = new ConfigSection();
-    public ConfigSection passive = new ConfigSection();
+    public Passive passive = new Passive();
     public ConfigSection bosses = new ConfigSection();
     public Equipment equipment = new Equipment();
     public Traits traits = new Traits();
@@ -28,6 +28,18 @@ public final class BuildupConfig extends Config {
     @Override
     public int defaultPermLevel() {
         return 4;
+    }
+
+    public static final class Passive extends ConfigSection {
+        public ValidatedBoolean squid_ink_defense = new ValidatedBoolean(true);
+        public ValidatedBoolean glow_squid_gaze = new ValidatedBoolean(true);
+        public ValidatedBoolean chicken_threat_escape = new ValidatedBoolean(true);
+        public ValidatedBoolean animal_group_panic = new ValidatedBoolean(true);
+        public ValidatedBoolean tameable_recovery = new ValidatedBoolean(true);
+        public ValidatedBoolean cat_projectile_dodge = new ValidatedBoolean(true);
+        public ValidatedBoolean goat_horn_aggro = new ValidatedBoolean(true);
+        public ValidatedBoolean trader_self_defense = new ValidatedBoolean(true);
+        public ValidatedBoolean sniffer_search = new ValidatedBoolean(true);
     }
 
     public static final class General extends ConfigSection {

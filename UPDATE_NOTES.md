@@ -59,3 +59,6 @@
 - ✅ test(qa): 增加三个独立幻术师与卫道士验收场景，验证原生五波袭击生命周期、真实客户端持弓及门盾回归；正式包不包含 QA 工具。
 
 - 🐛 fix(fishing): 修复渔夫僵尸村民与溺尸抛竿时浮漂和钓线被客户端过滤的问题，保留正确持竿手连接、原版距离限制与玩家浮漂行为。
+
+- ✨ feat(riding): rebuild bounded mob relations, mounted actions, skeleton traps and fatal wither conversion
+- 🐛 fix(golem): suppress native iron and snow golem friendly retaliation while preserving damage and player revenge

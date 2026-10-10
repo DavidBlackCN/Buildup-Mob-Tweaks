@@ -1,5 +1,8 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
+> 2026-10-10 E3-a 当前实施：[工作报告](R4E3A_REBUILD.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
+
 > 2026-10-10 E3仅规划：[总方案](R4E3_PLAN.md)/[首批关系方案](R4E3A1_MIGRATION_PLAN.md)。本轮纠正亡灵马日烧为LEGACY_ONLY；是否转Phase2 DEFER待用户裁决，原批准分类计数暂保留，不能把来源纠正算成实现。灾厄关系将按确切类型与独立门收窄，傀儡项先原版复现再定ADAPT/REPLACE。配置/支持数不变，E3实现与行为验收全部NOT RUN。
 
 > 2026-10-10 E2验收修复：[报告](R4E2_ACCEPTANCE_FIXES_1.md)。G38钓线的历史证据仅覆盖状态提取，漏验了非玩家浮漂的可见性过滤；现修正该缺陷并完成八种持竿组合的自动原生提交/顶点写入验证。新增5→7格与双箭间原生单箭调度测试，全量301项PASS；人工整体复验、完整L3和整合包仍NOT RUN。支持计数77/47、配置v10、QA25均不变。
@@ -12,7 +15,7 @@
 
 > R4-E1-c历史限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
 
-当前68项取舍计数为 PORT 1 / ADAPT 49 / REPLACE 5 / DEFER 9 / EXCLUDE 4；与下文保留的E0计数区别仅为流浪者不祥项来源纠正。这是取舍分类，不是当前生效ID计数。
+当前68项取舍计数为 PORT 1 / ADAPT 47 / REPLACE 6 / DEFER 10 / EXCLUDE 4；与下文保留的E0计数区别仅为流浪者不祥项来源纠正。这是取舍分类，不是当前生效ID计数。
 
 
 > E1-b历史限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
@@ -36,8 +39,8 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `demo_rare`：演示Marker无正式执行能力，排除 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_rare` 仅待实现；不伪称稀有技能生效；**NOT RUN** |
 | `skeleton_aim_fix`：lookAtTarget意图由SkeletonGoals.Walk及Sniper原版控制承担，不重新注入旧BowGoal | UPSTREAM；`RangedBowAttackGoalMixin` | **REPLACE** / E1-c确认/R5说明 / 是（含替代说明） | 旧ID保持未生效；已有看向/射箭链实际高位横移后再次命中，限定L2 **PASS**；第三方所有武器兼容 **NOT RUN** |
 | `skeleton_offhand_visual`：真实新拉弓时挥动实际用弓手的另一只手，由服务端同步门控制模型 | UPSTREAM；`RangedBowAttackGoalMixin`, `SkeletonEntityModelMixin` | **ADAPT** / E1-c / 是（含替代说明） | 独立门、四种主臂/用弓手、仅visual开启原版Goal及真实客户端模型 **PASS**；不复制箭；人眼验收 **NOT RUN** |
-| `skeleton_trap_variants`：陷阱坐骑与骑手变体仅在原版陷阱事件追加有限选择 | UPSTREAM；`SkeletonTrapMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_trap_variants` 仅待实现；原版队伍/生成为一次/骑乘递归保存；不额外材料；**NOT RUN** |
-| `skeleton_wither_conversion`：转为凋灵骷髅保留装备所有权，不原样套用上游转换 | UPSTREAM；`SkeletonEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_wither_conversion` 仅待实现；具体触发条件待批次核实；UUID/主副手/备用/冷却；**NOT RUN** |
+| `skeleton_trap_variants`：陷阱坐骑与骑手变体仅在原版陷阱事件追加有限选择 | UPSTREAM；`SkeletonTrapMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
+| `skeleton_wither_conversion`：转为凋灵骷髅保留装备所有权，不原样套用上游转换 | UPSTREAM；`SkeletonEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `wither_skeleton_bow`：出生真实弓与实际装备使用 | UPSTREAM；`WitherSkeletonEntityMixin` | **ADAPT** / E1-a行为+E2-a出生 / 是 | 真实空初始化手、池/独立概率/门、原版Bow Goal箭伤/耐久/保存/死亡 **L2 PASS**；仅原版弓，完整L3/人工 **NOT RUN** |
 | `wither_skeleton_homing`：头颅追踪只对合法既有目标、有期限与半径预算；不复制OP分支 | UPSTREAM；`SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a原生弹体/移动不祥目标实际弯曲命中、固定归属/退出/独立关闭L2 **PASS**；人工/完整L3 **NOT RUN** |
 | `wither_skeleton_skull`：保留有限特殊头颅攻击与前摇/冷却，不复制原版Boss状态机 | UPSTREAM；`WitherSkeletonEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a30tick前摇/一枚/400冷却/100寿命；真实伤害、保护、预算、关闭/保存L2 **PASS**；人工/完整L3 **NOT RUN** |
@@ -51,8 +54,8 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `piglin_crossbow_compatibility`：CrossbowItem继承、实际主副手/射程/姿势，保留原Brain和矛 | UPSTREAM；`PiglinBrainMixin`, `PiglinEntityMixin`, `RangedCrossbowAttackTaskMixin` | **ADAPT** / E1-b / 是 | 真正副手弩不被清理搬走，黄金替换仍转移实际物；装填/耐久/交易/拾取/转换/禁用L2 **PASS**；Beta有限对照；任意枪械/完整L3/人工 **NOT RUN** |
 | `zombified_piglin_spawn_crossbow`：原版初始化时池选真实稀有弩 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2-a / 是 | 原生空主手、出生概率/独立门、幼体、原金剑/金矛回退、保存/死亡 **L2 PASS**；弩远程AI另由E2-b `zombified_piglin_crossbow`完成 **L2 PASS**；整体人工/完整L3 **NOT RUN** |
 | `zombified_piglin_crossbow`：真实主副手弩装填/原版箭/耐久，原生受击仇恨与近战回退，已装弹和装备保存 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
-| `illager_zombie_conflict`：窄阵营冲突，保留玩家优先而非全局setTarget覆盖 | UPSTREAM；`IllagerEntityMixin`, `AbstractZombieEntityMixin` | **ADAPT** / E3-a-1 / 是（含替代说明） | [规划](R4E3A1_MIGRATION_PLAN.md)：四类原生灾厄与确切Zombie、TARGET优先级6草案；独立门与原生攻击/袭击/禁用/玩家优先待实际调度；**NOT RUN** |
-| `illager_zombie_villager`：僵尸村民独立敌对关系与普通僵尸重叠按一次处理 | UPSTREAM；`IllagerEntityMixin`, `ZombieVillagerEntityMixin` | **ADAPT** / E3-a-1 / 是（含替代说明） | 独立门不受普通Zombie开关的else-if吞并；治疗开始/完成退出自有目标，保留职业链；[规划](R4E3A1_MIGRATION_PLAN.md)，**NOT RUN** |
+| `illager_zombie_conflict`：窄阵营冲突，保留玩家优先而非全局setTarget覆盖 | UPSTREAM；`IllagerEntityMixin`, `AbstractZombieEntityMixin` | **ADAPT** / E3-a-1 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
+| `illager_zombie_villager`：僵尸村民独立敌对关系与普通僵尸重叠按一次处理 | UPSTREAM；`IllagerEntityMixin`, `ZombieVillagerEntityMixin` | **ADAPT** / E3-a-1 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `illager_boats`：自动寻找与使用船会改变袭击/运输控制，首发暂缓 | UPSTREAM；`IllagerEntityMixin`, `RaiderUseBoatGoal` | **DEFER** / Phase3生态/整合包 / 否 | 独立门 `disable_illager_boats` 仅待实现；不阻断Phase1；所有权与玩家船/卸载另审；**NOT RUN** |
 | `illusioner_omen_spawn`：becomeIllusioner会丢弃原动物并生成幻术师；不采用这种破坏生态的出生 | UPSTREAM；`LivingEntityMixin` | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_illusioner_omen_spawn` 仅待实现；后续幻术师采用明确场景/命令，不替换玩家宠物；**NOT RUN** |
 | `illusioner_swap`：分身换位采用有限合法位置和真实目标，保持原版隐身 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2-c / 是（含替代说明） | 首次原生隐身/受击结束/1200tick刷新，四个有限安全位置；200tick换位、行走同步、NoAI/目标/门退出，真实Tick与客户端 **L2 PASS**；完整L3/人工 **NOT RUN** |
@@ -66,13 +69,13 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `zombie_cleric_potions`：精确牧师职业，一瓶真实HARMING消耗治疗受伤亡灵，独立支援目标，关闭/消费后重载不补发 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
 | `zombie_fletcher_crossbow`：精确制箭师职业，一次空手出生弩，真实射击、已装填后追赶、职业变更/治愈/转换不补发 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
 | `zombie_active_guard`：旧高级格挡由已实现ZOMBIE_SHIELD_USE真实盾牌承担；不叠加第二Trait格挡 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **REPLACE** / R5说明收口 / 是（含替代说明） | 独立门 `disable_zombie_active_guard` 仅待实现；Z01独立门与装备耐久/停用，旧字段后续迁移说明；**NOT RUN** |
-| `husk_spear_charge`：现有原版矛及尸壳坐骑条件下有限冲刺；不生成新武器 | UPSTREAM；`ChargeSpearGoalMixin`, `ChargeSpearTaskMixin`, `HuskEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_husk_spear_charge` 仅待实现；ATTACK_RANGE/击中预算/距离/碰撞/骑乘停止；**NOT RUN** |
-| `husk_camel_circle`：骆驼尸壳载体环绕原版目标，保留控制乘客 | UPSTREAM；`CamelHuskEntityMixin`, `HuskEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_husk_camel_circle` 仅待实现；原版26.3CamelHusk生命周期/骑手退出/半径；**NOT RUN** |
-| `skeleton_horse_charge`：原版骷髅马骑手特殊冲刺，有限冷却 | UPSTREAM；`SkeletonEntityMixin`, `SkeletonHorseEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_horse_charge` 仅待实现；骑手和坐骑只有一套移动控制/加载/目标退出；**NOT RUN** |
-| `chicken_jockey_charge`：鸡骑士原版ZombieAttackGoal近距扑击，非额外生成骑士 | UPSTREAM；`ZombieAttackGoalMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_chicken_jockey_charge` 仅待实现；同一原生Chicken/NoAI/原版伤害/卸载/恢复速度；**NOT RUN** |
+| `husk_spear_charge`：真实原版矛及既有坐骑使用 | UPSTREAM；`ChargeSpearGoalMixin`, `ChargeSpearTaskMixin`, `HuskEntityMixin` | **REPLACE** / E3-a / 是（替代说明） | 26.3原生SpearUseGoal的root vehicle/真实KINETIC_WEAPON已实际骑乘使用及命中 **PASS**；旧ID仍未生效，不能用该开关禁原版矛 |
+| `husk_camel_circle`：骆驼尸壳载体环绕原版目标，保留控制乘客 | UPSTREAM；`CamelHuskEntityMixin`, `HuskEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
+| `skeleton_horse_charge`：原版骷髅马骑手特殊冲刺，有限冷却 | UPSTREAM；`SkeletonEntityMixin`, `SkeletonHorseEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
+| `chicken_jockey_charge`：鸡骑士原版ZombieAttackGoal近距扑击，非额外生成骑士 | UPSTREAM；`ZombieAttackGoalMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `zombie_slime_carrier`：史莱姆携带与生成/分裂/递归骑乘风险，首发暂缓 | UPSTREAM；`AbstractZombieEntityMixin` | **DEFER** / Phase3变种审批 / 否 | 独立门 `disable_zombie_slime_carrier` 仅待实现；不阻断Phase1；无限拆分和保存需专项；**NOT RUN** |
 | `zombie_horse_leader`：首领与马/召集会增加实体预算及掉落，首发暂缓 | UPSTREAM；`AbstractZombieEntityMixin`, `ZombieHorseEntityMixin` | **DEFER** / Phase3变种审批 / 否 | 独立门 `disable_zombie_horse_leader` 仅待实现；不阻断Phase1；自然样本/刷怪塔/同伴生命周期；**NOT RUN** |
-| `rider_friendly_fire`：精准排除自己的坐骑/乘客，保留敌方骑乘命中 | UPSTREAM；`PersistentProjectileEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_rider_friendly_fire` 仅待实现；箭/三叉戟/关系改变/友伤；避免广泛免伤；**NOT RUN** |
+| `rider_friendly_fire`：拟精准排除自己的当前骑乘树，保留敌方命中 | **LEGACY_ONLY**；旧S2；两版恢复PersistentProjectileEntityMixin无该过滤 | **ADAPT** / E3-a（历史批准，补审后待产品裁决） / 暂保留 | 保留Buildup窄安全功能或Phase2 DEFER待用户答复；**BLOCKED/未实现/NOT RUN**，原版leftOwner边界已核验，不伪称上游修复 |
 | `strafe_hazard_check`：现有SkeletonBehavior.safeStep提供目标骨架范围的危地检查；不恢复全局isWalkable覆盖 | UPSTREAM；`MoveControlMixin` | **REPLACE** / E4确认/R5说明 / 是（含替代说明） | 独立门 `disable_strafe_hazard_check` 仅待实现；火/落差/阻挡/其余原版不接管；并非所有生物同等复原；**NOT RUN** |
 | `movement_jump_input`：jumpMotionFix意图只在验证过的重建实体保留跳跃横移输入 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_movement_jump_input` 仅待实现；禁止反射枚举/吞Throwable；先对照26.3原版输入；**NOT RUN** |
 | `movement_clear_strafe`：keepMovingForward/stopSidewaysMovement防遗留横移，只窄控制器适配 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_movement_clear_strafe` 仅待实现；已通过走射/后撤/连击不得倒退；**NOT RUN** |
@@ -89,12 +92,12 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `omen_pressure`：旧S2不祥加速攻击，不能当作上游ominous_mobs全部语义 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **DEFER** / Phase2平衡规范 / 否 | 独立门 `disable_omen_pressure` 仅待实现；不阻断Phase1；避免无条件增伤/加速；**NOT RUN** |
 | `hostile_rest`：坐下/关AI影响索敌和实体状态，首发不纳入 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase3生态 / 否 | 独立门 `disable_hostile_rest` 仅待实现；不阻断Phase1；保存/唤醒/多人需专项；**NOT RUN** |
 | `rest_sound_wake`：声响惊醒依赖休息，随父功能暂缓 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase3依赖hostile_rest / 否 | 独立门 `disable_rest_sound_wake` 仅待实现；不新增每Tick全世界声学扫描；**NOT RUN** |
-| `golem_friendly_fire_fix`：确认原版仍有同族报复后才窄过滤 | UPSTREAM；`IronGolemEntityMixin`, `SnowGolemEntityMixin` | 批准意图**ADAPT** / E3-a-1；原版覆盖则REPLACE并记录 | [原版基准方案](R4E3A1_MIGRATION_PLAN.md)：铁傀儡HurtBy忽略数组为空不等于Bug复现；雪傀儡无同类报复Goal；不得全局setTarget/免伤，保留合法仇恨并回归猪灵钩子；**NOT RUN** |
+| `golem_friendly_fire_fix`：确认原版仍有同族报复后才窄过滤 | UPSTREAM；`IronGolemEntityMixin`, `SnowGolemEntityMixin` | 批准意图**ADAPT** / E3-a-1；原版覆盖则REPLACE并记录 | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `drowned_swim_visual`：游泳姿态和模型同步仍独立于已实现三叉戟 | UPSTREAM；`DrownedEntityMixin`, `DrownedEntityModelMixin`, `DrownedEntityRendererMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_drowned_swim_visual` 仅待实现；仅视觉前置；与原版26.3泳姿复核，专服同步；**NOT RUN** |
 | `burning_projectile_visual`：真实燃烧弹体粒子，保留原版伤害与点火规则 | UPSTREAM；`PersistentProjectileEntityMixin`, `SmallFireballEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burning_projectile_visual` 仅待实现；client效果可见/频率/现有no-fire不倒退；**NOT RUN** |
 | `burn_freeze_visual`：燃烧/冻结低频视觉，仅已支持实体 | UPSTREAM；`HostileEntityMixin`, `LivingEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burn_freeze_visual` 仅待实现；原版已有视觉先比较；不影响免疫/伤害；**NOT RUN** |
-| `undead_horse_sunburn`：旧S2日烧，不能称已恢复上游能力 | **LEGACY_ONLY**；旧`GeneralHostileRules`确有日烧；两版`SkeletonHorseEntityMixin.burnInDay`仅自然骑乘马移除，`ZombieHorseEntityMixin`仅记录来源 | 历史批准**ADAPT** / E3；现待裁决，建议Phase2 DEFER（未批准） | [来源纠正](R4E3_PLAN.md)；现未生效，保留配置/批准分类计数，不自动恢复旧代码或添加马移除能力；**NOT RUN** |
-| `hostile_escape_seat`：受伤时有条件离船，限定原生敌对与空安全落点 | UPSTREAM；`HostileEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_hostile_escape_seat` 仅待实现；玩家船/既有特殊坐骑不能脱离/概率另测；**NOT RUN** |
+| `undead_horse_sunburn`：旧S2日烧，不能称已恢复上游能力 | **LEGACY_ONLY**；旧GeneralHostileRules；两版burnInDay仅自然骑乘马移除 | **DEFER** / Phase2（用户2026-10-10明确批准） / 否 | 保留未生效配置；本批不添加日烧或上游马移除功能；**NOT RUN** |
+| `hostile_escape_seat`：受伤时有条件离船，限定原生敌对与空安全落点 | UPSTREAM；`HostileEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `hostile_spawn_effect`：随机出生效果与现有出生互斥/概率再设计，首发暂缓 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase2平衡规范 / 否 | 独立门 `disable_hostile_spawn_effect` 仅待实现；不阻断Phase1；旧开启字段不可当作生效；**NOT RUN** |
 | `vex_projectile_weakness`：受投射物额外伤害，独立于已实现固定方向冲锋 | UPSTREAM；`VexEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_vex_projectile_weakness` 仅待实现；真实arrow命中/伤害来源/倍数配置；默认200%参考；**NOT RUN** |
 

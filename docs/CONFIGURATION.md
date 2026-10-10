@@ -69,3 +69,7 @@ hostile.vex 增加 fixedCharge、recoveryPause、closeRangeGuard 三项独立开
 配置 v9 不变。hostile.extended：ghast_slow_fireball/cooldown/telegraph，blaze_orbit/difficulty_volley/strafe，silverfish_burrow/call_pause/call_particles/shovel_weakness，enderman_speed/combo/combo_animation/chance，creeper_embedded_arrows/hit_delay/fire_visual，spider_hunts_pests，breeze_takeoff_burst/landing_burst。末影人特性仅新自然/刷怪蛋出生一次抽取，默认 chance=70/1000，traits.enabled 关闭不新赋予/执行连击；special_cooldown 默认400，范围200–2400，预留保存世界期限，配置修改不重写已启动预算。其他行为独立于 Traits，仍受 general.enabled 与 hostile 分组内的单项 gate。
 
 三弹难度为2/3/4，不再旧1/2/3；蠹虫 burrow 字段 ID 保留但语义为跳起/落地躲藏，不再复制旧钻块替代；铲子2倍，隐藏不免疫。说明与双语 UI 同步。独立标签和保存语义见 [R4D_REBUILD](R4D_REBUILD.md)。历史 S2 默认开启字段可能不生效，准确白名单/未接入列表见 [台账](R4_REMAINING_AUDIT.md)，真实 GUI/多人同步尚待统一人工验收。
+
+## E3-a gates (config v10 unchanged)
+
+Nine newly supported IDs and exact behavior are listed in [R4E3A_REBUILD](R4E3A_REBUILD.md). Type tags `buildupmobtweaks:relations_ai_excluded` and `buildupmobtweaks:riding_ai_excluded` extend existing exclusions. Entity `vanilla_ai` and `disable_<id>` affect the corresponding actor/mount gate, not generic damage or native AI. Native husk spear is REPLACE: the inactive old switch cannot disable vanilla spear use. Undead horse sunburn remains inactive (Phase2 DEFER); rider projectile filtering remains inactive (decision BLOCKED). Selected chicken/horse birth defaults are each 10/1000, require traits.enabled, and do not generate mounts.

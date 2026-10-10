@@ -1,5 +1,16 @@
 # Phase 1 确定性 QA 使用说明
 
+## E3-a 独立场景补充
+
+原25场景及原命令不变；新增9场景通过 `/buildupqa e3 spawn <scene>`、`check`、`off`、`cleanup` 操作，完整路径见 [E3-a人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。场景名为 relation_zombie、relation_villager、golem_misfire、chicken、boat、camel、horse、trap、conversion。使用25×25×7已加载空空气场，中心仍固定Z+8；地板/屋顶恢复，仅清理本会话及对应转换/陷阱事件后代，60秒自动结束。两套工具互斥，每台服务器仍只允许一个会话，要求owner权限4。
+
+E3工具不修改全局配置。鸡/马直接固定本夹具已抽中选择（正式出生仍10/1000），不是更改全世界概率；boat第15tick真实伤害、conversion第15tick真实凋零致死输入。trap必须实际生存玩家近场，不能由控制台模拟Goal。`off` 是添加vanilla_ai标签，不能撤销已受伤的原版报复、已完成转化/陷阱，也不能禁用原生矛。check显示实际UUID/目标/被攻击者/Goal/动作计数和保存冷却，关系queries预算、targetHP、未触发理由；场外观察避免玩家优先目标影响夹具。
+
+BLOCKED的骑乘过滤与Phase2日烧没有QA接口。E3场景不改变旧场景的全局概率/权限，正式包与源码包均不含QA。
+
+> 2026-10-10 E3-a 当前实施：[工作报告](R4E3A_REBUILD.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
+
 > R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。
 
 目标 MC Fabric **26.3** / Java25 / Loader0.19.5 / API0.162.0+26.3 / Fzzy0.7.7+fix3+26.3 / Kotlin1.14.1+kotlin.2.4.20；Buildup1.0.0/config v10。工具使用服务器当前配置，拒绝已关闭能力，**不修改全局配置、概率或出生规则**。只在废弃测试世界安装独立QA Mod。正式包没有`buildupqa`命令、QA类或GameTest入口。

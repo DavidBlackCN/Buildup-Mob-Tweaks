@@ -1,5 +1,10 @@
 # 旧68项之外的上游特性缺口审计
 
+E3-a补审：`rider_friendly_fire` 从上游来源改为 **LEGACY_ONLY**，两版恢复 PersistentProjectileEntityMixin 均无当前骑乘树过滤；是否作为Buildup安全修正保留仍待产品裁决。`undead_horse_sunburn` 已明确 Phase2 DEFER。目标26.3原生SpearUseGoal的坐骑速度/真实武器已实测覆盖尸壳矛，按REPLACE处理，旧ID仍不生效。傀儡雪球误击报复已实际复现并窄修，不再停留于静态推测。这些来源纠正不新增生态功能，不改变其他G候选门槛。
+
+> 2026-10-10 E3-a 当前实施：[工作报告](R4E3A_REBUILD.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
+
 > 2026-10-10 E3规划补审：[总方案](R4E3_PLAN.md)。G34只在上游OP分支成立，不能当普通默认技能直接移植；如保留需单独批准Vanilla+预算。下文56支持数是E0历史时点，当前77支持/47未生效、v10、QA25不变。本轮未实现候选，E3验证均NOT RUN。
 
 > R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。

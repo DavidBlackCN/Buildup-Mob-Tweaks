@@ -1,5 +1,8 @@
 # Phase 1白名单入口与测试缺口（E0基线56项）
 
+> 2026-10-10 E3-a 当前实施：[工作报告](R4E3A_REBUILD.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
+
 > R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。
 
 > R4-E2-b历史完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
@@ -134,3 +137,16 @@
 | illusioner_shoot_pause | IllusionBowGoalMixin.tick → pause/shot | 原生弓Goal实际拉弓/发箭、停止输入/20及10tick |
 | illusioner_clone_arrows | IllusionRebuildMixin.performRangedAttack → clones；IllusionArrowMixin | 真实箭源/owner/原生附魔/伤害、替代双箭、120/200tick |
 | vindicator_support | ENTITY_LOAD → SupportGoal，VindicatorSupportExitMixin | 保留原targetSelector优先级，仅拥有自己的支援目标 |
+
+## R4-E3-a execution entries
+
+| ID | Entry / gate | Evidence |
+| --- | --- | --- |
+| illager_zombie_conflict / illager_zombie_villager | RelationBehavior ENTITY_LOAD -> native targetSelector 6/TARGET; Mob.tick boundary | L2 PASS; [scope / NOT RUN](R4E3A_REBUILD.md) |
+| golem_friendly_fire_fix | GolemRetaliationMixin / TargetGoal continuation; exact Iron/Snow revenge only | L2 PASS; [scope / NOT RUN](R4E3A_REBUILD.md) |
+| chicken_jockey_charge / skeleton_horse_charge / husk_camel_circle | RidingBehavior ENTITY_LOAD -> Goal8 RidingGoal; independent gates / actual existing vehicle | L2 PASS; [scope / NOT RUN](R4E3A_REBUILD.md) |
+| hostile_escape_seat | AFTER_DAMAGE -> Goal3 BoatEscape; actual hurt / safe loaded landing | L2 PASS; [scope / NOT RUN](R4E3A_REBUILD.md) |
+| skeleton_trap_variants | SkeletonTrapVariantsMixin -> native addFreshEntityWithPassengers; actual equipment transfer | L2 PASS; [scope / NOT RUN](R4E3A_REBUILD.md) |
+| skeleton_wither_conversion | LivingEntity.die HEAD -> native convertTo; actual reserve ownership | L2 PASS; [scope / NOT RUN](R4E3A_REBUILD.md) |
+
+124 declared / 86 supported / 38 inactive; v10 unchanged. Rider filter BLOCKED; horse sunburn DEFER; husk spear native REPLACE, old ID inactive.

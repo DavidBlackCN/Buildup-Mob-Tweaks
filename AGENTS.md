@@ -1,5 +1,8 @@
 # 26.3 工程补充约束
 
+> 2026-10-10 E3-a 当前实施：[工作报告](docs/R4E3A_REBUILD.md) / [统一人工清单](docs/R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
+
 遵循根目录 AGENTS.md、MOB_TWEAKS_SPEC.md、CODEX_STAGE1_TASKS.md 和 CODE_REVIEW.md。
 
 Phase 1现以外层PHASE1_RESTORATION_PLAN.md及用户本轮具体授权为准；旧R4-D停止声明保留历史语境。R4-E0只审计取舍/独立QA与回归，结果见docs/R4E0_REPORT.md；E1～E4/Boss须逐子批授权，不进入R5/Phase2/Phase3。QA源集只用于gametest/独立qaJar，严禁打入正式主包/源码包；不得整体恢复旧S2服务/Mixin。

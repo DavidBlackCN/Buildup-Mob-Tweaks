@@ -3,6 +3,11 @@
   "package": "com.davidblackcn.buildupmobtweaks.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "rebuild.E3BoundaryMixin",
+    "rebuild.SkeletonWitherConversionMixin",
+    "rebuild.SkeletonTrapVariantsMixin",
+    "rebuild.GolemRetaliationMixin",
+    "rebuild.GolemRetaliationContinuationMixin",
     "rebuild.IllusionRebuildMixin",
     "rebuild.IllusionBowGoalMixin",
     "rebuild.IllusionArrowMixin",

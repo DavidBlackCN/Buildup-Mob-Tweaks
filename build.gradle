@@ -115,6 +115,7 @@ sourceSets.gametest.java {
     include 'com/davidblackcn/buildupmobtweaks/BirthEquipmentTests.java'
     include 'com/davidblackcn/buildupmobtweaks/ProfessionBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/IllusionBehaviorTests.java'
+    include 'com/davidblackcn/buildupmobtweaks/RidingRelationTests.java'
     include 'com/davidblackcn/buildupmobtweaks/PillagerBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestWorld.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestItems.java'

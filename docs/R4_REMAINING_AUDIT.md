@@ -1,6 +1,8 @@
 # R4 剩余旧 S2 功能审计台账
 
-> R4-E1-c当前限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
+> R4-E2-a当前限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
+
+> R4-E1-c历史限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
 
 
 > E1-b历史限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
@@ -108,3 +110,7 @@
 ## E1-c现行覆盖与来源纠正
 
 `skeleton_offhand_visual`、`bogged_omen_mushrooms`两项ADAPT已接入；两个旧重复ID `skeleton_aim_fix`、`stray_snow_barrage`通过已有原版看向/STRAY_JUMP_SHOT链REPLACE，不开启旧ID。`stray_omen_snow`改为LEGACY_ONLY/Phase2 DEFER：E0误把上游OP流浪者效果当不祥，实际两版唯独Bogged有该不祥分支。E0原始JSON/证据保持历史快照，当前取舍以上述纠正行和[R4E1C_REBUILD](R4E1C_REBUILD.md)为准。当前66/58、QA15；新功能受控L2和客户端/有限Beta对照与完整L3/人工验收分开。
+
+## R4-E2-a账本增量
+
+新增支持equipment_assignment与zombified_piglin_spawn_crossbow，补齐wither_skeleton_bow出生部分；traits采用模块出生状态REPLACE，旧ID不加白名单。当前68支持/56未生效，68项原审计表仍为E0历史索引。具体取舍及人工边界见R4E2A_REBUILD。

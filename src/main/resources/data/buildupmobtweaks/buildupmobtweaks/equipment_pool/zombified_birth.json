@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "entities": [
+    "minecraft:zombified_piglin"
+  ],
+  "slot": "mainhand",
+  "entries": [
+    {
+      "item": "minecraft:crossbow",
+      "weight": 1
+    }
+  ],
+  "adult_only": false
+}

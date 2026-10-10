@@ -1,6 +1,8 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
-> R4-E1-c当前限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
+> R4-E2-a当前限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
+
+> R4-E1-c历史限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
 
 
 > E1-b历史限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
@@ -67,3 +69,7 @@ E1-b已获明确批准并完成四项实现、24项新真实调度测试（全17
 3. `traits`按现有模块birth附件REPLACE，保持持久选择；不恢复S2 Marker抽签。新增独立QA验装备来源/组件/掉落/无空槽/重启转换与抽样，真实Server Tick及既有技能回归。
 
 先出具体Environment/Migration Plan并核对API；沿用户授权的批次边界推进，不以本批完成自动启动下一批。E2-b职业、E2-c袭击、E3/E4/Boss/R5未进入。
+
+## E2-a完成与下一具体子批建议
+
+E2-a限定闭环已完成，范围/证据/风险见R4E2A_REBUILD；旧E2-a待实施文字仅历史。下一建议E2-b-1最多两项：`zombified_piglin_crossbow`与`zombie_fletcher_crossbow`。先恢复上游真实Goal/职业触发证据、核对26.3弩Goal及原仇恨；实际主副手/装填/弹体/耐久/退出/禁用回退、保存和死亡守恒。不同时实现渔夫钓竿/牧师药水，分别拆后续E2-b-2/3；不恢复旧S2整个职业框架。下一批具体方案还须核验，本轮未实施。

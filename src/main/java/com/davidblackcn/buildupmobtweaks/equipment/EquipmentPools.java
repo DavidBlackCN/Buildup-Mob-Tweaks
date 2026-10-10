@@ -156,7 +156,7 @@ public final class EquipmentPools extends SimpleReloadListener<EquipmentPools.Pr
         for (var selector : rule.entities()) entities.addAll(resolveSelector(selector, Registries.ENTITY_TYPE, lookup));
         for (var type : entities) {
             if (!EquipmentPool.SUPPORTED_ENTITIES.contains(BuiltInRegistries.ENTITY_TYPE.getKey(type).toString())) {
-                throw new IllegalArgumentException("S1-C supports only zombie/husk/drowned: " + BuiltInRegistries.ENTITY_TYPE.getKey(type));
+                throw new IllegalArgumentException("Unsupported equipment entity: " + BuiltInRegistries.ENTITY_TYPE.getKey(type));
             }
         }
         List<Choice> choices = new ArrayList<>();

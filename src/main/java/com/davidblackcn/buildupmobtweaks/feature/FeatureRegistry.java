@@ -165,7 +165,7 @@ public final class FeatureRegistry {
     public static boolean supported(FeatureId id) {
         return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_")
                 || switch(id) {
-                    case SKELETON_OFFHAND_VISUAL, BOGGED_OMEN_MUSHROOMS,
+                    case EQUIPMENT_ASSIGNMENT, ZOMBIFIED_PIGLIN_SPAWN_CROSSBOW, SKELETON_OFFHAND_VISUAL, BOGGED_OMEN_MUSHROOMS,
                          PIGLIN_SHOT_SWING, PIGLIN_ITEM_DODGE, PIGLIN_CROSSBOW_COMPATIBILITY, ZOMBIFIED_PIGLIN_ANGER_FIX,
                          PARCHED_DODGE, WITHER_SKELETON_SKULL, WITHER_SKELETON_HOMING, WITHER_SKELETON_BOW,
                          SKELETON_SAFE_STRAFING, SKELETON_TARGET_VALIDATION, SKELETON_WEAPON_SWITCHING,
@@ -248,6 +248,13 @@ public final class FeatureRegistry {
     }
     public int specialCooldown() { return config.hostile.extended.special_cooldown.get(); }
     public int equipmentChance() { return config.equipment.assignmentChance.get(); }
+    public int birthEquipmentChance(FeatureId id) {
+        return switch (id) {
+            case WITHER_SKELETON_BOW -> config.equipment.witherBowChance.get();
+            case ZOMBIFIED_PIGLIN_SPAWN_CROSSBOW -> config.equipment.zombifiedCrossbowChance.get();
+            default -> 0;
+        };
+    }
 
     public int diagnosticLines() {
         return config.performance.diagnosticLines.get();

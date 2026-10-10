@@ -21,3 +21,5 @@ R4-E1-a已逐批批准实施，范围/停止点见docs/R4E1A_REBUILD.md；下一
 R4-E1-b本轮经用户“可以开始”明确批准；限定结果见docs/R4E1B_REBUILD.md，当前64支持/60未生效。先原版同类仇恨复现，保持Piglin Brain与ZP原Goal；独立QA共12场景，正式包无QA。E1-c/E2未批准，不能用路线批准扩大实施范围。旧“E1-b待批准”只表示E1-a历史时点。批末验证自检、本地提交后停止。
 
 R4-E1-c本轮用户授权方案核验后直接实施，无需二次批准；范围/停止点见docs/R4E1C_REBUILD.md。两项新增及两个REPLACE，stray_omen_snow纠正为LEGACY_ONLY/Phase2 DEFER，当前66/58、QA15。上述E1-c待批准仅历史。旧S2不恢复，E2及后续不在本批；验证自检、本地提交后停止，人工与完整L3独立验收。
+
+R4-E2-a本轮用户授权核验方案后直接实施，无需二次批准；具体范围/停止点见docs/R4E2A_REBUILD.md。装备池闭环、两类出生武器、traits按模块状态REPLACE；配置v10、68/56、QA17。上述E2未批准仅历史。E2-b/R5/Phase2/3不在本批；验证自检、本地提交后停止，不推送发布。

@@ -105,3 +105,7 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 | `stray_flip` | 实际石剑以稳定满足现有无弓跃射，生成场初始+40，原120冷却 | 一次跃射三雪球；普通/不祥同链，旧ID不启动第二Goal；off为STRAY_JUMP_SHOT |
 
 新三场 `force` 只接入已有空闲生物的QA会话，不改birth/冷却/装备/目标效果；真实装备、距离、不祥目标和原技能门由操作者设置。生成场的+40初始夹具冷却不修改全局默认，也不能推断自然发生概率。inspect显示swings/flips/snow/dodges/mushrooms/mushroomHits/mushroomClouds/visual；check明确底层spore门/不祥效果/实际弓前提。cleanup只退役QA生成的自有弹体/云，恢复地形，不回滚消耗。新场和原12场的实际调度证据分列，见[R4E1C_REBUILD](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。
+
+## R4-E2-a 两个原生出生场（共17场）
+
+`/buildupqa spawn wither_birth`、`/buildupqa spawn zombified_birth`：最多512个尚未入世界的成年原生候选，用现有规则/概率真实finalizeSpawn，仅实际命中者进入场景；不改全局配置、不手动发弓/弩，不产生鸡骑士副作用。默认两场163次命中，inspect显示equipmentLedger；零概率/关门/缺规则需报阻断，失败前不改地形。出生场不支持force已有实体。off不删除已获得装备，cleanup退役夹具/弹体和恢复场地；ZP弩AI仍E2-b，不冒充本批射击完成。人工步骤见R4E2A_ACCEPTANCE_CHECKLIST。

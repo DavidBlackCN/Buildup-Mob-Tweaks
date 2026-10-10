@@ -119,6 +119,8 @@ public class ExtendedSkeletonTests {
         SkeletonBehaviorTests.floor(h,true);int spin=0,skull=0;
         for(int i=0;i<1000;i++)for(var type:List.of(EntityTypes.PARCHED,EntityTypes.WITHER_SKELETON)){
             var m=type.create(h.getLevel(),EntitySpawnReason.NATURAL);m.snapTo(h.absolutePos(new BlockPos(8,2,8)),0,0);m.getRandom().setSeed(495000L+i);
+            // This E1-a fixture isolates advanced traits; E2-a separately verifies native birth equipment.
+            m.addTag("buildupmobtweaks:disable_equipment_assignment");
             m.finalizeSpawn(h.getLevel(),h.getLevel().getCurrentDifficultyAt(m.blockPosition()),EntitySpawnReason.NATURAL,null);h.getLevel().addFreshEntity(m);
             String birth=m.getAttached(ExtendedSkeletonState.DATA).getStringOr("birth","");if(birth.equals("spin"))spin++;if(birth.equals("skull"))skull++;
             h.assertTrue(m.getMainHandItem().is(type==EntityTypes.PARCHED?Items.BOW:Items.STONE_SWORD)&&!m.hasAttached(SkeletonState.RESERVE),"No natural bow distribution or reserve generation");m.discard();}

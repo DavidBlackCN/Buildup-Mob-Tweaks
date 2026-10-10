@@ -12,7 +12,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 /** Version 1: a single weighted item, one slot, no components, counts or executable conditions. */
 public record EquipmentPool(int version, List<Selector> entities, EquipmentSlot slot, boolean adultOnly,
                             List<Identifier> dimensions, List<Difficulty> difficulties, List<Entry> entries) {
-    public static final Set<String> SUPPORTED_ENTITIES = Set.of("minecraft:zombie", "minecraft:husk", "minecraft:drowned");
+    public static final Set<String> SUPPORTED_ENTITIES = Set.of("minecraft:zombie", "minecraft:husk", "minecraft:drowned",
+            "minecraft:wither_skeleton", "minecraft:zombified_piglin");
     private static final Set<EquipmentSlot> SLOTS = Set.of(EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND,
             EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
     private static final Codec<EquipmentSlot> SLOT_CODEC = EquipmentSlot.CODEC.validate(slot -> SLOTS.contains(slot)

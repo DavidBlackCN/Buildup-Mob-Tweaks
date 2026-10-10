@@ -106,7 +106,7 @@ public class RaidBehaviorTests {
         boolean[] nativeCharge={false};h.onEachTick(()->{if(m.isCharging()&&!RaidState.runtime(m).charging)nativeCharge[0]=true;});
         h.runAtTickTime(400,()->{proof("V01_fallback_probe",m,"target="+m.getTarget()+" hasWanted="+m.getMoveControl().hasWanted());h.assertTrue(nativeCharge[0]&&RaidState.runtime(m).charges==0,"Independent fixed off resumes real native charge");proof("V01_native_fallback",m,"native_charge=true");m.discard();f.close();h.succeed();});}
     @GameTest(environment="buildupmobtweaks:r4c",structure=ARENA,maxTicks=430)
-    public void vexActiveCreativeAndReloadAbortDirection(GameTestHelper h){SkeletonBehaviorTests.floor(h,false);Vex[] refs={mob(h,EntityTypes.VEX)};var f=player(h);boolean[] changed={false};
+    public void vexActiveCreativeAndReloadAbortDirection(GameTestHelper h){SkeletonBehaviorTests.floor(h,false);Vex[] refs={mob(h,EntityTypes.VEX)};refs[0].getRandom().setSeed(440301);var f=player(h);boolean[] changed={false};
         h.onEachTick(()->{if(!changed[0]&&RaidState.runtime(refs[0]).charging){changed[0]=true;refs[0]=CombatTestWorld.reload(h,refs[0]);f.player().setGameMode(GameType.SPECTATOR);}});
         h.runAtTickTime(400,()->{proof("V01_reload_probe",refs[0],"changed="+changed[0]+" target="+refs[0].getTarget()+" charging="+refs[0].isCharging());h.assertTrue(changed[0]&&refs[0].getTarget()==null&&!refs[0].isCharging()&&!RaidState.runtime(refs[0]).charging,"Actual reload plus spectator exit removes in-flight charge");proof("V01_reload_spectator",refs[0],"charging=false");refs[0].discard();f.close();h.succeed();});}
     @GameTest(environment="buildupmobtweaks:r4c",structure=ARENA,maxTicks=60)

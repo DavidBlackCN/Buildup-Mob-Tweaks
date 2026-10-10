@@ -1,6 +1,8 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
-> R4-E1-c当前限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
+> R4-E2-a当前限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
+
+> R4-E1-c历史限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
 
 当前68项取舍计数为 PORT 1 / ADAPT 49 / REPLACE 5 / DEFER 9 / EXCLUDE 4；与下文保留的E0计数区别仅为流浪者不祥项来源纠正。这是取舍分类，不是当前生效ID计数。
 
@@ -19,8 +21,8 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 
 | ID / 用户可见行为及决定理由 | 来源 / 上游证据类 | 决策 / 批次 / Phase1门槛 | 相互影响与验证重点 / 状态 |
 | --- | --- | --- | --- |
-| `traits`：通用抽签入口由各重建模块出生附件承担；保留traits.enabled总门，不恢复示例TraitService | PRODUCT_SPEC；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **REPLACE** / R5说明收口 / 是（含替代说明） | 独立门 `disable_traits` 仅待实现；首次出生/转换/加载不重抽；模块互斥概率；不是新增全局Trait抽签；**NOT RUN** |
-| `equipment_assignment`：装备池数据已加载但服务未注册且ID不支持；重建出生分配闭环，不恢复原服务整体 | PRODUCT_SPEC；`MobAITweaks` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_equipment_assignment` 仅待实现；空槽/来源/权重/组件/死亡；必须先于职业AI；**NOT RUN** |
+| `traits`：保留现有各模块出生附件和traits.enabled门 | PRODUCT_SPEC / LEGACY_ONLY旧Marker | **REPLACE** / E2-a确认/R5说明 / 是（替代说明） | 旧Marker服务和旧ID仍未启用；新装备与Trait门独立，模块出生/保存回归 **限定PASS**；不新加一次通用标记抽签 |
+| `equipment_assignment`：真实装备池单次出生空槽分配 | PRODUCT_SPEC；`MobAITweaks`（来源意图，采用Buildup严格池） | **ADAPT** / E2-a / 是 | 真实资源标签重载、原版Goal使用、组件/掉率、转换/保存/死亡/禁用/无规则不补发 **L2 PASS**；支持五种精确类型，第三方AI/人工 **NOT RUN** |
 | `demo_common`：演示Marker不构成生物技能，后续配置说明弃用 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_common` 仅待实现；不改变现有模块出生概率；**NOT RUN** |
 | `demo_advanced`：演示Marker无正式执行能力，排除 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_advanced` 仅待实现；不伪称高级AI生效；**NOT RUN** |
 | `demo_rare`：演示Marker无正式执行能力，排除 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_demo_rare` 仅待实现；不伪称稀有技能生效；**NOT RUN** |
@@ -28,7 +30,7 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `skeleton_offhand_visual`：真实新拉弓时挥动实际用弓手的另一只手，由服务端同步门控制模型 | UPSTREAM；`RangedBowAttackGoalMixin`, `SkeletonEntityModelMixin` | **ADAPT** / E1-c / 是（含替代说明） | 独立门、四种主臂/用弓手、仅visual开启原版Goal及真实客户端模型 **PASS**；不复制箭；人眼验收 **NOT RUN** |
 | `skeleton_trap_variants`：陷阱坐骑与骑手变体仅在原版陷阱事件追加有限选择 | UPSTREAM；`SkeletonTrapMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_trap_variants` 仅待实现；原版队伍/生成为一次/骑乘递归保存；不额外材料；**NOT RUN** |
 | `skeleton_wither_conversion`：转为凋灵骷髅保留装备所有权，不原样套用上游转换 | UPSTREAM；`SkeletonEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_skeleton_wither_conversion` 仅待实现；具体触发条件待批次核实；UUID/主副手/备用/冷却；**NOT RUN** |
-| `wither_skeleton_bow`：真实弓替代武器与出生条件分别实施，支持已有弓不意味着普遍发弓 | UPSTREAM；`WitherSkeletonEntityMixin` | **ADAPT** / E1行为/E2出生 / 是（含替代说明） | E1-a既有普通弓原版覆盖REPLACE+真实耐久ADAPT，主副手/近战/守恒L2 **PASS**；出生部分仍E2/**NOT RUN** |
+| `wither_skeleton_bow`：出生真实弓与实际装备使用 | UPSTREAM；`WitherSkeletonEntityMixin` | **ADAPT** / E1-a行为+E2-a出生 / 是 | 真实空初始化手、池/独立概率/门、原版Bow Goal箭伤/耐久/保存/死亡 **L2 PASS**；仅原版弓，完整L3/人工 **NOT RUN** |
 | `wither_skeleton_homing`：头颅追踪只对合法既有目标、有期限与半径预算；不复制OP分支 | UPSTREAM；`SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a原生弹体/移动不祥目标实际弯曲命中、固定归属/退出/独立关闭L2 **PASS**；人工/完整L3 **NOT RUN** |
 | `wither_skeleton_skull`：保留有限特殊头颅攻击与前摇/冷却，不复制原版Boss状态机 | UPSTREAM；`WitherSkeletonEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a30tick前摇/一枚/400冷却/100寿命；真实伤害、保护、预算、关闭/保存L2 **PASS**；人工/完整L3 **NOT RUN** |
 | `parched_dodge`：还原焦骸旋转位移；不照搬已发现旋转及速度Bug | UPSTREAM；`ParchedEntityMixin`, `SkeletonSpecificGoal` | **ADAPT** / E1 / 是（含替代说明） | E1-a20tick预警/10tick旋转位移/120冷却；实际Tick/退出及客户端状态L2 **PASS**；肉眼/完整L3 **NOT RUN** |
@@ -39,7 +41,7 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `piglin_shot_swing`：真实弩发射后挥实际手，按26.3 swingForAttack适配 | UPSTREAM；`PiglinEntityMixin` | **PORT**（当前API适配） / E1-b / 是 | native Brain真正主副手射击、空射不计、独立关闭；客户端28/28挥手样本 **PASS**；人工/完整L3 **NOT RUN** |
 | `piglin_item_dodge`：近距蓄弩后跳，不是掉落物闪避 | UPSTREAM；`PiglinEntityMixin`；旧S2语义偏差 | **ADAPT** / E1-b / 是 | 成人出生一次7%、200冷却、10动作窗口、合法地面一次冲量；真实位移/危险回退、门控/保存L2 **PASS**；自然刷怪器/人工/完整L3 **NOT RUN** |
 | `piglin_crossbow_compatibility`：CrossbowItem继承、实际主副手/射程/姿势，保留原Brain和矛 | UPSTREAM；`PiglinBrainMixin`, `PiglinEntityMixin`, `RangedCrossbowAttackTaskMixin` | **ADAPT** / E1-b / 是 | 真正副手弩不被清理搬走，黄金替换仍转移实际物；装填/耐久/交易/拾取/转换/禁用L2 **PASS**；Beta有限对照；任意枪械/完整L3/人工 **NOT RUN** |
-| `zombified_piglin_spawn_crossbow`：出生20与局部难度250%参考，纳入一次装备分配 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombified_piglin_spawn_crossbow` 仅待实现；自然/刷怪蛋/召唤/重载来源，真实弩无隐藏备份；**NOT RUN** |
+| `zombified_piglin_spawn_crossbow`：原版初始化时池选真实稀有弩 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2-a / 是 | 原生空主手、出生概率/独立门、幼体、原金剑/金矛回退、保存/死亡 **L2 PASS**；弩远程AI仍E2-b **NOT RUN** |
 | `zombified_piglin_crossbow`：给已经持弩实体原版调度远程使用，不额外复制装备 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombified_piglin_crossbow` 仅待实现；仇恨/距离/弹体/退回原近战/掉落；**NOT RUN** |
 | `illager_zombie_conflict`：窄阵营冲突，保留玩家优先而非全局setTarget覆盖 | UPSTREAM；`IllagerEntityMixin`, `AbstractZombieEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_illager_zombie_conflict` 仅待实现；完整袭击/村庄/玩家目标/禁用/互相索敌；**NOT RUN** |
 | `illager_zombie_villager`：僵尸村民独立敌对关系与普通僵尸重叠按一次处理 | UPSTREAM；`IllagerEntityMixin`, `ZombieVillagerEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_illager_zombie_villager` 仅待实现；职业/转化/袭击/玩家优先；**NOT RUN** |

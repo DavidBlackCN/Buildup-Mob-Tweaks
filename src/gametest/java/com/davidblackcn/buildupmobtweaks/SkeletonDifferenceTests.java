@@ -169,8 +169,11 @@ public class SkeletonDifferenceTests {
         var board=h.getLevel().getScoreboard();var team=board.addPlayerTeam("e1c_"+m.getUUID().toString().substring(0,8));board.addPlayerToTeam(m.getScoreboardName(),team);board.addPlayerToTeam(ally.getScoreboardName(),team);
         var undead=EntityTypes.ZOMBIE.create(h.getLevel(),EntitySpawnReason.COMMAND);undead.snapTo(h.absolutePos(new BlockPos(14,2,8)),0,0);undead.setNoAi(true);undead.setNoGravity(true);undead.setItemSlot(EquipmentSlot.HEAD,new ItemStack(Items.IRON_HELMET));undead.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000);undead.setHealth(900);h.getLevel().addFreshEntity(undead);board.addPlayerToTeam(undead.getScoreboardName(),team);
         actualCloudDamage.put(enemy.getUUID(),0);actualCloudDamage.put(ally.getUUID(),0);
-        boolean[] positioned={false};float[] before={0};
-        h.onEachTick(()->{if(!positioned[0]&&!clouds(h,m).isEmpty()){positioned[0]=true;var p=clouds(h,m).getFirst().position();before[0]=enemy.getHealth();enemy.snapTo(p,0,0);ally.snapTo(p.add(.1,0,0),0,0);undead.snapTo(p.add(0,0,.1),0,0);}});
+        boolean[] positioned={false},deflected={false};float[] before={0};
+        h.onEachTick(()->{
+            // Isolate new HARMING clouds from the pre-existing vanilla POISON cloud: only move already-fired native projectiles.
+            if(!deflected[0]&&!balls(h,m).isEmpty()){deflected[0]=true;for(var ball:balls(h,m)){ball.snapTo(h.absolutePos(new BlockPos(20,3,8)),0,0);ball.setDeltaMovement(0,-.1,0);}}
+            if(!positioned[0]&&!clouds(h,m).isEmpty()){positioned[0]=true;var p=clouds(h,m).getFirst().position();before[0]=enemy.getHealth();enemy.snapTo(p,0,0);ally.snapTo(p.add(.1,0,0),0,0);undead.snapTo(p.add(0,0,.1),0,0);}});
         h.runAtTickTime(85,()->{try{proof("cloud_ally",m,"positioned="+positioned[0]+" enemy_before="+before[0]+" enemy="+enemy.getHealth()+" ally="+ally.getHealth()+" undead_ally="+undead.getHealth()+" native_cloud_damage="+actualCloudDamage.get(enemy.getUUID()));h.assertTrue(positioned[0]&&enemy.getHealth()<before[0]&&ally.getHealth()==1000&&undead.getHealth()==900&&actualCloudDamage.get(enemy.getUUID())>0&&actualCloudDamage.get(ally.getUUID())==0,"Actual native HARMING cloud damages enemy but neither damages living nor heals undead allied collateral");clean(m,t,enemy,ally,undead);h.succeed();}finally{board.removePlayerTeam(team);actualCloudDamage.remove(enemy.getUUID());actualCloudDamage.remove(ally.getUUID());}});
     }
     @GameTest(environment=ENV,structure=ARENA,maxTicks=85)

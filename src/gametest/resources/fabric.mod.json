@@ -19,6 +19,7 @@
       "com.davidblackcn.buildupmobtweaks.PillagerBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.SkeletonBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.SkeletonDifferenceTests",
+      "com.davidblackcn.buildupmobtweaks.BirthEquipmentTests",
       "com.davidblackcn.buildupmobtweaks.ZombieBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.DrownedBehaviorTests"
     ]

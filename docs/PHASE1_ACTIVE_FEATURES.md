@@ -1,6 +1,8 @@
 # Phase 1白名单入口与测试缺口（E0基线56项）
 
-> R4-E1-c当前限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
+> R4-E2-a当前限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
+
+> R4-E1-c历史限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
 
 
 > E1-b历史限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
@@ -102,3 +104,7 @@
 | `bogged_omen_mushrooms` | SkeletonSpecificGoals DODGE → release；Snowball.onHit → impact；BoggedCloudMixin.serverTick → affects；END_SERVER_TICK退役 | 真实两色碰撞云/伤害/亡灵盟友保护/保存退出PASS；Beta有限对照、正式版源码；完整L3 NOT RUN |
 
 实际FeatureRegistry现为66个支持ID。旧瞄准/雪球重复ID仍未生效，流浪者不祥雪球DEFER，见[R4E1C_REBUILD](R4E1C_REBUILD.md)。E0 JSON索引仍是旧56项定位快照。
+
+## R4-E2-a 当前增量
+
+`equipment_assignment`：EquipmentPools.register → EquipmentService.register/initialize/defaultWeapon → 两类出生WrapOperation及ENTITY_LOAD；`zombified_piglin_spawn_crossbow`：同一真实出生链并带独立门。`wither_skeleton_bow`已支持ID补齐出生部分；`traits`仍未生效旧ID、按模块附件REPLACE。具体24项行为及231总回归见R4E2A_REBUILD；当前68/56，不改E0原始JSON。

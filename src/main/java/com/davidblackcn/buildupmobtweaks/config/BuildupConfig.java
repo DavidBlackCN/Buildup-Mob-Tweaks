@@ -7,7 +7,7 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 9)
+@Version(version = 10)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
@@ -212,6 +212,8 @@ public final class BuildupConfig extends Config {
     public static final class Equipment extends ConfigSection {
         public ValidatedBoolean poolAssignment = new ValidatedBoolean(true);
         public ValidatedInt assignmentChance = new ValidatedInt(100, 1000, 0);
+        public ValidatedInt witherBowChance = new ValidatedInt(10, 1000, 0);
+        public ValidatedInt zombifiedCrossbowChance = new ValidatedInt(10, 1000, 0);
     }
 
     public static final class Traits extends ConfigSection {

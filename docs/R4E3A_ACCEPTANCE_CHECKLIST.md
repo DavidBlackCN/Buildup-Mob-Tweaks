@@ -1,6 +1,6 @@
 # R4-E3-a 统一人工验收
 
-当前九项实现、一个原版REPLACE；骑乘友伤过滤待明确裁决 BLOCKED、未实现，亡灵马日烧 Phase2 DEFER。人工状态均 **NOT RUN**。范围与自动证据见 [工作报告](R4E3A_REBUILD.md)。不要把默认10/1000罕见特性“没刷出来”当作功能失败，也不要把强制QA样本当作自然概率通过。
+当前十项实现、一个原版REPLACE，亡灵马日烧Phase2 DEFER；骑乘过滤已明确批准为Buildup安全修正并补齐，开发范围已覆盖。人工状态均 **NOT RUN**。范围与证据见 [工作报告](R4E3A_REBUILD.md) / [骑乘补充](R4E3A_RIDER_ADDENDUM.md)。默认10/1000罕见特性“没刷出来”不能当作失败，强制QA不能当作自然概率通过。
 
 仅在废弃测试世界安装正式 `build/libs/buildup-mob-tweaks-1.0.0.jar` 和独立 `build/libs/buildup-mob-tweaks-1.0.0-qa.jar` 及原依赖。普通难度，作弊/owner权限4；客户端安装正式包。每台服务器一个QA会话，先旧 `/buildupqa cleanup` 或 `/buildupqa e3 cleanup` 再启动；不支持多人同时开场。
 
@@ -15,6 +15,7 @@
 | boat | 第15tick受一次实际伤害，出现一次安全离船，escapes=1；不是任意下船键/玩家座椅。另关门或危险地面时保留乘客 |
 | camel | 实际持矛使用和目标扣血；持矛期间circle可为0，**正常现象**。换斧/不用物品后可环绕；off只关环绕，原版矛继续工作 |
 | horse | 等11～15秒，看抬身预告、冲刺、charges>0；自然动作可能偏离，不要求每次hits>0。命中至多一次；off停止新冲刺、原版弓攻击可继续 |
+| rider | 原弓Goal实际发射，工具等原箭LeftOwner=true再返回马下身；returnedArrows>0、projectileSkips>0且vehicleHP=1000。skips是查询次数，不能单独作验收。另用实体disable_rider_friendly_fire标签、下马或换乘的真实返回箭确认旧马仍会受伤；敌方骑士/玩家射手/近战无通用免伤 |
 | trap | **用真正生存玩家进入原马10格内**，触发原陷阱；一事件4马4骑手，Skeleton/Wither/Stray/Bogged各一。触发后切创造观察，cleanup也清事件后代；关闭变体时原4Skeleton |
 | conversion | 第15tick真正致死凋零输入，原Skeleton消失、一名WitherSkeleton产生，原物品延续；转化时无额外死亡奖励，cleanup清新实体 |
 
@@ -28,4 +29,4 @@
 - [ ] cleanup地板/屋顶恢复、仅自己夹具/陷阱后代/转换实体消失；既有宠物、背包和邻近原生怪不被移除。
 - [ ] 仅正式包启动没有 `/buildupqa` 命令；未生效尸壳矛旧开关和日烧配置的UI描述准确。
 
-骑乘过滤未实现，不把同树弹体免伤列为 PASS。自然概率、所有出生源、多人整合包、长时性能和完整两版上游L3需专项记录，当前 NOT RUN。验收反馈附scene、UUID/check输出、游戏模式、装备与完整mod列表；本批之后停止，不自动开始E3-b。
+骑乘安全的自动验证已通过，人工仍待勾选；正常向前射箭不碰坐骑，不能用“关门也没伤马”判断关闭失败。自然概率、所有出生源、多人整合包、长时性能和完整两版上游L3仍NOT RUN。反馈附scene、UUID/check、模式、装备和完整mod列表；本批停止，不自动开始E3-b。

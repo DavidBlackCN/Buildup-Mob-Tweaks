@@ -2,9 +2,9 @@
 
 2026-10-10；目标仅 `26.3/`、分支 `26.3`，起始干净 HEAD `f8602e36a2d913749415ade8d70a2b44e2fc280d`。用户授权整个 a 组连续执行。没有恢复 S2 服务，没有进入 E3-b/c、E4、Boss、R5 或后续 Phase，没有推送/发布。
 
-**状态：九项实现已提供；整个 E3-a 尚不能宣称完成。** `rider_friendly_fire` 补审发现为 LEGACY_ONLY，保留为 Buildup 安全功能还是 Phase2 DEFER 的明确裁决仍待回复，当前 BLOCKED、未实现。亡灵马日烧已获用户明确裁决 Phase2 DEFER。尸壳矛由 26.3 原生能力 REPLACE，旧配置仍不生效，不虚构额外实现。
+**状态：E3-a开发范围已覆盖，等待统一人工验收。** 用户已明确批准 `rider_friendly_fire` 为Buildup窄安全修正，来源LEGACY_ONLY，前批裁决阻塞解除；实现、14项真实碰撞测试及QA补充见 [骑乘补充报告](R4E3A_RIDER_ADDENDUM.md)。亡灵马日烧已批准Phase2 DEFER。尸壳矛由26.3原版REPLACE，旧配置仍不生效。停止在a，不自动进入下一组。
 
-环境未升级：MC26.3 / 官方名称 / Java25.0.3 / Gradle9.7.1 / Loom1.18.3 / Loader0.19.5 / Fabric API0.162.0+26.3 / Fzzy0.7.7+fix3+26.3（非传递）/ Kotlin1.14.1+kotlin.2.4.20 / 可选Mod Menu21。配置仍 v10，124个声明 ID，**86支持 / 38未生效**（77+9）。独立 QA 新增9个场景，原25个保留，共34个；支持数与测试数均不等于人工验收通过。
+环境未升级：MC26.3 / 官方名称 / Java25.0.3 / Gradle9.7.1 / Loom1.18.3 / Loader0.19.5 / Fabric API0.162.0+26.3 / Fzzy0.7.7+fix3+26.3（非传递）/ Kotlin1.14.1+kotlin.2.4.20 / 可选Mod Menu21。配置仍v10，124声明ID，**87支持/37未生效**（77+10）。独立QA新增10场景，原25保留，共35；支持数与测试数不等于人工验收通过。
 
 ## 行为与关键决策
 
@@ -19,7 +19,7 @@
 | 骷髅马冲刺 | 既有骷髅马主骑手，出生单次10/1000；20tick抬身预告、至多20tick冲刺、200tick世界冷却，单次接触伤害上限4；不额外造马、不添加长期速度修饰 | L2 PASS，人工 NOT RUN；并非保证每次冲刺命中 |
 | 骷髅陷阱变体 | 保留真正 SkeletonTrapGoal 与4马/4骑手；第一骑手Skeleton，另三名Wither/Stray/Bogged，移交原生附魔装备；关闭则原4Skeleton。事件局部，不全局组队或生成第二份装备 | L2 PASS，人工 NOT RUN |
 | 致死转凋灵 | 仅精确Skeleton在凋零效果或凋灵系致死时，native convertTo 转实际装备，保留名称/NoAI/乘客与已赚取骑乘选择冷却；实际外部备用品移交，生成木剑退役。转换不结算死亡奖励；之后真实死亡备用品只结算一次，不循环转换 | L2 PASS，人工 NOT RUN |
-| 骑乘友伤过滤 | 两版恢复 PersistentProjectileEntityMixin 未找到此过滤；原版 leftOwner=true 后允许再命中自己的当前骑乘树。已准备仅当前同树箭/三叉戟安全修正的方案，但不把来源误写上游 | BLOCKED：待用户保留/暂缓裁决，NOT RUN |
+| 骑乘友伤过滤 | LEGACY_ONLY，用户批准Buildup安全修正；只过滤有效Mob射手箭/三叉戟对当前同树的候选。实时关系，不保护旧树/敌方树/玩家射手/其他伤害；不改hurt或设置通用无敌 | L2 PASS；人工/全面网络时序 NOT RUN |
 | 亡灵马日烧 | 两版所谓 burnInDay 只是自然骑乘马移除。用户明确选择 Phase2 DEFER；保留未生效字段，不添加日烧或自然马移除 | DEFER，不计 Phase1实现 |
 
 新 `relations_ai_excluded`、`riding_ai_excluded` 类型标签继承已有相关模块排除标签；总门、独立门、`vanilla_ai`、`disable_<id>` 仍可回退。关系检索每20tick、半径≤16、最多16候选；安全检查最多4×4落脚格。骑乘瞬时动作不保存，已赚取世界冷却/出生选择保存，未知附件版本不接管。转换后的外部备用品死亡结算独立于技能关闭，避免物品所有权消失。
@@ -36,7 +36,7 @@
 
 早期失败全部保留：build-1 为新夹具泛型；build-2 暴露未知状态安装及关系阻挡支援，并修复根因；build-3 为 GoalSelector API；build-4 暴露 Brigadier 合并后的非操作员权限回归，已修根命令权限。build-5 一项既有猪灵首次箭未命中失败，根因**未证实**；build-6 为新 QA 转化观察半径和失败清理泄漏，已修夹具和 finally 清理；build-7、8全335必需项通过。build-9新增真实碰撞专项通过，但猪灵同项再次失败，185tick已发1箭而未伤目标。本次唯一既有测试修改因此将185tick发射期限保留为独立断言，225tick另断言实际命中/伤害，新增首发与首命中记录，最大时长240；没有修改猪灵生产AI、关闭随机散布或伪造命中。build-10全336必需项通过，猪灵记录首发165/首命中169tick。两次历史未命中到底为飞行期限还是散布，**仍未证明**，不得宣称根因修复；交付保留此风险。其余既有断言未弱化。
 
-最终 `build-10.log`：**BUILD SUCCESSFUL，336 required PASS**（旧301+新增35），`qaJar` 成功。新骷髅马定向物理接触为charges=1、hits=1；真实原矛HP980.32，误击基准revenge=true/修正revenge=false且lastHurtSnow=true；转化及后续死亡证明外部备用品一次结算。总测试数只用于复核，不代替范围表或人工。
+前批最终 `build-10.log`：BUILD SUCCESSFUL，336 required PASS（旧301+新增35），qaJar成功，作为历史证据保留。用户随后批准骑乘过滤后的本轮最终为 **r4e3a-rider/build-3.log：BUILD SUCCESSFUL，350 required PASS**（301旧+49 E3-a新增），完整qaJar成功。原35项仍执行；新增14项实测原生弓Goal、箭/三叉戟当前树保护及禁用/旧树/敌树/NoAI/无主/玩家负例，十个E3 QA场景全流程含真正玩家陷阱触发。计数只用于复核，不代替行为证据或人工。
 
 | 验证范围 | 口径 |
 | --- | --- |
@@ -54,6 +54,6 @@
 
 ## 自检与交付边界
 
-按外层 CODE_REVIEW 审查本次完整 diff，具体收据见 verification.json：代码自检 PASS WITH RISKS，保留上面的运行覆盖边界与既有首次射击偶发失败记录。整个批次因骑乘过滤产品裁决 **BLOCKED**，不能将本地提交当作人工通过或 E3-a 全部完成。实施、矩阵、QA使用及人工清单同步，UPDATE_NOTES仅追加已验证行为。没有推送发布；共享计划与原始证据不在 `26.3` 本地提交内，须另行保管。
+按外层CODE_REVIEW审查完整改动，代码自检PASS WITH RISKS，保留运行覆盖边界、前批偶发失败和本批失败夹具记录。骑乘过滤已获产品批准并实现，开发范围已覆盖；本地提交不代表人工通过。UPDATE_NOTES只追加已验证行为，无推送发布；共享计划/原始证据在26.3提交外，须另行保管。当前完整收据在 `../../docs/rebuild/evidence/r4e3a-rider/verification.json`，前批verification.json/commit仍是当时历史状态，不改写。
 
-下一步只处理骑乘过滤裁决和本清单人工验收；E3-b/c 未启动。
+下一步只等待本清单统一人工验收；E3-b/c未启动。

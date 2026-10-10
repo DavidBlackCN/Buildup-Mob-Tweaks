@@ -1,6 +1,7 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
-> 2026-10-10 E3-a 当前实施：[工作报告](R4E3A_REBUILD.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+> 2026-10-10 E3-a完整开发范围现已覆盖：[工作报告](R4E3A_REBUILD.md) / [骑乘安全补充](R4E3A_RIDER_ADDENDUM.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。用户已明确批准rider_friendly_fire作为LEGACY_ONLY来源的Buildup窄安全修正；前批产品裁决阻塞解除，十项接入、尸壳矛原版REPLACE、亡灵马日烧已批准Phase2 DEFER。当前124声明、87支持/37未生效、配置v10、独立QA35场景。下文旧计数、BLOCKED和仅规划语句为历史时点；现在停止等待整a人工验收，人工/完整L3/默认自然分布/多人性能NOT RUN。没有进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
 
 
 > 2026-10-10 E3仅规划：[总方案](R4E3_PLAN.md)/[首批关系方案](R4E3A1_MIGRATION_PLAN.md)。本轮纠正亡灵马日烧为LEGACY_ONLY；是否转Phase2 DEFER待用户裁决，原批准分类计数暂保留，不能把来源纠正算成实现。灾厄关系将按确切类型与独立门收窄，傀儡项先原版复现再定ADAPT/REPLACE。配置/支持数不变，E3实现与行为验收全部NOT RUN。
@@ -75,7 +76,7 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `chicken_jockey_charge`：鸡骑士原版ZombieAttackGoal近距扑击，非额外生成骑士 | UPSTREAM；`ZombieAttackGoalMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `zombie_slime_carrier`：史莱姆携带与生成/分裂/递归骑乘风险，首发暂缓 | UPSTREAM；`AbstractZombieEntityMixin` | **DEFER** / Phase3变种审批 / 否 | 独立门 `disable_zombie_slime_carrier` 仅待实现；不阻断Phase1；无限拆分和保存需专项；**NOT RUN** |
 | `zombie_horse_leader`：首领与马/召集会增加实体预算及掉落，首发暂缓 | UPSTREAM；`AbstractZombieEntityMixin`, `ZombieHorseEntityMixin` | **DEFER** / Phase3变种审批 / 否 | 独立门 `disable_zombie_horse_leader` 仅待实现；不阻断Phase1；自然样本/刷怪塔/同伴生命周期；**NOT RUN** |
-| `rider_friendly_fire`：拟精准排除自己的当前骑乘树，保留敌方命中 | **LEGACY_ONLY**；旧S2；两版恢复PersistentProjectileEntityMixin无该过滤 | **ADAPT** / E3-a（历史批准，补审后待产品裁决） / 暂保留 | 保留Buildup窄安全功能或Phase2 DEFER待用户答复；**BLOCKED/未实现/NOT RUN**，原版leftOwner边界已核验，不伪称上游修复 |
+| `rider_friendly_fire`：当前同树箭/三叉戟候选过滤 | **LEGACY_ONLY**；旧S2，两版恢复源码无此过滤；用户批准Buildup安全修正 | **ADAPT** / E3-a / 是 | 射手独立门、实时当前树、旧/敌树/玩家/NoAI/关闭真实碰撞负例及原弓Goal **L2 PASS**；[补充](R4E3A_RIDER_ADDENDUM.md)，HUMAN/全面网络时序 **NOT RUN** |
 | `strafe_hazard_check`：现有SkeletonBehavior.safeStep提供目标骨架范围的危地检查；不恢复全局isWalkable覆盖 | UPSTREAM；`MoveControlMixin` | **REPLACE** / E4确认/R5说明 / 是（含替代说明） | 独立门 `disable_strafe_hazard_check` 仅待实现；火/落差/阻挡/其余原版不接管；并非所有生物同等复原；**NOT RUN** |
 | `movement_jump_input`：jumpMotionFix意图只在验证过的重建实体保留跳跃横移输入 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_movement_jump_input` 仅待实现；禁止反射枚举/吞Throwable；先对照26.3原版输入；**NOT RUN** |
 | `movement_clear_strafe`：keepMovingForward/stopSidewaysMovement防遗留横移，只窄控制器适配 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_movement_clear_strafe` 仅待实现；已通过走射/后撤/连击不得倒退；**NOT RUN** |

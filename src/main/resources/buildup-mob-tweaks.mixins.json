@@ -3,6 +3,7 @@
   "package": "com.davidblackcn.buildupmobtweaks.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "rebuild.RiderProjectileMixin",
     "rebuild.E3BoundaryMixin",
     "rebuild.SkeletonWitherConversionMixin",
     "rebuild.SkeletonTrapVariantsMixin",

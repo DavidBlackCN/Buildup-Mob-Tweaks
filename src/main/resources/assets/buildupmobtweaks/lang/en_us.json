@@ -240,7 +240,7 @@
   "buildupmobtweaks.main.hostile.extended.zombie_fletcher_crossbow": "Zombie Fletcher Crossbow",
   "buildupmobtweaks.main.hostile.extended.zombie_fletcher_crossbow.desc": "Fresh fletcher zombie villagers receive one crossbow in an empty hand; load and fire the actual main- or off-hand weapon with durability costs. Retain loaded ammunition, no refills.",
   "buildupmobtweaks.main.hostile.extended.rider_friendly_fire": "Rider Friendly Fire",
-  "buildupmobtweaks.main.hostile.extended.rider_friendly_fire.desc": "Prevent skeleton-horse riders from harming their own mount or other skeleton-horse riders.",
+  "buildupmobtweaks.main.hostile.extended.rider_friendly_fire.desc": "Buildup safety: filter arrows/tridents from an active mob shooter against its current riding tree only. Dismounting or changing mounts releases the old tree. Enemy mounts, player shooters, other damage and disabled vanilla behavior remain unaffected.",
   "buildupmobtweaks.main.hostile.extended.skeleton_trap_variants": "Skeleton Trap Variants",
   "buildupmobtweaks.main.hostile.extended.skeleton_trap_variants.desc": "Preserve the native four-horse trap event. Keep its first skeleton and replace the three added riders with wither skeleton, stray and bogged, transferring actual enchanted equipment. No extra horses or rewards.",
   "buildupmobtweaks.main.hostile.extended.skeleton_wither_conversion": "Skeleton Wither Conversion",

@@ -2,7 +2,8 @@
 
 E3-a用户已授权完整a组连续制作，九项实施和原生矛REPLACE见[R4E3A_REBUILD](R4E3A_REBUILD.md)。现唯一开发裁决门为骑乘过滤保留/暂缓；亡灵马日烧不再阻塞a，已批准Phase2 DEFER。该裁决答复前不新增过滤，完整a状态BLOCKED。先处理裁决及统一人工清单；E3-b/c、E4/Boss未获本批实施授权，不自动推进。68项取舍现PORT1/ADAPT47/REPLACE6/DEFER10/EXCLUDE4（含待裁决rider的历史ADAPT占位），最终更改该项分类需明确记录。
 
-> 2026-10-10 E3-a 当前实施：[工作报告](R4E3A_REBUILD.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+> 2026-10-10 E3-a完整开发范围现已覆盖：[工作报告](R4E3A_REBUILD.md) / [骑乘安全补充](R4E3A_RIDER_ADDENDUM.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。用户已明确批准rider_friendly_fire作为LEGACY_ONLY来源的Buildup窄安全修正；前批产品裁决阻塞解除，十项接入、尸壳矛原版REPLACE、亡灵马日烧已批准Phase2 DEFER。当前124声明、87支持/37未生效、配置v10、独立QA35场景。下文旧计数、BLOCKED和仅规划语句为历史时点；现在停止等待整a人工验收，人工/完整L3/默认自然分布/多人性能NOT RUN。没有进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
 
 
 > 2026-10-10现行状态：本轮仅获准R4-E3规划，见[总方案与11个建议小批](R4E3_PLAN.md)、[首批E3-a-1具体方案](R4E3A1_MIGRATION_PLAN.md)。未开始代码/QA/配置接入，77支持/47未生效、v10、QA25不变。亡灵马日烧来源纠正与G34的OP限定列为待裁决，不擅自撤销已批准范围。E2完整人工/L3等未验证项仍保留；下列停止点及计数按各历史批次理解。
@@ -100,3 +101,5 @@ E2-a限定闭环已完成，范围/证据/风险见R4E2A_REBUILD；旧E2-a待实
 用户本轮授权一次完成整个E2-c，四ID已实施；具体方案、结果和人工步骤见[R4E2C_MIGRATION_PLAN](R4E2C_MIGRATION_PLAN.md)、[R4E2C_REBUILD](R4E2C_REBUILD.md)、[R4E2C_ACCEPTANCE_CHECKLIST](R4E2C_ACCEPTANCE_CHECKLIST.md)。77/47、QA25、配置v10；全量298项及新26项真实Server Tick/Goal验证，客户端四实际持弓手组合；原生普通难度五波生命周期采用受控击杀推进，不等于连续实战验收。本地提交后停止。
 
 下一批具体建议 **E3-a-1（最多三ID）**：`illager_zombie_conflict`、`illager_zombie_villager`、`golem_friendly_fire_fix`。先审计两版官方发行源码的阵营/目标取得/友伤链，核对26.3原版已修内容与已有本项目Goal；再确定“原版覆盖/REPLACE”或窄ADAPT。使用真实阵营/村庄/铁傀儡、双向伤害/目标、关闭回退和目标生命周期测试，避免全局LivingEntity钩子、广域扫描及新增伤害。若当前原版已覆盖，不应仅加白名单制造已实现状态。骑乘、陷阱转换、生态生成和Boss另批。本轮只输出建议，没有实施E3；后续仍由用户确认具体批次。
+
+E3-a rider decision resolved: user explicitly retains `rider_friendly_fire` as Buildup safety / LEGACY_ONLY ADAPT. Implemented and actual native Tick collision tests verified; prior pending/BLOCKED/inactive remarks are history. Current 87 supported / 37 inactive, v10, QA35; whole a development covered, human acceptance pending. No E3-b/c/E4 or later phase. Details: [rider addendum](R4E3A_RIDER_ADDENDUM.md).

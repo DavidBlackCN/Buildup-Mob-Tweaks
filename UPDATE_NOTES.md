@@ -62,3 +62,5 @@
 
 - ✨ feat(riding): rebuild bounded mob relations, mounted actions, skeleton traps and fatal wither conversion
 - 🐛 fix(golem): suppress native iron and snow golem friendly retaliation while preserving damage and player revenge
+
+- 🐛 fix(riding): protect only the current riding tree from an active mob shooter’s arrows and tridents

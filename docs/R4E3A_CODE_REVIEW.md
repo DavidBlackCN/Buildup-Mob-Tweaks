@@ -1,6 +1,6 @@
 # E3-a Code Review
 
-**Code Review: PASS WITH RISKS**；**完整批次：BLOCKED**，骑乘过滤产品裁决待答复。2026-10-10；没有以代码自检代替用户验收。
+**Code Review: PASS WITH RISKS**；2026-10-10，用户已批准骑乘安全，开发范围覆盖、产品阻塞解除，完整a人工待验。下文首批审查保留历史；本轮增量审查见末尾和[R4E3A_RIDER_ADDENDUM](R4E3A_RIDER_ADDENDUM.md)。没有以代码自检代替用户验收。
 
 Scope：审查 `git diff` 和本批全部 untracked 源码/资源/文档；干净起点f8602e3，目标26.3、分支26.3。新relations/riding、5个窄Mixin、注册/白名单、SupportGoal优先级、两种类型标签、双语描述、独立E3aQa、35项GameTest及唯一旧猪灵夹具调整；build.gradle仅添加测试include，无依赖/版本迁移。规划/实施/矩阵/验收/UPDATE_NOTES包含于审查，共享文档单独留存。
 
@@ -28,3 +28,15 @@ Verification：
 Residual Risks：完整人工/默认自然出生分布、所有出生源/生命周期组合、多人整合包与长期性能NOT RUN；两个历史夹具首次失败精确原因保留；专服flat设置解析提示不是Mod无错世界生成验收。骑乘过滤LEGACY_ONLY取舍待用户明确答复。上述风险不通过测试数量掩盖。
 
 本地commit只归档已验证九项及对应文档，不代表整a或人工验收通过；不推送/发布，不进入下一组。
+
+## 用户裁决后的最终增量自检
+
+以上BLOCKED/九项/336项是前批历史。用户已批准窄安全修正，当前开发范围已覆盖十项、原矛REPLACE、日烧DEFER；整体人工仍NOT RUN。新提交起点d860821，工作树干净，无用户改动被覆盖。
+
+审查RiderProjectileMixin、FeatureRegistry、瞬时计数、双语描述、QA rider场景及其LeftOwner/返回箭/清理、RiderProjectileTests14项、原35项QA升级与马接触夹具调整、测试source include/入口和全部文档。无依赖、版本、AW、配置持久格式变更。common新增注入为精确Projectile.canHitEntity(Entity)Z HEAD，仅server AbstractArrow及有效Mob射手，实时树关系和独立门，负例保持原生结果；不缓存/扫描树、不改hurt，不提供其他树/玩家/其他伤害免疫。已有clone箭独立过滤保持。
+
+必需Wrapper最终build-3全350实际调度PASS；14项含原弓Goal真的发射/离开/返回，实际箭/三叉戟HP差异。新增QA实际返回箭断言防初始query计数假阳性；最终独立专服开启/关闭的马HP差异以及清理PASS。正式/源码包无QA；旧169跟踪文件/源JAR许可哈希、JSON/语言key集、diff检查和包SHA见新verification.json。UPDATE_NOTES新增Gitmoji + Conventional Commits窄安全记录，未重复前批九项。
+
+增量BLOCKER/MAJOR：无已发现代码项。Code Review仍 **PASS WITH RISKS**：本轮首版6项失败和夹具调整全保留；前批猪灵首命中和客户端首次失败的精确历史原因未证实。新增骑乘客户端肉眼/全面网络时序、同树嵌套乘客全部组合、所有冷重启/出生源、自然分布、整合包/多人/性能NOT RUN；不得以350数目代替。对照来源无此功能，只能作为Buildup主动安全修正，完整上游L3未完成。
+
+本轮验证自检后一次本地提交，根外共享文档/证据另存；停止等待整a人工，不推送发布，不进入E3-b/c。

@@ -2,7 +2,8 @@
 
 E3-a补审：`rider_friendly_fire` 从上游来源改为 **LEGACY_ONLY**，两版恢复 PersistentProjectileEntityMixin 均无当前骑乘树过滤；是否作为Buildup安全修正保留仍待产品裁决。`undead_horse_sunburn` 已明确 Phase2 DEFER。目标26.3原生SpearUseGoal的坐骑速度/真实武器已实测覆盖尸壳矛，按REPLACE处理，旧ID仍不生效。傀儡雪球误击报复已实际复现并窄修，不再停留于静态推测。这些来源纠正不新增生态功能，不改变其他G候选门槛。
 
-> 2026-10-10 E3-a 当前实施：[工作报告](R4E3A_REBUILD.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+> 2026-10-10 E3-a完整开发范围现已覆盖：[工作报告](R4E3A_REBUILD.md) / [骑乘安全补充](R4E3A_RIDER_ADDENDUM.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。用户已明确批准rider_friendly_fire作为LEGACY_ONLY来源的Buildup窄安全修正；前批产品裁决阻塞解除，十项接入、尸壳矛原版REPLACE、亡灵马日烧已批准Phase2 DEFER。当前124声明、87支持/37未生效、配置v10、独立QA35场景。下文旧计数、BLOCKED和仅规划语句为历史时点；现在停止等待整a人工验收，人工/完整L3/默认自然分布/多人性能NOT RUN。没有进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
 
 
 > 2026-10-10 E3规划补审：[总方案](R4E3_PLAN.md)。G34只在上游OP分支成立，不能当普通默认技能直接移植；如保留需单独批准Vanilla+预算。下文56支持数是E0历史时点，当前77支持/47未生效、v10、QA25不变。本轮未实现候选，E3验证均NOT RUN。
@@ -65,3 +66,5 @@ E3候选较多，应拆为E3-a骑乘/关系、E3-b低侵入生态、E3-c选定�
 ## R4-E2-c 本批结果
 
 本批不新增候选G编号，不改变既有G38归属或高风险DEFER。两版官方IllusionerEntityMixin逐项采用ADAPT，保留原版隐身/施法与真实弓；不复制OP轴错误、引用比较ZERO、无限齐射/拾取与不安全换位。vindicator_support来源仍为LEGACY_ONLY/Buildup，未找到上游同技能；不能因原生Raid跑通改写来源。原始upstream-index.json和反编译输出保持只读。本批有限Beta26.2运行仅印证真实幻影/箭源/装备，完整两版量化L3及默认出生分布NOT RUN。Allay历史BLOCKED保持，没有重试。
+
+E3-a rider decision resolved: user explicitly retains `rider_friendly_fire` as Buildup safety / LEGACY_ONLY ADAPT. Implemented and actual native Tick collision tests verified; prior pending/BLOCKED/inactive remarks are history. Current 87 supported / 37 inactive, v10, QA35; whole a development covered, human acceptance pending. No E3-b/c/E4 or later phase. Details: [rider addendum](R4E3A_RIDER_ADDENDUM.md).

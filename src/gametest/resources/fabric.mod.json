@@ -23,6 +23,7 @@
       "com.davidblackcn.buildupmobtweaks.ProfessionBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.IllusionBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.RidingRelationTests",
+      "com.davidblackcn.buildupmobtweaks.RiderProjectileTests",
       "com.davidblackcn.buildupmobtweaks.ZombieBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.DrownedBehaviorTests"
     ]

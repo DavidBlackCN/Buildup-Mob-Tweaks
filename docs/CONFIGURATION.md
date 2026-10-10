@@ -73,3 +73,5 @@ hostile.vex 增加 fixedCharge、recoveryPause、closeRangeGuard 三项独立开
 ## E3-a gates (config v10 unchanged)
 
 Nine newly supported IDs and exact behavior are listed in [R4E3A_REBUILD](R4E3A_REBUILD.md). Type tags `buildupmobtweaks:relations_ai_excluded` and `buildupmobtweaks:riding_ai_excluded` extend existing exclusions. Entity `vanilla_ai` and `disable_<id>` affect the corresponding actor/mount gate, not generic damage or native AI. Native husk spear is REPLACE: the inactive old switch cannot disable vanilla spear use. Undead horse sunburn remains inactive (Phase2 DEFER); rider projectile filtering remains inactive (decision BLOCKED). Selected chicken/horse birth defaults are each 10/1000, require traits.enabled, and do not generate mounts.
+
+E3-a rider decision resolved: user explicitly retains `rider_friendly_fire` as Buildup safety / LEGACY_ONLY ADAPT. Implemented and actual native Tick collision tests verified; prior pending/BLOCKED/inactive remarks are history. Current 87 supported / 37 inactive, v10, QA35; whole a development covered, human acceptance pending. No E3-b/c/E4 or later phase. Details: [rider addendum](R4E3A_RIDER_ADDENDUM.md).

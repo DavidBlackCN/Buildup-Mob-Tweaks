@@ -11,6 +11,6 @@ public final class RidingState {
     private static final AttachmentType<Runtime> RUNTIME=AttachmentRegistry.createDefaulted(BuildupMobTweaks.id("riding_runtime"),Runtime::new);
     public static boolean known(Mob m){return m.hasAttached(DATA)&&m.getAttached(DATA).getIntOr("version",-1)==1;}
     public static Runtime runtime(Mob m){return m.getAttachedOrCreate(RUNTIME);}
-    public static final class Runtime {public boolean installed;public int pounces,charges,hits,circles,escapes,cancels;public String phase="idle";public RidingGoal action;public boolean hurtPending;public float hurtAmount;public long hurtExpires;}
+    public static final class Runtime {public boolean installed;public int pounces,charges,hits,circles,escapes,cancels,projectileSkips;public String phase="idle";public RidingGoal action;public boolean hurtPending;public float hurtAmount;public long hurtExpires;}
     private RidingState(){}
 }

@@ -2,13 +2,14 @@
 
 ## E3-a 独立场景补充
 
-原25场景及原命令不变；新增9场景通过 `/buildupqa e3 spawn <scene>`、`check`、`off`、`cleanup` 操作，完整路径见 [E3-a人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。场景名为 relation_zombie、relation_villager、golem_misfire、chicken、boat、camel、horse、trap、conversion。使用25×25×7已加载空空气场，中心仍固定Z+8；地板/屋顶恢复，仅清理本会话及对应转换/陷阱事件后代，60秒自动结束。两套工具互斥，每台服务器仍只允许一个会话，要求owner权限4。
+原25场景及原命令不变；新增10场景通过 `/buildupqa e3 spawn <scene>`、`check`、`off`、`cleanup` 操作，完整路径见 [E3-a人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。场景名为 relation_zombie、relation_villager、golem_misfire、chicken、boat、camel、horse、trap、conversion、rider。使用25×25×7已加载空空气场，中心仍固定Z+8；地板/屋顶恢复，仅清理本会话及对应转换/陷阱事件后代和rider原生箭，60秒自动结束。两套工具互斥，每台服务器仍只允许一个会话，要求owner权限4。
 
 E3工具不修改全局配置。鸡/马直接固定本夹具已抽中选择（正式出生仍10/1000），不是更改全世界概率；boat第15tick真实伤害、conversion第15tick真实凋零致死输入。trap必须实际生存玩家近场，不能由控制台模拟Goal。`off` 是添加vanilla_ai标签，不能撤销已受伤的原版报复、已完成转化/陷阱，也不能禁用原生矛。check显示实际UUID/目标/被攻击者/Goal/动作计数和保存冷却，关系queries预算、targetHP、未触发理由；场外观察避免玩家优先目标影响夹具。
 
-BLOCKED的骑乘过滤与Phase2日烧没有QA接口。E3场景不改变旧场景的全局概率/权限，正式包与源码包均不含QA。
+`rider` 等原弓Goal原箭实际LeftOwner=true后返回同一箭到马下身，check必须同时确认returnedArrows>0和马1000HP，projectileSkips只是查询数。当前骨马NoAI用于固定定向碰撞路径，射手仍走正常弓Goal。该场景不复制箭、不产生旧树持久保护；独立关闭/下马/敌树/玩家负例见真实GameTest及人工清单。Phase2日烧仍无QA接口。正式/源码包均不含QA。
 
-> 2026-10-10 E3-a 当前实施：[工作报告](R4E3A_REBUILD.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。九项接入、尸壳矛由26.3原版REPLACE，亡灵马日烧已由用户裁决Phase2 DEFER；骑乘友伤过滤来源纠正为LEGACY_ONLY，其保留/暂缓裁决待答复，BLOCKED、未实现。当前124声明、86支持/38未生效、配置v10、独立QA34场景。下文较早的“当前”数字/仅规划/待授权语句为各历史时点；完整E3-a不能宣称完成。真实Tick/运行边界及最终证据见报告，人工/完整L3/自然分布/多人性能NOT RUN。本批收尾停止，不进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+> 2026-10-10 E3-a完整开发范围现已覆盖：[工作报告](R4E3A_REBUILD.md) / [骑乘安全补充](R4E3A_RIDER_ADDENDUM.md) / [统一人工清单](R4E3A_ACCEPTANCE_CHECKLIST.md)。用户已明确批准rider_friendly_fire作为LEGACY_ONLY来源的Buildup窄安全修正；前批产品裁决阻塞解除，十项接入、尸壳矛原版REPLACE、亡灵马日烧已批准Phase2 DEFER。当前124声明、87支持/37未生效、配置v10、独立QA35场景。下文旧计数、BLOCKED和仅规划语句为历史时点；现在停止等待整a人工验收，人工/完整L3/默认自然分布/多人性能NOT RUN。没有进入E3-b/c、E4、Boss、R5或后续Phase，不推送发布。
+
 
 
 > R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。

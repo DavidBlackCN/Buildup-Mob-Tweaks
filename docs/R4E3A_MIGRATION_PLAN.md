@@ -11,7 +11,7 @@
 | a-3 | 尸壳矛条件ADAPT/REPLACE；尸壳CamelHusk环绕、骷髅马冲刺ADAPT | 先测26.3原生SpearUseGoal现已存在的mounted分支，覆盖则REPLACE；环绕不再每tick治疗或叠加属性；骷髅马20tick预告、至多20tick冲刺、一次基础碰撞伤害、200tick冷却。唯一主骑手，不抢原生矛使用、不额外出生马 | 真实矛使用与命中、环绕/冲刺互斥、实际位移/碰撞、NoAI/目标/下马/关门恢复 |
 | a-4 | 原生陷阱变体ADAPT、骷髅死亡转凋灵ADAPT | 保留原生触发Goal及4马/4骑手预算，替换三名追加骑手为Wither/Stray/Bogged，不复制装备、不建立跨事件全局队伍。转换仅确切Skeleton凋零效果或凋灵系致死，原生ConversionParams转移实际装备，备用物品移交/生成剑丢弃，转换时不重复XP/掉落，不扩展转换循环 | 生存玩家自然触发TrapGoal、真实致死转换、物品数量/属性/备用装备、保存乘客树、关门回原版 |
 
-亡灵马日烧已由用户裁决**Phase2 DEFER**，保持未生效配置，不实现日烧或上游自然马移除。骑乘过滤补审未找到两版对应上游代码，不能继续标UPSTREAM；在用户裁决前不写该过滤。
+亡灵马日烧已由用户裁决**Phase2 DEFER**，保持未生效配置，不实现日烧或上游自然马移除。骑乘过滤补审未找到两版对应上游代码，来源为LEGACY_ONLY；用户现已明确批准作为 **Buildup安全修正** 保留。只在Projectile.canHitEntity的精确描述符HEAD过滤AbstractArrow（原生箭/三叉戟）候选，射手必须是存活、非NoAI的Mob，有当前骑乘树；每次读取当前关系，射手总门/独立门/vanilla_ai/排除标签/未知状态均回退原版。玩家射手、无主弹体、其他伤害、旧坐骑及敌方树不提供保护。无保存的保护引用，不添加通用免伤，不缓存树、不扫描全世界。
 
 新common模块放rebuild/relations与rebuild/riding，必要Mixin只限原生目标Goal、原生陷阱添加边界、确切Skeleton死亡以及箭命中候选。沿现有Fabric ENTITY_LOAD/UNLOAD、伤害/转换事件幂等注册。持久附件有version，未知版本保持原样/不接管；只保存出生选择与已赚取世界冷却，瞬时动作不重演。新测试与独立QA分别验证正常调度，正式JAR与sourcesJar无QA。
 

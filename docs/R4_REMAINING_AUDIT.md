@@ -1,6 +1,8 @@
 # R4 剩余旧 S2 功能审计台账
 
-> R4-E1-a最新限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
+> R4-E1-b当前限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
+
+> E1-a历史限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
 
 > R4-E0现已将下列68/68 ID逐项裁决，见[最新取舍](PHASE1_FEATURE_DISPOSITION.md)、[56项现有入口](PHASE1_ACTIVE_FEATURES.md)和[额外上游候选](PHASE1_UPSTREAM_GAPS.md)。下表保留R4-D历史状态，不把裁决ADAPT/PORT等写成新AI已实现；当前白名单仍56项。
 
@@ -95,3 +97,7 @@
 | demo_rare | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, TraitKind |
 
 合计 124 个 ID，56 个当前白名单 ID，68 个非生效 ID。白名单表示接入范围，不能替代逐行为证据及人工验收。
+
+## E1-b现行覆盖
+
+历史68项列表中 `piglin_shot_swing`、`piglin_item_dodge`、`piglin_crossbow_compatibility`、`zombified_piglin_anger_fix` 已在本批接入，限定L2 PASS，当前64/60。没有新增通用弩Goal或恢复旧服务。上游ZombifiedPiglinEntityMixin也有HurtByTargetGoal同类排除，E0来源误分类已在取舍表纠正。出生僵尸猪灵弩/用弩仍E2 NOT RUN；见[R4E1B_REBUILD](R4E1B_REBUILD.md)。

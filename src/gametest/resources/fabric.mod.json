@@ -13,6 +13,7 @@
     "fabric-gametest": [
       "com.davidblackcn.buildupmobtweaks.QaHarnessTests",
       "com.davidblackcn.buildupmobtweaks.ExtendedSkeletonTests",
+      "com.davidblackcn.buildupmobtweaks.PiglinBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.RemainingBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.RaidBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.PillagerBehaviorTests",

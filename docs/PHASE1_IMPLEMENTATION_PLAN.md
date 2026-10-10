@@ -1,5 +1,7 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
+> R4-E1-b当前限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
+
 > R4-E1-a已按逐批批准实施，见[方案](R4E1A_MIGRATION_PLAN.md)/[结果](R4E1A_REBUILD.md)。下一批建议E1-b四项猪灵/僵尸猪灵，仍待批准；下列E0冻结名单保留，不表示后续已授权。
 
 本轮只交付R4-E0；以下均待用户逐批批准，不是本轮实现。裁决源[68项](PHASE1_FEATURE_DISPOSITION.md)与[额外候选](PHASE1_UPSTREAM_GAPS.md)。56白名单保持；50 ADAPT /1 PORT是待实施或经原版核验后可安全替代的意图，不可只加白名单。REPLACE项需补说明和必要的差异回归，不重装旧S2。所有批次实施前写具体Migration Plan、查26.3签名/控制链；批末实际验证、自检、本地提交、停止。
@@ -44,3 +46,9 @@ E4-a感知：`sense_glowing`、`sense_blindness`、`sense_nausea`、`sense_invis
 ## Boss/R5边界
 
 完成E批后才给Boss范围决定并独立审批。凋灵/远古守卫者/劫掠兽/龙让位/监守者只是本Phase1候选，未实现；专属奖励/完整Stellarity/幻翼Boss排除或暂缓。R5集成性能和发布收口未进入；Phase2/3未执行。每个子批结束本地提交并停，不把路线批准等同所有后续代码授权。
+
+## E1-b批末与下一具体任务
+
+E1-b已获明确批准并完成四项实现、24项新真实调度测试（全178）、独立QA三场景、专服/客户端探针及有限上游对照，见[R4E1B_REBUILD](R4E1B_REBUILD.md)。本批停止，尚未收到E1-c实施批准。
+
+下一建议E1-c：先核对26.3原版Skeleton模型/实际使用手和现有SkeletonGoals；编写具体Migration Plan。`skeleton_offhand_visual`只补真实左右手视觉；`stray_omen_snow`复用已有跃射雪球链，只补不祥目标差异；`bogged_omen_mushrooms`复用已有孢子阶段，防双弹体。`skeleton_aim_fix`、`stray_snow_barrage`按REPLACE核验并说明旧ID归宿，不能只加白名单。新真实Tick/原阶段仲裁测试、独立门控/保存退出、左右手客户端以及原门盾/生成剑回归必须随批验证；不祥效果/次数数值待源码和具体方案冻结。E2装备/出生发弩仍未实施。

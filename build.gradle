@@ -105,6 +105,7 @@ sourceSets.gametest.java {
     include 'com/davidblackcn/buildupmobtweaks/qa/**'
     include 'com/davidblackcn/buildupmobtweaks/QaHarnessTests.java'
     include 'com/davidblackcn/buildupmobtweaks/ExtendedSkeletonTests.java'
+    include 'com/davidblackcn/buildupmobtweaks/PiglinBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/RemainingBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/RaidBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/ZombieBehaviorTests.java'

@@ -46,7 +46,15 @@
     "rebuild.SilverfishRebuildHelpMixin",
     "rebuild.CreeperRebuildMixin",
     "rebuild.BreezeRebuildJumpMixin",
-    "rebuild.RemainingTargetAccess"
+    "rebuild.RemainingTargetAccess",
+    "rebuild.PiglinRebuildMixin",
+    "rebuild.PiglinBrainMixin",
+    "rebuild.PiglinCrossbowHandMixin",
+    "rebuild.PiglinCrossbowTaskMixin",
+    "rebuild.PiglinRangeMixin",
+    "rebuild.ZombifiedPiglinAngerMixin",
+    "rebuild.PiglinRetaliationMixin",
+    "rebuild.PiglinRetaliationContinuationMixin"
   ],
   "injectors": {
     "defaultRequire": 1

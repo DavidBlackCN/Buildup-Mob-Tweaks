@@ -1,6 +1,8 @@
 # 完整 R4 统一实机验收清单
 
-> R4-E1-a最新限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
+> R4-E1-b当前限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
+
+> E1-a历史限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
 
 > R4-E0补充：[确定性QA短清单](PHASE1_QA_GUIDE.md)可直接生成五种已实现标杆，减少稀有刷怪等待。当前门盾/备用剑自动复核见[R4E0_REPORT.md](R4E0_REPORT.md)，人工专项未自动勾PASS。其他能力仍按本历史清单验收，不把QA工具扩大为已实现全部功能。
 
@@ -52,3 +54,7 @@ Minecraft 26.3 / Java 25 / Fabric Loader 0.19.5 / Fabric API 0.162.0+26.3 / Fzzy
 - [ ] 两位真实玩家切创造/旁观/死亡/断线，检查目标交接和所有参与者的同步视觉；Fzzy 服务端参数同步与客户端 UI 字段一致。
 - [ ] 单独原版依赖环境先通过，再加入实际整合包逐项记录 Mod/版本、数据包排除标签和非标准武器兼容；未测插件不能宣称兼容。
 - [ ] 记录场景、依赖/难度/配置、出生方式、等待时间、命令、预期/实际行为、PASS/FAIL/NOT RUN 与最新日志；同时确认 [未迁移清单](R4_REMAINING_AUDIT.md) 的后续取舍。完整 R4 人工验收由用户确认。
+
+## E1-b猪灵专项补充
+
+使用[R4E1B_ACCEPTANCE_CHECKLIST](R4E1B_ACCEPTANCE_CHECKLIST.md)及[QA指南](PHASE1_QA_GUIDE.md)。三个独立场景为`piglin`、`piglin_dodge`、`piglin_anger`，分别验真实主副手射后挥手、近距蓄力后跳、保留伤害的同类仇恨窄修。自动178项通过不替代本清单肉眼或多人验收；原门盾/备用剑也列入复验。

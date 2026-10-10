@@ -1,6 +1,8 @@
 # 56项当前白名单：入口与测试缺口
 
-> R4-E1-a最新限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
+> R4-E1-b当前限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
+
+> E1-a历史限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
 
 来源是实际FeatureId及FeatureRegistry.supported，不按配置字段数推断功能。每项默认gate由FeatureRegistry运行时读取，general.enabled及实体vanilla_ai/disable_id与对应排除Tag都可能拦截；有Trait选择的才受具体出生附件约束。注册链统一BuildupMobTweaks.onInitialize→对应Behavior.register→ENTITY_LOAD/已核实Mixin→原版Selector/Brain。以下相关测试是定位索引，不等于每项独立的默认/确定性/关闭/所有生命周期/多人/性能矩阵全PASS。
 
@@ -77,3 +79,14 @@
 | wither_skeleton_homing | ExtendedSkeletonBehavior.skullTick固定不祥目标与预算；独立配置/标签 | L2 PASS，完整L3 NOT RUN |
 
 四项原始失败/实际证据与兼容性细节见[R4E1A_REBUILD](R4E1A_REBUILD.md)。支持ID60并不表示Phase1完成。
+
+## E1-b新增四个实际入口
+
+| ID | 实际控制链 | 当前证据 |
+| --- | --- | --- |
+| `piglin_crossbow_compatibility` | PiglinBehavior + Piglin/PiglinAi/CrossbowAttack/ProjectileUtil/BehaviorUtils窄Mixin，原版Brain | 真实继承弩主副手/装填射击、组件/交易/保存/转换、独立门L2 PASS |
+| `piglin_shot_swing` | Piglin.performRangedAttack前后实际组件观测→swingForAttack实际手 | L2/实际客户端Swing PASS；肉眼NOT RUN |
+| `piglin_item_dodge` | ENTITY_LOAD出生附件→customServerAiStep TAIL，近距实际蓄弩一次冲量 | 7%默认抽签样本/200冷却/真实物理/危险地面退出L2 PASS；自然刷怪器NOT RUN |
+| `zombified_piglin_anger_fix` | 原HurtByTargetGoal起步/TargetGoal继续/setTarget窄门及已加载怒气清理 | 原版同类群体复现、玩家保留、禁用/重启门L2 PASS；上游Beta仅有限对照 |
+
+当前完整证据见[R4E1B_REBUILD](R4E1B_REBUILD.md)，旧56项索引和E1-a历史结果不重写。

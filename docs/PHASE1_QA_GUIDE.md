@@ -83,3 +83,15 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 - [ ] 选空闲已有僵尸force/check/cleanup，实际装备不变，原生状态恢复。记录服务端日志、场景、配置和是否有其他Mod。
 
 自动结果见[R4E0_REPORT.md](R4E0_REPORT.md)。自然概率、完整上游L3、双人和整合包性能为NOT RUN，不用本工具的固定场景推断这些结果。
+
+## E1-b：猪灵三场景（当前共12场景）
+
+| scene | 夹具输入 | 20TPS观察 |
+| --- | --- | --- |
+| `piglin` | 成人、真实主手弩、免疫转换、原版受伤建立Brain仇恨；140tick把同一弩转到副手 | 约14秒：真实主/副蓄弩、箭扣血、实际手挥动；兼容关后可原版搬回主手，射击不必停止 |
+| `piglin_dodge` | 保存birth=dodge，保留默认200tick初始冷却；205tick后在原版实际用弩时把目标移近 | 约16秒：一次安全后跳、真实位移、未来冷却；off只关此项，不能退款已发生位移 |
+| `piglin_anger` | 源ZP NoAI/1000HP、受害ZP、同伴；第5tick真实1点同类伤害 | 约3秒：受害者扣血，但无同类目标/怒气；off后再伤害，受害者恢复原版报复；仍开启保护的同伴不必跟随 |
+
+命令与短清单见[R4E1B_ACCEPTANCE_CHECKLIST](R4E1B_ACCEPTANCE_CHECKLIST.md)。前两场目标仍1000HP静止铁傀儡；anger例外为僵尸猪灵。每场使用spawn/check/inspect/off/cleanup，不改变全局出生概率。inspect增加实际Brain ATTACK_TARGET/ANGRY_AT、活动、姿势、shots/swings/dodges/cancels/保存冷却；ZP显示真实持久仇恨。anger保护后的无目标是预期，检查提示不能当失败。
+
+已有猪灵force/target必须是已知版本且空闲，不正在战斗/有ANGRY_AT；force只改出生结果，不发装备/退款冷却。target通过真实1点受伤输入让原版Brain获取目标，会实际扣血，cleanup不恢复血量或真实装备消耗；不用setTarget伪造Brain目标。QA新增三场在真实专服从独立qaJar加载，off/清理及地形恢复通过，已有9场回归；主副手原版客户端状态探针通过，肉眼仍待人工。

@@ -1,12 +1,14 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
-> R4-E1-a最新限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
+> R4-E1-b当前限定交付：[报告](R4E1B_REBUILD.md)/[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)。四项猪灵基础ID已接入，真实Tick/Brain/Goal 178项必需测试PASS，当前64支持/60未生效，QA共12场景。肉眼/完整L3/自然刷怪器/多人/性能NOT RUN；下一批E1-c待具体方案批准。下文E0/E1-a数字与未实施声明只代表历史时点，不进入R5。
+
+> E1-a历史限定交付见[R4E1A_REBUILD](R4E1A_REBUILD.md)和[人工清单](R4E1A_ACCEPTANCE_CHECKLIST.md)。当前支持ID为60（旧56+四项），其余64个ID未生效；wither_skeleton_bow出生发弓仍待E2。本文件原E0数字/结论保留历史语境。
 
 基线 26.3 / HEAD `6eec6387a33d23a98f63c15f78a77b1ea0891423`。这是逐项审计决定，不是新增功能验收。68/68 ID 一次归属；当前56白名单不变。本轮只实现开发QA，不移植以下未生效AI。裁决计数：{'REPLACE': 5, 'ADAPT': 50, 'EXCLUDE': 4, 'PORT': 1, 'DEFER': 8}。
 
 原始证据是 R0 已核验官方 CExkBTN8（26.2 Beta）和 bFb56Zw2（1.21.11），MIT采用依据及历史CC0残留保留于[ARTIFACTS](../../docs/rebuild/ARTIFACTS.md)，不删原版权。完整类/方法、注入声明、实际配置调用行、原始默认值、逐文件SHA256和两版差异见[upstream-index.json](../../docs/rebuild/evidence/r4e0/upstream-index.json)与[disposition.json](../../docs/rebuild/evidence/r4e0/disposition.json)。上游类门控不是本项目该ID的默认值；默认数值仅作为设计证据，不能跨版本机械复制。bFb56Zw2方法有intermediary命名；不据字符串差异宣称行为改变。未确定完整运行差异=NOT RUN。
 
-所有68项当前 `FeatureRegistry.supported=false`，未安装旧S2 Goal/Mixin，配置v9保留读取。ADAPT/PORT未实施状态均NOT RUN；REPLACE只给已有行为归宿，不把旧ID升级为PASS。DEFER/EXCLUDE不计Phase1实施门槛；后续R5逐项更新UI/迁移说明，E0不删字段。每项还必须在所属批次核对26.3原版是否已有修复，给出确切新Goal优先级/Flags或注入描述符及默认配置；本审计不授权新增注入。
+E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已接入，余60项仍未生效，未安装旧S2 Goal/Mixin，配置v9保留读取。ADAPT/PORT未实施状态均NOT RUN；REPLACE只给已有行为归宿，不把旧ID升级为PASS。DEFER/EXCLUDE不计Phase1实施门槛；后续R5逐项更新UI/迁移说明，E0不删字段。每项还必须在所属批次核对26.3原版是否已有修复，给出确切新Goal优先级/Flags或注入描述符及默认配置；本审计不授权新增注入。
 
 统一验证要求：L1加载；L2真实Tick/Goal/Brain、QA定向、独立关闭、创造/旁观、死亡/转换/存档/卸载；L3隔离两版上游对照（不能运行则BLOCKED及替代依据）；默认出生样本与强制QA分开。多人/整合包/性能未验证不得写PASS。
 
@@ -28,10 +30,10 @@
 | `bogged_omen_mushrooms`：旧S2额外蘑菇投射物与已有孢子撤退不同；仅补上游已核实的不祥目标分支 | UPSTREAM；`SkeletonSpecificGoal`, `BoggedEntityMixin` | **ADAPT** / E1差异子项 / 是（含替代说明） | 独立门 `disable_bogged_omen_mushrooms` 仅待实现；与BOGGED_SPORE_RETREAT同阶段互斥，禁止双生成；效果实体预算；**NOT RUN** |
 | `stray_omen_snow`：不祥目标雪球差异独立于已有跃射；接在同一雪球链 | UPSTREAM；`SkeletonSpecificGoal`, `StrayEntityMixin` | **ADAPT** / E1差异子项 / 是（含替代说明） | 独立门 `disable_stray_omen_snow` 仅待实现；不创建第二攻击Goal；速度/效果/目标退出；**NOT RUN** |
 | `stray_snow_barrage`：已有STRAY_JUMP_SHOT承担起跳与三雪球；旧独立稀有连发不得双重运行 | UPSTREAM；`SkeletonSpecificGoal`, `StrayEntityMixin` | **REPLACE** / E1确认/R5说明 / 是（含替代说明） | 独立门 `disable_stray_snow_barrage` 仅待实现；检查不祥差异另属stray_omen_snow；既有L2不升级为完整L3；**NOT RUN** |
-| `zombified_piglin_anger_fix`：旧S2禁止同类目标；上游此类只提供弩行为，非直接修复证据 | LEGACY_ONLY；`ZombifiedPiglinEntityMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_zombified_piglin_anger_fix` 仅待实现；26.3原版群体仇恨复现后窄修，不破坏玩家/同伴警戒；**NOT RUN** |
-| `piglin_shot_swing`：onShoot原版弩射后挥实际使用手 | UPSTREAM；`PiglinEntityMixin` | **PORT** / E1 / 是（含替代说明） | 独立门 `disable_piglin_shot_swing` 仅待实现；Brain真实射击/副手/禁用/客户端观感；**NOT RUN** |
-| `piglin_item_dodge`：上游是近距正在用弩后跳10tick；旧S2按稀有Trait和掉落物闪避语义有偏差 | UPSTREAM；`PiglinEntityMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_piglin_item_dodge` 仅待实现；真实Brain目标/弩蓄力/近距/安全地面，不伪称物品躲闪；**NOT RUN** |
-| `piglin_crossbow_compatibility`：公开CrossbowItem继承适配；不承诺所有特殊枪械 | UPSTREAM；`PiglinBrainMixin`, `PiglinEntityMixin`, `RangedCrossbowAttackTaskMixin` | **ADAPT** / E1 / 是（含替代说明） | 独立门 `disable_piglin_crossbow_compatibility` 仅待实现；Brain装备丢弃/使用手/真实发射/标签退出；**NOT RUN** |
+| `zombified_piglin_anger_fix`：复现原版同类伤害/同伴仇恨后窄修，保留受伤和玩家警戒 | UPSTREAM + LEGACY_ONLY；`ZombifiedPiglinEntityMixin`的HurtByTargetGoal忽略同类。纠正E0“只提供弩”误分类，历史JSON不改 | **ADAPT** / E1-b / 是 | 原Goal不替换；禁用/重新启用缓存目标、实际群体与玩家、创造/旁观L2 **PASS**；Beta有限对照，完整L3/人工 **NOT RUN** |
+| `piglin_shot_swing`：真实弩发射后挥实际手，按26.3 swingForAttack适配 | UPSTREAM；`PiglinEntityMixin` | **PORT**（当前API适配） / E1-b / 是 | native Brain真正主副手射击、空射不计、独立关闭；客户端28/28挥手样本 **PASS**；人工/完整L3 **NOT RUN** |
+| `piglin_item_dodge`：近距蓄弩后跳，不是掉落物闪避 | UPSTREAM；`PiglinEntityMixin`；旧S2语义偏差 | **ADAPT** / E1-b / 是 | 成人出生一次7%、200冷却、10动作窗口、合法地面一次冲量；真实位移/危险回退、门控/保存L2 **PASS**；自然刷怪器/人工/完整L3 **NOT RUN** |
+| `piglin_crossbow_compatibility`：CrossbowItem继承、实际主副手/射程/姿势，保留原Brain和矛 | UPSTREAM；`PiglinBrainMixin`, `PiglinEntityMixin`, `RangedCrossbowAttackTaskMixin` | **ADAPT** / E1-b / 是 | 真正副手弩不被清理搬走，黄金替换仍转移实际物；装填/耐久/交易/拾取/转换/禁用L2 **PASS**；Beta有限对照；任意枪械/完整L3/人工 **NOT RUN** |
 | `zombified_piglin_spawn_crossbow`：出生20与局部难度250%参考，纳入一次装备分配 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombified_piglin_spawn_crossbow` 仅待实现；自然/刷怪蛋/召唤/重载来源，真实弩无隐藏备份；**NOT RUN** |
 | `zombified_piglin_crossbow`：给已经持弩实体原版调度远程使用，不额外复制装备 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombified_piglin_crossbow` 仅待实现；仇恨/距离/弹体/退回原近战/掉落；**NOT RUN** |
 | `illager_zombie_conflict`：窄阵营冲突，保留玩家优先而非全局setTarget覆盖 | UPSTREAM；`IllagerEntityMixin`, `AbstractZombieEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_illager_zombie_conflict` 仅待实现；完整袭击/村庄/玩家目标/禁用/互相索敌；**NOT RUN** |

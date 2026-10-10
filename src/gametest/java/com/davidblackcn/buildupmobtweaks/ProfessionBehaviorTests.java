@@ -126,6 +126,14 @@ public class ProfessionBehaviorTests {
         h.runAtTickTime(115,()->{h.assertTrue(ProfessionState.runtime(m).casts==0,"Near target does not cast");t.snapTo(h.absolutePos(new BlockPos(8,2,23)),0,0);});
         h.runAtTickTime(165,()->{h.assertTrue(ProfessionState.runtime(m).casts==0&&m.getMainHandItem().getDamageValue()==17,"Far target does not cast or charge durability");proof("rod_los_range",m,"casts=0");clean(h,m,t);h.succeed();});
     }
+    static void fiveBlockRodBoundary(GameTestHelper h,boolean drowned){floor(h);var m=fisher(h,drowned);var t=target(h,13);m.setTarget(t);
+        h.runAtTickTime(90,()->{h.assertTrue(m.distanceToSqr(t)>24&&m.distanceToSqr(t)<26&&m.hasLineOfSight(t)&&ProfessionState.runtime(m).casts==0&&m.getMainHandItem().getDamageValue()==17,"A visible five-block target intentionally does not start fishing or spend durability");t.snapTo(m.position().add(0,0,7),0,0);m.setTarget(t);});
+        h.runAtTickTime(165,()->{h.assertTrue(ProfessionState.runtime(m).casts>0&&ProfessionState.runtime(m).pulls>0&&m.getMainHandItem().getDamageValue()>17,"The unchanged real Goal casts, collides, pulls and wears the rod after the target moves to seven blocks");proof("five_to_seven_blocks",m,"drowned="+drowned+" hp="+t.getHealth());clean(h,m,t);h.succeed();});
+    }
+    @GameTest(environment=ENV,structure=ARENA,maxTicks=190)
+    public void fishermanFiveBlocksIsIntentionalAndSevenActuallyPulls(GameTestHelper h){fiveBlockRodBoundary(h,false);}
+    @GameTest(environment=ENV,structure=ARENA,maxTicks=190)
+    public void drownedFiveBlocksIsIntentionalAndSevenActuallyPulls(GameTestHelper h){fiveBlockRodBoundary(h,true);}
     @GameTest(environment=ENV,structure=ARENA,maxTicks=170)
     public void replacingActualRodRetiresHookWithoutTouchingNewEquipment(GameTestHelper h){floor(h);var m=fisher(h,false);var t=target(h,17);m.setTarget(t);var rod=m.getMainHandItem();var shield=new ItemStack(Items.SHIELD);boolean[] changed={false};FishingHook[] hook={null};ItemEntity[] dropped={null};
         h.onEachTick(()->{if(!changed[0]&&ProfessionBehavior.hook(m)!=null){changed[0]=true;hook[0]=ProfessionBehavior.hook(m);dropped[0]=new ItemEntity(h.getLevel(),m.getX(),m.getY()+1,m.getZ(),rod);h.getLevel().addFreshEntity(dropped[0]);m.setItemSlot(EquipmentSlot.MAINHAND,shield);}});

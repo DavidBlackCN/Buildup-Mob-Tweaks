@@ -35,6 +35,13 @@ public class IllusionBehaviorTests {
     @GameTest(environment=ENV,structure=ARENA,maxTicks=385) public void nativeSpellOffBowClonesActuallyHit(GameTestHelper h){volley(h,true,false,false);}
     @GameTest(environment=ENV,structure=ARENA,maxTicks=385) public void swapGateDoesNotDisableCloneArrows(GameTestHelper h){volley(h,false,true,false);}
     @GameTest(environment=ENV,structure=ARENA,maxTicks=385) public void cloneGateDoesNotDisableSwapOrNativeArrows(GameTestHelper h){volley(h,false,false,true);}
+    @GameTest(environment=ENV,structure=ARENA,maxTicks=385)
+    public void nativeSingleArrowsRemainBetweenLimitedCloneVolleys(GameTestHelper h){floor(h);var m=mob(h,true,false);var t=enemy(h);m.setTarget(t);Set<UUID> seen=new HashSet<>();int[] singles={0},previous={0,0};long[] last={-1000},minimum={1000};var timeline=new ArrayList<String>();
+        h.onEachTick(()->{var r=IllusionState.runtime(m);long now=h.getLevel().getGameTime();if(r.shots>previous[0]){timeline.add(now+":"+(r.volleys>previous[1]?"clone":"native"));if(r.volleys>previous[1]){minimum[0]=Math.min(minimum[0],now-last[0]);last[0]=now;}previous[0]=r.shots;previous[1]=r.volleys;}
+            for(var a:h.getLevel().getEntitiesOfClass(AbstractArrow.class,m.getBoundingBox().inflate(32),a->a.getOwner()==m))if(seen.add(a.getUUID())&&!IllusionBehavior.marked(a)){singles[0]++;h.assertTrue(a.position().distanceTo(m.getEyePosition())<3,"Real native fallback arrow starts at the body");}
+        });
+        h.runAtTickTime(360,()->{var r=IllusionState.runtime(m);proof("native_between_volleys",m,"singleArrows="+singles[0]+" timeline="+timeline+" minVolley="+minimum[0]+" hp="+t.getHealth());h.assertTrue(r.volleys>=2&&r.arrows==r.volleys*2&&minimum[0]>=120&&r.shots>r.volleys&&singles[0]>0&&t.getHealth()<1000,"Actual native Goal interleaves body singles and two-arrow clone volleys without bypassing the special budget");clean(h,m,t);h.succeed();});
+    }
     @GameTest(environment=ENV,structure=ARENA,maxTicks=350)
     public void pauseOffRestoresNativeCadenceWithCloneBudget(GameTestHelper h){floor(h);var m=mob(h,true,false);m.addTag("buildupmobtweaks:disable_illusioner_shoot_pause");var t=enemy(h);m.setTarget(t);int[] shots={0};long[] last={-1000},min={1000};h.onEachTick(()->{int n=IllusionState.runtime(m).shots;if(n>shots[0]){long now=h.getLevel().getGameTime();min[0]=Math.min(min[0],now-last[0]);last[0]=now;shots[0]=n;}});h.runAtTickTime(320,()->{proof("pause_off",m,"minShot="+min[0]+" hp="+t.getHealth());h.assertTrue(min[0]<=45&&IllusionState.runtime(m).volleys>=2&&t.getHealth()<1000,"Original bow cadence restored while clone cooldown remains independent");clean(h,m,t);h.succeed();});}
     @GameTest(environment=ENV,structure=ARENA,maxTicks=130)

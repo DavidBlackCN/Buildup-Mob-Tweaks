@@ -39,7 +39,7 @@ public class QaHarnessTests {
             h.assertTrue(level.getBlockState(origin.offset(0,-1,0)).isAir(),"Original air under floor restored");
             level.setBlockAndUpdate(origin,Blocks.CHEST.defaultBlockState());boolean rejected=false;try{QaHarness.spawn(level,origin,Scene.DOOR);}catch(IllegalArgumentException expected){rejected=true;}
             h.assertTrue(rejected&&level.getBlockEntity(origin)!=null,"Arena refuses block entities before mutation");level.setBlockAndUpdate(origin,Blocks.AIR.defaultBlockState());
-            var m=EntityTypes.ZOMBIE.create(level,EntitySpawnReason.COMMAND);m.snapTo(origin,0,0);m.setPersistenceRequired();level.addFreshEntity(m);current[0]=QaHarness.select(m,Scene.DOOR);
+            var m=EntityTypes.ZOMBIE.create(level,EntitySpawnReason.COMMAND);m.snapTo(origin,0,0);m.setPersistenceRequired();m.addTag("buildupmobtweaks:disable_equipment_assignment");level.addFreshEntity(m);current[0]=QaHarness.select(m,Scene.DOOR);
         });
         h.runAtTickTime(1185,()->{h.assertTrue(ZombieState.runtime((Zombie)current[0].mob).displays.size()==2,"Selected existing idle entity forced via saved birth");QaHarness.cleanup(server);});
         h.runAtTickTime(1195,()->{var m=(Zombie)current[0].mob;h.assertTrue(m.getAttached(ZombieState.DATA).getStringOr("birth","").equals("none")&&ZombieState.runtime(m).displays.isEmpty(),"Selection restored after native cleanup ticks");

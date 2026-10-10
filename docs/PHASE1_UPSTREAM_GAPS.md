@@ -1,5 +1,7 @@
 # 旧68项之外的上游特性缺口审计
 
+> R4-E2-b当前完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
+
 R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/默认值、R0/R1资料及原作者README快照。正文研究仍按MIT与原版权范围；不编辑反编译输出，不恢复Allay。以下不是已实现特性，当前生产白名单仍56项。**IN_PHASE1仅选入后续批次，实施/默认样本/人工/L3均NOT RUN；Boss单独审批，不计E0完成门。**
 
 | 候选 | 决策 / 范围 | 真实证据类与玩家表现、主动限制 | 当前验证 |
@@ -41,7 +43,7 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 | G35 原版弩/投射物通用修复 | **ADAPT** / IN_PHASE1 / E4必要部分 | `CrossbowItemMixin`, `CrossbowPullPropertyMixin`, `IsUsingItemPropertyMixin`, `RangedCrossbowAttackGoalMixin`, `ProjectileEntityMixin`, `BodyControlMixin`；必须先验证26.3缺陷及现有适配是否覆盖，只保留精准必需项；其余枪械/附魔注入EXCLUDE | NOT RUN |
 | G36 其余共享钩子 | **DEFER** / Phase3单独必要性审批 | `GoalSelectorMixin`, `MobEntityMixin`, `DisplayEntityMixin`, `ItemHolderEntityRenderStateMixin`, `LivingEntityRenderStateMixin`, `LivingEntityRendererMixin`, `ChargeSpearGoalMixin`, `ChargeSpearTaskMixin`；全局Goal/通用数据/渲染辅助不是已迁移功能；已在68或现有模块使用的意图归相应条目；未选剩余不整体复活 | NOT RUN |
 | G37 全局OP/新附魔/专属奖励 | **EXCLUDE** / 不计门槛 | `MobAITweaks`, `MobEntityMixin`, `MeleeAttackGoalMixin`, `LivingEntityMixin`；crazyMobs/新附魔/注册药水或物品/奖励推进排除，不能借基础共享钩子夹带恢复 | NOT RUN |
-| G38 职业武器渲染配套 | **ADAPT** / IN_PHASE1 / E2 | `FishingBobberEntityRendererMixin`, `FishingRodCastPropertyMixin`, `ZombieVillagerEntityModelMixin`, `ZombifiedPiglinEntityModelMixin`；真实浮漂线/钓竿cast属性、僵尸村民和猪灵持弩姿态；配套68项职业AI，不以服务端命中代替客户端同步 | NOT RUN |
+| G38 职业武器渲染配套 | **ADAPT** / IN_PHASE1 / E2-b | 两类僵尸持弩模型、真实owner/钩住包、持竿手钓线和cast；独立来源标记与分包短等待，客户端关门退出；无新配置ID | **限定客户端 PASS**：16弩/8竿夹具、成年幼体及四手组合；肉眼/完整L3/第三方控制者 **NOT RUN**；见R4E2B_REBUILD |
 
 ## 审计覆盖及限制
 

@@ -184,6 +184,10 @@ public class SkeletonBehaviorTests {
         });
         h.runAtTickTime(980,()->{var m=refs[0];h.assertTrue(!h.getLevel().isBrightOutside()&&SkeletonState.runtime(m).mode.equals("walk")&&seen[0][0]&&!seen[0][1],"Night sky uses actual walking attack");
             evidence("S01_night",m,"arrow=true critical=false");
+            // Isolate day firing from night drift and the independent random reposition ability.
+            targets[0].snapTo(m.position().add(0,0,10),0,0);
+            m.addTag("buildupmobtweaks:disable_ranged_reposition");
+            m.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(0);
             var clock=h.getLevel().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.WORLD_CLOCK).getOrThrow(net.minecraft.world.clock.WorldClocks.OVERWORLD);h.getLevel().clockManager().setTotalTicks(clock,6000);});
         h.runAtTickTime(1200,()->{var m=refs[0];evidence("day_transition_probe",m,"bright="+h.getLevel().isBrightOutside()+" targetAlive="+targets[0].isAlive()+" targetHP="+targets[0].getHealth()+" targetDistance="+m.distanceTo(targets[0])+" bow="+m.getMainHandItem());h.assertTrue(h.getLevel().isBrightOutside()&&SkeletonState.runtime(m).mode.equals("sniper")&&seen[0][1],"Day transition really fires critical arrow");
             evidence("S01_day",m,"critical=true");m.discard();targets[0].discard();h.succeed();});

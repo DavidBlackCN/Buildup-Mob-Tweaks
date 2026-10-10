@@ -84,6 +84,7 @@ public class PillagerBehaviorTests {
     @GameTest(structure=ARENA,maxTicks=245)
     public void creativeSpectatorDistanceAndReacquisition(GameTestHelper h) {
         floor(h);var p=pillager(h,8,8);var fixture=player(h,8,18);var player=fixture.player();
+        p.getRandom().setSeed(420010);
         h.runAtTickTime(35,()->{
             h.assertTrue(p.getTarget()==player,"Natural survival player aggro");player.setGameMode(GameType.CREATIVE);
         });

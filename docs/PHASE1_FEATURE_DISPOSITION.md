@@ -1,6 +1,8 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
-> R4-E2-a当前限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
+> R4-E2-b当前完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
+
+> R4-E2-a历史限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
 
 > R4-E1-c历史限定交付：[报告](R4E1C_REBUILD.md)/[人工清单](R4E1C_ACCEPTANCE_CHECKLIST.md)。两项接入，66支持/58未生效、QA15场景；`stray_omen_snow`纠正为LEGACY_ONLY/Phase2 DEFER。真实调度及客户端/有限上游结果见收据；肉眼/完整L3/自然刷怪器/多人/性能NOT RUN。不进入E2/R5/Phase2/3，旧批次陈述仅历史。
 
@@ -42,7 +44,7 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `piglin_item_dodge`：近距蓄弩后跳，不是掉落物闪避 | UPSTREAM；`PiglinEntityMixin`；旧S2语义偏差 | **ADAPT** / E1-b / 是 | 成人出生一次7%、200冷却、10动作窗口、合法地面一次冲量；真实位移/危险回退、门控/保存L2 **PASS**；自然刷怪器/人工/完整L3 **NOT RUN** |
 | `piglin_crossbow_compatibility`：CrossbowItem继承、实际主副手/射程/姿势，保留原Brain和矛 | UPSTREAM；`PiglinBrainMixin`, `PiglinEntityMixin`, `RangedCrossbowAttackTaskMixin` | **ADAPT** / E1-b / 是 | 真正副手弩不被清理搬走，黄金替换仍转移实际物；装填/耐久/交易/拾取/转换/禁用L2 **PASS**；Beta有限对照；任意枪械/完整L3/人工 **NOT RUN** |
 | `zombified_piglin_spawn_crossbow`：原版初始化时池选真实稀有弩 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2-a / 是 | 原生空主手、出生概率/独立门、幼体、原金剑/金矛回退、保存/死亡 **L2 PASS**；弩远程AI仍E2-b **NOT RUN** |
-| `zombified_piglin_crossbow`：给已经持弩实体原版调度远程使用，不额外复制装备 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombified_piglin_crossbow` 仅待实现；仇恨/距离/弹体/退回原近战/掉落；**NOT RUN** |
+| `zombified_piglin_crossbow`：真实主副手弩装填/原版箭/耐久，原生受击仇恨与近战回退，已装弹和装备保存 | UPSTREAM；`ZombifiedPiglinEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
 | `illager_zombie_conflict`：窄阵营冲突，保留玩家优先而非全局setTarget覆盖 | UPSTREAM；`IllagerEntityMixin`, `AbstractZombieEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_illager_zombie_conflict` 仅待实现；完整袭击/村庄/玩家目标/禁用/互相索敌；**NOT RUN** |
 | `illager_zombie_villager`：僵尸村民独立敌对关系与普通僵尸重叠按一次处理 | UPSTREAM；`IllagerEntityMixin`, `ZombieVillagerEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_illager_zombie_villager` 仅待实现；职业/转化/袭击/玩家优先；**NOT RUN** |
 | `illager_boats`：自动寻找与使用船会改变袭击/运输控制，首发暂缓 | UPSTREAM；`IllagerEntityMixin`, `RaiderUseBoatGoal` | **DEFER** / Phase3生态/整合包 / 否 | 独立门 `disable_illager_boats` 仅待实现；不阻断Phase1；所有权与玩家船/卸载另审；**NOT RUN** |
@@ -53,10 +55,10 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `vindicator_support`：旧S2卫道士支援是Buildup选择性玩法，非已确认上游技能 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_vindicator_support` 仅待实现；同队/范围/短冷却；完整袭击，不全局增强伤害；**NOT RUN** |
 | `evoker_flee_speed`：旧S2避让速度参数；上游这两类未证明同项独立配置 | LEGACY_ONLY；`EvokerEntityMixin`, `FleeEntityGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_evoker_flee_speed` 仅待实现；26.3原版AvoidEntityGoal实测需求后窄适配，不改已通过火球仲裁；**NOT RUN** |
 | `evoker_avoid_target_fix`：旧S2避免目标处理候选，非明确上游独立修复 | LEGACY_ONLY；`EvokerEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_evoker_avoid_target_fix` 仅待实现；复现当前Bug优先，LOS/创造/旁观与真实施法回归；**NOT RUN** |
-| `drowned_fishing_pull`：真实钓竿浮漂与拉拽，复用原版物品/归属链 | UPSTREAM；`DrownedAttackGoalMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_drowned_fishing_pull` 仅待实现；水陆/目标丢失/浮漂销毁/死亡掉落；**NOT RUN** |
-| `zombie_fisherman_rod`：上游职业僵尸村民渔夫，不将普通僵尸全体变职业 | UPSTREAM；`ZombieVillagerEntityMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombie_fisherman_rod` 仅待实现；实际竿和职业前置/耐久/同一装备池；**NOT RUN** |
-| `zombie_cleric_potions`：上游牧师职业使用真实药水；不复制女巫伪背包 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombie_cleric_potions` 仅待实现；有限消耗/目标/效果/玩家物品守恒；**NOT RUN** |
-| `zombie_fletcher_crossbow`：上游制箭师职业弩，需要真实装备适配闭环 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_zombie_fletcher_crossbow` 仅待实现；职业转换/目标/弩弹体/全关闭近战；**NOT RUN** |
+| `drowned_fishing_pull`：既有真实竿和原版自然发竿，水陆射手/非水下目标/三叉戟在途互斥，原生碰撞拉拽与保存 | UPSTREAM；`DrownedAttackGoalMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
+| `zombie_fisherman_rod`：精确渔夫职业，一次空手出生竿，原生浮漂命中/拉拽位移、真实磨损/单钩所有权、退出守恒 | UPSTREAM；`ZombieVillagerEntityMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
+| `zombie_cleric_potions`：精确牧师职业，一瓶真实HARMING消耗治疗受伤亡灵，独立支援目标，关闭/消费后重载不补发 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
+| `zombie_fletcher_crossbow`：精确制箭师职业，一次空手出生弩，真实射击、已装填后追赶、职业变更/治愈/转换不补发 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
 | `zombie_active_guard`：旧高级格挡由已实现ZOMBIE_SHIELD_USE真实盾牌承担；不叠加第二Trait格挡 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **REPLACE** / R5说明收口 / 是（含替代说明） | 独立门 `disable_zombie_active_guard` 仅待实现；Z01独立门与装备耐久/停用，旧字段后续迁移说明；**NOT RUN** |
 | `husk_spear_charge`：现有原版矛及尸壳坐骑条件下有限冲刺；不生成新武器 | UPSTREAM；`ChargeSpearGoalMixin`, `ChargeSpearTaskMixin`, `HuskEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_husk_spear_charge` 仅待实现；ATTACK_RANGE/击中预算/距离/碰撞/骑乘停止；**NOT RUN** |
 | `husk_camel_circle`：骆驼尸壳载体环绕原版目标，保留控制乘客 | UPSTREAM；`CamelHuskEntityMixin`, `HuskEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_husk_camel_circle` 仅待实现；原版26.3CamelHusk生命周期/骑手退出/半径；**NOT RUN** |

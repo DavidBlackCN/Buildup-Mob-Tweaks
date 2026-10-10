@@ -3,6 +3,11 @@
   "package": "com.davidblackcn.buildupmobtweaks.client.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
+    "rebuild.ProfessionArmPoseMixin",
+    "rebuild.ProfessionVillagerModelMixin",
+    "rebuild.ProfessionPiglinModelMixin",
+    "rebuild.MobFishingRenderMixin",
+    "rebuild.MobRodCastMixin",
     "rebuild.SkeletonRenderStateMixin",
     "rebuild.SkeletonRendererMixin",
     "rebuild.SkeletonRotationMixin",

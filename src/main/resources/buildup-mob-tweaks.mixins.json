@@ -3,6 +3,10 @@
   "package": "com.davidblackcn.buildupmobtweaks.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "rebuild.ProfessionBirthMixin",
+    "rebuild.ProfessionTickMixin",
+    "rebuild.MobFishingHookMixin",
+    "rebuild.ClericPotionMixin",
     "rebuild.WitherBirthEquipmentMixin",
     "rebuild.ZombifiedBirthEquipmentMixin",
     "rebuild.PillagerLifecycleMixin",

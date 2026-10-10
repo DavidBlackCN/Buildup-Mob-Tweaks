@@ -7,7 +7,7 @@ Phase 1现以外层PHASE1_RESTORATION_PLAN.md及用户本轮具体授权为准�
 - 唯一目标为本目录，Java 25、Wrapper、官方未混淆命名，保持 common/client 隔离。
 - 正式阶段以外层 PLAN.md 为准；历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 docs/STAGE_INDEX.md。R4-C 已实施，用户明确授权直接执行 R4-D，完成后统一人工验收完整 R4，无需再次方案停顿；本批范围/结果见 docs/R4D_REBUILD.md，剩余未迁移 ID 见 docs/R4_REMAINING_AUDIT.md。停止在 R4-D，不自动进入 R5/S3/Boss，不发布。S2 仅历史对照。
 - Mod ID buildupmobtweaks，包 com.davidblackcn.buildupmobtweaks；项目 MIT，第三方许可独立保留。上游核心参考为 R0/R1 已核验、恢复的官方发行源码；查阅外层 docs/rebuild/ 的原始 JAR 哈希、许可证及行为证据，不把上游潜在 Bug 当作必须复制的行为。
-- Fzzy Config 真实发布 API，不内嵌依赖；所有行为经 FeatureRegistry 独立开关。配置 v9，当前字段见 docs/R2A_REBUILD.md；未知附件版本原样保留，出生特性/装备不重抽，不补发丢失物品。
+- Fzzy Config 真实发布 API，不内嵌依赖；所有行为经 FeatureRegistry 独立开关。配置 v10，当前字段见 docs/R2A_REBUILD.md；未知附件版本原样保留，出生特性/装备不重抽，不补发丢失物品。
 - 高影响技能互斥、可预判、有次数/冷却预算。三叉戟只保存所有权引用，无备用物品。恼鬼世界索引保留卸载名额、销毁释放；升级前未加载旧恼鬼的追溯限制必须披露。
 - 尸壳三层沙地下潜遵循 mobGriefing，中断/重载恢复地表与物理；在途技能不恢复，冷却保存。标签是退出/过滤，不代表通用第三方武器或领地兼容。
 - 新增附魔注册、战利品和玩法全部排除。Boss/末地让位仅设计，不预设 Stellarity 检测 ID。
@@ -23,3 +23,5 @@ R4-E1-b本轮经用户“可以开始”明确批准；限定结果见docs/R4E1B
 R4-E1-c本轮用户授权方案核验后直接实施，无需二次批准；范围/停止点见docs/R4E1C_REBUILD.md。两项新增及两个REPLACE，stray_omen_snow纠正为LEGACY_ONLY/Phase2 DEFER，当前66/58、QA15。上述E1-c待批准仅历史。旧S2不恢复，E2及后续不在本批；验证自检、本地提交后停止，人工与完整L3独立验收。
 
 R4-E2-a本轮用户授权核验方案后直接实施，无需二次批准；具体范围/停止点见docs/R4E2A_REBUILD.md。装备池闭环、两类出生武器、traits按模块状态REPLACE；配置v10、68/56、QA17。上述E2未批准仅历史。E2-b/R5/Phase2/3不在本批；验证自检、本地提交后停止，不推送发布。
+
+R4-E2-b本轮获完整五ID/G38直接实施授权，结果见docs/R4E2B_REBUILD.md；73/51、配置v10、QA22、272真实调度PASS。上面的E2-b未授权声明仅历史；本批验证自检后本地提交、停止，不进入E2-c/R5/后续Phase，不推送发布。

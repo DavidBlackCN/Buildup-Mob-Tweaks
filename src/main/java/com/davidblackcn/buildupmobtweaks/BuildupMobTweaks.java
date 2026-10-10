@@ -39,6 +39,7 @@ public class BuildupMobTweaks implements ModInitializer {
         com.davidblackcn.buildupmobtweaks.rebuild.piglin.PiglinState.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.skeleton.SkeletonDifferences.bootstrap();
         com.davidblackcn.buildupmobtweaks.equipment.EquipmentService.bootstrap();
+        com.davidblackcn.buildupmobtweaks.rebuild.profession.ProfessionState.bootstrap();
 		DiagnosticCommands.register(features);
         // R2-A: legacy S2 services stay unregistered until individually rebuilt.
         EquipmentPools.register();
@@ -55,6 +56,7 @@ public class BuildupMobTweaks implements ModInitializer {
         new com.davidblackcn.buildupmobtweaks.rebuild.vex.VexBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.remaining.RemainingBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.piglin.PiglinBehavior(features).register();
+        new com.davidblackcn.buildupmobtweaks.rebuild.profession.ProfessionBehavior(features).register();
         LOGGER.info("Buildup Mob Tweaks initialized: R3/R4-A/B/C/D behavior rebuild.");
 	}
 

@@ -2,7 +2,7 @@
 
 正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
 
-Phase 1当前交付为[R4-E2-a](docs/R4E2A_REBUILD.md)：接通严格数据包装备池和单次出生装备，补齐凋灵骷髅出生弓及僵尸猪灵出生弩。配置v10，当前68支持/56未生效；[独立QA17场景](docs/PHASE1_QA_GUIDE.md)只在测试实例安装。[人工验收](docs/R4E2A_ACCEPTANCE_CHECKLIST.md)尚待执行；僵尸猪灵弩AI及职业武器仍待E2-b。
+Phase 1当前交付为[R4-E2-b](docs/R4E2B_REBUILD.md)：完整五项职业武器及G38客户端配套，原有装备池与R4功能保留；当前73支持/51未生效、配置v10、[独立QA22场景](docs/PHASE1_QA_GUIDE.md)。272项真实调度及限定客户端/专服/保存验证通过；[人工验收](docs/R4E2B_ACCEPTANCE_CHECKLIST.md)、完整L3、自然分布与多人/性能NOT RUN。批末停止，不进入E2-c。
 
 Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 
@@ -16,7 +16,7 @@ Java 25、Gradle 9.7.1、Loom 1.18.3、Loader 0.19.5、Fabric API 0.162.0+26.3�
 
 ## 配置与兼容
 
-Fzzy Config 服务端配置 v9。总开关、hostile 分组和各项独立开关均保留；具体字段见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。
+Fzzy Config 服务端配置 v10。总开关、hostile 分组和各项独立开关均保留；具体字段见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。
 
 - 主手弩与背包实际斧/剑交换；小于 3 格近战，大于 3 格换回弩。不会凭空补武器。
 - 出生补给仅首次有效出生执行，食物按局部难度随机，不保证每只都有。读取存档不补发。

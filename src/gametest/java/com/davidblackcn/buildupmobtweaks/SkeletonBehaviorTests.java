@@ -112,6 +112,8 @@ public class SkeletonBehaviorTests {
     public void generatedSwordsNeverDropAfterActualVariantMelee(GameTestHelper h){
         floor(h,true);var mobs=new AbstractSkeleton[]{skeleton(h,EntityTypes.SKELETON,6,8),skeleton(h,EntityTypes.STRAY,14,8),skeleton(h,EntityTypes.BOGGED,22,8)};
         var targets=new IronGolem[]{target(h,6,10),target(h,14,10),target(h,22,10)};
+        // Conservation is the subject here; real melee Goals still have to swap, hit and die.
+        for(int i=0;i<mobs.length;i++)mobs[i].setTarget(targets[i]);
         h.runAtTickTime(70,()->{for(int i=0;i<mobs.length;i++){var m=mobs[i];h.assertTrue(m.getMainHandItem().is(Items.WOODEN_SWORD)&&SkeletonState.generatedSword(m.getMainHandItem()),"Actual Goal equipped generated sword");
             h.assertTrue(targets[i].getHealth()<100,"Actual melee hit before death");m.setDropChance(EquipmentSlot.MAINHAND,2);m.getAttached(SkeletonState.DATA).putFloat("reserve_drop",2);
             m.hurtServer(h.getLevel(),m.damageSources().generic(),1000);targets[i].discard();}});
@@ -264,7 +266,9 @@ public class SkeletonBehaviorTests {
     @GameTest(structure=ARENA,maxTicks=1550)
     public void realConfigDisableRestoresVanillaAndKeepsReserve(GameTestHelper h){
         floor(h,true);AbstractSkeleton[] refs=new AbstractSkeleton[1];IronGolem[] targets=new IronGolem[1];boolean[] seen=arrows(h,()->refs[0]);
-        h.runAtTickTime(1300,()->{refs[0]=skeleton(h,EntityTypes.SKELETON,8,8);targets[0]=target(h,8,10);});
+        // This case verifies live config restoration; natural acquisition is covered separately.
+        // Supply its existing valid target so native random acquisition cannot miss the 60-tick setup window.
+        h.runAtTickTime(1300,()->{refs[0]=skeleton(h,EntityTypes.SKELETON,8,8);targets[0]=target(h,8,10);refs[0].setTarget(targets[0]);});
         h.runAtTickTime(1360,()->{h.assertTrue(refs[0].getMainHandItem().is(Items.WOODEN_SWORD),"Real melee before individual config change");BuildupMobTweaks.config().hostile.skeleton.weaponSwitching.accept(false);});
         h.runAtTickTime(1380,()->{h.assertTrue(refs[0].getMainHandItem().is(Items.BOW)&&SkeletonState.reserve(refs[0]).is(Items.WOODEN_SWORD),"Individual disable restores owned weapon");
             BuildupMobTweaks.config().general.enabled.accept(false);targets[0].snapTo(h.absolutePos(new BlockPos(8,2,20)),0,0);});

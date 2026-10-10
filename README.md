@@ -2,7 +2,7 @@
 
 正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
 
-Phase 1当前交付为[R4-E2-b](docs/R4E2B_REBUILD.md)：完整五项职业武器及G38客户端配套，原有装备池与R4功能保留；当前73支持/51未生效、配置v10、[独立QA22场景](docs/PHASE1_QA_GUIDE.md)。272项真实调度及限定客户端/专服/保存验证通过；[人工验收](docs/R4E2B_ACCEPTANCE_CHECKLIST.md)、完整L3、自然分布与多人/性能NOT RUN。批末停止，不进入E2-c。
+Phase 1当前交付为[R4-E2-c](docs/R4E2C_REBUILD.md)：四项幻术师/卫道士行为；保留R4/装备池，77支持/47未生效、配置v10、[独立QA25场景](docs/PHASE1_QA_GUIDE.md)。298项真实调度、原生五波袭击生命周期（受控击杀）与限定客户端/专服/保存验证；[人工连续实战验收](docs/R4E2C_ACCEPTANCE_CHECKLIST.md)、完整L3、自然分布、多人/性能NOT RUN。批末停止，不进入E3或R5。
 
 Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 

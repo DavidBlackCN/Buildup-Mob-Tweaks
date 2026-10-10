@@ -21,6 +21,7 @@
       "com.davidblackcn.buildupmobtweaks.SkeletonDifferenceTests",
       "com.davidblackcn.buildupmobtweaks.BirthEquipmentTests",
       "com.davidblackcn.buildupmobtweaks.ProfessionBehaviorTests",
+      "com.davidblackcn.buildupmobtweaks.IllusionBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.ZombieBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.DrownedBehaviorTests"
     ]

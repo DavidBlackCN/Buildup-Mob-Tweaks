@@ -1,6 +1,8 @@
 # Phase 1白名单入口与测试缺口（E0基线56项）
 
-> R4-E2-b当前完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
+> R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。
+
+> R4-E2-b历史完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
 
 > R4-E2-a历史限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
 
@@ -121,3 +123,14 @@
 - `zombie_fisherman_rod`：精确渔夫职业，一次空手出生竿，原生浮漂命中/拉拽位移、真实磨损/单钩所有权、退出守恒。
 - `drowned_fishing_pull`：既有真实竿和原版自然发竿，水陆射手/非水下目标/三叉戟在途互斥，原生碰撞拉拽与保存。
 - `zombie_cleric_potions`：精确牧师职业，一瓶真实HARMING消耗治疗受伤亡灵，独立支援目标，关闭/消费后重载不补发。
+
+## R4-E2-c 本批结果
+
+当前124个声明ID中77个支持、47个未生效（E2-b的73+本批4）；这不是所有ID的完整验收。新增入口为BuildupMobTweaks → IllusionState/IllusionBehavior.register → 精确类型加载及原生Mixin。三个illusioner ID进入原生施法/弓路径，vindicator_support为原targetSelector上的5/TARGET。四项均见IllusionBehaviorTests（26项），原生Server Tick/Goal及实际伤害验证；专服/客户端范围和未验证项见R4E2C_REBUILD。上面的56/60/64/66/68/73及config v9是对应历史快照，不覆盖当前v10。
+
+| 新增ID | 真正执行链 | 边界 |
+| --- | --- | --- |
+| illusioner_swap | IllusionRebuildMixin.aiStep → IllusionBehavior.tick | 原生隐身、安全点/200tick、同步行走/客户端幻影 |
+| illusioner_shoot_pause | IllusionBowGoalMixin.tick → pause/shot | 原生弓Goal实际拉弓/发箭、停止输入/20及10tick |
+| illusioner_clone_arrows | IllusionRebuildMixin.performRangedAttack → clones；IllusionArrowMixin | 真实箭源/owner/原生附魔/伤害、替代双箭、120/200tick |
+| vindicator_support | ENTITY_LOAD → SupportGoal，VindicatorSupportExitMixin | 保留原targetSelector优先级，仅拥有自己的支援目标 |

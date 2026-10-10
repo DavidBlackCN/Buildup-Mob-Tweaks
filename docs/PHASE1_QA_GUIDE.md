@@ -1,5 +1,7 @@
 # Phase 1 确定性 QA 使用说明
 
+> R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。
+
 目标 MC Fabric **26.3** / Java25 / Loader0.19.5 / API0.162.0+26.3 / Fzzy0.7.7+fix3+26.3 / Kotlin1.14.1+kotlin.2.4.20；Buildup1.0.0/config v10。工具使用服务器当前配置，拒绝已关闭能力，**不修改全局配置、概率或出生规则**。只在废弃测试世界安装独立QA Mod。正式包没有`buildupqa`命令、QA类或GameTest入口。
 
 ## 安装及运行
@@ -123,3 +125,17 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 新增场景固定位置/输入与运行RNG，稀有出生装备采用有界真实出生选样，不保证任意配置必命中。不会修改全局概率、冷却或追加隐藏装备。无匹配门/出生结果时在改场地前拒绝。手移动只往空槽，不能覆盖外部物品；原生出生若已有另一手武器，不保证自动演示全部组合，手组合已由独立客户端探针验证，肉眼仍按清单复验。
 
 `force`可以选择同类型/同职业、已持所需实际物品的闲置实体；不改职业、不发装备、不返还冷却。出生类旧场景仍不支持force。牧师target命令拒绝把支援目标写为敌对目标，实际Goal选择附近受伤亡灵。inspect增加职业账本/阶段/计数/hook，check区分正常消费与缺少前置。off只关本场单项，cleanup退场恢复场地；会话不跨正常关服。完整步骤见[R4E2B_ACCEPTANCE_CHECKLIST](R4E2B_ACCEPTANCE_CHECKLIST.md)。本节与最新报告优先于上文旧批的场景数量/未实现声明。
+
+## R4-E2-c 本批结果
+
+当前共25场；新增场景如下。仅安装独立`buildup-mob-tweaks-1.0.0-qa.jar`于备份/临时世界（配合正式包）；正式发行及sources.jar不含QA/GameTest/客户端探针。`./gradlew.bat qaJar`生成工具；开发专服运行`./gradlew.bat runQaServer -PqaHarness=true --args=nogui`。
+
+| scene | 输入 | 20TPS人工观察 |
+| --- | --- | --- |
+| illusion | 原生finalizeSpawn的真实弓；只定向clone_trait=false；静止1000HP铁傀儡9格 | 先约2秒原生隐身施法，再真实幻影/安全换位/拉弓/箭伤，观察10秒 |
+| illusion_arrows | 同上，只定向clone_trait=true；未修改全局概率或冷却 | 每120tick至多一次双箭替代原箭；四幻影不是实体，箭不可拾取，期限200tick |
+| vindicator | 原生实际斧卫道士、8格内同盟唤魔者；第5tick受附近僵尸真实1点伤害 | 支援Goal取得攻击者，原生近战扣血；不是强制给敌对目标 |
+
+每场顺序`/buildupqa spawn <scene>` → 观察 → `/buildupqa inspect`/`check` → `off` → `check` → `cleanup`。新增inspect包含swaps/shots/volleys/cloneArrows/supports/positions、账本和targetHealth。场景中的静止与1000HP是QA输入，不能据此推断自然分布、难度平衡或追逐表现；移动已另用实际Tick测试验证。
+
+`force`只选择相应已有闲置实体，幻术师仅暂存/改其clone_trait，结束恢复该选择；不发弓/斧、不改全局概率、已赚取冷却或实际耗材。`illusion`的off只关swap，`illusion_arrows`只关clone_arrows，`vindicator`只关support。单项off可能仍有原生隐身/射箭或其他已开启行为，不能误判为关闭失败。总体让位用原有vanilla_ai标签；要测试shoot_pause单项请按人工清单使用对应disable标签/配置。支援target命令拒绝直接写目标，请使用真实同盟受伤；cleanup退役自有孩子/箭并恢复地形。会话不跨关服，非QA生物不恢复在途幻影/箭。

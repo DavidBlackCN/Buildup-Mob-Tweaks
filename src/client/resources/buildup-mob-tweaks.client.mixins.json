@@ -3,6 +3,9 @@
   "package": "com.davidblackcn.buildupmobtweaks.client.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
+    "rebuild.IllusionCullingMixin",
+    "rebuild.IllusionRenderStateMixin",
+    "rebuild.IllusionBowModelMixin",
     "rebuild.ProfessionArmPoseMixin",
     "rebuild.ProfessionVillagerModelMixin",
     "rebuild.ProfessionPiglinModelMixin",

@@ -4,6 +4,7 @@ import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import com.davidblackcn.buildupmobtweaks.equipment.EquipmentService;
 import com.davidblackcn.buildupmobtweaks.rebuild.profession.*;
+import com.davidblackcn.buildupmobtweaks.rebuild.illusion.*;
 import net.minecraft.world.entity.monster.zombie.ZombieVillager;
 import net.minecraft.world.entity.monster.zombie.Drowned;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
@@ -70,11 +71,14 @@ public final class QaHarness implements ModInitializer {
         FLETCHER("fletcher",FeatureId.ZOMBIE_FLETCHER_CROSSBOW),
         FISHERMAN("fisherman",FeatureId.ZOMBIE_FISHERMAN_ROD),
         CLERIC("cleric",FeatureId.ZOMBIE_CLERIC_POTIONS),
-        DROWNED_FISHING("drowned_fishing",FeatureId.DROWNED_FISHING_PULL);
+        DROWNED_FISHING("drowned_fishing",FeatureId.DROWNED_FISHING_PULL),
+        ILLUSION("illusion",FeatureId.ILLUSIONER_SWAP),
+        ILLUSION_ARROWS("illusion_arrows",FeatureId.ILLUSIONER_CLONE_ARROWS),
+        VINDICATOR("vindicator",FeatureId.VINDICATOR_SUPPORT);
         public final String id; public final FeatureId feature;
         Scene(String id,FeatureId feature){this.id=id;this.feature=feature;}
         public static Scene parse(String name){return Arrays.stream(values()).filter(s->s.id.equals(name)).findFirst().orElseThrow(()->new IllegalArgumentException("Scene: "+Arrays.stream(values()).map(s->s.id).toList()));}
-        boolean matches(Mob m){return switch(this){case PILLAGER->m.getType()==EntityTypes.PILLAGER;case SKELETON,SKELETON_DRAW->m.getType()==EntityTypes.SKELETON;case BOGGED_OMEN->m.getType()==EntityTypes.BOGGED;case STRAY_FLIP->m.getType()==EntityTypes.STRAY;case ENDERMAN->m.getType()==EntityTypes.ENDERMAN;case EVOKER->m.getType()==EntityTypes.EVOKER;case DOOR->m.getType()==EntityTypes.ZOMBIE;case PARCHED->m.getType()==EntityTypes.PARCHED;case WITHER_BIRTH,WITHER_BOW,WITHER_SKULL,WITHER_HOMING->m.getType()==EntityTypes.WITHER_SKELETON;case PIGLIN,PIGLIN_DODGE->m.getType()==EntityTypes.PIGLIN;case PIGLIN_ANGER,ZOMBIFIED_BIRTH,ZOMBIFIED_CROSSBOW->m.getType()==EntityTypes.ZOMBIFIED_PIGLIN;case DROWNED_FISHING->m.getType()==EntityTypes.DROWNED;case FLETCHER,FISHERMAN,CLERIC->m instanceof ZombieVillager z&&ProfessionBehavior.profession(z,this==FLETCHER?VillagerProfession.FLETCHER:this==FISHERMAN?VillagerProfession.FISHERMAN:VillagerProfession.CLERIC);};}
+        boolean matches(Mob m){return switch(this){case ILLUSION,ILLUSION_ARROWS->m.getType()==EntityTypes.ILLUSIONER;case VINDICATOR->m.getType()==EntityTypes.VINDICATOR;case PILLAGER->m.getType()==EntityTypes.PILLAGER;case SKELETON,SKELETON_DRAW->m.getType()==EntityTypes.SKELETON;case BOGGED_OMEN->m.getType()==EntityTypes.BOGGED;case STRAY_FLIP->m.getType()==EntityTypes.STRAY;case ENDERMAN->m.getType()==EntityTypes.ENDERMAN;case EVOKER->m.getType()==EntityTypes.EVOKER;case DOOR->m.getType()==EntityTypes.ZOMBIE;case PARCHED->m.getType()==EntityTypes.PARCHED;case WITHER_BIRTH,WITHER_BOW,WITHER_SKULL,WITHER_HOMING->m.getType()==EntityTypes.WITHER_SKELETON;case PIGLIN,PIGLIN_DODGE->m.getType()==EntityTypes.PIGLIN;case PIGLIN_ANGER,ZOMBIFIED_BIRTH,ZOMBIFIED_CROSSBOW->m.getType()==EntityTypes.ZOMBIFIED_PIGLIN;case DROWNED_FISHING->m.getType()==EntityTypes.DROWNED;case FLETCHER,FISHERMAN,CLERIC->m instanceof ZombieVillager z&&ProfessionBehavior.profession(z,this==FLETCHER?VillagerProfession.FLETCHER:this==FISHERMAN?VillagerProfession.FISHERMAN:VillagerProfession.CLERIC);};}
     }
     @Override public void onInitialize(){
         CommandRegistrationCallback.EVENT.register((d,a,e)->{
@@ -86,7 +90,7 @@ public final class QaHarness implements ModInitializer {
             root.then(Commands.literal("force").then(Commands.argument("scene",StringArgumentType.word()).then(Commands.argument("entity",EntityArgument.entity()).executes(c->attempt(c.getSource(),()->{
                 if(!(EntityArgument.getEntity(c,"entity") instanceof Mob m))throw new IllegalArgumentException("Expected Mob");select(m,Scene.parse(StringArgumentType.getString(c,"scene")));reply(c.getSource(),"QA session selected; existing equipment and earned cooldowns preserved. "+inspect(m));return 1;})))));
             root.then(Commands.literal("target").then(Commands.argument("entity",EntityArgument.entity()).executes(c->attempt(c.getSource(),()->{
-                var s=require(c.getSource().getServer());if(s.scene==Scene.CLERIC)throw new IllegalArgumentException("Cleric Goal selects nearby injured undead; native hostile target is independent");if(!(EntityArgument.getEntity(c,"entity") instanceof LivingEntity t)||!ZombieBehavior.valid(s.mob,t))throw new IllegalArgumentException("Target dead/allied/creative/spectator/wrong dimension");setTarget(s.mob,t);reply(c.getSource(),inspect(s.mob));return 1;}))));
+                var s=require(c.getSource().getServer());if(s.scene==Scene.VINDICATOR)throw new IllegalArgumentException("Support target comes from an allied caster being hurt; no direct target assignment");if(s.scene==Scene.CLERIC)throw new IllegalArgumentException("Cleric Goal selects nearby injured undead; native hostile target is independent");if(!(EntityArgument.getEntity(c,"entity") instanceof LivingEntity t)||!ZombieBehavior.valid(s.mob,t))throw new IllegalArgumentException("Target dead/allied/creative/spectator/wrong dimension");setTarget(s.mob,t);reply(c.getSource(),inspect(s.mob));return 1;}))));
             root.then(Commands.literal("check").executes(c->attempt(c.getSource(),()->{reply(c.getSource(),check(require(c.getSource().getServer())));return 1;})));
             root.then(Commands.literal("off").executes(c->attempt(c.getSource(),()->{var s=require(c.getSource().getServer());s.mob.addTag("buildupmobtweaks:disable_"+s.scene.feature.id().getPath());if(s.scene==Scene.PIGLIN_ANGER&&s.target!=null)s.mob.hurtServer(s.level,s.mob.damageSources().mobAttack(s.target),1);reply(c.getSource(),"Single gate off; allow real ticks to retire its in-flight state. "+inspect(s.mob));return 1;})));
             root.then(Commands.literal("cleanup").executes(c->{cleanup(c.getSource().getServer());reply(c.getSource(),"Generated entities/projectiles and arena retired; selected entity restoration after 2 real ticks.");return 1;}));
@@ -110,17 +114,18 @@ public final class QaHarness implements ModInitializer {
             var p=origin.offset(x,y,z);if(!level.hasChunkAt(p)||level.getBlockEntity(p)!=null||!level.getFluidState(p).isEmpty()||(y>=0&&!level.getBlockState(p).isAir()))throw new IllegalArgumentException("Need loaded empty 29x29x5 airspace; block entities/fluids prohibited: "+p);
             if(y==-1||y==4)saved.put(p,level.getBlockState(p));
         }
-        Mob mob=switch(scene){case PILLAGER->EntityTypes.PILLAGER.create(level,EntitySpawnReason.COMMAND);case SKELETON,SKELETON_DRAW->EntityTypes.SKELETON.create(level,EntitySpawnReason.COMMAND);case BOGGED_OMEN->EntityTypes.BOGGED.create(level,EntitySpawnReason.COMMAND);case STRAY_FLIP->EntityTypes.STRAY.create(level,EntitySpawnReason.COMMAND);case ENDERMAN->EntityTypes.ENDERMAN.create(level,EntitySpawnReason.COMMAND);case EVOKER->EntityTypes.EVOKER.create(level,EntitySpawnReason.COMMAND);case DOOR->EntityTypes.ZOMBIE.create(level,EntitySpawnReason.COMMAND);case PARCHED->EntityTypes.PARCHED.create(level,EntitySpawnReason.COMMAND);case WITHER_BIRTH,WITHER_BOW,WITHER_SKULL,WITHER_HOMING->EntityTypes.WITHER_SKELETON.create(level,EntitySpawnReason.COMMAND);case PIGLIN,PIGLIN_DODGE->EntityTypes.PIGLIN.create(level,EntitySpawnReason.COMMAND);case PIGLIN_ANGER,ZOMBIFIED_BIRTH,ZOMBIFIED_CROSSBOW->EntityTypes.ZOMBIFIED_PIGLIN.create(level,EntitySpawnReason.COMMAND);case FLETCHER,FISHERMAN,CLERIC->EntityTypes.ZOMBIE_VILLAGER.create(level,EntitySpawnReason.COMMAND);case DROWNED_FISHING->EntityTypes.DROWNED.create(level,EntitySpawnReason.COMMAND);};
-        Mob target=scene==Scene.CLERIC?EntityTypes.ZOMBIE.create(level,EntitySpawnReason.COMMAND):scene==Scene.PIGLIN_ANGER?EntityTypes.ZOMBIFIED_PIGLIN.create(level,EntitySpawnReason.COMMAND):EntityTypes.IRON_GOLEM.create(level,EntitySpawnReason.COMMAND);
+        Mob mob=switch(scene){case ILLUSION,ILLUSION_ARROWS->EntityTypes.ILLUSIONER.create(level,EntitySpawnReason.SPAWN_ITEM_USE);case VINDICATOR->EntityTypes.VINDICATOR.create(level,EntitySpawnReason.SPAWN_ITEM_USE);case PILLAGER->EntityTypes.PILLAGER.create(level,EntitySpawnReason.COMMAND);case SKELETON,SKELETON_DRAW->EntityTypes.SKELETON.create(level,EntitySpawnReason.COMMAND);case BOGGED_OMEN->EntityTypes.BOGGED.create(level,EntitySpawnReason.COMMAND);case STRAY_FLIP->EntityTypes.STRAY.create(level,EntitySpawnReason.COMMAND);case ENDERMAN->EntityTypes.ENDERMAN.create(level,EntitySpawnReason.COMMAND);case EVOKER->EntityTypes.EVOKER.create(level,EntitySpawnReason.COMMAND);case DOOR->EntityTypes.ZOMBIE.create(level,EntitySpawnReason.COMMAND);case PARCHED->EntityTypes.PARCHED.create(level,EntitySpawnReason.COMMAND);case WITHER_BIRTH,WITHER_BOW,WITHER_SKULL,WITHER_HOMING->EntityTypes.WITHER_SKELETON.create(level,EntitySpawnReason.COMMAND);case PIGLIN,PIGLIN_DODGE->EntityTypes.PIGLIN.create(level,EntitySpawnReason.COMMAND);case PIGLIN_ANGER,ZOMBIFIED_BIRTH,ZOMBIFIED_CROSSBOW->EntityTypes.ZOMBIFIED_PIGLIN.create(level,EntitySpawnReason.COMMAND);case FLETCHER,FISHERMAN,CLERIC->EntityTypes.ZOMBIE_VILLAGER.create(level,EntitySpawnReason.COMMAND);case DROWNED_FISHING->EntityTypes.DROWNED.create(level,EntitySpawnReason.COMMAND);};
+        Mob target=scene==Scene.VINDICATOR?EntityTypes.ZOMBIE.create(level,EntitySpawnReason.COMMAND):scene==Scene.CLERIC?EntityTypes.ZOMBIE.create(level,EntitySpawnReason.COMMAND):scene==Scene.PIGLIN_ANGER?EntityTypes.ZOMBIFIED_PIGLIN.create(level,EntitySpawnReason.COMMAND):EntityTypes.IRON_GOLEM.create(level,EntitySpawnReason.COMMAND);
         if(mob==null||target==null)throw new IllegalArgumentException("Entity creation failed");
         // A disabled/missing birth rule must fail before any terrain mutation.
         if(scene==Scene.WITHER_BIRTH||scene==Scene.ZOMBIFIED_BIRTH){mob.discard();mob=birth(level,origin,scene);}
         if(professionScene(scene)){mob.discard();mob=professionBirth(level,origin,scene);}
+        if(scene==Scene.ILLUSION||scene==Scene.ILLUSION_ARROWS||scene==Scene.VINDICATOR){mob.finalizeSpawn(level,level.getCurrentDifficultyAt(origin),EntitySpawnReason.SPAWN_ITEM_USE,null);if(mob instanceof Illusioner i)IllusionBehavior.instance().initialize(i);}
         for(int x=-14;x<=14;x++)for(int z=-14;z<=14;z++)level.setBlockAndUpdate(origin.offset(x,-1,z),Blocks.STONE.defaultBlockState());
         // Roof fixes sunlight/light mode and makes Enderman teleports testable within a safe solid floor.
         for(int x=-14;x<=14;x++)for(int z=-14;z<=14;z++)level.setBlockAndUpdate(origin.offset(x,4,z),Blocks.STONE.defaultBlockState());
         mob.snapTo(Vec3.atBottomCenterOf(origin),0,0);mob.setPersistenceRequired();mob.addTag(TAG);mob.getRandom().setSeed(480000+scene.ordinal());
-        target.snapTo(Vec3.atBottomCenterOf(origin.offset(0,0,scene==Scene.FLETCHER||scene==Scene.ZOMBIFIED_CROSSBOW?6:scene==Scene.CLERIC?5:scene==Scene.PILLAGER||scene==Scene.PIGLIN_ANGER?2:scene==Scene.PIGLIN?6:scene==Scene.BOGGED_OMEN?3:9)),180,0);target.setNoAi(true);target.setPersistenceRequired();target.addTag(TAG);target.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000);target.setHealth(scene==Scene.CLERIC?900:1000);
+        target.snapTo(Vec3.atBottomCenterOf(origin.offset(0,0,scene==Scene.VINDICATOR?2:scene==Scene.FLETCHER||scene==Scene.ZOMBIFIED_CROSSBOW?6:scene==Scene.CLERIC?5:scene==Scene.PILLAGER||scene==Scene.PIGLIN_ANGER?2:scene==Scene.PIGLIN?6:scene==Scene.BOGGED_OMEN?3:9)),180,0);target.setNoAi(true);target.setPersistenceRequired();target.addTag(TAG);target.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000);target.setHealth(scene==Scene.CLERIC?900:1000);
         if(professionScene(scene)){mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);target.setItemSlot(EquipmentSlot.HEAD,new ItemStack(Items.IRON_HELMET));target.addTag("buildupmobtweaks:disable_equipment_assignment");}
         if(scene==Scene.FISHERMAN||scene==Scene.DROWNED_FISHING){target.setNoAi(false);target.getGoalSelector().removeAllGoals(g->true);((com.davidblackcn.buildupmobtweaks.mixin.rebuild.RemainingTargetAccess)target).buildup$targets().removeAllGoals(g->true);target.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);}
         mob.setItemSlot(EquipmentSlot.HEAD,new ItemStack(Items.IRON_HELMET));mob.setDropChance(EquipmentSlot.HEAD,0);
@@ -132,6 +137,8 @@ public final class QaHarness implements ModInitializer {
             mob.setItemSlot(EquipmentSlot.MAINHAND,new ItemStack(scene==Scene.SKELETON_DRAW?Items.BOW:Items.STONE_SWORD));
             if(scene==Scene.BOGGED_OMEN)target.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.TRIAL_OMEN,1200));
         }
+        if(scene==Scene.ILLUSION||scene==Scene.ILLUSION_ARROWS)mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
+        if(scene==Scene.VINDICATOR){target.setItemSlot(EquipmentSlot.HEAD,new ItemStack(Items.IRON_HELMET));target.addTag("buildupmobtweaks:disable_equipment_assignment");}
         if(scene==Scene.EVOKER||scene==Scene.ENDERMAN)mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
         if(scene==Scene.PARCHED||scene==Scene.WITHER_BOW)mob.setItemSlot(EquipmentSlot.MAINHAND,new ItemStack(Items.BOW));
         if(scene==Scene.WITHER_SKULL||scene==Scene.WITHER_HOMING){mob.setItemSlot(EquipmentSlot.MAINHAND,new ItemStack(Items.STONE_SWORD));mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);}
@@ -141,7 +148,8 @@ public final class QaHarness implements ModInitializer {
         if(!level.addFreshEntity(mob)||!level.addFreshEntity(target)){cleanup(level.getServer());throw new IllegalArgumentException("Entity add rejected; scene cleaned");}
         if(scene==Scene.BOGGED_OMEN||scene==Scene.STRAY_FLIP)mob.getAttached(SkeletonState.DATA).putLong("special_ready",level.getGameTime()+40);
         if(scene==Scene.PIGLIN_ANGER){var peer=EntityTypes.ZOMBIFIED_PIGLIN.create(level,EntitySpawnReason.COMMAND);peer.snapTo(mob.position().add(4,0,0),0,0);peer.addTag(TAG);peer.setPersistenceRequired();s.children.add(peer);if(!level.addFreshEntity(peer)){cleanup(level.getServer());throw new IllegalArgumentException("Peer add rejected");}}
-        if(scene!=Scene.PIGLIN_ANGER&&scene!=Scene.CLERIC)setTarget(mob,target);if(mob instanceof Enderman)mob.hurtServer(level,mob.damageSources().mobAttack(target),1);
+        if(scene==Scene.VINDICATOR){var donor=EntityTypes.EVOKER.create(level,EntitySpawnReason.COMMAND);donor.snapTo(mob.position().add(3,0,0),0,0);donor.setNoAi(true);donor.setPersistenceRequired();donor.addTag(TAG);s.children.add(donor);if(!level.addFreshEntity(donor)){cleanup(level.getServer());throw new IllegalArgumentException("Donor add rejected");}}
+        if(scene!=Scene.VINDICATOR&&scene!=Scene.PIGLIN_ANGER&&scene!=Scene.CLERIC)setTarget(mob,target);if(mob instanceof Enderman)mob.hurtServer(level,mob.damageSources().mobAttack(target),1);
         return s;
     }
     /** Selected existing entities are never given/copied equipment. Only an inactive known birth field is changed. */
@@ -184,9 +192,11 @@ public final class QaHarness implements ModInitializer {
             m.discard();if(scene!=Scene.DROWNED_FISHING)throw new IllegalArgumentException("Native profession birth blocked; equipment is not forced");
         }throw new IllegalArgumentException("No native drowned rod in 512 candidates; not forced");
     }
-    private static AttachmentType<CompoundTag> stateType(Scene scene){return switch(scene){case FLETCHER,FISHERMAN,CLERIC,DROWNED_FISHING,ZOMBIFIED_CROSSBOW->ProfessionState.DATA;case SKELETON_DRAW,BOGGED_OMEN,STRAY_FLIP->SkeletonState.DATA;case DOOR->ZombieState.DATA;case EVOKER->RaidState.EVOKER;case ENDERMAN->RemainingState.DATA;case PARCHED,WITHER_BOW,WITHER_SKULL,WITHER_HOMING->ExtendedSkeletonState.DATA;case PIGLIN,PIGLIN_DODGE->PiglinState.DATA;default->null;};}
+    private static AttachmentType<CompoundTag> stateType(Scene scene){return switch(scene){case ILLUSION,ILLUSION_ARROWS,VINDICATOR->IllusionState.DATA;case FLETCHER,FISHERMAN,CLERIC,DROWNED_FISHING,ZOMBIFIED_CROSSBOW->ProfessionState.DATA;case SKELETON_DRAW,BOGGED_OMEN,STRAY_FLIP->SkeletonState.DATA;case DOOR->ZombieState.DATA;case EVOKER->RaidState.EVOKER;case ENDERMAN->RemainingState.DATA;case PARCHED,WITHER_BOW,WITHER_SKULL,WITHER_HOMING->ExtendedSkeletonState.DATA;case PIGLIN,PIGLIN_DODGE->PiglinState.DATA;default->null;};}
     private static void setTarget(Mob mob,LivingEntity target){if(mob instanceof Piglin p){if(target!=null)p.hurtServer((ServerLevel)p.level(),p.damageSources().mobAttack(target),1);else {p.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);p.getBrain().eraseMemory(MemoryModuleType.ANGRY_AT);p.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);}}else mob.setTarget(target);}
     private static void assign(Mob mob,Scene scene){
+        if(scene==Scene.VINDICATOR)return;
+        if(scene==Scene.ILLUSION||scene==Scene.ILLUSION_ARROWS){var d=mob.getAttached(IllusionState.DATA).copy();d.putBoolean("clone_trait",scene==Scene.ILLUSION_ARROWS);mob.setAttached(IllusionState.DATA,d);return;}
         if(professionScene(scene)||scene==Scene.SKELETON_DRAW||scene==Scene.BOGGED_OMEN||scene==Scene.STRAY_FLIP)return;
         var type=stateType(scene);if(type==null)return;
         var data=mob.hasAttached(type)?mob.getAttached(type).copy():new CompoundTag();data.putInt("version",1);
@@ -204,6 +214,7 @@ public final class QaHarness implements ModInitializer {
         if(m instanceof Zombie z&&ZombieState.known(z)){var r=ZombieState.runtime(z);state=" phase="+r.mode+" blocks="+r.blocks+" displays="+r.displays.size()+" data="+z.getAttached(ZombieState.DATA);}
         if(m instanceof Evoker){var r=RaidState.runtime(m);state=" active="+m.getAttached(RaidState.ACTIVE)+" start="+r.start+" end="+r.end+" casts="+r.casts+" releases="+r.releases+" data="+m.getAttached(RaidState.EVOKER);}
         if(m instanceof Enderman){var r=RemainingState.runtime(m);state=" start="+r.start+" end="+r.end+" combos="+r.combos+" teleports="+r.teleports+" attacks="+r.attacks+" data="+m.getAttached(RemainingState.DATA);}
+        if(IllusionBehavior.supported(m)){var r=IllusionState.runtime(m);state+=" illusionShots="+r.shots+" swaps="+r.swaps+" volleys="+r.volleys+" cloneArrows="+r.arrows+" supports="+r.supports+" positions="+r.positions.length+" targetHealth="+(m.getTarget()==null?"none":m.getTarget().getHealth())+" illusionData="+m.getAttached(IllusionState.DATA);}
         if(ProfessionBehavior.supported(m)){var r=ProfessionState.runtime(m);state+=" professionPhase="+r.phase+" professionShots="+r.shots+" casts="+r.casts+" pulls="+r.pulls+" potions="+r.potions+" hook="+(ProfessionBehavior.hook(m)==null?"none":ProfessionBehavior.hook(m).getUUID())+" professionData="+m.getAttached(ProfessionState.DATA);}
         return "QA MC=26.3 uuid="+m.getUUID()+" source="+m.spawnReason()+" fromDisk="+m.isLoadedFromDisk()+" noAI="+m.isNoAi()+" target="+(m.getTarget()==null?"none":m.getTarget().getUUID()+" valid="+ZombieBehavior.valid(m,m.getTarget()))+" hands="+m.getMainHandItem()+"/"+m.getOffhandItem()+" tags="+m.entityTags()+state+" equipmentLedger="+m.getAttached(EquipmentService.DATA)+" goals="+goals+" brain="+m.getBrain();
     }
@@ -228,7 +239,7 @@ public final class QaHarness implements ModInitializer {
             if(s.scene==Scene.BOGGED_OMEN){if(!SkeletonBehavior.instance().enabled(z,FeatureId.BOGGED_SPORE_RETREAT))reasons.add("base spore phase disabled");if(!SkeletonDifferences.ominous(z.getTarget()))reasons.add("requires BAD_OMEN or TRIAL_OMEN target");}
         }
         if(s.scene==Scene.SKELETON){var z=(AbstractSkeleton)m;if(!z.getMainHandItem().is(Items.BOW)&&!SkeletonState.reserve(z).is(Items.BOW))reasons.add("missing owned bow");}
-        var type=stateType(s.scene);if(type!=null){var data=m.getAttached(type);if(data==null)reasons.add("missing state");else for(String key:List.of("special_ready","combo_ready","guard_ready","dodge_ready","rod_ready","potion_ready")){long left=data.getLongOr(key,0)-s.level.getGameTime();if(left>0)reasons.add(key+" remaining="+left);}}
+        var type=stateType(s.scene);if(type!=null){var data=m.getAttached(type);if(data==null)reasons.add("missing state");else for(String key:List.of("special_ready","combo_ready","guard_ready","dodge_ready","rod_ready","potion_ready","swap_ready","arrow_ready","pause_ready","support_ready")){long left=data.getLongOr(key,0)-s.level.getGameTime();if(left>0)reasons.add(key+" remaining="+left);}}
         if(s.scene==Scene.WITHER_BIRTH||s.scene==Scene.ZOMBIFIED_BIRTH)reasons.add("birth ledger="+m.getAttached(EquipmentService.DATA)+"; off affects future births, actual item is retained; ZP ranged AI is available in E2-b; this gate controls future birth only");
         return "QA prerequisites="+(reasons.isEmpty()?"satisfied; wait for native Brain/Goal arbitration/distance/phase":reasons)+" elapsed="+s.elapsed+" "+inspect(m);
     }
@@ -245,6 +256,7 @@ public final class QaHarness implements ModInitializer {
         private void observe(){
             if(restoring){if(level.getGameTime()>=restoreAt){restoreSelection();SESSIONS.remove(level.getServer());}return;}
             elapsed++;
+            if(generated&&scene==Scene.VINDICATOR&&elapsed==5)for(var child:children)if(child instanceof Evoker e)e.hurtServer(level,e.damageSources().mobAttack(target),1);
             if(generated&&scene==Scene.PIGLIN_ANGER&&elapsed==5)mob.hurtServer(level,mob.damageSources().mobAttack(target),1);
             if(generated&&mob instanceof Piglin p&&target!=null){if(scene==Scene.PIGLIN&&elapsed==140&&!p.getMainHandItem().isEmpty()&&p.getOffhandItem().isEmpty()){p.stopUsingItem();var actual=p.getMainHandItem();p.setItemSlot(EquipmentSlot.MAINHAND,ItemStack.EMPTY);p.setItemSlot(EquipmentSlot.OFFHAND,actual);}
                 if(scene==Scene.PIGLIN_DODGE&&!piglinNear&&elapsed>=205&&p.onGround()&&p.isUsingItem()&&p.getTicksUsingItem()>=5&&p.getTicksUsingItem()<=12){piglinNear=true;target.snapTo(p.position().add(0,0,1.3),0,0);}}
@@ -272,7 +284,7 @@ public final class QaHarness implements ModInitializer {
         }
         private void restoreSelection(){if(generated)return;
             // Restore only QA-owned birth/door fields; never rewind earned cooldowns or restore/copy used equipment.
-            var type=stateType(scene);if(type!=null&&oldState!=null&&mob.hasAttached(type)){var d=mob.getAttached(type);for(String key:List.of("birth","door_health","material")){d.remove(key);var saved=oldState.get(key);if(saved!=null)d.put(key,saved.copy());}}
+            var type=stateType(scene);if(type!=null&&oldState!=null&&mob.hasAttached(type)){var d=mob.getAttached(type);for(String key:List.of("birth","door_health","material","clone_trait")){d.remove(key);var saved=oldState.get(key);if(saved!=null)d.put(key,saved.copy());}}
             for(String tag:List.of("buildupmobtweaks:vanilla_ai","buildupmobtweaks:disable_"+scene.feature.id().getPath()))if(!oldTags.contains(tag))mob.removeTag(tag);setTarget(mob,oldTarget);
         }
         private void restoreBlocks(){for(var entry:blocks.entrySet())if(level.hasChunkAt(entry.getKey())&&level.getBlockEntity(entry.getKey())==null&&level.getBlockState(entry.getKey()).is(Blocks.STONE))level.setBlockAndUpdate(entry.getKey(),entry.getValue());}

@@ -1,6 +1,8 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
-> R4-E2-b当前完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
+> R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。
+
+> R4-E2-b历史完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
 
 > R4-E2-a历史限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
 
@@ -79,3 +81,9 @@ E2-a限定闭环已完成，范围/证据/风险见R4E2A_REBUILD；旧E2-a待实
 ## E2-b完成与下一具体批次
 
 用户本轮明确授权完整E2-b，替代上面当时建议的E2-b-1/2/3拆分。五ID/G38已完成限定验证、自检，批末本地提交后停止。下一建议仅E2-c四项illusioner_swap/illusioner_shoot_pause/illusioner_clone_arrows/vindicator_support：先恢复上游真实分身/箭与同队支援链，限定分身箭预算、原生目标/阶段互斥、独立开关和载入退出；补真实Server Tick、完整袭击与多目标验收。须写下一方案，本轮未实施；E3/E4/Boss/R5/Phase2/3不进入。
+
+## R4-E2-c 本批结果
+
+用户本轮授权一次完成整个E2-c，四ID已实施；具体方案、结果和人工步骤见[R4E2C_MIGRATION_PLAN](R4E2C_MIGRATION_PLAN.md)、[R4E2C_REBUILD](R4E2C_REBUILD.md)、[R4E2C_ACCEPTANCE_CHECKLIST](R4E2C_ACCEPTANCE_CHECKLIST.md)。77/47、QA25、配置v10；全量298项及新26项真实Server Tick/Goal验证，客户端四实际持弓手组合；原生普通难度五波生命周期采用受控击杀推进，不等于连续实战验收。本地提交后停止。
+
+下一批具体建议 **E3-a-1（最多三ID）**：`illager_zombie_conflict`、`illager_zombie_villager`、`golem_friendly_fire_fix`。先审计两版官方发行源码的阵营/目标取得/友伤链，核对26.3原版已修内容与已有本项目Goal；再确定“原版覆盖/REPLACE”或窄ADAPT。使用真实阵营/村庄/铁傀儡、双向伤害/目标、关闭回退和目标生命周期测试，避免全局LivingEntity钩子、广域扫描及新增伤害。若当前原版已覆盖，不应仅加白名单制造已实现状态。骑乘、陷阱转换、生态生成和Boss另批。本轮只输出建议，没有实施E3；后续仍由用户确认具体批次。

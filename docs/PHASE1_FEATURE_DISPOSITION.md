@@ -1,6 +1,8 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
-> R4-E2-b当前完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
+> R4-E2-c当前完整交付：[报告](R4E2C_REBUILD.md)/[人工清单](R4E2C_ACCEPTANCE_CHECKLIST.md)。四项幻术师/卫道士行为，配置v10、77支持/47未生效、独立QA25场景；298项真实调度验证。原生五波袭击生命周期（受控击杀推进）、实际客户端与专服/冷重启限定PASS；上游仅有限对照。人工连续袭击/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E3/E4/Boss/R5/Phase2/3。
+
+> R4-E2-b历史完整交付：[报告](R4E2B_REBUILD.md)/[人工清单](R4E2B_ACCEPTANCE_CHECKLIST.md)。五项职业武器及G38，配置v10、73支持/51未生效、QA22；272项真实调度PASS。客户端/独立专服/冷重启限定PASS，上游仅有限对照；人工/完整L3/自然分布/多人整合包/性能NOT RUN。批末本地提交后停止，不进入E2-c/R5/Phase2/3。
 
 > R4-E2-a历史限定交付：[报告](R4E2A_REBUILD.md)/[人工清单](R4E2A_ACCEPTANCE_CHECKLIST.md)。装备池与两类出生武器闭环，配置v10、68支持/56未生效、QA17；231项真实调度PASS。僵尸猪灵弩AI仍E2-b，人工/完整L3/自然刷怪器/多人/性能NOT RUN。批末提交后停止，不进入E2-b/R5/Phase2/3。
 
@@ -49,10 +51,10 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `illager_zombie_villager`：僵尸村民独立敌对关系与普通僵尸重叠按一次处理 | UPSTREAM；`IllagerEntityMixin`, `ZombieVillagerEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | 独立门 `disable_illager_zombie_villager` 仅待实现；职业/转化/袭击/玩家优先；**NOT RUN** |
 | `illager_boats`：自动寻找与使用船会改变袭击/运输控制，首发暂缓 | UPSTREAM；`IllagerEntityMixin`, `RaiderUseBoatGoal` | **DEFER** / Phase3生态/整合包 / 否 | 独立门 `disable_illager_boats` 仅待实现；不阻断Phase1；所有权与玩家船/卸载另审；**NOT RUN** |
 | `illusioner_omen_spawn`：becomeIllusioner会丢弃原动物并生成幻术师；不采用这种破坏生态的出生 | UPSTREAM；`LivingEntityMixin` | **EXCLUDE** / 不计门槛 / 否 | 独立门 `disable_illusioner_omen_spawn` 仅待实现；后续幻术师采用明确场景/命令，不替换玩家宠物；**NOT RUN** |
-| `illusioner_swap`：分身换位采用有限合法位置和真实目标，保持原版隐身 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_illusioner_swap` 仅待实现；位置安全/旁观退出/同步/不复活已死分身；**NOT RUN** |
-| `illusioner_shoot_pause`：简化弓攻击阶段与换位间暂停；不增加隐藏并行射击 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_illusioner_shoot_pause` 仅待实现；Goal优先级MOVE/LOOK与原版施法互斥；**NOT RUN** |
-| `illusioner_clone_arrows`：真实箭从有限分身位置发射，归属同一个幻术师 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_illusioner_clone_arrows` 仅待实现；伤害/拾取/友伤/卸载/次数预算；不得复制可拾取箭；**NOT RUN** |
-| `vindicator_support`：旧S2卫道士支援是Buildup选择性玩法，非已确认上游技能 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **ADAPT** / E2 / 是（含替代说明） | 独立门 `disable_vindicator_support` 仅待实现；同队/范围/短冷却；完整袭击，不全局增强伤害；**NOT RUN** |
+| `illusioner_swap`：分身换位采用有限合法位置和真实目标，保持原版隐身 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2-c / 是（含替代说明） | 首次原生隐身/受击结束/1200tick刷新，四个有限安全位置；200tick换位、行走同步、NoAI/目标/门退出，真实Tick与客户端 **L2 PASS**；完整L3/人工 **NOT RUN** |
+| `illusioner_shoot_pause`：简化弓攻击阶段与换位间暂停；不增加隐藏并行射击 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2-c / 是（含替代说明） | 保留原生弓Goal及施法；真实拉弓停止走位、射后20/换位后10tick暂停；实际箭伤/独立关闭/实际主副手模型 **L2 PASS**；人工/第三方AI **NOT RUN** |
+| `illusioner_clone_arrows`：真实箭从有限分身位置发射，归属同一个幻术师 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2-c / 是（含替代说明） | 原生出生70/1000一次账本；120tick至多双箭替代一次原箭，真实安全箭源/Power和Flame/伤害/同盟过滤/不可拾取/200tick期限，保存不恢复在途 **L2 PASS**；自然分布/完整L3/人工 **NOT RUN** |
+| `vindicator_support`：旧S2卫道士支援是Buildup选择性玩法，非已确认上游技能 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **ADAPT** / E2-c / 是（含替代说明） | LEGACY_ONLY/Buildup；priority5/TARGET，最多8名8格同盟施法者的100tick内攻击者；20tick扫描、16格敌人/LOS、不抢原目标/仅清拥有目标；原生近战及五波袭击生命周期（受控击杀） **L2 PASS**；连续实战/多人 **NOT RUN** |
 | `evoker_flee_speed`：旧S2避让速度参数；上游这两类未证明同项独立配置 | LEGACY_ONLY；`EvokerEntityMixin`, `FleeEntityGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_evoker_flee_speed` 仅待实现；26.3原版AvoidEntityGoal实测需求后窄适配，不改已通过火球仲裁；**NOT RUN** |
 | `evoker_avoid_target_fix`：旧S2避免目标处理候选，非明确上游独立修复 | LEGACY_ONLY；`EvokerEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_evoker_avoid_target_fix` 仅待实现；复现当前Bug优先，LOS/创造/旁观与真实施法回归；**NOT RUN** |
 | `drowned_fishing_pull`：既有真实竿和原版自然发竿，水陆射手/非水下目标/三叉戟在途互斥，原生碰撞拉拽与保存 | UPSTREAM；`DrownedAttackGoalMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |

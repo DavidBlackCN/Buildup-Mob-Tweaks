@@ -46,7 +46,9 @@ public class SkeletonDifferenceTests {
     private void hands(GameTestHelper h,boolean left,boolean off,boolean enabled){
         var m=mob(h,EntityTypes.SKELETON);m.setLeftHanded(left);var bow=m.getMainHandItem();bow.setDamageValue(17);bow.set(DataComponents.CUSTOM_NAME,Component.literal("E1c owned bow"));
         if(off){m.setItemSlot(EquipmentSlot.MAINHAND,ItemStack.EMPTY);m.setItemSlot(EquipmentSlot.OFFHAND,bow);}
-        if(!enabled)m.addTag("buildupmobtweaks:disable_skeleton_offhand_visual");var t=target(h,m,false);boolean[] seen={false,false};
+        if(!enabled)m.addTag("buildupmobtweaks:disable_skeleton_offhand_visual");var t=target(h,m,false);
+        // Hand/pose compatibility fixture, not a long-range accuracy benchmark: keep native spread/collision.
+        t.snapTo(m.position().add(0,0,6),0,0);boolean[] seen={false,false};
         h.onEachTick(()->{if(m.isUsingItem()){seen[0]=true;h.assertTrue(m.getUsedItemHand()==(off?InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND),"Native draw uses actual owned bow hand");}
             if(m.isSwinging()){h.assertTrue(m.getCurrentSwing().hand()==(off?InteractionHand.MAIN_HAND:InteractionHand.OFF_HAND),"Actual swing is opposite current bow hand");seen[1]=true;}});
         h.runAtTickTime(175,()->{var r=SkeletonState.runtime(m);h.assertTrue(seen[0]&&r.shots>0&&t.getHealth()<1000,"Real native draw, arrow and damage");h.assertTrue(enabled?seen[1]&&r.drawSwings>0:!seen[1]&&r.drawSwings==0,"Independent swing gate keeps native fire");

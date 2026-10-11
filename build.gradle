@@ -119,6 +119,7 @@ sourceSets.gametest.java {
     include 'com/davidblackcn/buildupmobtweaks/RiderProjectileTests.java'
     include 'com/davidblackcn/buildupmobtweaks/EcologyBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/E3AcceptanceTests.java'
+    include 'com/davidblackcn/buildupmobtweaks/AbilityBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/PillagerBehaviorTests.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestWorld.java'
     include 'com/davidblackcn/buildupmobtweaks/CombatTestItems.java'

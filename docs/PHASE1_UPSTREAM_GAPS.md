@@ -1,5 +1,8 @@
 # 旧68项之外的上游特性缺口审计
 
+> 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
+
+
 > 2026-10-10 **R4-E3-b-1/2/3/4 整组开发完成，等待人工验收**：[工作报告](R4E3B_REBUILD.md) / [统一人工清单](R4E3B_ACCEPTANCE_CHECKLIST.md)。新增九项 ADAPT，当前 **133 声明、96 支持/37 未生效、配置 v11、独立 QA 44 场景**；最终 Wrapper build/qaJar 与 **397 项必需真实调度测试（47 新增）PASS**。普通专服/冷重启、实际客户端与上游仅在报告列明范围内限定 PASS；人工、完整两版 L3、多人/整合包、自然分布和长期性能 NOT RUN。旧 68 项取舍仍 PORT1/ADAPT47/REPLACE6/DEFER10/EXCLUDE4；G04 由 PORT 精化为 ADAPT 不计入旧68。以下旧计数、BLOCKED、待批准与停止点均为各批历史时点，最新状态以本段为准。整 b 提交后停止，不进入 E3-c/E4/Boss/R5/Phase2/3，不推送发布。
 
 E3-a补审：`rider_friendly_fire` 从上游来源改为 **LEGACY_ONLY**，两版恢复 PersistentProjectileEntityMixin 均无当前骑乘树过滤；是否作为Buildup安全修正保留仍待产品裁决。`undead_horse_sunburn` 已明确 Phase2 DEFER。目标26.3原生SpearUseGoal的坐骑速度/真实武器已实测覆盖尸壳矛，按REPLACE处理，旧ID仍不生效。傀儡雪球误击报复已实际复现并窄修，不再停留于静态推测。这些来源纠正不新增生态功能，不改变其他G候选门槛。
@@ -33,7 +36,7 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 | G13 动物紫颂果 | **DEFER** / Phase3交互 | `AnimalEntityMixin`；喂食传送需领地/落点/主人授权，不纳首发 | NOT RUN |
 | G14 山羊角引仇恨 | **ADAPT** / IN_PHASE1 / E3 | `MobAITweaks`；正在使用INSTRUMENT物品时吸引敌对；原版物品只加限定范围/目标有效性，绝不全维度扫描 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G15 炽足兽临时骑乘 | **DEFER** / Phase3骑乘专项 | `StriderEntityMixin`；无鞍喂食临时控制后强制下马，暂缓玩家骑乘安全与工具兼容 | NOT RUN |
-| G16 雪傀儡重做 | **ADAPT** / IN_PHASE1 / E3小批 | `SnowGolemEntityMixin`, `SnowGolemEntityModelMixin`；南瓜归还/防御/精度/真实投球动画分独立项；不把铁傀儡友伤修复当整组已实现 | NOT RUN |
+| G16 雪傀儡重做 | **ADAPT** / IN_PHASE1 / E3小批 | `SnowGolemEntityMixin`, `SnowGolemEntityModelMixin`；南瓜归还/防御/精度/真实投球动画分独立项；不把铁傀儡友伤修复当整组已实现 | **E3-c限定 PASS**；拆四独立ID，真实剪切/归还/护甲/雪球/客户端见R4E3C_REBUILD；人工/完整L3 NOT RUN |
 | G17 铁傀儡特殊反击/镐弱点 | **DEFER** / Phase2中立战斗规则 | `IronGolemEntityMixin`；独立于68中的同族友伤；desperation攻击/镐额外伤害需规则与平衡 | NOT RUN |
 | G18 史莱姆合并/蜂蜜/发射器 | **DEFER** / Phase3变种审批 | `SlimeEntityMixin`, `SlimeDispenserGoal`, `SlimeEntityRendererMixin`, `SlimeEntityRenderStateMixin`, `SlimeOuterLayerMixin`；上游Beta已知死亡/渲染问题；分裂/组件物品所有权/客户端列在common均需专项，不恢复 | NOT RUN |
 | G19 史莱姆熔岩转化与岩浆怪 | **DEFER** / Phase3变种审批 | `AbstractSlimeEntityMixin`, `MagmaCubeEntityMixin`；尺寸/副手转移/额外死亡奖励必须独立审计；首发不加入 | NOT RUN |
@@ -50,8 +53,8 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 | G30 悦灵 | **BLOCKED** / 历史不阻断Phase1 | `AllayEntityMixin`, `AllayEntityModelMixin`；最终Allay反编译恢复失败；按用户不再尝试，本轮不读取/恢复其正文 | BLOCKED |
 | G31 火药物品/火箭坐骑/龟帽 | **EXCLUDE** / 不计门槛 | `FireworkRocketItemMixin`, `FireworkRocketEntityRendererMixin`, `FireworkRocketEntityRenderStateMixin`, `TridentItemMixin`, `EntityMixin`, `LivingEntityMixin`；独立物品使用/附魔/成长/奖励和硬帽伤害分支不恢复；同类中的其他生物钩子分开裁决 | NOT RUN |
 | G32 恶魂眼泪 | **EXCLUDE** / 不计门槛 | `GhastEntityMixin`；额外可收集材料生成，每60tick参考；与当前恶魂慢弹/前摇不同 | NOT RUN |
-| G33 骷髅幼体/错峰拉弓 | **ADAPT** / IN_PHASE1 / E3幼体/E4错峰 | `AbstractSkeletonEntityMixin`, `RangedBowAttackGoalMixin`, `RangedAttackGoalMixin`；旧ID未覆盖幼体出生、同类错峰射击；默认出生率与成长/装备/原生调度须明确，不双射 | NOT RUN |
-| G34 旋风人散弹 | 批准候选**ADAPT** / IN_PHASE1 / E3-c-3；独立改造预算待裁决 | 两版`BreezeShootTaskMixin`额外两发**仅MOBS_ARE_OP分支**；Beta原弹±20°、总3发。不是普通默认技能；如保留须明确Vanilla+数量/冷却/击中预算及现有起跳/落地互斥，不恢复OP游戏规则；不接受改造则建议DEFER | NOT RUN |
+| G33 骷髅幼体/错峰拉弓 | **ADAPT** / IN_PHASE1 / E3幼体/E4错峰 | `AbstractSkeletonEntityMixin`, `RangedBowAttackGoalMixin`, `RangedAttackGoalMixin`；旧ID未覆盖幼体出生、同类错峰射击；默认出生率与成长/装备/原生调度须明确，不双射 | **E3-c幼体限定 PASS**；五种半尺寸/低眼高/一次出生/保存/转换/原生弓；错峰拉弓仍E4 NOT RUN |
+| G34 旋风人散弹 | **ADAPT** / IN_PHASE1 / E3-c；用户明确批准独立Vanilla+预算 | 两版`BreezeShootTaskMixin`额外两发**仅MOBS_ARE_OP分支**；Beta原弹±20°、总3发。不是普通默认技能；如保留须明确Vanilla+数量/冷却/击中预算及现有起跳/落地互斥，不恢复OP游戏规则；不接受改造则建议DEFER | **E3-c限定 PASS**；用户已明确批准独立Vanilla+总3发/±20°/100tick共享预算；原版中弹不变，原生Brain/真实碰撞/重载通过；人工/OP等效L3 NOT RUN |
 | G35 原版弩/投射物通用修复 | **ADAPT** / IN_PHASE1 / E4必要部分 | `CrossbowItemMixin`, `CrossbowPullPropertyMixin`, `IsUsingItemPropertyMixin`, `RangedCrossbowAttackGoalMixin`, `ProjectileEntityMixin`, `BodyControlMixin`；必须先验证26.3缺陷及现有适配是否覆盖，只保留精准必需项；其余枪械/附魔注入EXCLUDE | NOT RUN |
 | G36 其余共享钩子 | **DEFER** / Phase3单独必要性审批 | `GoalSelectorMixin`, `MobEntityMixin`, `DisplayEntityMixin`, `ItemHolderEntityRenderStateMixin`, `LivingEntityRenderStateMixin`, `LivingEntityRendererMixin`, `ChargeSpearGoalMixin`, `ChargeSpearTaskMixin`；全局Goal/通用数据/渲染辅助不是已迁移功能；已在68或现有模块使用的意图归相应条目；未选剩余不整体复活 | NOT RUN |
 | G37 全局OP/新附魔/专属奖励 | **EXCLUDE** / 不计门槛 | `MobAITweaks`, `MobEntityMixin`, `MeleeAttackGoalMixin`, `LivingEntityMixin`；crazyMobs/新附魔/注册药水或物品/奖励推进排除，不能借基础共享钩子夹带恢复 | NOT RUN |

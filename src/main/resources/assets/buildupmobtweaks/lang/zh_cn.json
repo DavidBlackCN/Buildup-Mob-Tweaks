@@ -400,5 +400,19 @@
   "buildupmobtweaks.main.equipment.witherBowChance": "凋灵骷髅出生弓概率",
   "buildupmobtweaks.main.equipment.witherBowChance.desc": "范围0–1000，默认10（1%）。只在新实体出生的空主手初始化中尝试；须有匹配数据规则、装备总门及对应单项门，不补发丢失装备。",
   "buildupmobtweaks.main.equipment.zombifiedCrossbowChance": "僵尸猪灵出生弩概率",
-  "buildupmobtweaks.main.equipment.zombifiedCrossbowChance.desc": "范围0–1000，默认10（1%）。只在新实体出生的空主手初始化中尝试；须有匹配数据规则、装备总门及对应单项门，不补发丢失装备。"
+  "buildupmobtweaks.main.equipment.zombifiedCrossbowChance.desc": "范围0–1000，默认10（1%）。只在新实体出生的空主手初始化中尝试；须有匹配数据规则、装备总门及对应单项门，不补发丢失装备。",
+  "buildupmobtweaks.main.passive.snow_golem_pumpkin_return": "雪傀儡归还南瓜",
+  "buildupmobtweaks.main.passive.snow_golem_pumpkin_return.desc": "对剪切后的雪傀儡使用一个雕刻南瓜；生存消耗一个，创造不消耗。保留原版剪切掉落。",
+  "buildupmobtweaks.main.passive.snow_golem_pumpkin_defense": "雪傀儡南瓜护甲",
+  "buildupmobtweaks.main.passive.snow_golem_pumpkin_defense.desc": "戴南瓜增加10点临时护甲；剪切或关闭只移除此修饰器，保留其他护甲和装备。",
+  "buildupmobtweaks.main.passive.snow_golem_ranged_behavior": "雪傀儡远程行为",
+  "buildupmobtweaks.main.passive.snow_golem_ranged_behavior.desc": "原生Goal：间隔10 tick、射程20格，裸头散布2；每100 tick反击扫射至多从32候选选3个攻击者，逐发间隔10 tick。雪球保留原版命中效果。",
+  "buildupmobtweaks.main.passive.snow_golem_throw_visual": "雪傀儡投球动画",
+  "buildupmobtweaks.main.passive.snow_golem_throw_visual.desc": "交替手投球：准备6 tick、随挥4 tick，实际提交持球模型。目标丢失、NoAI、关闭或重载取消准备；不保存乘客弹药。",
+  "buildupmobtweaks.main.hostile.extended.skeleton_baby_variant": "幼体骷髅变种",
+  "buildupmobtweaks.main.hostile.extended.skeleton_baby_variant.desc": "骷髅、流浪者、沼骸、凋灵骷髅及焦骸出生选择一次并保存。原版半尺寸/眼高/碰撞/渲染；不成长、不发装备或追加掉落。关闭暂时恢复成年尺寸。",
+  "buildupmobtweaks.main.hostile.extended.skeleton_baby_chance": "幼体骷髅出生率（千分比）",
+  "buildupmobtweaks.main.hostile.extended.skeleton_baby_chance.desc": "默认100/1000；仅自然、区块生成、刷怪蛋、普通及试炼刷怪笼出生。指令/载入/转换不重抽，保留已保存选择。",
+  "buildupmobtweaks.main.hostile.extended.breeze_shotgun": "有限旋风人散弹",
+  "buildupmobtweaks.main.hostile.extended.breeze_shotgun.desc": "明确的Vanilla+改造（上游仅OP模式）：原版中间弹加左右20度两发。额外齐射与起跳/落地技能共用100 tick窗口；关闭恢复既有独立爆发预算。额外弹寿命100 tick，重载不复演。"
 }

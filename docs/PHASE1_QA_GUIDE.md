@@ -164,3 +164,7 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 见 [四项反馈报告](R4E3_ACCEPTANCE_FIXES_1.md)。`chicken` 的持主手物品幼年僵尸在非挥击时下垂手势是26.3原版；`rider` 工具明确将已飞离射手的真实箭送回马下身，这是安全规则测试输入，正式弓行为不掉头；`trap` 不设置跨坐骑联盟，误伤报复保留。
 
 `horse` 夹具现仅将骑手/马普通步行速度设为0以等待200刻原冷却，不设NoAI、不加速技能或改全局概率；真正冲刺仍由原版调度与 .6水平物理冲量执行。普通正式AI步行不受影响。抬身退出已修，须重新生成场景肉眼复验完成/取消后正常姿态；完整联合验收仍等人工反馈。
+
+## E3-c 六场（当前总50场）
+
+`/buildupqa e3c spawn pumpkin|snow|snow_sweep|baby|baby_wither|shotgun`，然后 `check`、`off`、`cleanup`。完整步骤见[R4E3C_ACCEPTANCE_CHECKLIST](R4E3C_ACCEPTANCE_CHECKLIST.md)。四组工具每服务器一会话，权限4/1200刻退出/加载空25×25×7/地形恢复；真实目标1000HP/静止是输入，不是伤害或自然平衡结论。snow_sweep至多三攻击者，baby固定已保存选择而不改全局概率；shotgun原生Brain取得铁傀儡目标。pumpkin须玩家真正剪切/戴回，控制台生成本身不验证交互。check记录实际UUID、Goal/Brain、弹体ID/伤害/准备/扫射/动画/共享期限；off整体让位不删除原版中弹或雪球。夹具头盔2护甲，戴南瓜总12；独立的新增护甲仅10。正式包和sources.jar无这些工具。

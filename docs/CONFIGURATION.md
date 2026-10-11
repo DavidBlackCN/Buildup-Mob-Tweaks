@@ -1,5 +1,8 @@
 > 当前E3-b配置v11；下述S1/S2历史段落不代表重新启用旧代码。133声明/96支持/37未生效，新增配置全部受总开关和实体退出门控。
 
+> 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
+
+
 ## E3-b 独立生态开关（v11）
 
 `passive.squid_ink_defense`、`glow_squid_gaze`、`chicken_threat_escape`、`animal_group_panic`、`tameable_recovery`、`cat_projectile_dodge`、`goat_horn_aggro`、`trader_self_defense`、`sniffer_search`（后八项同属passive）默认true。实际v10→v11专服迁移保留旧字段值，原passive保留节没有正式字段。关闭不撤销已有原版药效/伤害，不抹除自然马回血。实体`buildupmobtweaks:vanilla_ai` / `buildupmobtweaks:disable_<id>`退出，类型标签 `ecology_ai_excluded` / `tameable_no_recovery` 默认空，可由数据包扩展。
@@ -83,3 +86,7 @@ hostile.vex 增加 fixedCharge、recoveryPause、closeRangeGuard 三项独立开
 Nine newly supported IDs and exact behavior are listed in [R4E3A_REBUILD](R4E3A_REBUILD.md). Type tags `buildupmobtweaks:relations_ai_excluded` and `buildupmobtweaks:riding_ai_excluded` extend existing exclusions. Entity `vanilla_ai` and `disable_<id>` affect the corresponding actor/mount gate, not generic damage or native AI. Native husk spear is REPLACE: the inactive old switch cannot disable vanilla spear use. Undead horse sunburn remains inactive (Phase2 DEFER); rider projectile filtering remains inactive (decision BLOCKED). Selected chicken/horse birth defaults are each 10/1000, require traits.enabled, and do not generate mounts.
 
 E3-a rider decision resolved: user explicitly retains `rider_friendly_fire` as Buildup safety / LEGACY_ONLY ADAPT. Implemented and actual native Tick collision tests verified; prior pending/BLOCKED/inactive remarks are history. Current 87 supported / 37 inactive, v10, QA35; whole a development covered, human acceptance pending. No E3-b/c/E4 or later phase. Details: [rider addendum](R4E3A_RIDER_ADDENDUM.md).
+
+## E3-c 当前生效配置（v12）
+
+passive：snow_golem_pumpkin_return / snow_golem_pumpkin_defense / snow_golem_ranged_behavior / snow_golem_throw_visual，均独立默认true；hostile.extended：skeleton_baby_variant / breeze_shotgun 默认true，skeleton_baby_chance默认100，范围0–1000。v11→v12保留旧值并追加；出生概率修改不重抽已有实体。独立排除类型Tag ability_ai_excluded；实体 vanilla_ai 与 disable_<id> 各自让位。防御是临时+10而不是基础值；幼体关闭暂时成年、再开恢复保存选择，无成长或装备补偿。散弹关闭恢复旧起跳/落地的原独立预算，原版中间风弹从未被新窗口禁掉。新字段GUI/真实多人仍人工验收。

@@ -7,7 +7,7 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 
-@Version(version = 11)
+@Version(version = 12)
 public final class BuildupConfig extends Config {
     public General general = new General();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
@@ -31,6 +31,11 @@ public final class BuildupConfig extends Config {
     }
 
     public static final class Passive extends ConfigSection {
+        public ValidatedBoolean snow_golem_pumpkin_return = new ValidatedBoolean(true);
+        public ValidatedBoolean snow_golem_pumpkin_defense = new ValidatedBoolean(true);
+        public ValidatedBoolean snow_golem_ranged_behavior = new ValidatedBoolean(true);
+        public ValidatedBoolean snow_golem_throw_visual = new ValidatedBoolean(true);
+
         public ValidatedBoolean squid_ink_defense = new ValidatedBoolean(true);
         public ValidatedBoolean glow_squid_gaze = new ValidatedBoolean(true);
         public ValidatedBoolean chicken_threat_escape = new ValidatedBoolean(true);
@@ -116,6 +121,9 @@ public final class BuildupConfig extends Config {
     }
 
     public static final class Extended extends ConfigSection {
+        public ValidatedBoolean skeleton_baby_variant = new ValidatedBoolean(true);
+        public ValidatedInt skeleton_baby_chance = new ValidatedInt(100, 1000, 0);
+        public ValidatedBoolean breeze_shotgun = new ValidatedBoolean(true);
         public ValidatedBoolean skeleton_aim_fix = new ValidatedBoolean(true);
         public ValidatedBoolean golem_friendly_fire_fix = new ValidatedBoolean(true);
         public ValidatedBoolean zombified_piglin_anger_fix = new ValidatedBoolean(true);

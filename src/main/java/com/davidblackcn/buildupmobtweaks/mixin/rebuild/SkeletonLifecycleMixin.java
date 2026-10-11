@@ -22,7 +22,13 @@ public abstract class SkeletonLifecycleMixin extends Monster implements Skeleton
     @Shadow protected abstract int getHardAttackInterval();
     @Shadow protected abstract int getAttackInterval();
     @Unique private static final EntityDataAccessor<Integer> BUILDUP_SPECIAL=SynchedEntityData.defineId(AbstractSkeleton.class,EntityDataSerializers.INT);
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder){super.defineSynchedData(builder);builder.define(BUILDUP_SPECIAL,0);}
+    @Unique private static final EntityDataAccessor<Boolean> BUILDUP_BABY=SynchedEntityData.defineId(AbstractSkeleton.class,EntityDataSerializers.BOOLEAN);
+    @Override public boolean isBaby(){return getEntityData().get(BUILDUP_BABY);}
+    @Override public void setBaby(boolean baby){getEntityData().set(BUILDUP_BABY,baby);}
+    @Override public void onSyncedDataUpdated(EntityDataAccessor<?> key){super.onSyncedDataUpdated(key);if(key.equals(BUILDUP_BABY))refreshDimensions();}
+    @Inject(method="finalizeSpawn(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/EntitySpawnReason;Lnet/minecraft/world/entity/SpawnGroupData;)Lnet/minecraft/world/entity/SpawnGroupData;",at=@At("TAIL"))
+    private void buildup$babyBirth(net.minecraft.world.level.ServerLevelAccessor l,net.minecraft.world.DifficultyInstance d,EntitySpawnReason reason,SpawnGroupData group,CallbackInfoReturnable<SpawnGroupData> ci){var b=com.davidblackcn.buildupmobtweaks.rebuild.ability.AbilityBehavior.instance();if(b!=null)b.born((AbstractSkeleton)(Object)this,reason);}
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder){super.defineSynchedData(builder);builder.define(BUILDUP_SPECIAL,0);builder.define(BUILDUP_BABY,false);}
     @Override public int buildup$special(){return ((AbstractSkeleton)(Object)this).getEntityData().get(BUILDUP_SPECIAL);}
     @Override public void buildup$special(int ticks){((AbstractSkeleton)(Object)this).getEntityData().set(BUILDUP_SPECIAL,ticks);}
     @Override public int buildup$attackInterval(boolean hard){return hard?getHardAttackInterval():getAttackInterval();}

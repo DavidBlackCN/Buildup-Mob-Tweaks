@@ -23,3 +23,5 @@ PLAN.md 第 4 节是阶段定义。此前 R2-A 合并了基础框架与掠夺者
 Phase 1新路线以外层PHASE1_RESTORATION_PLAN.md为准。本次R4-E0完成取舍与独立QA基础，[报告](R4E0_REPORT.md)及[E1～E4名单](PHASE1_IMPLEMENTATION_PLAN.md)；当前56项AI不变，后续子批分别审批、提交后停止。Boss仅独立候选审批，未进入R5/Phase2/Phase3。
 
 R4-E1-b：[批准方案](R4E1B_MIGRATION_PLAN.md)、[报告](R4E1B_REBUILD.md)、[人工清单](R4E1B_ACCEPTANCE_CHECKLIST.md)、[自检](R4E1B_CODE_REVIEW.md)。当前64支持/60未生效；原生Brain/Goal全178项PASS，有限Beta对照与客户端状态通过，完整L3/人工等单列NOT RUN。下一E1-c仅建议，批末本地提交后停止。
+
+2026-10-11最新阶段 **R4-E3-c**：[报告](R4E3C_REBUILD.md)/[整c人工清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。六项新增ADAPT，139声明/102支持/37未生效、v12/QA50；449真实调度PASS及限定客户端/专服/QA/上游收据。人工/完整L3/多人性能NOT RUN。以上旧“当前”计数均对应历史批次。提交后停止，不进入E4或后续。

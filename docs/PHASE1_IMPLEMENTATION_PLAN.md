@@ -1,5 +1,8 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
+> 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
+
+
 > 2026-10-10 **R4-E3-b-1/2/3/4 整组开发完成，等待人工验收**：[工作报告](R4E3B_REBUILD.md) / [统一人工清单](R4E3B_ACCEPTANCE_CHECKLIST.md)。新增九项 ADAPT，当前 **133 声明、96 支持/37 未生效、配置 v11、独立 QA 44 场景**；最终 Wrapper build/qaJar 与 **397 项必需真实调度测试（47 新增）PASS**。普通专服/冷重启、实际客户端与上游仅在报告列明范围内限定 PASS；人工、完整两版 L3、多人/整合包、自然分布和长期性能 NOT RUN。旧 68 项取舍仍 PORT1/ADAPT47/REPLACE6/DEFER10/EXCLUDE4；G04 由 PORT 精化为 ADAPT 不计入旧68。以下旧计数、BLOCKED、待批准与停止点均为各批历史时点，最新状态以本段为准。整 b 提交后停止，不进入 E3-c/E4/Boss/R5/Phase2/3，不推送发布。
 
 E3-a用户已授权完整a组连续制作，九项实施和原生矛REPLACE见[R4E3A_REBUILD](R4E3A_REBUILD.md)。现唯一开发裁决门为骑乘过滤保留/暂缓；亡灵马日烧不再阻塞a，已批准Phase2 DEFER。该裁决答复前不新增过滤，完整a状态BLOCKED。先处理裁决及统一人工清单；E3-b/c、E4/Boss未获本批实施授权，不自动推进。68项取舍现PORT1/ADAPT47/REPLACE6/DEFER10/EXCLUDE4（含待裁决rider的历史ADAPT占位），最终更改该项分类需明确记录。
@@ -109,3 +112,7 @@ E3-a rider decision resolved: user explicitly retains `rider_friendly_fire` as B
 ## E3-b 批末及下一具体任务
 
 本次连续完成 b-1/2/3/4，按授权停止等待整b人工验收。下一建议沿既定 [E3规划](R4E3_PLAN.md) **c-1雪傀儡南瓜归还/防御（G16）**：先核对剪切和原生交互、冻结实际消费/掉落守恒及条件护甲数值、独立门控/存档，再补真实交互与伤害和QA。c-2投球视觉与c-3幼体骷髅另批；G34仅OP来源，Vanilla+预算仍待产品裁决。没有在本批实施。
+
+## E3-c 批末 / 下一具体批次
+
+整c授权覆盖c-1/2/3，六ID已实施与限定验证；上文建议继续拆c小批或G34待裁决是旧时点。验收后下一建议E4仅先规划G07潜行接近动物、G33错峰拉弓及G35实际必要通用钩子：26.3原版复现→确认现有覆盖/REPLACE或窄ADAPT→多射手真实调度/感知/禁用/兼容测试。不得把共享钩子库存整包恢复；Boss另审批。此处只建议，未实施。

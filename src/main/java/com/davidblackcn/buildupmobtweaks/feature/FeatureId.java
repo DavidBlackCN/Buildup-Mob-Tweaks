@@ -4,6 +4,12 @@ import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
 import net.minecraft.resources.Identifier;
 
 public enum FeatureId {
+    SNOW_GOLEM_PUMPKIN_RETURN("snow_golem_pumpkin_return"),
+    SNOW_GOLEM_PUMPKIN_DEFENSE("snow_golem_pumpkin_defense"),
+    SNOW_GOLEM_RANGED_BEHAVIOR("snow_golem_ranged_behavior"),
+    SNOW_GOLEM_THROW_VISUAL("snow_golem_throw_visual"),
+    SKELETON_BABY_VARIANT("skeleton_baby_variant"),
+    BREEZE_SHOTGUN("breeze_shotgun"),
     SQUID_INK_DEFENSE("squid_ink_defense"),
     GLOW_SQUID_GAZE("glow_squid_gaze"),
     CHICKEN_THREAT_ESCAPE("chicken_threat_escape"),

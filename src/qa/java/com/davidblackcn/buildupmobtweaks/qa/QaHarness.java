@@ -82,7 +82,7 @@ public final class QaHarness implements ModInitializer {
     }
     @Override public void onInitialize(){
         E3aQa.register();
-        E3bQa.register();
+        E3bQa.register();E3cQa.register();
         CommandRegistrationCallback.EVENT.register((d,a,e)->{
             var root=Commands.literal("buildupqa").requires(Commands.hasPermission(Commands.LEVEL_OWNERS));
             root.then(Commands.literal("spawn").then(Commands.argument("scene",StringArgumentType.word()).suggests((c,b)->{for(var s:Scene.values())b.suggest(s.id);return b.buildFuture();}).executes(c->attempt(c.getSource(),()->{
@@ -107,7 +107,7 @@ public final class QaHarness implements ModInitializer {
     private static void reply(CommandSourceStack s,String text){s.sendSuccess(()->Component.literal(text),false);}
     private static Session require(MinecraftServer server){var s=SESSIONS.get(server);if(s==null||s.restoring)throw new IllegalArgumentException("No active QA session");return s;}
     public static boolean hasSession(MinecraftServer server){return SESSIONS.containsKey(server);}
-    private static void ensureFree(ServerLevel level){if(SESSIONS.containsKey(level.getServer())||E3aQa.hasSession(level.getServer())||E3bQa.hasSession(level.getServer()))throw new IllegalArgumentException("One session/server; cleanup first");if(level.getDifficulty()==net.minecraft.world.Difficulty.PEACEFUL)throw new IllegalArgumentException("Use non-peaceful difficulty; QA does not change world rules");}
+    private static void ensureFree(ServerLevel level){if(SESSIONS.containsKey(level.getServer())||E3aQa.hasSession(level.getServer())||E3bQa.hasSession(level.getServer())||E3cQa.hasSession(level.getServer()))throw new IllegalArgumentException("One session/server; cleanup first");if(level.getDifficulty()==net.minecraft.world.Difficulty.PEACEFUL)throw new IllegalArgumentException("Use non-peaceful difficulty; QA does not change world rules");}
     private static void assertEnabled(Scene scene){if(scene==Scene.WITHER_HOMING&&!new FeatureRegistry(BuildupMobTweaks.config()).isEnabled(FeatureId.WITHER_SKELETON_SKULL))throw new IllegalArgumentException("Skull feature must also be enabled");if(!new FeatureRegistry(BuildupMobTweaks.config()).isEnabled(scene.feature))throw new IllegalArgumentException("Feature disabled in server config: "+scene.feature.id()+"; QA never changes global gates");}
     public static Session spawn(ServerLevel level,BlockPos origin,Scene scene){
         ensureFree(level);assertEnabled(scene);

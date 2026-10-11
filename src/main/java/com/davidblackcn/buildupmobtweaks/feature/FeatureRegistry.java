@@ -16,6 +16,12 @@ public final class FeatureRegistry {
     public FeatureRegistry(BuildupConfig config) {
         this.config = config;
         var gates = new java.util.EnumMap<FeatureId, Declaration>(FeatureId.class);
+        add(gates, FeatureId.SNOW_GOLEM_PUMPKIN_RETURN, () -> config.passive.snow_golem_pumpkin_return.get());
+        add(gates, FeatureId.SNOW_GOLEM_PUMPKIN_DEFENSE, () -> config.passive.snow_golem_pumpkin_defense.get());
+        add(gates, FeatureId.SNOW_GOLEM_RANGED_BEHAVIOR, () -> config.passive.snow_golem_ranged_behavior.get());
+        add(gates, FeatureId.SNOW_GOLEM_THROW_VISUAL, () -> config.passive.snow_golem_throw_visual.get());
+        add(gates, FeatureId.SKELETON_BABY_VARIANT, () -> config.hostile.extended.skeleton_baby_variant.get());
+        add(gates, FeatureId.BREEZE_SHOTGUN, () -> config.hostile.extended.breeze_shotgun.get());
         add(gates, FeatureId.SQUID_INK_DEFENSE, () -> config.passive.squid_ink_defense.get());
         add(gates, FeatureId.GLOW_SQUID_GAZE, () -> config.passive.glow_squid_gaze.get());
         add(gates, FeatureId.CHICKEN_THREAT_ESCAPE, () -> config.passive.chicken_threat_escape.get());
@@ -174,7 +180,7 @@ public final class FeatureRegistry {
     public static boolean supported(FeatureId id) {
         return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_")
                 || switch(id) {
-                    case SQUID_INK_DEFENSE, GLOW_SQUID_GAZE, CHICKEN_THREAT_ESCAPE, ANIMAL_GROUP_PANIC, TAMEABLE_RECOVERY, CAT_PROJECTILE_DODGE, GOAT_HORN_AGGRO, TRADER_SELF_DEFENSE, SNIFFER_SEARCH,
+                    case SNOW_GOLEM_PUMPKIN_RETURN, SNOW_GOLEM_PUMPKIN_DEFENSE, SNOW_GOLEM_RANGED_BEHAVIOR, SNOW_GOLEM_THROW_VISUAL, SKELETON_BABY_VARIANT, BREEZE_SHOTGUN, SQUID_INK_DEFENSE, GLOW_SQUID_GAZE, CHICKEN_THREAT_ESCAPE, ANIMAL_GROUP_PANIC, TAMEABLE_RECOVERY, CAT_PROJECTILE_DODGE, GOAT_HORN_AGGRO, TRADER_SELF_DEFENSE, SNIFFER_SEARCH,
                          RIDER_FRIENDLY_FIRE, GOLEM_FRIENDLY_FIRE_FIX, ILLAGER_ZOMBIE_CONFLICT, ILLAGER_ZOMBIE_VILLAGER, CHICKEN_JOCKEY_CHARGE, HOSTILE_ESCAPE_SEAT,
                          HUSK_CAMEL_CIRCLE, SKELETON_HORSE_CHARGE, SKELETON_TRAP_VARIANTS, SKELETON_WITHER_CONVERSION,
                          ILLUSIONER_SWAP, ILLUSIONER_SHOOT_PAUSE, ILLUSIONER_CLONE_ARROWS, VINDICATOR_SUPPORT,
@@ -260,6 +266,7 @@ public final class FeatureRegistry {
             default -> 0;
         };
     }
+    public int babySkeletonChance() { return config.hostile.extended.skeleton_baby_chance.get(); }
     public int specialCooldown() { return config.hostile.extended.special_cooldown.get(); }
     public int equipmentChance() { return config.equipment.assignmentChance.get(); }
     public int birthEquipmentChance(FeatureId id) {

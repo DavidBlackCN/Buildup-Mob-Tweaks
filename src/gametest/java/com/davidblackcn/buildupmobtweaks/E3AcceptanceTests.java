@@ -84,10 +84,12 @@ public class E3AcceptanceTests {
     }
     @GameTest(environment=ENV,structure=ARENA,maxTicks=75) public void activeCooldownCancellationPreservesUnownedStanding(GameTestHelper h){
         SkeletonBehaviorTests.floor(h,true);var rider=RidingRelationTests.mob(h,EntityTypes.SKELETON,8,8);var horse=RidingRelationTests.mob(h,EntityTypes.SKELETON_HORSE,8,8);
+        // Fix only the fixture's random target-selector input, retaining native scheduling and deadlines.
+        rider.getRandom().setSeed(441100);
         horse.setTamed(true);rider.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);horse.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
         rider.setItemSlot(EquipmentSlot.MAINHAND,new ItemStack(Items.BOW));rider.addTag("buildupmobtweaks:disable_skeleton_weapon_switching");rider.addTag("buildupmobtweaks:disable_skeleton_sniping");
         rider.startRiding(horse,true,false);rider.getAttached(RidingState.DATA).putBoolean("horse",true);var target=RidingRelationTests.mob(h,EntityTypes.IRON_GOLEM,8,16);target.setNoAi(true);
-        h.runAtTickTime(30,()->{h.assertTrue(RidingState.runtime(rider).action.active()&&RidingState.runtime(rider).phase.equals("cooldown"),"Actual scheduled Goal is waiting, without owning a warning");horse.setStanding(60);});
+        h.runAtTickTime(30,()->{BuildupMobTweaks.LOGGER.info("E3_ACCEPT_COOLDOWN tick={} target={} fixture={} active={} phase={} standing={}",rider.tickCount,rider.getTarget()==null?"none":rider.getTarget().getUUID(),target.getUUID(),RidingState.runtime(rider).action.active(),RidingState.runtime(rider).phase,horse.isStanding());h.assertTrue(RidingState.runtime(rider).action.active()&&RidingState.runtime(rider).phase.equals("cooldown"),"Actual scheduled Goal is waiting, without owning a warning");horse.setStanding(60);});
         h.runAtTickTime(40,()->rider.setNoAi(true));
         h.runAtTickTime(55,()->{h.assertTrue(horse.isStanding()&&horse.getStandAnim(1)>.9,"Cancelling a cooldown does not erase an unrelated native standing input");RidingRelationTests.clean(rider,horse,target);h.succeed();});
     }

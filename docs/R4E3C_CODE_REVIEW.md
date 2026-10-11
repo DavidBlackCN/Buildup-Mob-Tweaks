@@ -1,5 +1,7 @@
 # R4-E3-c 自检
 
+> 后续人工反馈发现本次原探针漏验幼体盔甲网格/贴图配对。年龄和交互的原PASS保留其范围，不作为盔甲正确的证据；补修审查/实际截图和四槽提交证据见[R4E3C_ACCEPTANCE_FIXES_1](R4E3C_ACCEPTANCE_FIXES_1.md)。其他主功能用户反馈无问题，修复后的baby补验待反馈。
+
 **Code Review: PASS WITH RISKS**，依据外层 CODE_REVIEW.md 全项检查。
 
 Scope：唯一目标26.3/分支26.3，起始干净e86e80d；审阅本轮新增Ability模块、九个新增common/client Mixin及既有SkeletonLifecycle与RemainingExtras改动、独立配置/FeatureRegistry/双语、QA/真实调度测试和构建入口、README/计划/矩阵/验收及UPDATE_NOTES。外层计划、证据与脚本为本任务共享文档范围，不在26.3 Git根内。

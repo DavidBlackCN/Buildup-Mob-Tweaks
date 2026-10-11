@@ -1,5 +1,9 @@
 # R4-E3-c 人工验收清单
 
+> 2026-10-11用户反馈“baby模型有误，其余无问题”；其他主功能按本次反馈记录，以下NOT RUN保留原交付时点，不据此替用户补填未提供的极端/多人检查。幼体盔甲确为缺陷，原因/窄修/实际客户端截图见[补修报告](R4E3C_ACCEPTANCE_FIXES_1.md)；修复后请重点补验baby和baby_wither戴甲、off转成年及正常射箭，不应再有头盔漂浮薄片/脸部错贴。用户补验仍NOT RUN。
+
+本次修复的最小补验：换新正式JAR后，在临时世界依次进行 `e3c spawn baby`、cleanup、`e3c spawn baby_wither`（完整命令前缀 `/buildupqa`）。每场检查头盔无顶面浮片、脸部无多层错贴；观察弓箭继续正常命中；执行 `/buildupqa e3c off` 后成年大小及盔甲正常、物品没有补发，最后cleanup。自动四槽对照已通过；此处用户补验仍待填写。
+
 自动验证范围见 [工作报告](R4E3C_REBUILD.md)，不代表本清单已通过。仅在备份/临时世界验收；正式包与独立 QA 包同时安装，非和平难度，权限等级4。当前位置前方8格应有已加载、无液体/方块实体的25×25×7空地；每场结束必须 cleanup。每次只允许一个 QA 会话，1200 tick 自动回收。
 
 通用流程：`/buildupqa e3c spawn <scene>` → 实际观察 → `/buildupqa e3c check` → `/buildupqa e3c off` → 再观察/check → `/buildupqa e3c cleanup`。off 添加本演员 vanilla_ai，不删除真实装备，不取消所有原版行动；cleanup 恢复原地形并删除自有演员/弹体，不退款实际消耗。

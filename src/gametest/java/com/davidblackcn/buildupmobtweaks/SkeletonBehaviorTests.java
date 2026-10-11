@@ -233,6 +233,7 @@ public class SkeletonBehaviorTests {
     @GameTest(structure=ARENA,maxTicks=240)
     public void realPlayerCreativeSpectatorAndDistanceReleaseTarget(GameTestHelper h){
         floor(h,true);var m=skeleton(h,EntityTypes.SKELETON,8,8);var fixture=player(h);var p=fixture.player();
+        m.getRandom().setSeed(441100); // Reproducible native target-selector input; the Goal still runs normally.
         p.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(1000);p.setHealth(1000);
         m.addTag("buildupmobtweaks:disable_ranged_reposition");
         h.runAtTickTime(40,()->{h.assertTrue(m.getTarget()==p,"Natural survival aggro");p.setGameMode(net.minecraft.world.level.GameType.CREATIVE);});

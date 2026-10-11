@@ -71,10 +71,10 @@ public class SkeletonBehaviorTests {
     }
     @GameTest(structure=ARENA,maxTicks=250)
     public void strayDefaultCooldownFlipMovesAndThrowsRealSnowballs(GameTestHelper h){
-        floor(h,true);var m=skeleton(h,EntityTypes.STRAY,8,8);var t=target(h,8,18);double base=m.getY();double[] height={base};boolean[] balls={false};
+        floor(h,true);var m=skeleton(h,EntityTypes.STRAY,8,8);m.getRandom().setSeed(61321);var t=target(h,8,18);double base=m.getY();double[] height={base};boolean[] balls={false};
         h.onEachTick(()->{height[0]=Math.max(height[0],m.getY());if(!h.getLevel().getEntitiesOfClass(Snowball.class,m.getBoundingBox().inflate(32),s->s.getOwner()==m).isEmpty())balls[0]=true;});
         h.runAtTickTime(100,()->h.assertValueEqual(SkeletonState.runtime(m).flips,0,"Default 120 tick cooldown not bypassed"));
-        h.runAtTickTime(235,()->{h.assertTrue(SkeletonState.runtime(m).flips>0&&height[0]-base>.5,"Real default flip displacement");h.assertTrue(balls[0],"Real snowball entity during flip recovery");
+        h.runAtTickTime(235,()->{evidence("S03_observation",m,"height="+(height[0]-base)+" distance="+m.distanceTo(t)+" targetAlive="+t.isAlive()+" balls="+balls[0]);h.assertTrue(SkeletonState.runtime(m).flips>0&&height[0]-base>.5,"Real default flip displacement");h.assertTrue(balls[0],"Real snowball entity during flip recovery");
             evidence("S03_flip",m,"height="+(height[0]-base)+" balls=true");m.discard();t.discard();h.succeed();});
     }
     @GameTest(structure=ARENA,maxTicks=245)

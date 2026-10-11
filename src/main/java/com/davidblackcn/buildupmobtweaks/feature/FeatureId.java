@@ -4,6 +4,8 @@ import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
 import net.minecraft.resources.Identifier;
 
 public enum FeatureId {
+    ANIMAL_SNEAK_APPROACH("animal_sneak_approach"),
+    SKELETON_STAGGERED_DRAW("skeleton_staggered_draw"),
     SNOW_GOLEM_PUMPKIN_RETURN("snow_golem_pumpkin_return"),
     SNOW_GOLEM_PUMPKIN_DEFENSE("snow_golem_pumpkin_defense"),
     SNOW_GOLEM_RANGED_BEHAVIOR("snow_golem_ranged_behavior"),

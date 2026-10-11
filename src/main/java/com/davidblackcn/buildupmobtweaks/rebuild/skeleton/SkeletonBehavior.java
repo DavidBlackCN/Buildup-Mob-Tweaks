@@ -126,9 +126,22 @@ public final class SkeletonBehavior {
         if(distance<3&&bow(mob,mob.getMainHandItem())&&melee(reserve)||distance>3&&melee(mob.getMainHandItem())&&bow(mob,reserve))swap(mob);
     }
     public static boolean safeStep(AbstractSkeleton mob,Vec3 delta){
-        var dest=BlockPos.containing(mob.position().add(delta));return mob.level().hasChunkAt(dest)
+        var dest=BlockPos.containing(mob.position().add(delta));if(!mob.level().hasChunkAt(dest))return false;
+        var projected=mob.getBoundingBox().move(delta);
+        return hazardFree(mob,projected)
                 &&mob.level().getBlockState(dest.below()).isFaceSturdy(mob.level(),dest.below(),Direction.UP)
-                &&mob.level().noCollision(mob,mob.getBoundingBox().move(delta));
+                &&mob.level().noCollision(mob,projected);
+    }
+    /** Shared by ordinary steps and partial-foot ledge jumps. */
+    public static boolean hazardFree(AbstractSkeleton mob,net.minecraft.world.phys.AABB projected){
+        int y=net.minecraft.util.Mth.floor(projected.minY);
+        var positions=BlockPos.betweenClosed(net.minecraft.util.Mth.floor(projected.minX),y-1,net.minecraft.util.Mth.floor(projected.minZ),net.minecraft.util.Mth.floor(projected.maxX-1.0e-6),y+1,net.minecraft.util.Mth.floor(projected.maxZ-1.0e-6));
+        for(var p:positions){if(!mob.level().hasChunkAt(p))return false;var b=mob.level().getBlockState(p);
+            if(!b.getFluidState().isEmpty()||b.is(net.minecraft.world.level.block.Blocks.FIRE)||b.is(net.minecraft.world.level.block.Blocks.SOUL_FIRE)
+                ||b.is(net.minecraft.world.level.block.Blocks.MAGMA_BLOCK)||b.is(net.minecraft.world.level.block.Blocks.CAMPFIRE)||b.is(net.minecraft.world.level.block.Blocks.SOUL_CAMPFIRE)
+                ||b.is(net.minecraft.world.level.block.Blocks.POWDER_SNOW)||b.is(net.minecraft.world.level.block.Blocks.CACTUS)||b.is(net.minecraft.world.level.block.Blocks.SWEET_BERRY_BUSH))return false;
+        }
+        return true;
     }
     public void cleanupSpecial(AbstractSkeleton mob){((SkeletonAccess)mob).buildup$special(0);for(var cloud:SkeletonState.runtime(mob).clouds)cloud.discard();SkeletonState.runtime(mob).clouds.clear();}
 }

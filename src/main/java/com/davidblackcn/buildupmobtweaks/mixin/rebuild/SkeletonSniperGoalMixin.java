@@ -13,7 +13,10 @@ public abstract class SkeletonSniperGoalMixin {
     @Inject(method="tick()V",at=@At(value="INVOKE",target="Lnet/minecraft/world/entity/monster/RangedAttackMob;performRangedAttack(Lnet/minecraft/world/entity/LivingEntity;F)V"),cancellable=true)
     private void buildup$realDraw(CallbackInfo ci){
         if(mob instanceof AbstractSkeleton m&&SkeletonBehavior.supported(m)&&SkeletonState.runtime(m).managed&&SkeletonState.runtime(m).mode.equals("sniper")){
-            var b=SkeletonBehavior.instance();if(!m.isUsingItem())m.startUsingItem(b.hand(m));
+            var b=SkeletonBehavior.instance();if(!m.isUsingItem()){
+                if(!com.davidblackcn.buildupmobtweaks.rebuild.general.E4Behavior.mayDraw(m)){attackTime++;ci.cancel();return;}
+                m.startUsingItem(b.hand(m));
+            }
             if(m.getTicksUsingItem()<20){attackTime++;ci.cancel();}else m.stopUsingItem();
         }
     }

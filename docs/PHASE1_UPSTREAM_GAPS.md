@@ -1,6 +1,7 @@
 # 旧68项之外的上游特性缺口审计
 
-> 当前状态（2026-10-11）：用户确认最新baby体型/持弓修复“验收通过”，E3-a/b/c选定开发范围闭合，可进入下一阶段；[收尾记录](R4E3_CLOSURE.md) / [E4方案](R4E4_PLAN.md)。139声明/102支持/37未生效、v12、QA50不变。完整两版L3、未提供的极端组合、多人/整合包、长期分布/性能仍NOT RUN；下方旧待批准/停止/未验收文字为历史时点。本轮仅完成E3收尾和E4规划批，E4功能实现及新QA/运行验收NOT RUN，未新增支持，不进入Boss/R5/Phase2/3。
+> 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
+
 
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
@@ -29,7 +30,7 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 | G04 鸡逃离威胁 | **ADAPT** / IN_PHASE1 / E3 | `ChickenEntityMixin`；原版AvoidEntityGoal玩家8格优先5、Monster6格优先6，速度.8/1.2；喂食优先/禁用要另测 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G05 鸡掉羽毛 | **DEFER** / Phase3生态平衡 | `LivingEntityMixin`；额外周期资源生成/50chance，首发不做；并非鸡逃跑附带奖励 | NOT RUN |
 | G06 动物群体惊慌 | **ADAPT** / IN_PHASE1 / E3 | `EscapeDangerGoalMixin`；16格传播惊慌，次数/集合大小限额、仅明确原生动物；不永久覆盖Brain | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
-| G07 潜行接近动物 | **ADAPT** / IN_PHASE1 / E4 | `FleeEntityGoalMixin`；sneak_to_approach_animals减少AvoidEntityGoal逃离，限动物不改已有敌对避让 | NOT RUN |
+| G07 潜行接近动物 | **ADAPT** / IN_PHASE1 / E4 | `FleeEntityGoalMixin`；sneak_to_approach_animals减少AvoidEntityGoal逃离，限动物不改已有敌对避让 | **E4限定 PASS**；G07精确三类原生避让、G33五种错峰真实箭、G35既有真实弩链REPLACE/附魔EXCLUDE；[报告](R4E4_REBUILD.md)。人工/完整L3 NOT RUN |
 | G08 宠物低侵入恢复 | **ADAPT** / IN_PHASE1 / E3 | `LivingEntityMixin`；有主人且不在排除Tag才每20tick恢复1；需冷却/伤害后等待及存档，不能无条件超速恢复 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G09 飞行主人宠物传送 | **DEFER** / Phase3宠物专项 | `TameableEntityMixin`；追随飞行主人涉及落点/维度/卸载；首发不接管 | NOT RUN |
 | G10 鹦鹉伴飞 | **DEFER** / Phase3宠物专项 | `ParrotEntityMixin`；飞行Goal/飞行跟随不是基础Bug，需专用多人/肩膀生命周期 | NOT RUN |
@@ -55,9 +56,9 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 | G30 悦灵 | **BLOCKED** / 历史不阻断Phase1 | `AllayEntityMixin`, `AllayEntityModelMixin`；最终Allay反编译恢复失败；按用户不再尝试，本轮不读取/恢复其正文 | BLOCKED |
 | G31 火药物品/火箭坐骑/龟帽 | **EXCLUDE** / 不计门槛 | `FireworkRocketItemMixin`, `FireworkRocketEntityRendererMixin`, `FireworkRocketEntityRenderStateMixin`, `TridentItemMixin`, `EntityMixin`, `LivingEntityMixin`；独立物品使用/附魔/成长/奖励和硬帽伤害分支不恢复；同类中的其他生物钩子分开裁决 | NOT RUN |
 | G32 恶魂眼泪 | **EXCLUDE** / 不计门槛 | `GhastEntityMixin`；额外可收集材料生成，每60tick参考；与当前恶魂慢弹/前摇不同 | NOT RUN |
-| G33 骷髅幼体/错峰拉弓 | **ADAPT** / IN_PHASE1 / E3幼体/E4错峰 | `AbstractSkeletonEntityMixin`, `RangedBowAttackGoalMixin`, `RangedAttackGoalMixin`；旧ID未覆盖幼体出生、同类错峰射击；默认出生率与成长/装备/原生调度须明确，不双射 | **E3-c幼体限定 PASS**；五种半尺寸/低眼高/一次出生/保存/转换/原生弓；错峰拉弓仍E4 NOT RUN |
+| G33 骷髅幼体/错峰拉弓 | **ADAPT** / IN_PHASE1 / E3幼体/E4错峰 | `AbstractSkeletonEntityMixin`, `RangedBowAttackGoalMixin`, `RangedAttackGoalMixin`；旧ID未覆盖幼体出生、同类错峰射击；默认出生率与成长/装备/原生调度须明确，不双射 | **E4限定 PASS**；G07精确三类原生避让、G33五种错峰真实箭、G35既有真实弩链REPLACE/附魔EXCLUDE；[报告](R4E4_REBUILD.md)。人工/完整L3 NOT RUN |
 | G34 旋风人散弹 | **ADAPT** / IN_PHASE1 / E3-c；用户明确批准独立Vanilla+预算 | 两版`BreezeShootTaskMixin`额外两发**仅MOBS_ARE_OP分支**；Beta原弹±20°、总3发。不是普通默认技能；如保留须明确Vanilla+数量/冷却/击中预算及现有起跳/落地互斥，不恢复OP游戏规则；不接受改造则建议DEFER | **E3-c限定 PASS**；用户已明确批准独立Vanilla+总3发/±20°/100tick共享预算；原版中弹不变，原生Brain/真实碰撞/重载通过；人工/OP等效L3 NOT RUN |
-| G35 原版弩/投射物通用修复 | **ADAPT** / IN_PHASE1 / E4必要部分 | `CrossbowItemMixin`, `CrossbowPullPropertyMixin`, `IsUsingItemPropertyMixin`, `RangedCrossbowAttackGoalMixin`, `ProjectileEntityMixin`, `BodyControlMixin`；两种物品属性钩子全为AUTO_RELOAD_TIME附魔配套，不是原版Bug；仅武器子类/手位/朝向等复现后必要部分，其他附魔路径按G37 EXCLUDE | [E4补审](R4E4_PLAN.md) **L1 PASS / L2 NOT RUN**；已有替代必须另以实际行为证明，不新增虚拟支持数 |
+| G35 原版弩/投射物通用修复 | **REPLACE / EXCLUDE**，必要原生行为已由已有路径覆盖 | `CrossbowItemMixin`, `CrossbowPullPropertyMixin`, `IsUsingItemPropertyMixin`, `RangedCrossbowAttackGoalMixin`, `ProjectileEntityMixin`, `BodyControlMixin`；两种物品属性钩子全为AUTO_RELOAD_TIME附魔配套，不是原版Bug；仅武器子类/手位/朝向等复现后必要部分，其他附魔路径按G37 EXCLUDE | **E4限定 PASS**；G07精确三类原生避让、G33五种错峰真实箭、G35既有真实弩链REPLACE/附魔EXCLUDE；[报告](R4E4_REBUILD.md)。人工/完整L3 NOT RUN |
 | G36 其余共享钩子 | **DEFER** / Phase3单独必要性审批 | `GoalSelectorMixin`, `MobEntityMixin`, `DisplayEntityMixin`, `ItemHolderEntityRenderStateMixin`, `LivingEntityRenderStateMixin`, `LivingEntityRendererMixin`, `ChargeSpearGoalMixin`, `ChargeSpearTaskMixin`；全局Goal/通用数据/渲染辅助不是已迁移功能；已在68或现有模块使用的意图归相应条目；未选剩余不整体复活 | NOT RUN |
 | G37 全局OP/新附魔/专属奖励 | **EXCLUDE** / 不计门槛 | `MobAITweaks`, `MobEntityMixin`, `MeleeAttackGoalMixin`, `LivingEntityMixin`；crazyMobs/新附魔/注册药水或物品/奖励推进排除，不能借基础共享钩子夹带恢复 | NOT RUN |
 | G38 职业武器渲染配套 | **ADAPT** / IN_PHASE1 / E2-b | 两类僵尸持弩模型、真实owner/钩住包、持竿手钓线和cast；独立来源标记与分包短等待，客户端关门退出；无新配置ID | **限定客户端 PASS**：16弩/8竿夹具、成年幼体及四手组合；肉眼/完整L3/第三方控制者 **NOT RUN**；见R4E2B_REBUILD |

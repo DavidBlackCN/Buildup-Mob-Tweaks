@@ -1,6 +1,7 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
-> 当前状态（2026-10-11）：用户确认最新baby体型/持弓修复“验收通过”，E3-a/b/c选定开发范围闭合，可进入下一阶段；[收尾记录](R4E3_CLOSURE.md) / [E4方案](R4E4_PLAN.md)。139声明/102支持/37未生效、v12、QA50不变。完整两版L3、未提供的极端组合、多人/整合包、长期分布/性能仍NOT RUN；下方旧待批准/停止/未验收文字为历史时点。本轮仅完成E3收尾和E4规划批，E4功能实现及新QA/运行验收NOT RUN，未新增支持，不进入Boss/R5/Phase2/3。
+> 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
+
 
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
@@ -68,8 +69,8 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `illusioner_shoot_pause`：简化弓攻击阶段与换位间暂停；不增加隐藏并行射击 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2-c / 是（含替代说明） | 保留原生弓Goal及施法；真实拉弓停止走位、射后20/换位后10tick暂停；实际箭伤/独立关闭/实际主副手模型 **L2 PASS**；人工/第三方AI **NOT RUN** |
 | `illusioner_clone_arrows`：真实箭从有限分身位置发射，归属同一个幻术师 | UPSTREAM；`IllusionerEntityMixin` | **ADAPT** / E2-c / 是（含替代说明） | 原生出生70/1000一次账本；120tick至多双箭替代一次原箭，真实安全箭源/Power和Flame/伤害/同盟过滤/不可拾取/200tick期限，保存不恢复在途 **L2 PASS**；自然分布/完整L3/人工 **NOT RUN** |
 | `vindicator_support`：旧S2卫道士支援是Buildup选择性玩法，非已确认上游技能 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **ADAPT** / E2-c / 是（含替代说明） | LEGACY_ONLY/Buildup；priority5/TARGET，最多8名8格同盟施法者的100tick内攻击者；20tick扫描、16格敌人/LOS、不抢原目标/仅清拥有目标；原生近战及五波袭击生命周期（受控击杀） **L2 PASS**；连续实战/多人 **NOT RUN** |
-| `evoker_flee_speed`：旧S2避让速度参数；上游这两类未证明同项独立配置 | LEGACY_ONLY；`EvokerEntityMixin`, `FleeEntityGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_evoker_flee_speed` 仅待实现；26.3原版AvoidEntityGoal实测需求后窄适配，不改已通过火球仲裁；**NOT RUN** |
-| `evoker_avoid_target_fix`：旧S2避免目标处理候选，非明确上游独立修复 | LEGACY_ONLY；`EvokerEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_evoker_avoid_target_fix` 仅待实现；复现当前Bug优先，LOS/创造/旁观与真实施法回归；**NOT RUN** |
+| `evoker_flee_speed`：旧S2避让速度参数；上游这两类未证明同项独立配置 | LEGACY_ONLY；`EvokerEntityMixin`, `FleeEntityGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `evoker_avoid_target_fix`：旧S2避免目标处理候选，非明确上游独立修复 | LEGACY_ONLY；`EvokerEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | `drowned_fishing_pull`：既有真实竿和原版自然发竿，水陆射手/非水下目标/三叉戟在途互斥，原生碰撞拉拽与保存 | UPSTREAM；`DrownedAttackGoalMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
 | `zombie_fisherman_rod`：精确渔夫职业，一次空手出生竿，原生浮漂命中/拉拽位移、真实磨损/单钩所有权、退出守恒 | UPSTREAM；`ZombieVillagerEntityMixin`, `FishingBobberEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
 | `zombie_cleric_potions`：精确牧师职业，一瓶真实HARMING消耗治疗受伤亡灵，独立支援目标，关闭/消费后重载不补发 | UPSTREAM；`ZombieVillagerEntityMixin` | **ADAPT** / E2-b / 是 | **L2 PASS**；G38限定客户端、独立QA/保存/生命周期通过；完整L3/人工/整合包 **NOT RUN**；见R4E2B_REBUILD |
@@ -82,30 +83,30 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `zombie_slime_carrier`：史莱姆携带与生成/分裂/递归骑乘风险，首发暂缓 | UPSTREAM；`AbstractZombieEntityMixin` | **DEFER** / Phase3变种审批 / 否 | 独立门 `disable_zombie_slime_carrier` 仅待实现；不阻断Phase1；无限拆分和保存需专项；**NOT RUN** |
 | `zombie_horse_leader`：首领与马/召集会增加实体预算及掉落，首发暂缓 | UPSTREAM；`AbstractZombieEntityMixin`, `ZombieHorseEntityMixin` | **DEFER** / Phase3变种审批 / 否 | 独立门 `disable_zombie_horse_leader` 仅待实现；不阻断Phase1；自然样本/刷怪塔/同伴生命周期；**NOT RUN** |
 | `rider_friendly_fire`：当前同树箭/三叉戟候选过滤 | **LEGACY_ONLY**；旧S2，两版恢复源码无此过滤；用户批准Buildup安全修正 | **ADAPT** / E3-a / 是 | 射手独立门、实时当前树、旧/敌树/玩家/NoAI/关闭真实碰撞负例及原弓Goal **L2 PASS**；[补充](R4E3A_RIDER_ADDENDUM.md)，HUMAN/全面网络时序 **NOT RUN** |
-| `strafe_hazard_check`：现有SkeletonBehavior.safeStep提供目标骨架范围的危地检查；不恢复全局isWalkable覆盖 | UPSTREAM；`MoveControlMixin` | **REPLACE** / E4确认/R5说明 / 是（含替代说明） | 独立门 `disable_strafe_hazard_check` 仅待实现；火/落差/阻挡/其余原版不接管；并非所有生物同等复原；**NOT RUN** |
-| `movement_jump_input`：jumpMotionFix意图只在验证过的重建实体保留跳跃横移输入 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_movement_jump_input` 仅待实现；禁止反射枚举/吞Throwable；先对照26.3原版输入；**NOT RUN** |
-| `movement_clear_strafe`：keepMovingForward/stopSidewaysMovement防遗留横移，只窄控制器适配 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_movement_clear_strafe` 仅待实现；已通过走射/后撤/连击不得倒退；**NOT RUN** |
-| `strafe_obstacle_jump`：水平碰撞时小障碍起跳，门/栅栏/天花板安全优先 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_strafe_obstacle_jump` 仅待实现；JumpControl真实起跳；不照搬反射+ordinal脆弱钩子；**NOT RUN** |
-| `sense_glowing`：有限距离发光可感知，不能绕过团队/不可攻击条件 | UPSTREAM；`LivingEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_glowing` 仅待实现；隔墙/范围/创造/非敌对原版，独立gate；**NOT RUN** |
-| `sense_blindness`：失明缩短感知；旧S2系数.25和上游1/3不同 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_blindness` 仅待实现；窄目标选择+保持既有伤害仇恨，不全局覆盖LOS；**NOT RUN** |
+| `strafe_hazard_check`：现有SkeletonBehavior.safeStep提供目标骨架范围的危地检查；不恢复全局isWalkable覆盖 | UPSTREAM；`MoveControlMixin` | **REPLACE** / E4确认/R5说明 / 是（含替代说明） | **REPLACE PASS**：由 `skeleton_safe_strafing` 接管指定三类骨架安全横移；旧ID保持不生效，无独立门声明。真实危地/输出回退验证见[R4E4_REBUILD](R4E4_REBUILD.md) |
+| `movement_jump_input`：jumpMotionFix意图只在验证过的重建实体保留跳跃横移输入 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `movement_clear_strafe`：keepMovingForward/stopSidewaysMovement防遗留横移，只窄控制器适配 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `strafe_obstacle_jump`：水平碰撞时小障碍起跳，门/栅栏/天花板安全优先 | UPSTREAM；`MoveControlMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `sense_glowing`：有限距离发光可感知，不能绕过团队/不可攻击条件 | UPSTREAM；`LivingEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `sense_blindness`：失明缩短感知；旧S2系数.25和上游1/3不同 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | `sense_darkness`：旧S2按周期改变感知距离，未定位上游对应配置 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **DEFER** / Phase2规则 / 否 | 独立门 `disable_sense_darkness` 仅待实现；不阻断Phase1；先制定独立新规则；**NOT RUN** |
-| `sense_nausea`：反胃影响视距与弹道；只对正式支持实体 | UPSTREAM；`ActiveTargetGoalMixin`, `ProjectileEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_nausea` 仅待实现；玩家射击不改/真实命中分布/独立gate；**NOT RUN** |
-| `sense_invisibility`：隐身前置感知；原版已有隐身距离缩放需避免重复缩放 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_invisibility` 仅待实现；受击追踪/装备可见度/退出目标；**NOT RUN** |
-| `sense_crawling`：爬行降低发现距离，上游1/3供参考 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_crawling` 仅待实现；原版姿态与几何高度，不改玩家hitbox；**NOT RUN** |
-| `sense_crouching`：潜行降低发现距离，上游1/2供参考 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_sense_crouching` 仅待实现；原版已有潜行规则，不能二次无意倍乘；**NOT RUN** |
-| `melee_effect_interval`：急迫/疲劳调节原版攻击间隔，设置下限 | UPSTREAM；`MeleeAttackGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_melee_effect_interval` 仅待实现；上游加减tick与旧S2倍率不同；伤害冷却/多目标；**NOT RUN** |
-| `melee_high_target_jump`：困难/小型/近高目标JumpControl起跳 | UPSTREAM；`MeleeAttackGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_melee_high_target_jump` 仅待实现；原版高度/地板/水/骑乘/冷却回退；**NOT RUN** |
+| `sense_nausea`：反胃影响视距与弹道；只对正式支持实体 | UPSTREAM；`ActiveTargetGoalMixin`, `ProjectileEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `sense_invisibility`：隐身前置感知；原版已有隐身距离缩放需避免重复缩放 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `sense_crawling`：爬行降低发现距离，上游1/3供参考 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `sense_crouching`：潜行降低发现距离，上游1/2供参考 | UPSTREAM；`ActiveTargetGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `melee_effect_interval`：急迫/疲劳调节原版攻击间隔，设置下限 | UPSTREAM；`MeleeAttackGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `melee_high_target_jump`：困难/小型/近高目标JumpControl起跳 | UPSTREAM；`MeleeAttackGoalMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | `omen_pressure`：旧S2不祥加速攻击，不能当作上游ominous_mobs全部语义 | LEGACY_ONLY；无明确上游对应；旧S2引用见JSON | **DEFER** / Phase2平衡规范 / 否 | 独立门 `disable_omen_pressure` 仅待实现；不阻断Phase1；避免无条件增伤/加速；**NOT RUN** |
 | `hostile_rest`：坐下/关AI影响索敌和实体状态，首发不纳入 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase3生态 / 否 | 独立门 `disable_hostile_rest` 仅待实现；不阻断Phase1；保存/唤醒/多人需专项；**NOT RUN** |
 | `rest_sound_wake`：声响惊醒依赖休息，随父功能暂缓 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase3依赖hostile_rest / 否 | 独立门 `disable_rest_sound_wake` 仅待实现；不新增每Tick全世界声学扫描；**NOT RUN** |
 | `golem_friendly_fire_fix`：确认原版仍有同族报复后才窄过滤 | UPSTREAM；`IronGolemEntityMixin`, `SnowGolemEntityMixin` | 批准意图**ADAPT** / E3-a-1；原版覆盖则REPLACE并记录 | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
-| `drowned_swim_visual`：游泳姿态和模型同步仍独立于已实现三叉戟 | UPSTREAM；`DrownedEntityMixin`, `DrownedEntityModelMixin`, `DrownedEntityRendererMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_drowned_swim_visual` 仅待实现；仅视觉前置；与原版26.3泳姿复核，专服同步；**NOT RUN** |
-| `burning_projectile_visual`：真实燃烧弹体粒子，保留原版伤害与点火规则 | UPSTREAM；`PersistentProjectileEntityMixin`, `SmallFireballEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burning_projectile_visual` 仅待实现；client效果可见/频率/现有no-fire不倒退；**NOT RUN** |
-| `burn_freeze_visual`：燃烧/冻结视觉，仅已支持实体 | UPSTREAM；燃烧粒子 `HostileEntityMixin`；实际冻结/燃烧乘色 `LivingEntityRendererMixin`（E4补审纠正原LivingEntity来源） | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burn_freeze_visual` 仅待实现；原版已有视觉先比较；不影响免疫/伤害；[E4源码审计](R4E4_PLAN.md)，**L1 PASS / L2 NOT RUN** |
+| `drowned_swim_visual`：游泳姿态和模型同步仍独立于已实现三叉戟 | UPSTREAM；`DrownedEntityMixin`, `DrownedEntityModelMixin`, `DrownedEntityRendererMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `burning_projectile_visual`：真实燃烧弹体粒子，保留原版伤害与点火规则 | UPSTREAM；`PersistentProjectileEntityMixin`, `SmallFireballEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| `burn_freeze_visual`：燃烧/冻结视觉，仅已支持实体 | UPSTREAM；燃烧粒子 `HostileEntityMixin`；实际冻结/燃烧乘色 `LivingEntityRendererMixin`（E4补审纠正原LivingEntity来源） | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | `undead_horse_sunburn`：旧S2日烧，不能称已恢复上游能力 | **LEGACY_ONLY**；旧GeneralHostileRules；两版burnInDay仅自然骑乘马移除 | **DEFER** / Phase2（用户2026-10-10明确批准） / 否 | 保留未生效配置；本批不添加日烧或上游马移除功能；**NOT RUN** |
 | `hostile_escape_seat`：受伤时有条件离船，限定原生敌对与空安全落点 | UPSTREAM；`HostileEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `hostile_spawn_effect`：随机出生效果与现有出生互斥/概率再设计，首发暂缓 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase2平衡规范 / 否 | 独立门 `disable_hostile_spawn_effect` 仅待实现；不阻断Phase1；旧开启字段不可当作生效；**NOT RUN** |
-| `vex_projectile_weakness`：受投射物额外伤害，独立于已实现固定方向冲锋 | UPSTREAM；`VexEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_vex_projectile_weakness` 仅待实现；上游默认额外200%=总3倍，并非总2倍；Buildup默认值待该批冻结；[E4源码审计](R4E4_PLAN.md)，**L1 PASS / L2 NOT RUN** |
+| `vex_projectile_weakness`：受投射物额外伤害，独立于已实现固定方向冲锋 | UPSTREAM；`VexEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | **E4 L2 PASS** / [范围与结果](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 
 ## 56 项已启用范围及证据缺口
 

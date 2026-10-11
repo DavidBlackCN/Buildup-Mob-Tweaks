@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "accessWidener": "buildup-mob-tweaks.accesswidener",
   "id": "buildupmobtweaks",
   "version": "${version}",
   "name": "Buildup Mob Tweaks",

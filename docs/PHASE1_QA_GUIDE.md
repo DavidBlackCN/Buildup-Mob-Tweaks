@@ -1,5 +1,7 @@
 # Phase 1 确定性 QA 使用说明
 
+> 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
+
 ## E3-b 当前九场景（总44场景）
 
 独立 QA JAR 的 `/buildupqa e3b spawn <scene>` / `check` / `off` / `cleanup`，场景为 ink、gaze、chicken_escape、group_panic、pet_recovery、cat_dodge、horn、trader_defense、sniffer。完整输入与人工判定见 [整b清单](R4E3B_ACCEPTANCE_CHECKLIST.md)。安装正式JAR和独立QA JAR；正式包不包含工具。三套工具共用每服务器一会话、权限4、1200刻到期；加载的25×25×7空场租用地形恢复，仅在专用测试世界使用。
@@ -168,3 +170,9 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 ## E3-c 六场（当前总50场）
 
 `/buildupqa e3c spawn pumpkin|snow|snow_sweep|baby|baby_wither|shotgun`，然后 `check`、`off`、`cleanup`。完整步骤见[R4E3C_ACCEPTANCE_CHECKLIST](R4E3C_ACCEPTANCE_CHECKLIST.md)。四组工具每服务器一会话，权限4/1200刻退出/加载空25×25×7/地形恢复；真实目标1000HP/静止是输入，不是伤害或自然平衡结论。snow_sweep至多三攻击者，baby固定已保存选择而不改全局概率；shotgun原生Brain取得铁傀儡目标。pumpkin须玩家真正剪切/戴回，控制台生成本身不验证交互。check记录实际UUID、Goal/Brain、弹体ID/伤害/准备/扫射/动画/共享期限；off整体让位不删除原版中弹或雪球。夹具头盔2护甲，戴南瓜总12；独立的新增护甲仅10。正式包和sources.jar无这些工具。
+
+## E4：新增21场，当前总71场
+
+`/buildupqa e4 spawn <scene>` → `check` → `off` → `check` → `cleanup`；场景和人工输入见 [统一清单](R4E4_ACCEPTANCE_CHECKLIST.md)。`check` 记录真实目标/运行Goal/位置/HP/已发箭初始速度与时序/同步视觉位，输出明确不是PASS。全服务器五组工具互斥，1200tick清理；捕捉自有弹体并退役，逐方块归还地形，构造失败同样回收。
+
+high_target使用生存玩家在高台边缘、困难难度，工具不直接指定目标。burn_arrow的自有弓明确带原生Flame附魔，保证真实箭燃烧，不依靠随机出生/点火概率。其他效果/装备/静止目标均是QA输入，不改正式出生概率、全局规则或玩家库存；manual场必须亲自站立/潜行/爬行/给效果/攻击。off整体让位与单项标签对照应分开。专服批量spawn只验证工具生命周期，人工未执行。

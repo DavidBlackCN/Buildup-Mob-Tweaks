@@ -1,4 +1,4 @@
-> 当前E3-b配置v11；下述S1/S2历史段落不代表重新启用旧代码。133声明/96支持/37未生效，新增配置全部受总开关和实体退出门控。
+> 当前E4配置v13、141声明/121支持/20未生效；新增与接入配置均受总开关和实体退出门控。[报告](R4E4_REBUILD.md)。下述S1/S2/E3段落为历史，不代表重新启用旧代码。
 
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
@@ -90,3 +90,9 @@ E3-a rider decision resolved: user explicitly retains `rider_friendly_fire` as B
 ## E3-c 当前生效配置（v12）
 
 passive：snow_golem_pumpkin_return / snow_golem_pumpkin_defense / snow_golem_ranged_behavior / snow_golem_throw_visual，均独立默认true；hostile.extended：skeleton_baby_variant / breeze_shotgun 默认true，skeleton_baby_chance默认100，范围0–1000。v11→v12保留旧值并追加；出生概率修改不重抽已有实体。独立排除类型Tag ability_ai_excluded；实体 vanilla_ai 与 disable_<id> 各自让位。防御是临时+10而不是基础值；幼体关闭暂时成年、再开恢复保存选择，无成长或装备补偿。散弹关闭恢复旧起跳/落地的原独立预算，原版中间风弹从未被新窗口禁掉。新字段GUI/真实多人仍人工验收。
+
+## E4 生效配置（v13）
+
+新增 passive.animal_sneak_approach 与 hostile.extended.skeleton_staggered_draw，默认true。v12→v13实际专服升级及冷重启保留旧weaponSwitching=false、既有字段和值，不删除旧未生效字段。六个sense_*、三个movement/strafe_*、两个melee_*、两evoker_*、drowned_swim_visual、burning_projectile_visual、burn_freeze_visual、vex_projectile_weakness接入范围见报告；并非所有Mob均启用。
+
+旧strafe_hazard_check仍不生效，指定三类骨架由既有skeleton_safe_strafing控制，不承诺旧门独立生效。恼鬼正值投射物为原生护甲前总三倍；发光最多16格主动发现、失明优先、不绕过攻击视线；反胃等级0～255，限支持射手。全局、实体vanilla_ai、disable_<id>、排除Tag/未知附件/NoAI回退保留。GUI与真实多人配置分发验收NOT RUN，当前已验证服务端权威视觉同步。

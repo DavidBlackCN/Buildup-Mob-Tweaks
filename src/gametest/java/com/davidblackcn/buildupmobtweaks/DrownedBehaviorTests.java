@@ -70,6 +70,9 @@ public class DrownedBehaviorTests {
     @GameTest(structure=ARENA,maxTicks=250)
     public void actualWaterProjectileIsRecoveredBySwimmingNavigation(GameTestHelper h){
         SkeletonBehaviorTests.floor(h,true);for(int x=2;x<=25;x++)for(int z=2;z<=25;z++)for(int y=2;y<=4;y++)h.setBlock(new BlockPos(x,y,z),Blocks.WATER);
+        // A missed native spread sample must land in the recoverable pool, rather than
+        // escaping the fixture. Keep actual flight/collision, native navigation and timeout.
+        for(int x=2;x<=25;x++)for(int y=2;y<=5;y++)h.setBlock(new BlockPos(x,y,20),Blocks.STONE);
         var m=mob(h);m.getRandom().setSeed(430204);var t=SkeletonBehaviorTests.target(h,8,17);boolean[] water={false},recovered={false},swimming={false};
         h.onEachTick(()->{var p=DrownedBehavior.instance().projectile(m);if(p!=null&&p.isInWater())water[0]=true;if(m.isSwimming())swimming[0]=true;
             h.assertTrue(count(h,m)==1,"Exactly one underwater weapon");if(DrownedBehavior.runtime(m).recoveries>0&&!recovered[0]){recovered[0]=true;m.addTag("buildupmobtweaks:vanilla_ai");t.discard();}});

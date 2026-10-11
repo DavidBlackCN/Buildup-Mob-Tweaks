@@ -1,6 +1,7 @@
 # R4 剩余旧 S2 功能审计台账
 
-> 当前状态（2026-10-11）：用户确认最新baby体型/持弓修复“验收通过”，E3-a/b/c选定开发范围闭合，可进入下一阶段；[收尾记录](R4E3_CLOSURE.md) / [E4方案](R4E4_PLAN.md)。139声明/102支持/37未生效、v12、QA50不变。完整两版L3、未提供的极端组合、多人/整合包、长期分布/性能仍NOT RUN；下方旧待批准/停止/未验收文字为历史时点。本轮仅完成E3收尾和E4规划批，E4功能实现及新QA/运行验收NOT RUN，未新增支持，不进入Boss/R5/Phase2/3。
+> 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
+
 
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
@@ -50,16 +51,16 @@
 | skeleton_aim_fix | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, SkeletonBowGoalMixin |
 | golem_friendly_fire_fix | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GeneralHostileRules |
 | zombified_piglin_anger_fix | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GeneralHostileRules |
-| strafe_hazard_check | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GroundStrafeMixin |
-| movement_jump_input | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GroundStrafeMixin |
-| movement_clear_strafe | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GroundStrafeMixin |
-| strafe_obstacle_jump | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GroundStrafeMixin |
+| strafe_hazard_check | REPLACE PASS / 旧ID不生效 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| movement_jump_input | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| movement_clear_strafe | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| strafe_obstacle_jump | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | piglin_shot_swing | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, PiglinWeaponMixin |
 | piglin_item_dodge | NOT_AUDITED / 不生效 | AdvancedHostiles, FeatureId, FeatureRegistry, GeneralHostileRules |
 | skeleton_offhand_visual | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, SkeletonArmsMixin |
-| drowned_swim_visual | NOT_AUDITED / 不生效 | DrownedSwimMixin, FeatureId, FeatureRegistry |
-| burning_projectile_visual | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GeneralHostileRules |
-| burn_freeze_visual | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GeneralHostileRules |
+| drowned_swim_visual | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| burning_projectile_visual | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| burn_freeze_visual | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | undead_horse_sunburn | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GeneralHostileRules |
 | hostile_escape_seat | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GeneralHostileRules |
 | hostile_spawn_effect | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, GeneralHostileRules |
@@ -93,19 +94,19 @@
 | illusioner_swap | NOT_AUDITED / 不生效 | AdvancedHostiles, FeatureId, FeatureRegistry |
 | illusioner_shoot_pause | NOT_AUDITED / 不生效 | AdvancedHostiles, FeatureId, FeatureRegistry |
 | illusioner_clone_arrows | NOT_AUDITED / 不生效 | AdvancedHostileTests, AdvancedHostiles, FeatureId, FeatureRegistry |
-| vex_projectile_weakness | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, HostileCombat |
-| sense_glowing | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
-| sense_blindness | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
+| vex_projectile_weakness | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| sense_glowing | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| sense_blindness | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | sense_darkness | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
-| sense_nausea | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
-| sense_invisibility | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
-| sense_crawling | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
-| sense_crouching | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
-| melee_effect_interval | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
-| melee_high_target_jump | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
+| sense_nausea | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| sense_invisibility | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| sense_crawling | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| sense_crouching | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| melee_effect_interval | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| melee_high_target_jump | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | omen_pressure | NOT_AUDITED / 不生效 | CombatPerception, FeatureId, FeatureRegistry |
-| evoker_flee_speed | NOT_AUDITED / 不生效 | EvokerFleeMixin, FeatureId, FeatureRegistry |
-| evoker_avoid_target_fix | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, HostileCombat |
+| evoker_flee_speed | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
+| evoker_avoid_target_fix | E4 L2 PASS / 精确支持范围 | [实现与证据](R4E4_REBUILD.md)；人工/完整L3 NOT RUN |
 | hostile_rest | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, RestingHostiles |
 | rest_sound_wake | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, RestingHostiles |
 | traits | NOT_AUDITED / 不生效 | FeatureId, FeatureRegistry, TraitService |

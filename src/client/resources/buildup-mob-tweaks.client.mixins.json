@@ -3,6 +3,10 @@
   "package": "com.davidblackcn.buildupmobtweaks.client.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
+    "rebuild.E4RenderStateMixin",
+    "rebuild.E4RendererMixin",
+    "rebuild.E4DrownedRendererMixin",
+    "rebuild.E4DrownedModelMixin",
     "rebuild.SkeletonBabyScaleMixin",
     "rebuild.SkeletonBabyHandMixin",
     "rebuild.SkeletonBabyArmorMixin",

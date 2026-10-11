@@ -2,7 +2,7 @@
 
 正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
 
-Phase 1当前交付为[R4-E3-c](docs/R4E3C_REBUILD.md)：雪傀儡四项、五类幼体骷髅与独立旋风人散弹；保留既有R4，139声明/102支持/37未生效、配置v12、[独立QA50场景](docs/PHASE1_QA_GUIDE.md)。449项必需真实Tick/Goal/Brain、客户端原生交互/自动绘制、专服冷重启与六QA场限定PASS；[人工清单](docs/R4E3C_ACCEPTANCE_CHECKLIST.md)、完整两版L3、长期自然分布、多人整合包/GUI/性能NOT RUN。批末停止，不进入E4/Boss/R5或后续Phase。
+Phase 1当前交付为[整R4-E4](docs/R4E4_REBUILD.md)：有限主动感知、同种骷髅错峰拉弓、安全横移/起跳、近战效果节奏、专项修正与视觉；保留已验收R4/E3。141声明/121支持/20未生效、配置v13、[独立QA71场景](docs/PHASE1_QA_GUIDE.md)。最终Wrapper构建及502项必需真实Tick/Goal/Brain、实际客户端、QA专服/升级/冷重启限定PASS；[统一人工清单](docs/R4E4_ACCEPTANCE_CHECKLIST.md)、完整两版L3、多人整合包/GUI/长期性能仍NOT RUN。完成后停止，不进入Boss/R5或后续Phase。
 
 Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
 

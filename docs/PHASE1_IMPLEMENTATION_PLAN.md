@@ -1,6 +1,7 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
-> 当前状态（2026-10-11）：用户确认最新baby体型/持弓修复“验收通过”，E3-a/b/c选定开发范围闭合，可进入下一阶段；[收尾记录](R4E3_CLOSURE.md) / [E4方案](R4E4_PLAN.md)。139声明/102支持/37未生效、v12、QA50不变。完整两版L3、未提供的极端组合、多人/整合包、长期分布/性能仍NOT RUN；下方旧待批准/停止/未验收文字为历史时点。本轮仅完成E3收尾和E4规划批，E4功能实现及新QA/运行验收NOT RUN，未新增支持，不进入Boss/R5/Phase2/3。
+> 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
+
 
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
@@ -120,3 +121,9 @@ E3-a rider decision resolved: user explicitly retains `rider_friendly_fire` as B
 ## E3-c 批末 / 下一具体批次
 
 整c授权覆盖c-1/2/3，六ID已实施与限定验证；上文建议继续拆c小批或G34待裁决是旧时点。验收后下一建议E4仅先规划G07潜行接近动物、G33错峰拉弓及G35实际必要通用钩子：26.3原版复现→确认现有覆盖/REPLACE或窄ADAPT→多射手真实调度/感知/禁用/兼容测试。不得把共享钩子库存整包恢复；Boss另审批。此处只建议，未实施。
+
+## 整E4收口与下一批
+
+2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。
+
+新入口：`rebuild/general/E4Behavior`、原生Goal/Melee/MoveControl窄Mixin、服务端同步视觉附件与独立客户端模型。19个接入ID、1个旧ID替代边界均见[R4E4_REBUILD](R4E4_REBUILD.md)。现先按[清单](R4E4_ACCEPTANCE_CHECKLIST.md)统一人工验收；下一具体工作仅是验收反馈修复与尚余20个未生效ID的归类复核。Boss基础批须另写范围并获明确批准，不在本轮实施；R5总验收也未开始。

@@ -1,0 +1,3 @@
+accessWidener v2 official
+# Typed STRAFE/WAIT inspection; no reflective enum lookup or ordinal matching.
+accessible class net/minecraft/world/entity/ai/control/MoveControl$Operation

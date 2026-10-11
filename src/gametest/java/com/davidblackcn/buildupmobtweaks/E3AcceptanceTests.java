@@ -30,6 +30,10 @@ public class E3AcceptanceTests {
         var target=RidingRelationTests.mob(h,EntityTypes.IRON_GOLEM,8,16);target.setNoAi(true);
         boolean[] warning={false},input={false};double[] moved={0};Vec3 initial=horse.position();
         h.onEachTick(()->{
+            // This scenario isolates mounted contact and pose cleanup. Native arrows are
+            // covered by normalNativeMountedArrowDoesNotTurnBack; intercept these fixture
+            // arrows so a random arrow hit cannot occupy the target's native damage cooldown.
+            if(exit.equals("contact"))for(var a:h.getLevel().getEntitiesOfClass(AbstractArrow.class,rider.getBoundingBox().inflate(32),a->a.getOwner()==rider))a.discard();
             moved[0]=Math.max(moved[0],horse.position().distanceTo(initial));
             if(!input[0]&&RidingState.runtime(rider).phase.equals("warning")){
                 warning[0]=horse.isStanding();input[0]=true;

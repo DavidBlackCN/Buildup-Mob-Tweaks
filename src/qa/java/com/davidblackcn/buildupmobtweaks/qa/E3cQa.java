@@ -38,7 +38,7 @@ public final class E3cQa {
     }
     public static Session spawn(ServerLevel l,BlockPos o,String scene){
         if(!SCENES.contains(scene))throw new IllegalStateException("Unknown E3-c scene");
-        if(hasSession(l.getServer())||QaHarness.hasSession(l.getServer())||E3aQa.hasSession(l.getServer())||E3bQa.hasSession(l.getServer()))throw new IllegalStateException("One session/server; cleanup first");
+        if(E4Qa.hasSession(l.getServer())||hasSession(l.getServer())||QaHarness.hasSession(l.getServer())||E3aQa.hasSession(l.getServer())||E3bQa.hasSession(l.getServer()))throw new IllegalStateException("One session/server; cleanup first");
         if(l.getDifficulty()==net.minecraft.world.Difficulty.PEACEFUL)throw new IllegalStateException("Use non-peaceful difficulty; QA does not change world rules");
         for(int x=-12;x<=12;x++)for(int z=-12;z<=12;z++)for(int y=-1;y<=6;y++){var p=o.offset(x,y,z);if(!l.hasChunkAt(p)||l.getBlockEntity(p)!=null||!l.getFluidState(p).isEmpty()||y>=0&&!l.getBlockState(p).isAir())throw new IllegalStateException("Need loaded empty 25x25x7 airspace without fluids/block entities");}
         var s=new Session(l,o,scene);for(int x=-12;x<=12;x++)for(int z=-12;z<=12;z++){s.set(o.offset(x,-1,z),Blocks.STONE.defaultBlockState());s.set(o.offset(x,6,z),Blocks.STONE.defaultBlockState());}

@@ -1,5 +1,7 @@
 # Phase 1白名单入口与测试缺口（E0基线56项）
 
+> 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
+
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
 
@@ -166,3 +168,9 @@ Rider addition: `rider_friendly_fire` -> RiderProjectileMixin / Projectile.canHi
 ## E3-c 六个独立执行入口
 
 G16四ID：AbilityBehavior.register ENTITY_LOAD/Mob.tick boundary → SnowGolemAbilityMixin原生mobInteract/performRangedAttack → SnowAttackGoal原GoalSelector；SnowRenderer/Model/RenderStateMixin → SnowballHandLayer实际提交。G33：SkeletonLifecycleMixin原生finalizeSpawn → 一次baby_choice、原生SynchedEntityData/refreshDimensions；BabyConversionMixin实际convertTo保留。G34：BreezeShotgunMixin原生Shoot.tick真实中弹后 → 两发真实BreezeWindCharge、RemainingExtras共享期限、ShotgunFlight/Griefing窄退出。六ID、独立gate、未知版本回退均在真实调度验证；没有仅加白名单冒充实现。
+
+## 整E4收口与下一批
+
+2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。
+
+新入口：`rebuild/general/E4Behavior`、原生Goal/Melee/MoveControl窄Mixin、服务端同步视觉附件与独立客户端模型。19个接入ID、1个旧ID替代边界均见[R4E4_REBUILD](R4E4_REBUILD.md)。现先按[清单](R4E4_ACCEPTANCE_CHECKLIST.md)统一人工验收；下一具体工作仅是验收反馈修复与尚余20个未生效ID的归类复核。Boss基础批须另写范围并获明确批准，不在本轮实施；R5总验收也未开始。

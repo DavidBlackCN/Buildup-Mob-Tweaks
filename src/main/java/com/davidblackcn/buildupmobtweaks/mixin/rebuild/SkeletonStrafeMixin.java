@@ -15,7 +15,10 @@ public abstract class SkeletonStrafeMixin {
     private void buildup$safeStrafe(MoveControl control,float forward,float side){
         if(mob instanceof AbstractSkeleton m&&SkeletonBehavior.instance()!=null&&SkeletonBehavior.instance().enabled(m,FeatureId.SKELETON_SAFE_STRAFING)){
             var direction=m.getLookAngle().multiply(1,0,1).normalize();var delta=direction.scale(forward).add(new Vec3(direction.z,0,-direction.x).scale(side)).normalize();
-            if(!SkeletonBehavior.safeStep(m,delta)){control.strafe(0,0);return;}
+            if(!SkeletonBehavior.safeStep(m,delta)){
+                if(com.davidblackcn.buildupmobtweaks.rebuild.general.E4Behavior.obstacleJump(m,delta)){m.getJumpControl().jump();}
+                else{control.strafe(0,0);return;}
+            }
             if(m.level().getDifficulty().getId()>1){forward*=1.5f;side*=1.5f;}
         }
         control.strafe(forward,side);

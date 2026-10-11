@@ -16,6 +16,8 @@ public final class FeatureRegistry {
     public FeatureRegistry(BuildupConfig config) {
         this.config = config;
         var gates = new java.util.EnumMap<FeatureId, Declaration>(FeatureId.class);
+        add(gates, FeatureId.ANIMAL_SNEAK_APPROACH, () -> config.passive.animal_sneak_approach.get());
+        add(gates, FeatureId.SKELETON_STAGGERED_DRAW, () -> config.hostile.extended.skeleton_staggered_draw.get());
         add(gates, FeatureId.SNOW_GOLEM_PUMPKIN_RETURN, () -> config.passive.snow_golem_pumpkin_return.get());
         add(gates, FeatureId.SNOW_GOLEM_PUMPKIN_DEFENSE, () -> config.passive.snow_golem_pumpkin_defense.get());
         add(gates, FeatureId.SNOW_GOLEM_RANGED_BEHAVIOR, () -> config.passive.snow_golem_ranged_behavior.get());
@@ -180,6 +182,12 @@ public final class FeatureRegistry {
     public static boolean supported(FeatureId id) {
         return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_")
                 || switch(id) {
+                    case ANIMAL_SNEAK_APPROACH, SKELETON_STAGGERED_DRAW -> true;
+                    case SENSE_GLOWING, SENSE_NAUSEA, VEX_PROJECTILE_WEAKNESS, BURNING_PROJECTILE_VISUAL -> true;
+                    case SENSE_BLINDNESS, SENSE_CRAWLING, SENSE_INVISIBILITY, SENSE_CROUCHING,
+                         MOVEMENT_JUMP_INPUT, MOVEMENT_CLEAR_STRAFE, STRAFE_OBSTACLE_JUMP,
+                         MELEE_EFFECT_INTERVAL, MELEE_HIGH_TARGET_JUMP, EVOKER_FLEE_SPEED, EVOKER_AVOID_TARGET_FIX,
+                         DROWNED_SWIM_VISUAL, BURN_FREEZE_VISUAL -> true;
                     case SNOW_GOLEM_PUMPKIN_RETURN, SNOW_GOLEM_PUMPKIN_DEFENSE, SNOW_GOLEM_RANGED_BEHAVIOR, SNOW_GOLEM_THROW_VISUAL, SKELETON_BABY_VARIANT, BREEZE_SHOTGUN, SQUID_INK_DEFENSE, GLOW_SQUID_GAZE, CHICKEN_THREAT_ESCAPE, ANIMAL_GROUP_PANIC, TAMEABLE_RECOVERY, CAT_PROJECTILE_DODGE, GOAT_HORN_AGGRO, TRADER_SELF_DEFENSE, SNIFFER_SEARCH,
                          RIDER_FRIENDLY_FIRE, GOLEM_FRIENDLY_FIRE_FIX, ILLAGER_ZOMBIE_CONFLICT, ILLAGER_ZOMBIE_VILLAGER, CHICKEN_JOCKEY_CHARGE, HOSTILE_ESCAPE_SEAT,
                          HUSK_CAMEL_CIRCLE, SKELETON_HORSE_CHARGE, SKELETON_TRAP_VARIANTS, SKELETON_WITHER_CONVERSION,

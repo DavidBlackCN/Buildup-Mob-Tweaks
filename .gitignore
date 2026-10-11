@@ -38,3 +38,15 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# Local work logs and stage records belong outside this version repository.
+*.log
+/docs/R[0-9]*
+/docs/S[0-9]*
+/docs/PHASE*
+/docs/STAGE_INDEX.md
+/docs/*_REPORT.md
+/docs/*_CODE_REVIEW.md
+/docs/*_MIGRATION_PLAN.md
+/docs/*_ACCEPTANCE*.md
+/docs/legacy-s2/

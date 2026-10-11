@@ -1,101 +1,45 @@
-# 装备池与 Data Pack（S1-C）
+# 装备池数据包
 
-> 历史S1-C说明。当前重建基线只注册池加载/查询，`EquipmentService`未注册且`equipment_assignment`不在56项白名单，下面的出生分配语义**当前不生效**。配置版本现为v9，旧字段保留；真实闭环及来源范围待E2审批实施。见[R4-E0数据流/方案](PHASE1_FEATURE_DISPOSITION.md)。
+服务器或整合包作者可用数据包指定适用生物出生时得到的装备。分配只尝试一次、只填空槽，不替换已有装备，不因读档、转换或重新加载数据包而补发物品。
 
-服务端对新僵尸、尸壳、溺尸执行一次装备分配尝试，独立于 Traits。只填空槽、每次最多一件、数量固定 1；不覆盖已有装备，不创建弹药、不注册战斗 Goal、不修改掉率。Boss 与其他实体不在本阶段支持范围。
+普通装备分配由 `general.enabled`、`equipment.poolAssignment`和`equipment.assignmentChance`控制；默认概率100/1000，即10%。凋灵骷髅出生弓和僵尸猪灵出生弩有各自独立开关与概率，不套用普通10%值。支持范围限已实现的生物和武器，不让任意生物自动学会使用任意Mod武器。
 
-## 开关和默认行为
+当前规则只支持僵尸、尸壳、溺尸、凋灵骷髅和僵尸猪灵；实体Tag也必须解析为这些支持类型。
 
-- `general.enabled` 与 `equipment.poolAssignment`（默认 true）控制新实体分配；不是通过 Traits 开关控制。
-- `equipment.assignmentChance` 范围 0–1000，默认 100（10%）。这是一次分配的总概率；JSON 的权重决定抽中哪件装备。
-- 内置规则 `buildupmobtweaks:zombie_demo`：主世界、非和平难度的成年僵尸/尸壳/溺尸，主手为空时以配置概率获得一把木剑。
-- GUI 应用只影响以后出生的实体。关闭不会移除现有装备，重开不补发。手改 TOML 需要停服再启动；`/reload` 用于数据包，不负责配置文件。
-- 配置版本 3 在 v2 上增加 equipment 字段；装备分配存档版本 1 与 Traits 数据版本 1 互不依赖。
+## 示例
 
-## 文件路径和最小格式
+将仓库的[示例目录](../examples/equipment-demo/)整个复制到世界的 `datapacks/` 后执行 `/reload`。示例把成年僵尸/尸壳/溺尸的规则改为向空副手分配盾，仍需通过分配概率。停用示例会恢复内置规则，不改变旧实体已持有的物品。
 
-`data/<namespace>/buildupmobtweaks/equipment_pool/<path>.json`，规则 ID 为 `<namespace>:<path>`。相同 ID 由优先级最高的数据包整体覆盖，不合并 entries，也不会在高优先级规则损坏时偷偷启用低优先级版本。
+规则路径为 `data/<namespace>/buildupmobtweaks/equipment_pool/<path>.json`，ID为`<namespace>:<path>`。高优先级数据包覆盖同ID规则，entries不合并。
 
 ```json
 {
   "version": 1,
-  "entities": ["minecraft:zombie", "#example:zombies"],
-  "slot": "mainhand",
+  "entities": ["minecraft:zombie", "minecraft:husk", "minecraft:drowned"],
+  "slot": "offhand",
   "adult_only": true,
   "dimensions": ["minecraft:overworld"],
   "difficulties": ["easy", "normal", "hard"],
-  "entries": [
-    { "item": "minecraft:wooden_sword", "weight": 2 },
-    { "item": "#example:weapons", "weight": 1 }
-  ]
+  "entries": [{"item": "minecraft:shield", "weight": 1}]
 }
 ```
 
 | 字段 | 规则 |
-|---|---|
-| version | 必须为整数 1；未来版本拒绝 |
-| entities | 1–32 个带命名空间的实体 ID 或 #Tag，按并集匹配；目前所有成员都必须为 zombie/husk/drowned |
-| slot | mainhand、offhand、head、chest、legs、feet；只允许空槽，护甲还须匹配实体判定的装备槽 |
-| adult_only | 默认 true；false 允许幼年实体 |
-| dimensions | 可省略或空列表（不限），最多 16 个维度 ID；未知维度不匹配 |
-| difficulties | 可省略或空列表（不限）；peaceful/easy/normal/hard，最多 4 项 |
-| entries | 1–128 项；每项只有 item 与 weight |
-| item | 带命名空间的物品 ID 或 #Tag；未知/空 Tag、未知物品、空气或未启用的物品使整条规则失效 |
-| weight | 整数 1–10000；先按 entry 权重抽取，再从该 entry 的 Tag 成员中等概率选一件 |
+| --- | --- |
+| `version` | 当前为1，不是Mod配置版本 |
+| `entities` | 实体ID或`#实体类型Tag`，仅支持已接入的实体类型 |
+| `slot` | `mainhand`、`offhand`、`head`、`chest`、`legs`、`feet`；物品还需兼容该槽位 |
+| `adult_only` | 默认true |
+| `dimensions` / `difficulties` | 可省略或空列表；填写时限制维度与难度 |
+| `entries` | 物品ID或`#物品Tag`及正整数weight；先按权重选条目，再从其Tag成员选择 |
 
-不接受未知字段，包括 count、components、replace、脚本或嵌套条件。实体与物品 Tag 使用 26.3 的 `tags/entity_type/`、`tags/item/` 路径。规则按 ID 字典序，取第一条满足实体/环境条件的规则；该规则的槽被占用或概率未中时直接结束，不继续尝试后面的规则。Tag 成员排序后抽取，数据包文件枚举顺序不改变结果。
+每次只分配一件；不支持通过额外count/components/replace字段复制或覆盖装备。未知物品、空Tag、非法字段或不支持实体会使相应规则无效；其他有效规则仍可用。规则按ID稳定排序，采用第一个匹配规则；空槽不符或概率未中时不会继续向后反复抽取。
 
-## 可复制的示例
-
-把仓库 [examples/equipment-demo](../examples/equipment-demo/) 整个目录复制到世界的 `datapacks/` 中。该包使用 data format **121.0**（来自目标 26.3 version.json），覆盖内置 zombie_demo，为空副手分配盾牌。示例不自动安装到用户世界，也不随 Mod 自动启用。
-
-```text
+```mcfunction
 /datapack list
 /reload
 /buildupmobtweaks equipment_pools
 /buildupmobtweaks equipment @e[type=minecraft:zombie,sort=nearest,limit=1]
 ```
 
-修改示例的 `tags/item/demo_equipment.json`，例如把 shield 改为 bow，执行 `/reload` 后只影响新实体。需要确定性检查时，将 GUI 的 assignmentChance 暂设为 1000；生产默认仍为 100。持弓/盾并不等于本阶段已实现射箭/格挡 AI。
-
-两个查询命令均只读，限等级 4/服务端控制台。equipment_pools 输出当前有效规则 ID 和拒绝数量；equipment 输出实体 UUID、已保存分配记录及当前主/副手能力。
-
-## 安全回退与加载时序
-
-使用 Fabric Resource Loader v1 和 DataResourceStore，资源快照随当前服务端的资源管理器保存。JSON 先异步读取并校验；26.3 的物品组件和 Tag 成员在 reload listener 的 apply 阶段尚未正式绑定，因此不在那里构造 ItemStack 或枚举 Tag。服务器启动/成功重载后用已绑定的注册表解析，并缓存该资源快照的不可变结果。失败的整次 Minecraft 重载不会发布新资源存储；该分支依赖 Fabric/原版资源切换契约，未通过故意破坏其他 Mod 的重载器做实测。
-
-单个错误规则记录具体文件、来源包和原因，然后从本次装备池排除；其他有效规则继续使用。全部无效时不分配装备，原版世界照常运行。修复后再次 `/reload` 可恢复；删除规则或停用数据包会移除对应快照内容，不保留全局旧规则。
-
-## 生命周期与物品所有权
-
-实体附件 `fabric:attachments` → `buildupmobtweaks:equipment_assignment` 保存 version、outcome，以及适用时的 origin/pool/slot/item。记录只说明过去的分配尝试；实际物品仍由原版装备存档管理，不从记录重新创建物品。
-
-- 出生、命令、刷怪笼等已知新生成来源：首次加入服务端时尝试；未命中、没有规则、槽被占用、开关关闭也保存最终记录。
-- 旧存档、未知来源、没有记录的跨维度加载：跳过并保存跳过记录。
-- 原版转换：继承源分配记录；源无记录时标记 conversion_skipped。实际装备转移完全交给原版转换参数，不额外复制 ItemStack。
-- 重载、重启、改概率、死亡或物品被取走：不重新分配。未知版本/损坏附件保留且不重试。
-- 掉率保持原值；新增装备只按原版流程参与掉落，没有自定义死亡发放或掉落补偿。其他 Mod 后续主动替换装备的行为不由本模块撤销。
-
-## 能力识别与未来适配边界
-
-只按当前实际物品识别 BowItem（含标准 Mod 弓）、原版弩、三叉戟、盾牌，以及七种原版剑（含铜剑）。识别不读取 Traits，按需查询，不设置 Tick 扫描或装备能力缓存，因此换装后不会读到旧缓存。未知物品返回无已知能力，保持原版 AI。数据包能选择已注册的 Mod 物品，但不会因为 Tag 而获得特殊武器使用能力。
-
-未来若加入特定 Mod 武器，需在初始化阶段注册有确定物品匹配、前置条件、使用/回收与失败回退契约的 Java Adapter，并针对明确版本测试；S1-C 不提供空的 Adapter 注册框架，也不声明任何第三方武器/AI/保护插件兼容。S2-A 已加入三种骷髅的标准 BowItem 使用、保留原版拾取和现有双手弓剑切换，见 [骷髅战斗](SKELETON_COMBAT.md)。投射物回收和 Boss 接管仍属于后续阶段。
-
-## 自动验证
-
-Windows PowerShell **7**、JDK 25；阅读并接受 Minecraft EULA 后：
-
-```powershell
-$env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.3'
-.\gradlew.bat build -PtestEula=true --console=plain
-.\scripts\Test-EquipmentPools.ps1 -AcceptEula
-.\scripts\Test-TraitPersistence.ps1 -AcceptEula
-```
-
-装备脚本每次创建唯一 `run/equipment-test-*` 世界与 `.gradle/equipment-test-*` 日志目录，回环端口 25587；Traits 脚本使用 25586。二者均正常 stop 并保留证据，不删除旧世界。完整结果、失败修正和人工项见 [S1-C 报告](S1C_REPORT.md)。
-
-接口证据：本地 Fabric resource-loader-v1 **3.0.4+fcdff87f5d** 源码，以及目标 Minecraft 26.3 的 WorldLoader、MinecraftServer、MappedRegistry 和 ItemStack 字节码；[Fabric 资源接口迁移说明](https://docs.fabricmc.net/develop/porting/fabric-api) 仅作辅助。
-## S2-B 边界
-
-僵尸/尸壳高级战斗特性使用独立 zombie_special 互斥组和持久冷却；旧诊断标记不授予战斗能力。基础盾牌、三叉戟使用与 Traits 解耦；池仍只分配一次，不因投掷空手而补发。行为、守恒和卸载限制见 [僵尸系说明](ZOMBIE_COMBAT.md)。
+后两个查询需要管理员权限等级4或服务器控制台，只读查看有效规则和实际分配记录。`/reload`不重读磁盘TOML；概率修改按[配置说明](CONFIGURATION.md)操作。已分配的真实装备按实际槽位保存，没有额外死亡补偿或补发。[返回首页](../README.md)

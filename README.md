@@ -1,47 +1,44 @@
-# Buildup Mob Tweaks — R3 / R4-A / R4-B / R4-C / R4-D
+# Buildup Mob Tweaks
 
-> 2026-10-11 R5 当前状态：R4-E4 用户验收通过；R5 原版依赖组合收口见[最终报告](docs/PHASE1_FINAL_REPORT.md)，141声明/121支持/20未生效、v13、QA71不变。504项真实Tick/Goal/Brain、生产包真实区块卸载/冷重启、双客户端同步及原生刷怪笼限定PASS；性能与未运行项按报告单列。Boss延期至 **Phase2完成后**，本轮不实施后续阶段、不推送发布。下方旧计数、授权与停止声明仅为历史时点；R5最终人工验收待确认。
+Buildup Mob Tweaks 改善 Minecraft 生物的战斗、装备使用和日常行为。掠夺者会切换真正持有的武器，骷髅会寻找更安全的射击位置，部分僵尸会拿门格挡；动物、宠物和雪傀儡也有各自的互动变化。
 
-正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
+本分支适用于 **Minecraft Java Edition 26.3 / Fabric**。各项行为可独立开关；特殊能力有触发条件或出生概率，不会出现在每一只生物身上。
 
-Phase 1当前交付为[整R4-E4](docs/R4E4_REBUILD.md)：有限主动感知、同种骷髅错峰拉弓、安全横移/起跳、近战效果节奏、专项修正与视觉；保留已验收R4/E3。141声明/121支持/20未生效、配置v13、[独立QA71场景](docs/PHASE1_QA_GUIDE.md)。最终Wrapper构建及502项必需真实Tick/Goal/Brain、实际客户端、QA专服/升级/冷重启限定PASS；[统一人工清单](docs/R4E4_ACCEPTANCE_CHECKLIST.md)、完整两版L3、多人整合包/GUI/长期性能仍NOT RUN。完成后停止，不进入Boss/R5或后续Phase。
+## 安装
 
-Minecraft Fabric 26.3 的独立 MIT 项目。当前启用掠夺者 P01～P05 重建：真实背包武器交换、近战与弩射击衔接、安全后撤、消耗食物回血、举盾目标接近及目标退出。
+1. 使用 Minecraft **26.3**、**Java 25** 和 Fabric Loader **0.19.5 或以上**。目前验证的 Loader 版本为 0.19.5。
+2. 将正式 Mod JAR 放入游戏的 `mods` 文件夹，并安装下列 Fabric 版依赖。不要把 `-sources.jar` 或开发用 `-qa.jar` 当作游戏 Mod 安装。
+3. 多人游戏时，在服务器和各客户端安装本 Mod 及相同的必需依赖；独立服务器也支持。
 
-旧 S2 AI、Mixin、客户端注入和旧行为测试已隔离，不编译进当前产物；源码、历史报告和 Git 历史保留。现已加入普通骷髅、流浪者、沼骸的 S01～S04/S06，以及普通僵尸、尸壳、溺尸的 Z01～Z04/D01，以及女巫 W01/W02、唤魔者 E01/E02/E03、恼鬼 V01，以及恶魂/烈焰人/蠹虫/末影人与苦力怕/蜘蛛/旋风人选定机制；未列入白名单的其余功能保持原版。旧配置值保留，未在本批白名单的功能暂不生效。旧 README 快照见 [docs/legacy-s2/README.md](docs/legacy-s2/README.md)。
+| 必需依赖 | 当前验证版本 |
+| --- | --- |
+| Fabric API | `0.162.0+26.3` |
+| Fzzy Config | `0.7.7+fix3+26.3` |
+| Fabric Language Kotlin | `1.14.1+kotlin.2.4.20` |
 
-## 环境与验证
+这些依赖需要单独安装。Mod Menu 不是必需依赖。更新 Mod 或依赖后，请完全重启游戏或服务器；更新现有存档前先备份。
 
-Java 25、Gradle 9.7.1、Loom 1.18.3、Loader 0.19.5、Fabric API 0.162.0+26.3；官方未混淆命名。Fzzy Config 与 Fabric Language Kotlin 为外部依赖，不内嵌。完整固定版本见 gradle.properties。
+## 游戏中有什么变化
 
-在本目录设置 JAVA_HOME 后执行 `./gradlew.bat build -PtestEula=true`。build 包含真实服务器 tick / 原版 GoalSelector 下的 GameTest。testEula=true 表示接受测试服务器 EULA。测试操作场景与实体，不直接调用生产 Goal 或手动 tick AI。
+| 生物或场景 | 主要变化 |
+| --- | --- |
+| 掠夺者 | 近战与弩射击衔接、持有武器交换、后撤、消耗食物恢复及目标退出 |
+| 骷髅家族 | 弓与备用近战武器切换、安全横移、寻荫、错峰拉弓及部分幼体变种 |
+| 僵尸、尸壳、溺尸 | 门盾或已有盾牌格挡、条件式沙地下潜、幼体骑乘、真实三叉戟投出与回收、部分职业武器 |
+| 灾厄村民与恼鬼 | 药水和施法预告、有界支援、幻术师分身箭与换位、恼鬼冲锋与恢复 |
+| 其他敌对生物 | 选定的火球、闪避、连击、骑乘、散弹和视觉行为 |
+| 动物、宠物和雪傀儡 | 惊慌与避让、墨汁与注视、宠物缓慢恢复、猫避弹、雪傀儡南瓜互动和投球表现 |
 
-## 配置与兼容
+详细触发条件与限制见[功能介绍](docs/FEATURES.md)。需要调整难度或关闭某项行为，请看[配置说明](docs/CONFIGURATION.md)；服务器与整合包使用者可查看[兼容说明](docs/COMPATIBILITY.md)和[装备池数据包](docs/EQUIPMENT_POOLS.md)。
 
-Fzzy Config 服务端配置 v10。总开关、hostile 分组和各项独立开关均保留；具体字段见 [docs/R2A_REBUILD.md](docs/R2A_REBUILD.md)。
+本版本没有新增附魔、独立装备成长或 Boss AI 接管。配置中标为“未生效”的历史选项不会启用相应玩法。
 
-- 主手弩与背包实际斧/剑交换；小于 3 格近战，大于 3 格换回弩。不会凭空补武器。
-- 出生补给仅首次有效出生执行，食物按局部难度随机，不保证每只都有。读取存档不补发。
-- 脱战受伤等待 60 tick，副手使用真实背包食物，完成原版消费后按 nutrition 回血；中断、禁用、死亡及重载恢复原槽位；死亡结算时背包食物不掉落，非食物装备保留原掉落规则。
-- 持续举盾超过 60 tick 时接近，实际近战斧命中才可能造成原版盾冷却。
-- `buildupmobtweaks:vanilla_ai` 实体标签退出新 AI；`buildupmobtweaks:disable_<feature_id>` 可单项退出。实体类型标签 pillager_ai_excluded、物品标签 ranged_items_excluded 排除兼容接管，pillager_melee_weapons 扩展近战武器（默认 swords，axes 固有支持）。
-- 兼容标准 CrossbowItem 子类；没有验证第三方枪械、非标准武器系统、整合包或旧 S2 存档迁移。
+## 遇到问题
 
-骷髅系列使用真实备用武器、昼夜狙击/走射、流浪者翻转雪球、沼骸闪避毒云与独立屋顶寻路。旧 Traits 概率不控制这些行为，开关和过滤仍独立。标准 BowItem 子类按实际持手使用，未知弹射武器退出接管；配置与兼容边界见 R2-B 文档。
+反馈时请附 Minecraft、Loader、本 Mod 和依赖版本、其他 Mod 清单，以及复现步骤。特殊能力未触发时，请说明生物来源、装备、目标、距离、难度和相关设置；这有助于区分出生概率、触发条件和实际故障。崩溃或报错可附 `logs/latest.log` 的相关部分。
 
-僵尸系列使用原版门方块上下半部展示、10° 正面材质耐久格挡、已有副手盾的实际格挡与损耗；尸壳在三层沙及 mobGriefing 条件下下沉、按目标位置快照换位并上浮。门盾/最多一个同族幼体在首次合格出生互斥抽取；不删除已有装备，读档不重抽。溺尸将手中实际三叉戟投出、寻回与归还；在途保存 UUID 引用，没有备用物品副本。配置 v9 不变，旧高级主动盾和相关未使用字段暂不生效。详见 [R2-C 范围、配置与验收](docs/R2C_REBUILD.md)。
+第三方 AI、特殊武器、领地保护和大型整合包需要分别验证，不能仅凭本 Mod 能启动就认定兼容。
 
-管理员另可用 `/buildupmobtweaks skeleton <实体>` 查看备用物品和模式计数。管理员只读诊断：`/buildupmobtweaks pillager <实体选择器>`，查看目标、阶段、真实背包及事件计数。实体背包 /item 槽位为 mob.inventory.0～mob.inventory.4。
+## 来源与许可
 
-## 阶段状态
-
-R3 掠夺者已获用户人工验收，死亡背包食物掉落反馈已修正。历史证据见 [R2A_REBUILD](docs/R2A_REBUILD.md)。R4-A 骷髅与 R4-B 僵尸已经实现，用户已进行了实机验收并反馈生成木剑掉落；本次反馈修复通过 66 项实际行为回归和隔离专服重启/死亡测试，见 [修复报告](docs/R4A_SWORD_FIX.md)。未提供的专项验收结果不推定为 PASS。外层报告和原始证据不在本 Git 根内。
-
-R4-B 的历史自动证据见 [R2C_REBUILD](docs/R2C_REBUILD.md)。管理员只读诊断另有 `/buildupmobtweaks zombie <实体>`、`/buildupmobtweaks drowned <实体>`；实体类型标签 `buildupmobtweaks:zombie_ai_excluded` 排除接管。R4-C 具体方案已获批准并实施，95 项真实调度测试、专服冷启动和远区块卸载、各难度及有限上游/原版对照已验证；[报告与人工清单](docs/R4C_REBUILD.md)。R4-D 已按最新用户授权实施，当前统一等待完整 R4 的人工验收。多人、完整 L3 和旧 S2 附件迁移保持各报告的实际状态。
-
-本项目不是上游官方续作。参考恢复的官方发行源码，保留 [NOTICE.md](NOTICE.md) 与 [上游 MIT 文本](licenses/Mob-AI-Tweaks-MIT.txt)。
-
-
-R4-C 配置仍为 v9：真实药水预告与默认 20/100 ticks 独立预算；互斥出生火球/图腾特性 70/10 千分权重；三个真实径向释放火球、400 ticks 冷却；低于 20% 血量的一生一次图腾 40 ticks 窗口；恼鬼名额 6、召唤冷却 680、固定冲锋最多 40 与恢复 20 ticks。只读 `/buildupmobtweaks raid <实体>` 辅助检查；类型标签 `raid_ai_excluded`、`vex_ai_excluded` 排除接管。旧未加载恼鬼不能追溯，详见报告限制。
-
-R4-D 的原版真实火球乘客、蠹虫躲藏/实际援军、有限末影人连击与其他机制见 [本批报告](docs/R4D_REBUILD.md)；131 项必需真实行为测试通过，客户端加载仅 L1。统一实机清单见 [R4 验收](docs/R4_ACCEPTANCE_CHECKLIST.md)，[剩余旧 S2 台账](docs/R4_REMAINING_AUDIT.md) 明确未迁移项。管理员 `/buildupmobtweaks remaining <实体>` 为只读诊断；类型标签 remaining_ai_excluded，配置 v9 与独立门控保留。不进入 R5/S3。
+项目采用 [MIT License](LICENSE)，参考和改编 Mob AI Tweaks 的部分生物行为，是独立项目。作者署名、第三方许可与来源见 [NOTICE](NOTICE.md) 和 [licenses](licenses/)。

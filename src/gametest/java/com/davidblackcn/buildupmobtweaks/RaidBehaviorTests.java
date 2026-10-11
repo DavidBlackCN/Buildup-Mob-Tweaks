@@ -38,11 +38,41 @@ public class RaidBehaviorTests {
     public void witchWindupOffActuallyThrowsVanillaPotion(GameTestHelper h){SkeletonBehaviorTests.floor(h,false);var m=mob(h,EntityTypes.WITCH);m.addTag("buildupmobtweaks:disable_witch_windup");var f=player(h);boolean[] seen={false};
         h.onEachTick(()->{if(!h.getLevel().getEntitiesOfClass(ThrownSplashPotion.class,m.getBoundingBox().inflate(30),p->p.getOwner()==m).isEmpty())seen[0]=true;});
         h.runAtTickTime(200,()->{h.assertTrue(seen[0]&&RaidState.runtime(m).previews==0,"Independent windup off retains actual native throw");proof("W01_windup_off",m,"projectile=true");m.discard();f.close();h.succeed();});}
-    @GameTest(environment="buildupmobtweaks:r4c",structure=ARENA,maxTicks=220)
-    public void witchPreviewCreativeExitAndExternalEquipmentSurvive(GameTestHelper h){SkeletonBehaviorTests.floor(h,false);var m=mob(h,EntityTypes.WITCH);var f=player(h);boolean[] triggered={false};
-        h.onEachTick(()->{if(!triggered[0]&&RaidState.runtime(m).preview){triggered[0]=true;f.player().setGameMode(GameType.CREATIVE);}});
-        h.runAtTickTime(180,()->{h.assertTrue(triggered[0]&&m.getTarget()==null&&!RaidState.runtime(m).preview&&m.getMainHandItem().isEmpty(),"Creative exit aborts preview without projectile or lost original item");
-            var sword=new ItemStack(Items.DIAMOND_SWORD);m.setItemSlot(EquipmentSlot.MAINHAND,sword);m.addTag("buildupmobtweaks:vanilla_ai");h.runAfterDelay(10,()->{h.assertTrue(m.getMainHandItem()==sword,"Foreign main hand survives our cleanup");proof("W01_creative_exit",m,"external_preserved=true");m.discard();f.close();h.succeed();});});}
+    @GameTest(environment="buildupmobtweaks:r4c",structure=ARENA,maxTicks=450)
+    public void witchPreviewCreativeExitAndExternalEquipmentSurvive(GameTestHelper h){
+        SkeletonBehaviorTests.floor(h,false);var m=mob(h,EntityTypes.WITCH);var f=player(h);
+        m.getRandom().setSeed(481002);
+        boolean[] triggered={false},projectile={false},healingInput={false},nativeDrink={false};
+        h.onEachTick(()->{
+            projectile[0]|=!h.getLevel().getEntitiesOfClass(ThrownSplashPotion.class,m.getBoundingBox().inflate(40),p->p.getOwner()==m).isEmpty();
+            var contents=m.getMainHandItem().get(net.minecraft.core.component.DataComponents.POTION_CONTENTS);
+            if(healingInput[0]&&m.isDrinkingPotion()&&contents!=null&&contents.is(net.minecraft.world.item.alchemy.Potions.HEALING)){
+                h.assertTrue(!TemporaryItem.is(m.getMainHandItem(),"preview"),"Native healing is not our preview item");nativeDrink[0]=true;
+            }
+            if(!triggered[0]&&RaidState.runtime(m).preview){
+                triggered[0]=true;f.player().setGameMode(GameType.CREATIVE);
+                // Measure cancellation from the actual native preview, not an arbitrary test deadline.
+                h.runAfterDelay(2,()->{
+                    h.assertTrue(m.getTarget()==null&&!RaidState.runtime(m).preview&&!TemporaryItem.is(m.getMainHandItem(),"preview"),"Creative exit promptly cancels target and owned preview");
+                    h.assertTrue(RaidState.runtime(m).throwsMade==0&&!projectile[0],"Cancelled preview never spawns a potion projectile");
+                    // Native healing may legitimately occupy the main hand after preview cancellation.
+                    healingInput[0]=true;m.setHealth(m.getMaxHealth()-2);m.getRandom().setSeed(23);
+                    h.runAfterDelay(40,()->{
+                        h.assertTrue(m.getTarget()==null&&!RaidState.runtime(m).preview&&!TemporaryItem.is(m.getMainHandItem(),"preview"),"Creative exit stays cancelled while native healing remains allowed");
+                        h.assertTrue(RaidState.runtime(m).throwsMade==0&&!projectile[0]&&nativeDrink[0],"No offensive projectile; native healing actually started via server ticks");
+                    });
+                    h.runAfterDelay(80,()->{
+                        h.assertTrue(!m.isDrinkingPotion()&&m.getMainHandItem().isEmpty()&&m.getHealth()==m.getMaxHealth(),"Native healing completes before external equipment is installed");
+                        var sword=new ItemStack(Items.DIAMOND_SWORD);m.setItemSlot(EquipmentSlot.MAINHAND,sword);m.addTag("buildupmobtweaks:vanilla_ai");
+                        h.runAfterDelay(10,()->{h.assertTrue(m.getMainHandItem()==sword,"Foreign main hand survives our cleanup");
+                            h.assertTrue(RaidState.runtime(m).throwsMade==0&&!projectile[0],"No delayed offensive throw after creative exit");
+                            proof("W01_creative_exit",m,"prompt_cancel=true projectiles=0 native_heal=true external_preserved=true");m.discard();f.close();h.succeed();});
+                    });
+                });
+            }
+        });
+        h.runAtTickTime(350,()->{if(!triggered[0])proof("W01_creative_exit_wait",m,"target="+m.getTarget()+" fixture="+f.player().position()+" pos="+m.position()+" hand="+m.getMainHandItem()+" drinking="+m.isDrinkingPotion());h.assertTrue(triggered[0],"Native selector must acquire a survival target and begin preview within 350 ticks");});
+    }
     @GameTest(environment="buildupmobtweaks:r4c",structure=ARENA,maxTicks=240)
     public void witchPreviewReloadKeepsCooldownAndDiscardsTemporaryItem(GameTestHelper h){SkeletonBehaviorTests.floor(h,false);Witch[] refs={mob(h,EntityTypes.WITCH)};var f=player(h);boolean[] reloaded={false};
         h.onEachTick(()->{if(!reloaded[0]&&RaidState.runtime(refs[0]).preview){reloaded[0]=true;refs[0]=CombatTestWorld.reload(h,refs[0]);refs[0].addTag("buildupmobtweaks:vanilla_ai");}});

@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
 import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -146,7 +147,9 @@ public class SkeletonBehaviorTests {
     public void externalPlainSwordDropsButGeneratedSwordWithoutBowDoesNot(GameTestHelper h){
         floor(h,true);var external=skeleton(h,EntityTypes.SKELETON,6,8);var generated=skeleton(h,EntityTypes.SKELETON,18,8);
         external.setAttached(SkeletonState.RESERVE,new ItemStack(Items.WOODEN_SWORD));var t1=target(h,6,10);var t2=target(h,18,10);
-        h.runAtTickTime(70,()->{h.assertTrue(external.getMainHandItem().is(Items.WOODEN_SWORD)&&!SkeletonState.generatedSword(external.getMainHandItem())&&SkeletonState.generatedSword(generated.getMainHandItem()),"Actual melee distinguishes even an unmodified external wooden sword");
+        // Ownership/death is the subject here; knockback must not move a target out of melee range.
+        t1.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(1);t2.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(1);
+        h.runAtTickTime(70,()->{evidence("S02_external_plain_melee",external,"hand="+external.getMainHandItem()+" target="+external.getTarget()+" distance="+external.distanceTo(t1)+" generated_hand="+generated.getMainHandItem()+" generated_distance="+generated.distanceTo(t2));h.assertTrue(external.getMainHandItem().is(Items.WOODEN_SWORD)&&!SkeletonState.generatedSword(external.getMainHandItem())&&SkeletonState.generatedSword(generated.getMainHandItem()),"Actual melee distinguishes even an unmodified external wooden sword");
             // The original bow is gone; death cleanup must also suppress the generated sword still in hand.
             generated.removeAttached(SkeletonState.RESERVE);
             for(var m:new AbstractSkeleton[]{external,generated}){m.setDropChance(EquipmentSlot.MAINHAND,2);m.getAttached(SkeletonState.DATA).putFloat("reserve_drop",2);m.hurtServer(h.getLevel(),m.damageSources().generic(),1000);}t1.discard();t2.discard();});

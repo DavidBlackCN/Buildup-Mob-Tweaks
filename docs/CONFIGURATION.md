@@ -1,5 +1,7 @@
 > 当前E4配置v13、141声明/121支持/20未生效；新增与接入配置均受总开关和实体退出门控。[报告](R4E4_REBUILD.md)。下述S1/S2/E3段落为历史，不代表重新启用旧代码。
 
+> 2026-10-11 R5 当前状态：R4-E4 用户验收通过；R5 原版依赖组合收口见[最终报告](PHASE1_FINAL_REPORT.md)，141声明/121支持/20未生效、v13、QA71不变。504项真实Tick/Goal/Brain、生产包真实区块卸载/冷重启、双客户端同步及原生刷怪笼限定PASS；性能与未运行项按报告单列。Boss延期至 **Phase2完成后**，本轮不实施后续阶段、不推送发布。下方旧计数、授权与停止声明仅为历史时点；R5最终人工验收待确认。
+
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
 
@@ -96,3 +98,7 @@ passive：snow_golem_pumpkin_return / snow_golem_pumpkin_defense / snow_golem_ra
 新增 passive.animal_sneak_approach 与 hostile.extended.skeleton_staggered_draw，默认true。v12→v13实际专服升级及冷重启保留旧weaponSwitching=false、既有字段和值，不删除旧未生效字段。六个sense_*、三个movement/strafe_*、两个melee_*、两evoker_*、drowned_swim_visual、burning_projectile_visual、burn_freeze_visual、vex_projectile_weakness接入范围见报告；并非所有Mob均启用。
 
 旧strafe_hazard_check仍不生效，指定三类骨架由既有skeleton_safe_strafing控制，不承诺旧门独立生效。恼鬼正值投射物为原生护甲前总三倍；发光最多16格主动发现、失明优先、不绕过攻击视线；反胃等级0～255，限支持射手。全局、实体vanilla_ai、disable_<id>、排除Tag/未知附件/NoAI回退保留。GUI与真实多人配置分发验收NOT RUN，当前已验证服务端权威视觉同步。
+
+## 当前配置说明（v13）
+
+全部字段与默认值保持。16个未接入旧技能和三个演示Marker明确标为未生效，开启不会激活旧S2实现。Traits主开关实际管理已接入高级出生能力，基础装备独立；Marker及历史权重不参与正式抽取。旧重复项由现有实现替代，不能双重启用。保存值保留，不删除字段或回写用户数值。下方S1/S2及早期配置版本说明仅为历史，不代表当前API或功能清单。真实能力以PHASE1_ACTIVE_FEATURES及FeatureRegistry白名单为准。

@@ -1,5 +1,7 @@
 # 旧68项之外的上游特性缺口审计
 
+> 2026-10-11 R5 当前状态：R4-E4 用户验收通过；R5 原版依赖组合收口见[最终报告](PHASE1_FINAL_REPORT.md)，141声明/121支持/20未生效、v13、QA71不变。504项真实Tick/Goal/Brain、生产包真实区块卸载/冷重启、双客户端同步及原生刷怪笼限定PASS；性能与未运行项按报告单列。Boss延期至 **Phase2完成后**，本轮不实施后续阶段、不推送发布。下方旧计数、授权与停止声明仅为历史时点；R5最终人工验收待确认。
+
 > 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
 
 
@@ -48,11 +50,11 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 | G22 潜影弹变种/追踪 | **DEFER** / Phase3末地控制者确定 | `ShulkerBulletEntityMixin`, `ShulkerBulletEntityRendererMixin`, `ShulkerBulletRenderStateMixin`；额外药效/追踪/染色与末地整合方案有关，首发暂缓 | NOT RUN |
 | G23 流浪商人自卫 | **ADAPT** / IN_PHASE1 / E3 | `WanderingTraderEntityMixin`；受攻击时失明反馈；短窗口/目标有效性/药水物品使用不得无限生成 | **E3-b限定 PASS**；真实调度/门控/生命周期见R4E3B_REBUILD；人工/完整L3 NOT RUN |
 | G24 村民饮食/特殊职业 | **DEFER** / Phase3村民智能 | `VillagerEntityMixin`, `VillagerHeldItemFeatureRendererMixin`；完整职业与生活生态不在Phase1；职业僵尸与此不同 | NOT RUN |
-| G25 监守者钟声/血条 | **ADAPT** / Boss独立审批 | `WardenEntityMixin`, `WardenSonicBoomTask`；基础声学交互与保存晕眩/血条，仅审计候选；不立即修改AI | NOT RUN |
-| G26 凋灵基础模块 | **ADAPT** / Boss独立审批 | `WitherEntityMixin`, `WitherSkullEntityMixin`, `WitherEntityRendererMixin`, `WitherEntityModelMixin`, `WitherEntityRenderStateMixin`；分阶段/冲刺/特殊弹参考，禁用专属下界合金奖励；控制权与破坏预算需用户另批 | NOT RUN |
-| G27 远古守卫者基础模块 | **ADAPT** / Boss独立审批 | `ElderGuardianEntityMixin`, `GuardianBeamAttackGoalMixin`；基础Boss/扫射/切目标，150HP/8甲仅历史默认，非批准增伤模板 | NOT RUN |
-| G28 劫掠兽迷你Boss | **ADAPT** / Boss独立审批 | `RavagerEntityMixin`；特殊攻击/180tick参考；完整袭击、击杀与农场另审 | NOT RUN |
-| G29 龙战基础让位 | **ADAPT** / Boss独立审批 | `EnderDragonEntityMixin`, `EnderDragonFightMixin`, `EnderDragonChargePlayerMixin`, `EnderDragonFlamingMixin`, `EnderDragonHoldPatternMixin`, `EnderDragonLandingApproachMixin`, `EnderDragonSitAttackMixin`, `EnderDragonStrafePlayerMixin`, `EnderDragonTakeOffMixin`, `DragonFireballEntityMixin`；全部阶段、水晶/出口/复活是高风险控制；本轮只库存，上游完整龙重做和Stellarity深度集成DEFER | NOT RUN |
+| G25 监守者钟声/血条 | **DEFER** / Phase2完成后独立规划审批 | `WardenEntityMixin`, `WardenSonicBoomTask`；基础声学交互与保存晕眩/血条，仅审计候选；不立即修改AI | NOT RUN |
+| G26 凋灵基础模块 | **DEFER** / Phase2完成后独立规划审批 | `WitherEntityMixin`, `WitherSkullEntityMixin`, `WitherEntityRendererMixin`, `WitherEntityModelMixin`, `WitherEntityRenderStateMixin`；分阶段/冲刺/特殊弹参考，禁用专属下界合金奖励；控制权与破坏预算需用户另批 | NOT RUN |
+| G27 远古守卫者基础模块 | **DEFER** / Phase2完成后独立规划审批 | `ElderGuardianEntityMixin`, `GuardianBeamAttackGoalMixin`；基础Boss/扫射/切目标，150HP/8甲仅历史默认，非批准增伤模板 | NOT RUN |
+| G28 劫掠兽迷你Boss | **DEFER** / Phase2完成后独立规划审批 | `RavagerEntityMixin`；特殊攻击/180tick参考；完整袭击、击杀与农场另审 | NOT RUN |
+| G29 龙战基础让位 | **DEFER** / Phase2完成后独立规划审批 | `EnderDragonEntityMixin`, `EnderDragonFightMixin`, `EnderDragonChargePlayerMixin`, `EnderDragonFlamingMixin`, `EnderDragonHoldPatternMixin`, `EnderDragonLandingApproachMixin`, `EnderDragonSitAttackMixin`, `EnderDragonStrafePlayerMixin`, `EnderDragonTakeOffMixin`, `DragonFireballEntityMixin`；全部阶段、水晶/出口/复活是高风险控制；本轮只库存，上游完整龙重做和Stellarity深度集成DEFER | NOT RUN |
 | G30 悦灵 | **BLOCKED** / 历史不阻断Phase1 | `AllayEntityMixin`, `AllayEntityModelMixin`；最终Allay反编译恢复失败；按用户不再尝试，本轮不读取/恢复其正文 | BLOCKED |
 | G31 火药物品/火箭坐骑/龟帽 | **EXCLUDE** / 不计门槛 | `FireworkRocketItemMixin`, `FireworkRocketEntityRendererMixin`, `FireworkRocketEntityRenderStateMixin`, `TridentItemMixin`, `EntityMixin`, `LivingEntityMixin`；独立物品使用/附魔/成长/奖励和硬帽伤害分支不恢复；同类中的其他生物钩子分开裁决 | NOT RUN |
 | G32 恶魂眼泪 | **EXCLUDE** / 不计门槛 | `GhastEntityMixin`；额外可收集材料生成，每60tick参考；与当前恶魂慢弹/前摇不同 | NOT RUN |
@@ -69,7 +71,7 @@ R4-E0检查已核验两版发行JAR元数据、全部Mixin列表、配置调用/
 
 公开README只指向源码ZIP，没有完整权威功能列表；本表以发行代码为证据，而非早期讨论。类内未门控分支、OP代码、回报资源链和辅助渲染不是独立启用承诺。两版默认配置差异/方法命名见JSON，逐候选等效行为对照仍NOT RUN。正式新增机制在相应批次须拆成独立ID/配置、校验目标26.3 API及确定的优先级/Flags。
 
-E3候选较多，应拆为E3-a骑乘/关系、E3-b低侵入生态、E3-c选定视觉/Brain能力，每个子批独立审批、完成提交并停。E4再处理共享感知/控制钩子。未能满足性能/资源安全的嗅探兽或其他候选可以在实施方案明确改DEFER，不能暗中省略。独立Boss方案需先写BOSS_PHASE1_SCOPE_DECISION并请用户明确批准；不从候选ADAPT推断开发授权。
+E3候选较多，应拆为E3-a骑乘/关系、E3-b低侵入生态、E3-c选定视觉/Brain能力，每个子批独立审批、完成提交并停。E4再处理共享感知/控制钩子。未能满足性能/资源安全的嗅探兽或其他候选可以在实施方案明确改DEFER，不能暗中省略。Boss已按2026-10-11用户裁决延期至Phase2完成后；届时先写独立范围决定并获批准，不从历史候选推断开发授权。
 
 ## R4-E2-c 本批结果
 

@@ -65,7 +65,7 @@ public class BuildupMobTweaks implements ModInitializer {
         new com.davidblackcn.buildupmobtweaks.rebuild.ecology.EcologyBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.ability.AbilityBehavior(features).register();
         com.davidblackcn.buildupmobtweaks.rebuild.general.E4Behavior.register(features);
-        LOGGER.info("Buildup Mob Tweaks initialized: R3/R4-A/B/C/D behavior rebuild.");
+        LOGGER.info("Buildup Mob Tweaks initialized: R3/R4 behavior rebuild; Boss AI takeover deferred.");
 	}
 
 	public static Identifier id(String path) {

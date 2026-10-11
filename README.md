@@ -1,5 +1,7 @@
 # Buildup Mob Tweaks — R3 / R4-A / R4-B / R4-C / R4-D
 
+> 2026-10-11 R5 当前状态：R4-E4 用户验收通过；R5 原版依赖组合收口见[最终报告](docs/PHASE1_FINAL_REPORT.md)，141声明/121支持/20未生效、v13、QA71不变。504项真实Tick/Goal/Brain、生产包真实区块卸载/冷重启、双客户端同步及原生刷怪笼限定PASS；性能与未运行项按报告单列。Boss延期至 **Phase2完成后**，本轮不实施后续阶段、不推送发布。下方旧计数、授权与停止声明仅为历史时点；R5最终人工验收待确认。
+
 正式阶段遵循 PLAN.md：历史 R2-A/R2-B/R2-C 对应 R3/R4-A/R4-B，见 [编号对照](docs/STAGE_INDEX.md)。生成备用木剑死亡掉落的反馈修复见 [R4-A 修复](docs/R4A_SWORD_FIX.md)。
 
 Phase 1当前交付为[整R4-E4](docs/R4E4_REBUILD.md)：有限主动感知、同种骷髅错峰拉弓、安全横移/起跳、近战效果节奏、专项修正与视觉；保留已验收R4/E3。141声明/121支持/20未生效、配置v13、[独立QA71场景](docs/PHASE1_QA_GUIDE.md)。最终Wrapper构建及502项必需真实Tick/Goal/Brain、实际客户端、QA专服/升级/冷重启限定PASS；[统一人工清单](docs/R4E4_ACCEPTANCE_CHECKLIST.md)、完整两版L3、多人整合包/GUI/长期性能仍NOT RUN。完成后停止，不进入Boss/R5或后续Phase。

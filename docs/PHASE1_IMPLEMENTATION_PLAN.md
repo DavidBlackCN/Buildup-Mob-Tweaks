@@ -1,5 +1,7 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
+> 2026-10-11 R5 当前状态：R4-E4 用户验收通过；R5 原版依赖组合收口见[最终报告](PHASE1_FINAL_REPORT.md)，141声明/121支持/20未生效、v13、QA71不变。504项真实Tick/Goal/Brain、生产包真实区块卸载/冷重启、双客户端同步及原生刷怪笼限定PASS；性能与未运行项按报告单列。Boss延期至 **Phase2完成后**，本轮不实施后续阶段、不推送发布。下方旧计数、授权与停止声明仅为历史时点；R5最终人工验收待确认。
+
 > 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
 
 
@@ -78,7 +80,7 @@ E4-a感知：`sense_glowing`、`sense_blindness`、`sense_nausea`、`sense_invis
 
 ## Boss/R5边界
 
-完成E批后才给Boss范围决定并独立审批。凋灵/远古守卫者/劫掠兽/龙让位/监守者只是本Phase1候选，未实现；专属奖励/完整Stellarity/幻翼Boss排除或暂缓。R5集成性能和发布收口未进入；Phase2/3未执行。每个子批结束本地提交并停，不把路线批准等同所有后续代码授权。
+2026-10-11用户已验收E4并授权R5；Boss五类候选均DEFER至Phase2完成后，再独立写范围并审批。R5原版依赖组合结果见PHASE1_FINAL_REPORT；无Boss实现、专属奖励或Stellarity接管。Phase2/3未执行，本轮提交后停止。
 
 ## E1-b批末与下一具体任务
 

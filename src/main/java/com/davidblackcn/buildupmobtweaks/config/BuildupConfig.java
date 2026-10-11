@@ -2,6 +2,7 @@ package com.davidblackcn.buildupmobtweaks.config;
 
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
 import me.fzzyhmstrs.fzzy_config.annotations.Version;
+import me.fzzyhmstrs.fzzy_config.annotations.Comment;
 import me.fzzyhmstrs.fzzy_config.config.Config;
 import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
@@ -78,6 +79,7 @@ public final class BuildupConfig extends Config {
     public static final class Zombie extends ConfigSection {
         public ValidatedBoolean shieldUse = new ValidatedBoolean(true);
         public ValidatedBoolean doorGuard = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean activeGuard = new ValidatedBoolean(true);
         public ValidatedBoolean sandBurrow = new ValidatedBoolean(true);
         public ValidatedBoolean babyRider = new ValidatedBoolean(true);
@@ -126,9 +128,11 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean skeleton_baby_variant = new ValidatedBoolean(true);
         public ValidatedInt skeleton_baby_chance = new ValidatedInt(100, 1000, 0);
         public ValidatedBoolean breeze_shotgun = new ValidatedBoolean(true);
+        @Comment("Inactive legacy alias; use the implemented native/rebuilt feature. This value has no effect.")
         public ValidatedBoolean skeleton_aim_fix = new ValidatedBoolean(true);
         public ValidatedBoolean golem_friendly_fire_fix = new ValidatedBoolean(true);
         public ValidatedBoolean zombified_piglin_anger_fix = new ValidatedBoolean(true);
+        @Comment("Inactive legacy alias; use the implemented native/rebuilt feature. This value has no effect.")
         public ValidatedBoolean strafe_hazard_check = new ValidatedBoolean(true);
         public ValidatedBoolean movement_jump_input = new ValidatedBoolean(true);
         public ValidatedBoolean movement_clear_strafe = new ValidatedBoolean(true);
@@ -139,8 +143,10 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean drowned_swim_visual = new ValidatedBoolean(true);
         public ValidatedBoolean burning_projectile_visual = new ValidatedBoolean(true);
         public ValidatedBoolean burn_freeze_visual = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean undead_horse_sunburn = new ValidatedBoolean(true);
         public ValidatedBoolean hostile_escape_seat = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean hostile_spawn_effect = new ValidatedBoolean(true);
         public ValidatedBoolean spider_hunts_pests = new ValidatedBoolean(true);
         public ValidatedBoolean creeper_fire_visual = new ValidatedBoolean(true);
@@ -150,15 +156,20 @@ public final class BuildupConfig extends Config {
         public ValidatedInt chicken_jockey_charge_chance = new ValidatedInt(10, 1000, 0);
         public ValidatedInt zombie_slime_carrier_chance = new ValidatedInt(10, 1000, 0);
         public ValidatedInt zombie_horse_leader_chance = new ValidatedInt(10, 1000, 0);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean illusioner_omen_spawn = new ValidatedBoolean(true);
         public ValidatedBoolean illager_zombie_conflict = new ValidatedBoolean(true);
         public ValidatedBoolean illager_zombie_villager = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean illager_boats = new ValidatedBoolean(true);
+        @Comment("Inactive legacy alias; use the implemented native/rebuilt feature. This value has no effect.")
         public ValidatedBoolean husk_spear_charge = new ValidatedBoolean(true);
         public ValidatedBoolean husk_camel_circle = new ValidatedBoolean(true);
         public ValidatedBoolean skeleton_horse_charge = new ValidatedBoolean(true);
         public ValidatedBoolean chicken_jockey_charge = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean zombie_slime_carrier = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean zombie_horse_leader = new ValidatedBoolean(true);
         public ValidatedBoolean piglin_crossbow_compatibility = new ValidatedBoolean(true);
         public ValidatedBoolean pillager_food_heal = new ValidatedBoolean(true);
@@ -180,7 +191,9 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean wither_skeleton_skull = new ValidatedBoolean(true);
         public ValidatedBoolean parched_dodge = new ValidatedBoolean(true);
         public ValidatedBoolean bogged_omen_mushrooms = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean stray_omen_snow = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean stray_snow_barrage = new ValidatedBoolean(true);
         public ValidatedBoolean skeleton_shelter = new ValidatedBoolean(true);
         public ValidatedInt evoker_fireball_chance = new ValidatedInt(70, 1000, 0);
@@ -197,7 +210,9 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean evoker_fireball_no_fire = new ValidatedBoolean(true);
         public ValidatedBoolean evoker_totem = new ValidatedBoolean(true);
         public ValidatedBoolean evoker_fireball = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean hostile_rest = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean rest_sound_wake = new ValidatedBoolean(true);
         public ValidatedBoolean witch_leaping_potion = new ValidatedBoolean(true);
         public ValidatedBoolean witch_jump_throw = new ValidatedBoolean(true);
@@ -211,6 +226,7 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean evoker_avoid_target_fix = new ValidatedBoolean(true);
         public ValidatedBoolean sense_glowing = new ValidatedBoolean(true);
         public ValidatedBoolean sense_blindness = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean sense_darkness = new ValidatedBoolean(true);
         public ValidatedBoolean sense_nausea = new ValidatedBoolean(true);
         public ValidatedBoolean sense_invisibility = new ValidatedBoolean(true);
@@ -219,6 +235,7 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean melee_effect_interval = new ValidatedBoolean(true);
         public ValidatedBoolean melee_high_target_jump = new ValidatedBoolean(true);
         public ValidatedBoolean ranged_reposition = new ValidatedBoolean(true);
+        @Comment("Deferred outside Phase 1; retained for old configuration compatibility. This value has no effect.")
         public ValidatedBoolean omen_pressure = new ValidatedBoolean(true);
         public ValidatedBoolean ghast_slow_fireball = new ValidatedBoolean(true);
         public ValidatedBoolean ghast_cooldown = new ValidatedBoolean(true);
@@ -240,8 +257,11 @@ public final class BuildupConfig extends Config {
 
     public static final class Traits extends ConfigSection {
         public ValidatedBoolean enabled = new ValidatedBoolean(true);
+        @Comment("Inactive legacy diagnostic marker; no gameplay or probability effect in this rebuild.")
         public ValidatedBoolean commonMarker = new ValidatedBoolean(true);
+        @Comment("Inactive legacy diagnostic marker; no gameplay or probability effect in this rebuild.")
         public ValidatedBoolean advancedMarker = new ValidatedBoolean(true);
+        @Comment("Inactive legacy diagnostic marker; no gameplay or probability effect in this rebuild.")
         public ValidatedBoolean rareMarker = new ValidatedBoolean(true);
         public Chances cow = new Chances(200, 70, 10);
         public Chances zombieFamily = new Chances(100, 30, 5);

@@ -1,5 +1,7 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
+> 2026-10-11 R5 当前状态：R4-E4 用户验收通过；R5 原版依赖组合收口见[最终报告](PHASE1_FINAL_REPORT.md)，141声明/121支持/20未生效、v13、QA71不变。504项真实Tick/Goal/Brain、生产包真实区块卸载/冷重启、双客户端同步及原生刷怪笼限定PASS；性能与未运行项按报告单列。Boss延期至 **Phase2完成后**，本轮不实施后续阶段、不推送发布。下方旧计数、授权与停止声明仅为历史时点；R5最终人工验收待确认。
+
 > 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
 
 
@@ -127,3 +129,7 @@ E2方案：先扩展受支持原版实体与必要组件受控Codec（若改v1�
 ## E1-c现行覆盖与来源纠正
 
 `skeleton_offhand_visual`、`bogged_omen_mushrooms`两项ADAPT已接入；两个旧重复ID `skeleton_aim_fix`、`stray_snow_barrage`通过已有原版看向/STRAY_JUMP_SHOT链REPLACE，不开启旧ID。`stray_omen_snow`改为LEGACY_ONLY/Phase2 DEFER：E0误把上游OP流浪者效果当不祥，实际两版唯独Bogged有该不祥分支。E0原始JSON/证据保持历史快照，当前取舍以上述纠正行和[R4E1C_REBUILD](R4E1C_REBUILD.md)为准。当前66/58、QA15；新功能受控L2和客户端/有限Beta对照与完整L3/人工验收分开。
+
+## R5 最终状态口径
+
+旧68项取舍分类不变：PORT1/ADAPT47/REPLACE6/DEFER10/EXCLUDE4。R4-E1～E4批准范围已实施，未生效旧项已标注说明，121个支持ID不是121项完整人工/L3通过。新增上游缺口G25～G29原候选ADAPT改为用户明确DEFER至Phase2完成后，不计入旧68计数。自然分布、整合包与长期运行仍单列NOT RUN；完整结果与自检见PHASE1_FINAL_REPORT。

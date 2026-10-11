@@ -95,6 +95,23 @@ public class E4BehaviorTests {
     @GameTest(environment=ENV,structure=ARENA,maxTicks=195) public void fatigueSlowsActualMeleeHits(GameTestHelper h){melee(h,"slow");}
     @GameTest(environment=ENV,structure=ARENA,maxTicks=195) public void hastePreservesNativeInvulnerability(GameTestHelper h){melee(h,"fast");}
     @GameTest(environment=ENV,structure=ARENA,maxTicks=195) public void meleeOffNativeTiming(GameTestHelper h){melee(h,"off");}
+    private void meleeRestart(GameTestHelper h,boolean off){
+        SkeletonBehaviorTests.floor(h,true);var m=RidingRelationTests.mob(h,EntityTypes.ZOMBIE,8,8);m.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);m.getRandom().setSeed(51660);
+        m.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE,500,89));if(off)m.addTag("buildupmobtweaks:disable_melee_effect_interval");
+        var first=SkeletonBehaviorTests.target(h,8,9);first.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000);first.setHealth(1000);
+        Mob[] second={null};long[] hits={-1,-1};boolean[] gap={false};
+        h.onEachTick(()->{
+            if(hits[0]<0&&first.getHealth()<1000){hits[0]=h.getLevel().getGameTime();first.discard();}
+            if(hits[0]>=0&&second[0]==null&&h.getLevel().getGameTime()>hits[0]+3){second[0]=SkeletonBehaviorTests.target(h,8,9);second[0].getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000);second[0].setHealth(1000);}
+            if(hits[0]>=0&&second[0]==null)gap[0]|=m.getGoalSelector().getAvailableGoals().stream().noneMatch(g->g.isRunning()&&g.getGoal() instanceof net.minecraft.world.entity.ai.goal.MeleeAttackGoal);
+            if(second[0]!=null&&hits[1]<0&&second[0].getHealth()<1000)hits[1]=h.getLevel().getGameTime();
+        });
+        h.runAtTickTime(300,()->{long elapsed=hits[1]-hits[0];BuildupMobTweaks.LOGGER.info("R5_MELEE_RESTART off={} first={} second={} elapsed={} nativeGoalStopped={}",off,hits[0],hits[1],elapsed,gap[0]);
+            h.assertTrue(hits[0]>=0&&hits[1]>hits[0]&&gap[0],"Actual first damage, target removal, native Goal stop and second target damage");
+            h.assertTrue(off?elapsed<200:elapsed>=200,"Enabled effect deadline survives native Goal restart; off retains original restart behavior");m.discard();first.discard();second[0].discard();h.succeed();});
+    }
+    @GameTest(environment=ENV,structure=ARENA,maxTicks=325) public void fatigueDeadlineSurvivesNativeGoalRestart(GameTestHelper h){meleeRestart(h,false);}
+    @GameTest(environment=ENV,structure=ARENA,maxTicks=325) public void fatigueDeadlineOffPreservesNativeRestart(GameTestHelper h){meleeRestart(h,true);}
     void vex(GameTestHelper h,boolean off){SkeletonBehaviorTests.floor(h,true);var m=RidingRelationTests.mob(h,EntityTypes.VEX,12,12);m.setNoGravity(true);if(off)m.addTag("buildupmobtweaks:disable_vex_projectile_weakness");var f=SkeletonBehaviorTests.player(h);f.player().setGameMode(GameType.SPECTATOR);
         h.runAtTickTime(5,()->{var a=new Arrow(h.getLevel(),f.player(),Items.ARROW.getDefaultInstance(),null);a.setBaseDamage(2);a.setNoGravity(true);a.snapTo(m.getX()-3,m.getY()+.4,m.getZ(),0,0);a.shoot(1,0,0,1,0);h.getLevel().addFreshEntity(a);});
         h.runAtTickTime(16,()->{float damage=1000-m.getHealth();BuildupMobTweaks.LOGGER.info("R4E4_PROOF vex off={} collisionDamage={}",off,damage);h.assertTrue(Math.abs(damage-(off?1.92:5.904))<.002,"Actual arrow collision triples incoming damage before native armor reduction (fixture helmet grants 2 armor)");m.discard();f.close();h.succeed();});

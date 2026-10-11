@@ -1,5 +1,7 @@
 # Phase 1 确定性 QA 使用说明
 
+> 2026-10-11 R5 当前状态：R4-E4 用户验收通过；R5 原版依赖组合收口见[最终报告](PHASE1_FINAL_REPORT.md)，141声明/121支持/20未生效、v13、QA71不变。504项真实Tick/Goal/Brain、生产包真实区块卸载/冷重启、双客户端同步及原生刷怪笼限定PASS；性能与未运行项按报告单列。Boss延期至 **Phase2完成后**，本轮不实施后续阶段、不推送发布。下方旧计数、授权与停止声明仅为历史时点；R5最终人工验收待确认。
+
 > 2026-10-11：整 **R4-E4 已实施，停止等待统一人工验收**。141声明/121支持/20未生效，配置v13，独立QA71场；17旧ID ADAPT、危地旧ID REPLACE、G07/G33两新ID，G35必要路径由现有功能替代、附魔部分EXCLUDE。旧68取舍总数不变。最终Wrapper build/qaJar及502项必需真实Tick/Goal/Brain PASS，客户端实际绘制/粒子与既有显示回归、独立QA/专服/冷重启按报告限定PASS。人工/完整两版L3/多人整合包/长期自然分布与性能仍NOT RUN；以下旧当前计数/停止声明仅历史。不启动Boss/R5/Phase2/3，不推送发布。 [工作报告](R4E4_REBUILD.md) / [人工清单](R4E4_ACCEPTANCE_CHECKLIST.md)。
 
 ## E3-b 当前九场景（总44场景）
@@ -176,3 +178,7 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 `/buildupqa e4 spawn <scene>` → `check` → `off` → `check` → `cleanup`；场景和人工输入见 [统一清单](R4E4_ACCEPTANCE_CHECKLIST.md)。`check` 记录真实目标/运行Goal/位置/HP/已发箭初始速度与时序/同步视觉位，输出明确不是PASS。全服务器五组工具互斥，1200tick清理；捕捉自有弹体并退役，逐方块归还地形，构造失败同样回收。
 
 high_target使用生存玩家在高台边缘、困难难度，工具不直接指定目标。burn_arrow的自有弓明确带原生Flame附魔，保证真实箭燃烧，不依靠随机出生/点火概率。其他效果/装备/静止目标均是QA输入，不改正式出生概率、全局规则或玩家库存；manual场必须亲自站立/潜行/爬行/给效果/攻击。off整体让位与单项标签对照应分开。专服批量spawn只验证工具生命周期，人工未执行。
+
+## R5 最小复测入口
+
+最终人工入口为[PHASE1_ACCEPTANCE](PHASE1_ACCEPTANCE.md)，无需重新刷稀有特性。独立QA仍71场景，v13；以下旧批次版本与数量保留历史。R5外部自动探针不属于该QA发行包，不能用于普通存档；正式包没有QA命令。最终Wrapper全504真实调度用例及生产包联机/卸载/性能复现见PHASE1_FINAL_REPORT。

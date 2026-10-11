@@ -118,7 +118,11 @@ public class E3AcceptanceTests {
         h.runAtTickTime(75,()->{
             var victim=pair[0];var attacker=pair[1];victim.setNoAi(false);victim.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
             // One real projectile is a controlled misfire input; retaliation is acquired by the native target selector.
-            var a=new Arrow(h.getLevel(),attacker,new ItemStack(Items.ARROW),null);a.setNoGravity(true);a.setPos(victim.position().add(0,.8,3));a.setDeltaMovement(0,0,-1);projectile[0]=a;h.getLevel().addFreshEntity(a);
+            // Native trap variants may roll a baby body. Aim inside the actual upper
+            // rider bounds rather than a fixed adult offset that can hit its mount.
+            var aim=new Vec3(victim.getX(),victim.getY(.8),victim.getZ());
+            var a=new Arrow(h.getLevel(),attacker,new ItemStack(Items.ARROW),null);a.setNoGravity(true);a.setPos(aim.add(0,0,3));a.setDeltaMovement(0,0,-1);projectile[0]=a;h.getLevel().addFreshEntity(a);
+            BuildupMobTweaks.LOGGER.info("R5_TRAP_INPUT baby={} bounds={} arrow={}",victim.isBaby(),victim.getBoundingBox(),a.position());
         });
         h.onEachTick(()->{if(pair[0]!=null)revenge[0]|=pair[0].getTarget()==pair[1];});
         h.runAtTickTime(115,()->{

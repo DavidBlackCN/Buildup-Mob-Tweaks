@@ -4,7 +4,7 @@
   "id": "buildupmobtweaks",
   "version": "${version}",
   "name": "Buildup Mob Tweaks",
-  "description": "Independent configurable mob behavior rebuild for pillagers, skeletons, strays, bogged, zombies, husks and drowned: real equipment, material door guards, safe burrowing, baby riders and conserved trident recovery.",
+  "description": "Independent configurable mob behavior rebuild: conserved equipment, combat and riding behaviors, passive ecology, bounded perception and synced visuals. No added enchantments or Boss AI takeover.",
   "authors": [
     "Buildup contributors"
   ],

@@ -1,5 +1,7 @@
 # Phase 1 功能逐项取舍（R4-E0）
 
+> 当前状态（2026-10-11）：用户确认最新baby体型/持弓修复“验收通过”，E3-a/b/c选定开发范围闭合，可进入下一阶段；[收尾记录](R4E3_CLOSURE.md) / [E4方案](R4E4_PLAN.md)。139声明/102支持/37未生效、v12、QA50不变。完整两版L3、未提供的极端组合、多人/整合包、长期分布/性能仍NOT RUN；下方旧待批准/停止/未验收文字为历史时点。本轮仅完成E3收尾和E4规划批，E4功能实现及新QA/运行验收NOT RUN，未新增支持，不进入Boss/R5/Phase2/3。
+
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
 
@@ -99,11 +101,11 @@ E0时点所有68项 `FeatureRegistry.supported=false`；E1-a/E1-b共8项现已�
 | `golem_friendly_fire_fix`：确认原版仍有同族报复后才窄过滤 | UPSTREAM；`IronGolemEntityMixin`, `SnowGolemEntityMixin` | 批准意图**ADAPT** / E3-a-1；原版覆盖则REPLACE并记录 | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `drowned_swim_visual`：游泳姿态和模型同步仍独立于已实现三叉戟 | UPSTREAM；`DrownedEntityMixin`, `DrownedEntityModelMixin`, `DrownedEntityRendererMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_drowned_swim_visual` 仅待实现；仅视觉前置；与原版26.3泳姿复核，专服同步；**NOT RUN** |
 | `burning_projectile_visual`：真实燃烧弹体粒子，保留原版伤害与点火规则 | UPSTREAM；`PersistentProjectileEntityMixin`, `SmallFireballEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burning_projectile_visual` 仅待实现；client效果可见/频率/现有no-fire不倒退；**NOT RUN** |
-| `burn_freeze_visual`：燃烧/冻结低频视觉，仅已支持实体 | UPSTREAM；`HostileEntityMixin`, `LivingEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burn_freeze_visual` 仅待实现；原版已有视觉先比较；不影响免疫/伤害；**NOT RUN** |
+| `burn_freeze_visual`：燃烧/冻结视觉，仅已支持实体 | UPSTREAM；燃烧粒子 `HostileEntityMixin`；实际冻结/燃烧乘色 `LivingEntityRendererMixin`（E4补审纠正原LivingEntity来源） | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_burn_freeze_visual` 仅待实现；原版已有视觉先比较；不影响免疫/伤害；[E4源码审计](R4E4_PLAN.md)，**L1 PASS / L2 NOT RUN** |
 | `undead_horse_sunburn`：旧S2日烧，不能称已恢复上游能力 | **LEGACY_ONLY**；旧GeneralHostileRules；两版burnInDay仅自然骑乘马移除 | **DEFER** / Phase2（用户2026-10-10明确批准） / 否 | 保留未生效配置；本批不添加日烧或上游马移除功能；**NOT RUN** |
 | `hostile_escape_seat`：受伤时有条件离船，限定原生敌对与空安全落点 | UPSTREAM；`HostileEntityMixin` | **ADAPT** / E3 / 是（含替代说明） | E3-a L2 **PASS**; [implementation / limitations](R4E3A_REBUILD.md); HUMAN / full L3 **NOT RUN** |
 | `hostile_spawn_effect`：随机出生效果与现有出生互斥/概率再设计，首发暂缓 | UPSTREAM；`AbstractSkeletonEntityMixin`, `AbstractZombieEntityMixin` | **DEFER** / Phase2平衡规范 / 否 | 独立门 `disable_hostile_spawn_effect` 仅待实现；不阻断Phase1；旧开启字段不可当作生效；**NOT RUN** |
-| `vex_projectile_weakness`：受投射物额外伤害，独立于已实现固定方向冲锋 | UPSTREAM；`VexEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_vex_projectile_weakness` 仅待实现；真实arrow命中/伤害来源/倍数配置；默认200%参考；**NOT RUN** |
+| `vex_projectile_weakness`：受投射物额外伤害，独立于已实现固定方向冲锋 | UPSTREAM；`VexEntityMixin` | **ADAPT** / E4 / 是（含替代说明） | 独立门 `disable_vex_projectile_weakness` 仅待实现；上游默认额外200%=总3倍，并非总2倍；Buildup默认值待该批冻结；[E4源码审计](R4E4_PLAN.md)，**L1 PASS / L2 NOT RUN** |
 
 ## 56 项已启用范围及证据缺口
 

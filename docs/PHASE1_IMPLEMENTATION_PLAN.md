@@ -1,5 +1,7 @@
 # Phase 1 后续实施名单（R4-E0冻结）
 
+> 当前状态（2026-10-11）：用户确认最新baby体型/持弓修复“验收通过”，E3-a/b/c选定开发范围闭合，可进入下一阶段；[收尾记录](R4E3_CLOSURE.md) / [E4方案](R4E4_PLAN.md)。139声明/102支持/37未生效、v12、QA50不变。完整两版L3、未提供的极端组合、多人/整合包、长期分布/性能仍NOT RUN；下方旧待批准/停止/未验收文字为历史时点。本轮仅完成E3收尾和E4规划批，E4功能实现及新QA/运行验收NOT RUN，未新增支持，不进入Boss/R5/Phase2/3。
+
 > 2026-10-11 **整 R4-E3-c 已实施，停止等待人工验收**：[报告](R4E3C_REBUILD.md)/[清单](R4E3C_ACCEPTANCE_CHECKLIST.md)。G16四项、G33幼体、G34已明确批准Vanilla+散弹，共六项ADAPT；当前139声明/102支持/37未生效、配置v12、独立QA50场。Wrapper build/qaJar及449项必需真实Tick/Goal/Brain测试PASS（40新增），实际客户端含原生网络剪切归还/自动绘制PASS；专服/重启/QA和上游仅按报告限定范围PASS。人工/完整两版L3/长期自然分布/多人整合包/GUI/性能NOT RUN。旧68取舍不变，G33错峰拉弓仍E4。本批不进入E4/Boss/R5/Phase2/3、不推送发布；下文旧数值与“待批准”均为历史时点。
 
 
@@ -66,6 +68,8 @@ E3每次需提交具体名单，不一次实施全部。高风险扫描、生态
 来源补审：`undead_horse_sunburn`是LEGACY_ONLY，恢复源码的`burnInDay`实际为自然骑乘马移除；建议Phase2 DEFER待用户裁决，未据此改动已批准取舍计数。G34额外两发仅在上游MOBS_ARE_OP分支，若要保留须明确Vanilla+独立改造预算，不能当普通默认特性直接恢复。两项仍不生效，具体证据/决策门见总方案。
 
 ## R4-E4：最后处理共享钩子
+
+2026-10-11：用户已确认最新baby修复验收通过，E3选定范围闭合，见[收尾](R4E3_CLOSURE.md)。本轮完成[E4具体规划](R4E4_PLAN.md)，18旧ID与G07/G33/G35三候选组逐项审计；功能实现/新QA/真实行为验收NOT RUN。第一具体制作批建议E4-a-1 G07，之后E4-c-1 G33，再逐小批感知/动作/必要修复。每批最多2共享钩子，不批量恢复旧S2；当前139/102/37、v12、QA50不变。此处及新方案优先于下方旧“下一批仅建议E4规划/未授权E4”的历史停止点。
 
 E4-a感知：`sense_glowing`、`sense_blindness`、`sense_nausea`、`sense_invisibility`、`sense_crawling`、`sense_crouching`，G07潜行动物接近。E4-b动作：`movement_jump_input`、`movement_clear_strafe`、`strafe_obstacle_jump`、`melee_effect_interval`、`melee_high_target_jump`；`strafe_hazard_check`按已有安全步REPLACE核验。E4-c修复/视觉：`evoker_flee_speed`、`evoker_avoid_target_fix`（先实际Bug复现）、`drowned_swim_visual`、`burning_projectile_visual`、`burn_freeze_visual`、`vex_projectile_weakness`；G33错峰/G35原版通用修复仅确认必要的部分。
 

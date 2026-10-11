@@ -1,5 +1,7 @@
 # R4-E3-a 统一人工验收
 
+> 2026-10-11 E3-a/b联合验收四项反馈已复核：[修复与预期说明](R4E3_ACCEPTANCE_FIXES_1.md)。仅骷髅马抬身退出属缺陷，已修并通过409项真实调度及实际客户端姿态验证；幼年持物下垂手势、rider工具返回箭、跨坐骑陷阱误伤报复均属预期，行为保留。133/96/37、v11、QA44不变；停止等待马姿态补验及联合清单反馈，不进入E3-c或后续阶段，不把这四项复核记为全部人工验收通过。
+
 当前十项实现、一个原版REPLACE，亡灵马日烧Phase2 DEFER；骑乘过滤已明确批准为Buildup安全修正并补齐，开发范围已覆盖。人工状态均 **NOT RUN**。范围与证据见 [工作报告](R4E3A_REBUILD.md) / [骑乘补充](R4E3A_RIDER_ADDENDUM.md)。默认10/1000罕见特性“没刷出来”不能当作失败，强制QA不能当作自然概率通过。
 
 仅在废弃测试世界安装正式 `build/libs/buildup-mob-tweaks-1.0.0.jar` 和独立 `build/libs/buildup-mob-tweaks-1.0.0-qa.jar` 及原依赖。普通难度，作弊/owner权限4；客户端安装正式包。每台服务器一个QA会话，先旧 `/buildupqa cleanup` 或 `/buildupqa e3 cleanup` 再启动；不支持多人同时开场。

@@ -158,3 +158,9 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-25.0.3'
 每场顺序`/buildupqa spawn <scene>` → 观察 → `/buildupqa inspect`/`check` → `off` → `check` → `cleanup`。新增inspect包含swaps/shots/volleys/cloneArrows/supports/positions、账本和targetHealth。场景中的静止与1000HP是QA输入，不能据此推断自然分布、难度平衡或追逐表现；移动已另用实际Tick测试验证。
 
 `force`只选择相应已有闲置实体，幻术师仅暂存/改其clone_trait，结束恢复该选择；不发弓/斧、不改全局概率、已赚取冷却或实际耗材。`illusion`的off只关swap，`illusion_arrows`只关clone_arrows，`vindicator`只关support。单项off可能仍有原生隐身/射箭或其他已开启行为，不能误判为关闭失败。总体让位用原有vanilla_ai标签；要测试shoot_pause单项请按人工清单使用对应disable标签/配置。支援target命令拒绝直接写目标，请使用真实同盟受伤；cleanup退役自有孩子/箭并恢复地形。会话不跨关服，非QA生物不恢复在途幻影/箭。
+
+## E3-a/b 联合验收澄清（2026-10-11）
+
+见 [四项反馈报告](R4E3_ACCEPTANCE_FIXES_1.md)。`chicken` 的持主手物品幼年僵尸在非挥击时下垂手势是26.3原版；`rider` 工具明确将已飞离射手的真实箭送回马下身，这是安全规则测试输入，正式弓行为不掉头；`trap` 不设置跨坐骑联盟，误伤报复保留。
+
+`horse` 夹具现仅将骑手/马普通步行速度设为0以等待200刻原冷却，不设NoAI、不加速技能或改全局概率；真正冲刺仍由原版调度与 .6水平物理冲量执行。普通正式AI步行不受影响。抬身退出已修，须重新生成场景肉眼复验完成/取消后正常姿态；完整联合验收仍等人工反馈。

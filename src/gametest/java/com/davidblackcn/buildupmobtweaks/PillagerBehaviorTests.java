@@ -277,6 +277,7 @@ public class PillagerBehaviorTests {
             targets[0]=target(h,8,10);
         });
         h.runAtTickTime(440,()->{
+            evidence("independent_disable_before",refs[1],"hand="+refs[1].getMainHandItem()+" target="+refs[1].getTarget()+" distance="+refs[1].distanceTo(targets[0])+" actorPos="+refs[1].position()+" targetPos="+targets[0].position()+" nativeGoals="+refs[1].getGoalSelector().getAvailableGoals().stream().filter(g->g.isRunning()).map(g->g.getGoal().getClass().getSimpleName()).toList());
             h.assertTrue(refs[1].getMainHandItem().is(Items.STONE_AXE),"Real melee active before independent disable");
             BuildupMobTweaks.config().hostile.raid.pillagerWeaponSwitch.accept(false);
         });

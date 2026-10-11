@@ -11,7 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 public final class RidingGoal extends Goal {
     private final Mob rider;private final RidingBehavior behavior;private Mob mount;private LivingEntity target;
-    private String kind;private int ticks;private Vec3 heading;private boolean hit;
+    private String kind;private int ticks;private Vec3 heading;private boolean hit,ownsStanding;
     RidingGoal(Mob m,RidingBehavior b){rider=m;behavior=b;}
     // Native ranged/weapon Goals keep their flags and perform their own attacks. Only this Goal writes a mounted impulse.
     private String kind(){var v=RidingBehavior.vehicle(rider);var d=rider.getAttached(RidingState.DATA);
@@ -31,16 +31,18 @@ public final class RidingGoal extends Goal {
         String key=kind+"_ready";long ready=d.getLongOr(key,now+200);if(now<ready){if(heading==null){r.phase="cooldown";if(mount.onGround())mount.setSprinting(false);}return;}
         if(kind.equals("chicken")){if(!mount.onGround()||rider.distanceTo(target)>6)return;Vec3 v=target.position().subtract(mount.position()).multiply(1,0,1).normalize();
             if(!RidingBehavior.safe(mount,mount.position().add(v.scale(1.5))))return;d.putLong(key,now+100);mount.getNavigation().stop();mount.setDeltaMovement(v.scale(.45).add(0,.35,0));mount.setSprinting(true);r.pounces++;r.phase="pounce";return;}
-        if(heading==null){if(!mount.onGround()||rider.distanceTo(target)<2||rider.distanceTo(target)>12)return;heading=target.position().subtract(mount.position()).multiply(1,0,1).normalize();
-            if(!RidingBehavior.safe(mount,mount.position().add(heading))) {heading=null;return;}ticks=0;hit=false;d.putLong(key,now+200);r.phase="warning";((SkeletonHorse)mount).setStanding(20);return;}
+        if(heading==null){if(!mount.onGround()||((SkeletonHorse)mount).isStanding()||rider.distanceTo(target)<2||rider.distanceTo(target)>12)return;heading=target.position().subtract(mount.position()).multiply(1,0,1).normalize();
+            if(!RidingBehavior.safe(mount,mount.position().add(heading))) {heading=null;return;}ticks=0;hit=false;d.putLong(key,now+200);r.phase="warning";((SkeletonHorse)mount).setStanding(20);ownsStanding=true;return;}
     }
     /** Drive an already scheduled charge during its earned cooldown, without starting a second Goal/attack. */
     public void advance(){if(!permitted()||heading==null||!"horse".equals(kind))return;var r=RidingState.runtime(rider);
         if(ticks<20){rider.getNavigation().stop();mount.getNavigation().stop();r.phase="warning";return;}
-        if(!hit&&mount.getBoundingBox().inflate(.5).intersects(target.getBoundingBox())){hit=true;if(target.hurtServer((ServerLevel)rider.level(),rider.damageSources().mobAttack(rider),(float)Math.min(4,rider.getAttributeValue(Attributes.ATTACK_DAMAGE)))){r.hits++;target.push(heading.scale(.4));}heading=null;mount.setSprinting(false);r.phase="cooldown";return;}
-        if(ticks>=40||mount.horizontalCollision||!RidingBehavior.safe(mount,mount.position().add(heading))){heading=null;mount.setSprinting(false);r.phase="cooldown";return;}
-        if(ticks==20){r.charges++;((SkeletonHorse)mount).setStanding(0);}r.phase="charge";rider.getNavigation().stop();mount.getNavigation().stop();mount.setSprinting(true);mount.setDeltaMovement(heading.scale(.6).add(0,mount.getDeltaMovement().y,0));
+        if(!hit&&mount.getBoundingBox().inflate(.5).intersects(target.getBoundingBox())){hit=true;if(target.hurtServer((ServerLevel)rider.level(),rider.damageSources().mobAttack(rider),(float)Math.min(4,rider.getAttributeValue(Attributes.ATTACK_DAMAGE)))){r.hits++;target.push(heading.scale(.4));}heading=null;mount.setSprinting(false);clearWarning();r.phase="cooldown";return;}
+        if(ticks>=40||mount.horizontalCollision||!RidingBehavior.safe(mount,mount.position().add(heading))){heading=null;mount.setSprinting(false);clearWarning();r.phase="cooldown";return;}
+        // In 26.3 setStanding(0) enables the flag with no expiry; clearStanding is the native exit.
+        if(ticks==20){r.charges++;clearWarning();}r.phase="charge";rider.getNavigation().stop();mount.getNavigation().stop();mount.setSprinting(true);mount.setDeltaMovement(heading.scale(.6).add(0,mount.getDeltaMovement().y,0));
     }
-    public void cancel(){if(mount!=null){mount.setSprinting(false);mount.setXxa(0);if(mount instanceof SkeletonHorse h)h.setStanding(0);RidingState.runtime(rider).cancels++;}mount=null;target=null;heading=null;RidingState.runtime(rider).phase="idle";}
+    private void clearWarning(){if(ownsStanding&&mount instanceof SkeletonHorse h)h.clearStanding();ownsStanding=false;}
+    public void cancel(){if(mount!=null){mount.setSprinting(false);mount.setXxa(0);clearWarning();RidingState.runtime(rider).cancels++;}mount=null;target=null;heading=null;RidingState.runtime(rider).phase="idle";}
     public void stop(){cancel();}
 }

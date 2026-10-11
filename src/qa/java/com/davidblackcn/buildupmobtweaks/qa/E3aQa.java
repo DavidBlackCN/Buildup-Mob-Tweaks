@@ -47,6 +47,9 @@ public final class E3aQa {
         if(scene.equals("boat"))s.actor.setItemSlot(EquipmentSlot.HEAD,ItemStack.EMPTY);
         s.add(s.actor);s.actor.getRandom().setSeed(640002);if(scene.equals("horse")||scene.equals("chicken"))s.actor.getAttached(RidingState.DATA).putBoolean(scene,true);
         if(scene.equals("rider")){((Mob)s.vehicle).setNoAi(true);s.actor.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);}
+        // Keep the warning lane intact until the default earned cooldown. Native Goals still run;
+        // the real charge impulse moves this fixture without relying on ordinary walking speed.
+        if(scene.equals("horse")){s.actor.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);((Mob)s.vehicle).getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);}
         s.initial=s.vehicle==null?s.actor.position():s.vehicle.position();SESSIONS.put(l.getServer(),s);return s;
     }
     public static void cleanup(MinecraftServer server){var s=SESSIONS.remove(server);if(s!=null){s.capture();for(var e:List.copyOf(s.entities))if(!e.isRemoved())e.discard();s.blocks.forEach((p,b)->s.level.setBlockAndUpdate(p,b));}}

@@ -26,7 +26,8 @@
       "com.davidblackcn.buildupmobtweaks.RiderProjectileTests",
       "com.davidblackcn.buildupmobtweaks.ZombieBehaviorTests",
       "com.davidblackcn.buildupmobtweaks.DrownedBehaviorTests",
-      "com.davidblackcn.buildupmobtweaks.EcologyBehaviorTests"
+      "com.davidblackcn.buildupmobtweaks.EcologyBehaviorTests",
+      "com.davidblackcn.buildupmobtweaks.E3AcceptanceTests"
     ]
   },
   "depends": {

@@ -3,6 +3,8 @@
   "package": "com.davidblackcn.buildupmobtweaks.client.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
+    "rebuild.SkeletonBabyScaleMixin",
+    "rebuild.SkeletonBabyHandMixin",
     "rebuild.SkeletonBabyArmorMixin",
     "rebuild.SnowRenderStateMixin",
     "rebuild.SnowRendererMixin",

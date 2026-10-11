@@ -1,5 +1,7 @@
 # R4-E3-c 自检
 
+> 第二次补修纠正共享网格仍成年大小和手持短臂偏移；原年龄/UV检查覆盖不足，新的实际本体/手持矩阵、同距/近景与最终自检见[补修2](R4E3C_ACCEPTANCE_FIXES_2.md)，不把历史客户端绘制计数扩展为实际比例正确的证据。
+
 > 后续人工反馈发现本次原探针漏验幼体盔甲网格/贴图配对。年龄和交互的原PASS保留其范围，不作为盔甲正确的证据；补修审查/实际截图和四槽提交证据见[R4E3C_ACCEPTANCE_FIXES_1](R4E3C_ACCEPTANCE_FIXES_1.md)。其他主功能用户反馈无问题，修复后的baby补验待反馈。
 
 **Code Review: PASS WITH RISKS**，依据外层 CODE_REVIEW.md 全项检查。

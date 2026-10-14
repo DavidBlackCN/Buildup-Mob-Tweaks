@@ -1,5 +1,7 @@
 # 26.3 工程约束
 
+当前阶段（2026-10-14）：用户确认 Phase 1 完成、Phase 2-A 冻结、Phase 2-B 架构对齐完成。Phase 2-C [发布收口](../development-records/phase2-c/COMPLETION_REPORT.md)只整理默认配置与兼容路线、重跑最终回归；默认兼容、首批七项统一模式可选、状态附件分立。等待人工最终验收。Phase 3 的 Villager Intelligence、Boss Profile、外部大型内容联动尚未开始。下方较早阶段的候选／待审核描述保留历史时点，不覆盖本状态或用户最新指令。
+
 遵循工作区外层 AGENTS.md、CODE_REVIEW.md、VERSION_MIGRATION.md 和用户最新授权。唯一目标版本为本目录；其他版本，尤其26.3-tests，只读。
 
 - Java25、Gradle9.7.1、Loom1.18.3、Minecraft26.3官方未混淆名称；依赖以gradle.properties和build.gradle为准，不猜测API或升级版本。

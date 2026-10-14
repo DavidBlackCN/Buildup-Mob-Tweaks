@@ -43,8 +43,10 @@ Buildup Mob Tweaks 改善 Minecraft 生物的战斗、装备使用和日常行�
 
 项目采用 [MIT License](LICENSE)，参考和改编 Mob AI Tweaks 的部分生物行为，是独立项目。作者署名、第三方许可与来源见 [NOTICE](NOTICE.md) 和 [licenses](licenses/)。
 
-## Phase 2-B：可选统一特性模式
+## Phase 2：可选统一特性模式
 
 默认继续采用 Phase 1 行为。管理员可以在新个体上体验首批七项的统一抽取；模式与结果保存，旧个体不会因开关变化而重抽。当前尸壳／沼骸的新池需显式配置，其他候选暂不纳入统一模式。用法见[配置说明](docs/CONFIGURATION.md#可选统一特性抽取)。
 
-本轮架构、迁移、存档和自动测试结果在外层[实施报告](../development-records/phase2-b-implementation/ARCHITECTURE_REPORT.md)，等待人工总体验收。报告和开发探针位于版本 Git 之外。
+Phase 2 的特性资格、生成来源、装备与状态边界及生命周期验证已完成，统一注册范围为首批七项。当前默认配置与数值保持不变；Phase 3 的 Villager Intelligence、Boss Profile 和外部大型内容联动尚未开始。
+
+开发与整合包维护入口为外层[默认配置](../development-records/phase2-c/DEFAULT_CONFIGURATION_SPEC.md)、[平衡记录](../development-records/phase2-c/DEFAULT_BALANCE_GUIDE.md)、[兼容路线](../development-records/phase2-c/COMPATIBILITY_ROADMAP.md)和[发布收口报告](../development-records/phase2-c/COMPLETION_REPORT.md)，等待人工最终验收。报告和开发探针位于版本 Git 之外。

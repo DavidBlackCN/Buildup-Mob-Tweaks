@@ -10,4 +10,5 @@
 - 缓存、下载、测试存档、日志和构建JAR不提交。开发报告、阶段方案、验收台账与原始证据统一保留在版本Git之外的工作区根目录；本仓库docs仅保留玩家/管理员使用文档。
 - 原有开发文档已归档到工作区根目录development-records/26.3；外层docs/rebuild保存原始证据。工作区路线和最新验收状态由外层PHASE1_RESTORATION_PLAN.md与用户消息确定，不从旧报告推断新授权。
 - Phase2-A共享设计见外层[设计索引](../docs/phase2-design/README.md)，当前为v0.3设计规范候选版，已纳入Vanilla Friendly、两层抽取与Mixed优先等共识，并区分待冻结参数。候选文档等待人工审核，实际代码、配置和保存格式的调整以之后明确的实施任务为准；共享文档不在本版本Git内。
+- Phase2-B-0静态架构审计见外层[审计索引](../development-records/phase2-b-0/README.md)，含141项FeatureId矩阵及概率、装备、存档分析。分类与迁移建议等待人工审核，B-1尚未启动；本条仅索引审计结果，不新增实施授权。
 - 用户持续授权任务完成、验证和自检后做一次本地commit，遵循Gitmoji + Conventional Commits，包含适用UPDATE_NOTES；不推送、不发布、不切换分支。明确说明工作区根目录归档不在版本提交内。

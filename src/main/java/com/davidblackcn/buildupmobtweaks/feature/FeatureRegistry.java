@@ -157,6 +157,9 @@ public final class FeatureRegistry {
         add(gates, FeatureId.SKELETON_AIM_FIX, () -> config.hostile.extended.skeleton_aim_fix.get());
         add(gates, FeatureId.PILLAGER_TARGET_LIFECYCLE, () -> config.hostile.raid.pillagerTargetLifecycle.get());
         add(gates, FeatureId.PILLAGER_SPAWN_SUPPLIES, () -> config.hostile.raid.pillagerSpawnSupplies.get());
+        add(gates, FeatureId.VILLAGER_POI_INTELLIGENCE, () -> config.villagers.enabled.get() && config.villagers.poi_checks.get());
+        add(gates, FeatureId.VILLAGER_NAVIGATION_SAFETY, () -> config.villagers.enabled.get() && config.villagers.navigation_safety.get());
+        add(gates, FeatureId.VILLAGER_SCHEDULE_COORDINATION, () -> config.villagers.enabled.get() && config.villagers.schedule_coordination.get());
         declarations = Map.copyOf(gates);
     }
 
@@ -182,6 +185,7 @@ public final class FeatureRegistry {
     public static boolean supported(FeatureId id) {
         return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_")
                 || switch(id) {
+                    case VILLAGER_POI_INTELLIGENCE, VILLAGER_NAVIGATION_SAFETY, VILLAGER_SCHEDULE_COORDINATION -> true;
                     case ANIMAL_SNEAK_APPROACH, SKELETON_STAGGERED_DRAW -> true;
                     case SENSE_GLOWING, SENSE_NAUSEA, VEX_PROJECTILE_WEAKNESS, BURNING_PROJECTILE_VISUAL -> true;
                     case SENSE_BLINDNESS, SENSE_CRAWLING, SENSE_INVISIBILITY, SENSE_CROUCHING,

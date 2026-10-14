@@ -1,6 +1,6 @@
 # 26.3 工程约束
 
-当前阶段（2026-10-14）：用户确认 Phase 1 完成、Phase 2-A 冻结、Phase 2-B 架构对齐完成。Phase 2-C [发布收口](../development-records/phase2-c/COMPLETION_REPORT.md)只整理默认配置与兼容路线、重跑最终回归；默认兼容、首批七项统一模式可选、状态附件分立。等待人工最终验收。Phase 3 的 Villager Intelligence、Boss Profile、外部大型内容联动尚未开始。下方较早阶段的候选／待审核描述保留历史时点，不覆盖本状态或用户最新指令。
+当前阶段（2026-10-14）：用户已授权 Phase 3-A1 Villager Core；本轮 Core 实现与自动验证完成，默认关闭，见外层[实现报告](../development-records/phase3-a1/IMPLEMENTATION_REPORT.md)。等待 A1 人工审核，仅提交 A2 Farmer 计划，尚未实施 Farmer／Crop System／其他职业／Boss。Phase 2 默认兼容模式、首批七项可选统一模式、状态附件分立继续保持。下方旧阶段的候选／待审核描述保留历史时点，用户最新任务优先。
 
 遵循工作区外层 AGENTS.md、CODE_REVIEW.md、VERSION_MIGRATION.md 和用户最新授权。唯一目标版本为本目录；其他版本，尤其26.3-tests，只读。
 

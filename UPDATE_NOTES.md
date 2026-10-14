@@ -92,3 +92,4 @@
 - ♻️ refactor(traits): unify first-batch trait qualifications and provenance while retaining Phase 1 default behavior and existing action/equipment save ownership.
 - ✨ feat(traits): add opt-in species P + Weight selection, single combat qualification and source policies for new mobs, plus read-only trait diagnostics; Husk/Bogged pools remain explicitly unconfigured.
 - 🧪 test(traits): validate 529 required regressions and packaged-mod unload, cold restart, dimension travel and legacy v13 configuration compatibility.
+- 🧠 feat(villager): add opt-in POI validation and bounded navigation recovery while preserving native trades and schedules.

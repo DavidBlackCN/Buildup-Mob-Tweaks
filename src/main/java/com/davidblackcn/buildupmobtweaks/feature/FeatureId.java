@@ -4,6 +4,9 @@ import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
 import net.minecraft.resources.Identifier;
 
 public enum FeatureId {
+    VILLAGER_POI_INTELLIGENCE("villager_poi_intelligence"),
+    VILLAGER_NAVIGATION_SAFETY("villager_navigation_safety"),
+    VILLAGER_SCHEDULE_COORDINATION("villager_schedule_coordination"),
     ANIMAL_SNEAK_APPROACH("animal_sneak_approach"),
     SKELETON_STAGGERED_DRAW("skeleton_staggered_draw"),
     SNOW_GOLEM_PUMPKIN_RETURN("snow_golem_pumpkin_return"),

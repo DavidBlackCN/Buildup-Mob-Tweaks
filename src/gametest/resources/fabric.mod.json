@@ -8,9 +8,11 @@
   "entrypoints": {
     "main": [
       "com.davidblackcn.buildupmobtweaks.CombatTestItems",
-      "com.davidblackcn.buildupmobtweaks.qa.QaHarness"
+      "com.davidblackcn.buildupmobtweaks.qa.QaHarness",
+      "com.davidblackcn.buildupmobtweaks.VillagerCoreTests"
     ],
     "fabric-gametest": [
+      "com.davidblackcn.buildupmobtweaks.VillagerCoreTests",
       "com.davidblackcn.buildupmobtweaks.TraitArchitectureTests",
       "com.davidblackcn.buildupmobtweaks.E4BehaviorTests",
       "com.davidblackcn.buildupmobtweaks.QaHarnessTests",

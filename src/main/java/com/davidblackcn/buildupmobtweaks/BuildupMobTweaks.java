@@ -68,6 +68,7 @@ public class BuildupMobTweaks implements ModInitializer {
         new com.davidblackcn.buildupmobtweaks.rebuild.ability.AbilityBehavior(features).register();
         com.davidblackcn.buildupmobtweaks.rebuild.general.E4Behavior.register(features);
         com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime.register();
+        com.davidblackcn.buildupmobtweaks.villager.VillagerCore.register(features);
         LOGGER.info("Buildup Mob Tweaks initialized: R3/R4 behavior rebuild; Boss AI takeover deferred.");
 	}
 

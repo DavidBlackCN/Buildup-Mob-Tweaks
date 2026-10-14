@@ -4,6 +4,8 @@ Buildup Mob Tweaks 改善 Minecraft 生物的战斗、装备使用和日常行�
 
 本分支适用于 **Minecraft Java Edition 26.3 / Fabric**。各项行为可独立开关；特殊能力有触发条件或出生概率，不会出现在每一只生物身上。
 
+实验性的[村民核心](docs/VILLAGER_CORE.md)已提供，默认关闭；可在测试存档中启用床／工作站检查与寻路恢复，职业活动仍待后续阶段。
+
 ## 安装
 
 1. 使用 Minecraft **26.3**、**Java 25** 和 Fabric Loader **0.19.5 或以上**。目前验证的 Loader 版本为 0.19.5。

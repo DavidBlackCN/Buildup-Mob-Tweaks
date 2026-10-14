@@ -11,6 +11,7 @@ import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 @Version(version = 13)
 public final class BuildupConfig extends Config {
     public General general = new General();
+    public Villagers villagers = new Villagers();
     // Reserved sections keep the SPEC layout without inventing gameplay switches.
     public Hostile hostile = new Hostile();
     public ConfigSection neutral = new ConfigSection();
@@ -47,6 +48,19 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean goat_horn_aggro = new ValidatedBoolean(true);
         public ValidatedBoolean trader_self_defense = new ValidatedBoolean(true);
         public ValidatedBoolean sniffer_search = new ValidatedBoolean(true);
+    }
+
+    public static final class Villagers extends ConfigSection {
+        @Comment("Experimental Villager Core; enable for review. Native Brain, professions and trades remain authoritative.")
+        public ValidatedBoolean enabled = new ValidatedBoolean(false);
+        public ValidatedBoolean poi_checks = new ValidatedBoolean(true);
+        public ValidatedBoolean navigation_safety = new ValidatedBoolean(true);
+        public ValidatedBoolean schedule_coordination = new ValidatedBoolean(true);
+        public ValidatedInt poi_interval = new ValidatedInt(100, 1200, 20);
+        public ValidatedInt navigation_interval = new ValidatedInt(10, 40, 5);
+        public ValidatedInt stuck_ticks = new ValidatedInt(80, 600, 40);
+        public ValidatedInt retry_ticks = new ValidatedInt(100, 1200, 20);
+        public ValidatedInt max_retries = new ValidatedInt(2, 5, 1);
     }
 
     public static final class General extends ConfigSection {

@@ -92,6 +92,7 @@ sourceSets.main.java {
     include 'com/davidblackcn/buildupmobtweaks/traits/**'
     include 'com/davidblackcn/buildupmobtweaks/command/DiagnosticCommands.java'
     include 'com/davidblackcn/buildupmobtweaks/command/EquipmentCommands.java'
+    include 'com/davidblackcn/buildupmobtweaks/villager/**'
     include 'com/davidblackcn/buildupmobtweaks/rebuild/**'
     include 'com/davidblackcn/buildupmobtweaks/mixin/rebuild/**'
 }
@@ -102,6 +103,7 @@ sourceSets.client.java {
     include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksDataGenerator.java'
 }
 sourceSets.gametest.java {
+    include 'com/davidblackcn/buildupmobtweaks/VillagerCoreTests.java'
     include 'com/davidblackcn/buildupmobtweaks/TraitArchitectureTests.java'
     include 'com/davidblackcn/buildupmobtweaks/E4BehaviorTests.java'
     srcDir 'src/qa/java'

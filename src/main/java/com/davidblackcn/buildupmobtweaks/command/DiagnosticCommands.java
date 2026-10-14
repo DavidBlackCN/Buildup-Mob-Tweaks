@@ -23,6 +23,23 @@ public final class DiagnosticCommands {
                         .then(Commands.literal("probe")
                                 .requires(Commands.hasPermission(Commands.LEVEL_OWNERS))
                                 .executes(context -> probe(context.getSource(), features)))
+                        .then(Commands.literal("villager").requires(Commands.hasPermission(Commands.LEVEL_OWNERS))
+                                .then(Commands.argument("target", EntityArgument.entity()).executes(context -> {
+                                    if (!features.isEnabled(FeatureId.DIAGNOSTIC_PROBE)) return 0;
+                                    var entity=EntityArgument.getEntity(context,"target");
+                                    if (!(entity instanceof net.minecraft.world.entity.npc.villager.Villager v)) return 0;
+                                    var level=(net.minecraft.server.level.ServerLevel)v.level();
+                                    var scope=com.davidblackcn.buildupmobtweaks.villager.ControlPolicy.Scope.class;
+                                    String control=java.util.Arrays.stream(scope.getEnumConstants()).map(s -> s + "="
+                                            + com.davidblackcn.buildupmobtweaks.villager.ControlPolicy.query(v,level,s)).toList().toString();
+                                    String runtime=com.davidblackcn.buildupmobtweaks.villager.VillagerState.peekRuntime(v)
+                                            .map(s -> "checks="+s.poiChecks+", invalid="+s.invalidPois+", stuck="+s.stuckEvents+", retries="+s.recomputes+", deferred="+s.deferrals+", hazards="+s.hazardStops)
+                                            .orElse("inactive");
+                                    context.getSource().sendSuccess(() -> Component.translatable("commands.buildupmobtweaks.villager_core",
+                                            v.getUUID().toString(), control, v.getBrain().getActiveActivities().toString(), runtime,
+                                            String.valueOf(v.getAttached(com.davidblackcn.buildupmobtweaks.villager.VillagerState.DATA))),false);
+                                    return 1;
+                                })))
                         .then(Commands.literal("traits").requires(Commands.hasPermission(Commands.LEVEL_OWNERS))
                                 .then(Commands.argument("target", EntityArgument.entity()).executes(context -> {
                                     if (!features.isEnabled(FeatureId.DIAGNOSTIC_PROBE)) return 0;

@@ -38,6 +38,11 @@ public final class DiagnosticCommands {
                                     context.getSource().sendSuccess(() -> Component.translatable("commands.buildupmobtweaks.villager_core",
                                             v.getUUID().toString(), control, v.getBrain().getActiveActivities().toString(), runtime,
                                             String.valueOf(v.getAttached(com.davidblackcn.buildupmobtweaks.villager.VillagerState.DATA))),false);
+                                    String farming=com.davidblackcn.buildupmobtweaks.villager.farmer.FarmerState.peek(v)
+                                            .map(s->s.reason+", scanned="+s.scanned+", paths="+s.pathRequests+", harvested="+s.harvests+", replanted="+s.replants).orElse("inactive");
+                                    context.getSource().sendSuccess(()->Component.translatable("commands.buildupmobtweaks.farmer",
+                                            com.davidblackcn.buildupmobtweaks.villager.farmer.FarmerModule.owner(v).toString(),farming,
+                                            String.valueOf(v.getAttached(com.davidblackcn.buildupmobtweaks.villager.farmer.FarmerState.DATA))),false);
                                     return 1;
                                 })))
                         .then(Commands.literal("traits").requires(Commands.hasPermission(Commands.LEVEL_OWNERS))

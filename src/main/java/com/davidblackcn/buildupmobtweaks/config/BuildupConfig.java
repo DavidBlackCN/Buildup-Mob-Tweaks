@@ -53,6 +53,7 @@ public final class BuildupConfig extends Config {
     public static final class Villagers extends ConfigSection {
         @Comment("Experimental Villager Core; enable for review. Native Brain, professions and trades remain authoritative.")
         public ValidatedBoolean enabled = new ValidatedBoolean(false);
+        public Farmer farmer = new Farmer();
         public ValidatedBoolean poi_checks = new ValidatedBoolean(true);
         public ValidatedBoolean navigation_safety = new ValidatedBoolean(true);
         public ValidatedBoolean schedule_coordination = new ValidatedBoolean(true);
@@ -61,6 +62,20 @@ public final class BuildupConfig extends Config {
         public ValidatedInt stuck_ticks = new ValidatedInt(80, 600, 40);
         public ValidatedInt retry_ticks = new ValidatedInt(100, 1200, 20);
         public ValidatedInt max_retries = new ValidatedInt(2, 5, 1);
+    }
+
+    public static final class Farmer extends ConfigSection {
+        public ValidatedBoolean enabled = new ValidatedBoolean(false);
+        @Comment("Select external farming control; both Buildup and vanilla harvesting/bonemeal yield. No external AI is disabled.")
+        public ValidatedBoolean external_control = new ValidatedBoolean(false);
+        @Comment("Require a registered protection adapter. Without one, harvest and replant are paused.")
+        public ValidatedBoolean protection_required = new ValidatedBoolean(false);
+        public ValidatedInt radius = new ValidatedInt(8, 16, 2);
+        public ValidatedInt scan_interval = new ValidatedInt(60, 1200, 20);
+        public ValidatedInt scan_budget = new ValidatedInt(64, 256, 16);
+        public ValidatedInt world_scan_budget = new ValidatedInt(512, 4096, 64);
+        public ValidatedInt action_interval = new ValidatedInt(40, 600, 20);
+        public ValidatedInt target_timeout = new ValidatedInt(180, 600, 60);
     }
 
     public static final class General extends ConfigSection {

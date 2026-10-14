@@ -11,7 +11,7 @@
 | `enabled` | false | 整体启停；旧 v13 缺少本节时也是 false |
 | `poi_checks` | true | 工作站、待认领工作站和床位有效性检查 |
 | `navigation_safety` | true | 危险路径、无进展检测和有限重试 |
-| `schedule_coordination` | true | 预留职业活动的安全工作入口；目前没有新职业活动 |
+| `schedule_coordination` | true | 职业活动安全入口；农夫需另外启用 farmer.enabled |
 | `poi_interval` | 100 | 检查间隔，20～1200 刻；各村民错开执行 |
 | `navigation_interval` | 10 | 移动进展采样间隔，5～40 刻 |
 | `stuck_ticks` | 80 | 持续未移动至少半格的检测窗口，40～600 刻 |
@@ -45,4 +45,4 @@
 
 服务器所有者可用 `/buildupmobtweaks villager <实体>` 查看各部分是否运行、让位原因、原版活动、检查计数与重试记录；该命令只读，服从 `general.diagnosticProbe`。未知或异常版本的数据原样保留，相关 Core 暂停。
 
-农夫主动收获、作物扩展和其他职业工作尚待后续阶段；本功能不注册额外职业活动。
+[农夫智能](FARMER_INTELLIGENCE.md)已提供独立实验开关，依赖 Core 与 schedule_coordination。Core 本身不收获作物；其他职业工作尚待后续阶段。

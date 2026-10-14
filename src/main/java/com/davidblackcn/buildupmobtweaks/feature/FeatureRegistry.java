@@ -160,6 +160,7 @@ public final class FeatureRegistry {
         add(gates, FeatureId.VILLAGER_POI_INTELLIGENCE, () -> config.villagers.enabled.get() && config.villagers.poi_checks.get());
         add(gates, FeatureId.VILLAGER_NAVIGATION_SAFETY, () -> config.villagers.enabled.get() && config.villagers.navigation_safety.get());
         add(gates, FeatureId.VILLAGER_SCHEDULE_COORDINATION, () -> config.villagers.enabled.get() && config.villagers.schedule_coordination.get());
+        add(gates, FeatureId.FARMER_INTELLIGENCE, () -> config.villagers.enabled.get() && config.villagers.schedule_coordination.get() && config.villagers.farmer.enabled.get());
         declarations = Map.copyOf(gates);
     }
 
@@ -185,7 +186,7 @@ public final class FeatureRegistry {
     public static boolean supported(FeatureId id) {
         return id == FeatureId.DIAGNOSTIC_PROBE || id.name().startsWith("PILLAGER_")
                 || switch(id) {
-                    case VILLAGER_POI_INTELLIGENCE, VILLAGER_NAVIGATION_SAFETY, VILLAGER_SCHEDULE_COORDINATION -> true;
+                    case FARMER_INTELLIGENCE, VILLAGER_POI_INTELLIGENCE, VILLAGER_NAVIGATION_SAFETY, VILLAGER_SCHEDULE_COORDINATION -> true;
                     case ANIMAL_SNEAK_APPROACH, SKELETON_STAGGERED_DRAW -> true;
                     case SENSE_GLOWING, SENSE_NAUSEA, VEX_PROJECTILE_WEAKNESS, BURNING_PROJECTILE_VISUAL -> true;
                     case SENSE_BLINDNESS, SENSE_CRAWLING, SENSE_INVISIBILITY, SENSE_CROUCHING,

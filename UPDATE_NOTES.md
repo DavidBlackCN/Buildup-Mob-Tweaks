@@ -93,3 +93,4 @@
 - ✨ feat(traits): add opt-in species P + Weight selection, single combat qualification and source policies for new mobs, plus read-only trait diagnostics; Husk/Bogged pools remain explicitly unconfigured.
 - 🧪 test(traits): validate 529 required regressions and packaged-mod unload, cold restart, dimension travel and legacy v13 configuration compatibility.
 - 🧠 feat(villager): add opt-in POI validation and bounded navigation recovery while preserving native trades and schedules.
+- 🌾 feat(farmer): add opt-in mature crop harvesting and same-crop replanting from real inventory, with guarded save recovery and native trading schedules preserved.

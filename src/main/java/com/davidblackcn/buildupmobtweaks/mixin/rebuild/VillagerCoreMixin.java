@@ -10,6 +10,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Villager.class)
 public abstract class VillagerCoreMixin {
+    @Inject(method="tick()V",at=@At("HEAD"))
+    private void buildup$farmerBoundary(CallbackInfo ci){
+        var v=(Villager)(Object)this;
+        if(v.level() instanceof ServerLevel level)com.davidblackcn.buildupmobtweaks.villager.farmer.FarmerModule.boundary(v,level);
+    }
     @Inject(method="customServerAiStep(Lnet/minecraft/server/level/ServerLevel;)V", at=@At("HEAD"))
     private void buildup$beforeBrain(ServerLevel level, CallbackInfo ci) {
         VillagerCore.beforeBrain((Villager)(Object)this, level);

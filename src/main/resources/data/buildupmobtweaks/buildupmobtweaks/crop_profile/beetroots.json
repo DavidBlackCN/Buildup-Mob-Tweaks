@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "crop": "minecraft:beetroots",
+  "maturity": {
+    "type": "age",
+    "property": "age",
+    "value": 3
+  },
+  "harvest_handler": "buildupmobtweaks:break_and_replant",
+  "replant": {
+    "item": "minecraft:beetroot_seeds",
+    "count": 1,
+    "block": "minecraft:beetroots",
+    "state": {
+      "age": "0"
+    },
+    "substrate": "minecraft:farmland"
+  }
+}

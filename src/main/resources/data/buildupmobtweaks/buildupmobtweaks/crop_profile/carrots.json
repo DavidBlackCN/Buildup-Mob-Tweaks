@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "crop": "minecraft:carrots",
+  "maturity": {
+    "type": "age",
+    "property": "age",
+    "value": 7
+  },
+  "harvest_handler": "buildupmobtweaks:break_and_replant",
+  "replant": {
+    "item": "minecraft:carrot",
+    "count": 1,
+    "block": "minecraft:carrots",
+    "state": {
+      "age": "0"
+    },
+    "substrate": "minecraft:farmland"
+  }
+}

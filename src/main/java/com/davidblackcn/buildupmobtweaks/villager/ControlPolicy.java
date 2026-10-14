@@ -34,7 +34,7 @@ public final class ControlPolicy {
         var required = switch(scope) {
             case POI -> java.util.List.of(MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, MemoryModuleType.HOME, MemoryModuleType.WALK_TARGET, MemoryModuleType.PATH);
             case NAVIGATION -> java.util.List.of(MemoryModuleType.WALK_TARGET, MemoryModuleType.PATH, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-            case WORK -> java.util.List.of(MemoryModuleType.JOB_SITE, MemoryModuleType.WALK_TARGET);
+            case WORK -> java.util.List.of(MemoryModuleType.JOB_SITE, MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET, MemoryModuleType.PATH);
         };
         if (required.stream().anyMatch(m -> !brain.checkMemory(m, net.minecraft.world.entity.ai.memory.MemoryStatus.REGISTERED))) return Decision.UNKNOWN_STATE;
         var raid = level.getRaidAt(v.blockPosition());

@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "rebuild.VillagerCoreMixin",
+    "rebuild.FarmerWorkPackageMixin",
+    "rebuild.FarmerBonemealMixin",
     "rebuild.E4AvoidMixin",
     "rebuild.E4BowMixin",
     "rebuild.E4DiscoveryMixin",

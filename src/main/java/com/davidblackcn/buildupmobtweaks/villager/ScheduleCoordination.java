@@ -22,5 +22,16 @@ public final class ScheduleCoordination {
                 || !level.getPoiManager().existsAtPosition(profile.workPoi(), site.get().pos())) return Optional.empty();
         return Optional.of(new WorkActivity.Context(level, v, profile));
     }
+    /** Only the selected native RunOne work slot calls this; that slot excludes other work choices. */
+    public static Optional<WorkActivity.Context> nativeWorkSlot(Villager v, ServerLevel level, ProfessionProfile profile) {
+        if (v.level()!=level || ControlPolicy.query(v,level,ControlPolicy.Scope.WORK)!=ControlPolicy.Decision.ALLOW
+                || v.isBaby() || !v.getVillagerData().profession().is(profile.profession()) || !v.getBrain().isActive(Activity.WORK)
+                || v.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET) || v.getNavigation().isInProgress()) return Optional.empty();
+        var site=v.getBrain().getMemory(MemoryModuleType.JOB_SITE);
+        if(site.isEmpty() || site.get().dimension()!=level.dimension() || !level.hasChunkAt(site.get().pos())
+                || !site.get().pos().closerToCenterThan(v.position(),profile.workRadius())
+                || !level.getPoiManager().existsAtPosition(profile.workPoi(),site.get().pos())) return Optional.empty();
+        return Optional.of(new WorkActivity.Context(level,v,profile));
+    }
     private ScheduleCoordination() {}
 }

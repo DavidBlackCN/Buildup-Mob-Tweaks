@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "crop": "minecraft:potatoes",
+  "maturity": {
+    "type": "age",
+    "property": "age",
+    "value": 7
+  },
+  "harvest_handler": "buildupmobtweaks:break_and_replant",
+  "replant": {
+    "item": "minecraft:potato",
+    "count": 1,
+    "block": "minecraft:potatoes",
+    "state": {
+      "age": "0"
+    },
+    "substrate": "minecraft:farmland"
+  }
+}

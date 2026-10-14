@@ -103,6 +103,7 @@ sourceSets.client.java {
     include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksDataGenerator.java'
 }
 sourceSets.gametest.java {
+    include 'com/davidblackcn/buildupmobtweaks/FarmerIntelligenceTests.java'
     include 'com/davidblackcn/buildupmobtweaks/VillagerCoreTests.java'
     include 'com/davidblackcn/buildupmobtweaks/TraitArchitectureTests.java'
     include 'com/davidblackcn/buildupmobtweaks/E4BehaviorTests.java'

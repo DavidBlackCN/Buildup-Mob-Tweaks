@@ -1,6 +1,8 @@
 /* Mob AI Tweaks adaptation: Copyright (c) 2024 N0t_UN_Owen, MIT. See NOTICE.md. */
 package com.davidblackcn.buildupmobtweaks.rebuild.remaining;
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitPool;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import com.davidblackcn.buildupmobtweaks.rebuild.zombie.ZombieBehavior;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
@@ -24,11 +26,11 @@ public final class RemainingBehavior {
     private static final net.minecraft.resources.Identifier SPEED=BuildupMobTweaks.id("enderman_rebuild_balance");
     public RemainingBehavior(FeatureRegistry f){features=f;}public static RemainingBehavior instance(){return instance;}
     public static boolean supported(Mob m){return m.getType()==EntityTypes.GHAST||m.getType()==EntityTypes.BLAZE||m.getType()==EntityTypes.SILVERFISH||m.getType()==EntityTypes.ENDERMAN||m.getType()==EntityTypes.CREEPER||m.getType()==EntityTypes.SPIDER||m.getType()==EntityTypes.CAVE_SPIDER||m.getType()==EntityTypes.BREEZE;}
-    public boolean enabled(Mob m,FeatureId id){return supported(m)&&RemainingState.known(m)&&features.isEnabled(id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)&&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")&&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
+    public boolean enabled(Mob m,FeatureId id){return supported(m)&&RemainingState.known(m)&&features.isEnabled(id)&&TraitRuntime.permits(m,id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)&&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")&&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
     public int comboCooldown(){return features.specialCooldown();}
-    public boolean combo(Enderman m){return enabled(m,FeatureId.ENDERMAN_COMBO)&&m.getAttached(RemainingState.DATA).getStringOr("birth","none").equals("combo");}
+    public boolean combo(Enderman m){return enabled(m,FeatureId.ENDERMAN_COMBO)&&TraitRuntime.has(m,FeatureId.ENDERMAN_COMBO);}
     public void born(Mob m,EntitySpawnReason reason){if(!supported(m)||m.hasAttached(RemainingState.DATA))return;RemainingState.initialize(m);
-        if(m instanceof Enderman&&enabled(m,FeatureId.ENDERMAN_COMBO)&&(reason==EntitySpawnReason.NATURAL||reason==EntitySpawnReason.SPAWN_ITEM_USE)&&m.getRandom().nextInt(1000)<features.majorChance(FeatureId.ENDERMAN_COMBO))m.getAttached(RemainingState.DATA).putString("birth","combo");}
+        if(m instanceof Enderman&&enabled(m,FeatureId.ENDERMAN_COMBO)&&(reason==EntitySpawnReason.NATURAL||reason==EntitySpawnReason.SPAWN_ITEM_USE)&&(TraitRuntime.unified(m)||TraitPool.legacySingle(m.getRandom(),features.majorChance(FeatureId.ENDERMAN_COMBO))))m.getAttached(RemainingState.DATA).putString("birth","combo");}
     public void register(){instance=this;RemainingCommands.register();
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server->pending.clear());
         ServerEntityEvents.ENTITY_LOAD.register((e,l)->{

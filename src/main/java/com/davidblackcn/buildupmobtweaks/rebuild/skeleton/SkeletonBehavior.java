@@ -2,6 +2,7 @@
 package com.davidblackcn.buildupmobtweaks.rebuild.skeleton;
 
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -29,7 +30,7 @@ public final class SkeletonBehavior {
     public SkeletonBehavior(FeatureRegistry features){this.features=features;}
     public static SkeletonBehavior instance(){return instance;}
     public static boolean supported(AbstractSkeleton mob){return mob.getType()==EntityTypes.SKELETON||mob.getType()==EntityTypes.STRAY||mob.getType()==EntityTypes.BOGGED;}
-    public boolean enabled(AbstractSkeleton mob,FeatureId id){return supported(mob)&&SkeletonState.known(mob)&&features.isEnabled(id)
+    public boolean enabled(AbstractSkeleton mob,FeatureId id){return supported(mob)&&SkeletonState.known(mob)&&features.isEnabled(id)&&TraitRuntime.permits(mob,id)
             && !mob.getType().builtInRegistryHolder().is(EXCLUDED)&&!mob.entityTags().contains("buildupmobtweaks:vanilla_ai")
             &&!mob.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
     public boolean bow(AbstractSkeleton mob,ItemStack item){return !item.is(EXCLUDED_ITEMS)&&(item.is(Items.BOW)

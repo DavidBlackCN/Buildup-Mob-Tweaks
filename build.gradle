@@ -102,6 +102,7 @@ sourceSets.client.java {
     include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksDataGenerator.java'
 }
 sourceSets.gametest.java {
+    include 'com/davidblackcn/buildupmobtweaks/TraitArchitectureTests.java'
     include 'com/davidblackcn/buildupmobtweaks/E4BehaviorTests.java'
     srcDir 'src/qa/java'
     include 'com/davidblackcn/buildupmobtweaks/qa/**'

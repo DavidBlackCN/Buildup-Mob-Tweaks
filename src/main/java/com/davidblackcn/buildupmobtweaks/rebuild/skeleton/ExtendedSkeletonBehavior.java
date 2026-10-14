@@ -1,6 +1,8 @@
 /* Mob AI Tweaks SPIN/GRENADE adaptation: Copyright (c) 2024 N0t_UN_Owen, MIT. See NOTICE.md. */
 package com.davidblackcn.buildupmobtweaks.rebuild.skeleton;
 
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitPool;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import net.fabricmc.fabric.api.event.lifecycle.v1.*;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -25,7 +27,7 @@ public final class ExtendedSkeletonBehavior {
     public ExtendedSkeletonBehavior(FeatureRegistry features){this.features=features;}
     public static ExtendedSkeletonBehavior instance(){return instance;}
     public static boolean supported(AbstractSkeleton m){return m.getType()==EntityTypes.PARCHED||m.getType()==EntityTypes.WITHER_SKELETON;}
-    public boolean enabled(AbstractSkeleton m,FeatureId id){return supported(m)&&ExtendedSkeletonState.known(m,ExtendedSkeletonState.DATA)&&features.isEnabled(id)
+    public boolean enabled(AbstractSkeleton m,FeatureId id){return supported(m)&&ExtendedSkeletonState.known(m,ExtendedSkeletonState.DATA)&&features.isEnabled(id)&&TraitRuntime.permits(m,id)
             &&!m.getType().builtInRegistryHolder().is(SkeletonBehavior.EXCLUDED)&&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")
             &&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
     public static boolean ominous(LivingEntity t){return t.hasEffect(MobEffects.BAD_OMEN)||t.hasEffect(MobEffects.RAID_OMEN)||t.hasEffect(MobEffects.TRIAL_OMEN);}
@@ -47,7 +49,7 @@ public final class ExtendedSkeletonBehavior {
             var d=new CompoundTag();d.putInt("version",1);d.putString("birth","none");m.setAttached(ExtendedSkeletonState.DATA,d);
             boolean fresh=!m.isLoadedFromDisk()&&m.spawnReason()!=null&&m.spawnReason()!=EntitySpawnReason.LOAD&&m.spawnReason()!=EntitySpawnReason.CONVERSION&&m.spawnReason()!=EntitySpawnReason.DIMENSION_TRAVEL;
             var id=m.getType()==EntityTypes.PARCHED?FeatureId.PARCHED_DODGE:FeatureId.WITHER_SKELETON_SKULL;
-            if(fresh&&enabled(m,id)&&m.getRandom().nextInt(1000)<features.majorChance(id))d.putString("birth",m.getType()==EntityTypes.PARCHED?"spin":"skull");
+            if(fresh&&enabled(m,id)&&(TraitRuntime.unified(m)||TraitPool.legacySingle(m.getRandom(),features.majorChance(id))))d.putString("birth",m.getType()==EntityTypes.PARCHED?"spin":"skull");
             d.putLong("special_ready",m.level().getGameTime()+(m.getType()==EntityTypes.PARCHED?SPIN_COOLDOWN:SKULL_COOLDOWN));
         }
         if(!ExtendedSkeletonState.known(m,ExtendedSkeletonState.DATA))return;

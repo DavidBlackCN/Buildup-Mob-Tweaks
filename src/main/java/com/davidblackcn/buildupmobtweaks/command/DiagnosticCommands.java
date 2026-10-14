@@ -7,6 +7,10 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.commands.arguments.EntityArgument;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitStorage;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRegistry;
+import com.davidblackcn.buildupmobtweaks.traits.core.SpawnStorage;
 
 /** Opt-in diagnostics only: no ticking, entities, items, or world mutations. */
 public final class DiagnosticCommands {
@@ -18,7 +22,25 @@ public final class DiagnosticCommands {
                         .then(Commands.literal("status").executes(context -> status(context.getSource(), features)))
                         .then(Commands.literal("probe")
                                 .requires(Commands.hasPermission(Commands.LEVEL_OWNERS))
-                                .executes(context -> probe(context.getSource(), features)))));
+                                .executes(context -> probe(context.getSource(), features)))
+                        .then(Commands.literal("traits").requires(Commands.hasPermission(Commands.LEVEL_OWNERS))
+                                .then(Commands.argument("target", EntityArgument.entity()).executes(context -> {
+                                    if (!features.isEnabled(FeatureId.DIAGNOSTIC_PROBE)) return 0;
+                                    var entity = EntityArgument.getEntity(context, "target");
+                                    // Read only: no getAttachedOrCreate, migration, equipment identification or selection.
+                                    var state = com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime.readRecord(entity);
+                                    String summary = state.map(s -> s.mode() + " / " + s.outcome() + " / "
+                                            + s.entries().stream().map(i -> {
+                                                var d = TraitRegistry.find(i.id()).orElseThrow();
+                                                return i.id() + " [v" + i.version() + ", " + i.source() + ", Tier "
+                                                        + d.tier() + ", " + d.category() + ", " + d.polarity() + "]";
+                                            }).toList()).orElse(entity.hasAttached(TraitStorage.DATA)
+                                                    ? "unknown data; paused" : "no record");
+                                    context.getSource().sendSuccess(() -> Component.translatable(
+                                            "commands.buildupmobtweaks.trait_core", entity.getUUID().toString(), summary,
+                                            SpawnStorage.read(entity).map(Object::toString).orElse("unknown source")), false);
+                                    return 1;
+                                })))));
     }
 
     private static int status(CommandSourceStack source, FeatureRegistry features) {

@@ -6,7 +6,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-/** Recognition only. Unknown items retain vanilla AI; tags do not grant executable weapon behavior. */
+/** Read-only potential recognition. Mob-specific Goal/Brain adapters decide actual execution.
+ * This query never assigns equipment, grants a Trait, or changes an entity's eligibility. */
 public final class EquipmentCapabilities {
     public enum Ability { BOW, CROSSBOW, TRIDENT, SHIELD, MELEE }
     private static final Set<Item> SWORDS = Set.of(Items.WOODEN_SWORD, Items.STONE_SWORD, Items.COPPER_SWORD,

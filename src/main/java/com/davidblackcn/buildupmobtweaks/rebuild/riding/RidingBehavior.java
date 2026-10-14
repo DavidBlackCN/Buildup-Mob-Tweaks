@@ -1,5 +1,6 @@
 /* Mob AI Tweaks riding adaptation: Copyright (c) 2024 N0t_UN_Owen, MIT. See NOTICE.md. */
 package com.davidblackcn.buildupmobtweaks.rebuild.riding;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import com.davidblackcn.buildupmobtweaks.rebuild.relations.RelationBehavior;
 import com.davidblackcn.buildupmobtweaks.rebuild.skeleton.*;
@@ -27,7 +28,7 @@ public final class RidingBehavior {
     private static final net.minecraft.tags.TagKey<EntityType<?>> EXCLUDED=net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ENTITY_TYPE,com.davidblackcn.buildupmobtweaks.BuildupMobTweaks.id("riding_ai_excluded"));
     public RidingBehavior(FeatureRegistry features){this.features=features;}
     public static RidingBehavior instance(){return instance;}
-    public boolean gate(Mob m,FeatureId id){return features.isEnabled(id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)&&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")&&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
+    public boolean gate(Mob m,FeatureId id){return features.isEnabled(id)&&TraitRuntime.permits(m,id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)&&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")&&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
     public boolean enabled(Mob m,FeatureId id){return RidingState.known(m)&&gate(m,id);}
     private static boolean actor(Mob m){return m instanceof Monster&&net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(m.getType()).getNamespace().equals("minecraft");}
     public void register(){instance=this;

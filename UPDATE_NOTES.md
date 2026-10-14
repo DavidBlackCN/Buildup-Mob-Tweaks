@@ -88,3 +88,7 @@
 - 🐛 fix(ci): 修正 Linux 自动构建的 Gradle Wrapper 执行权限与测试服务器 EULA 参数。
 
 - 🧪 test(ci): 修正创造模式退出的女巫行为校验，稳定火焰台阶与骷髅装备守恒测试。
+
+- ♻️ refactor(traits): unify first-batch trait qualifications and provenance while retaining Phase 1 default behavior and existing action/equipment save ownership.
+- ✨ feat(traits): add opt-in species P + Weight selection, single combat qualification and source policies for new mobs, plus read-only trait diagnostics; Husk/Bogged pools remain explicitly unconfigured.
+- 🧪 test(traits): validate 529 required regressions and packaged-mod unload, cold restart, dimension travel and legacy v13 configuration compatibility.

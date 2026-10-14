@@ -2,6 +2,8 @@
 package com.davidblackcn.buildupmobtweaks.rebuild.piglin;
 
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitPool;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import net.fabricmc.fabric.api.event.lifecycle.v1.*;
 import net.minecraft.core.*;
@@ -29,7 +31,7 @@ public final class PiglinBehavior {
     private final Set<Piglin> loaded=Collections.newSetFromMap(new IdentityHashMap<>());
     public PiglinBehavior(FeatureRegistry features){this.features=features;}
     public static PiglinBehavior instance(){return instance;}
-    public boolean enabled(Mob m,FeatureId id){return (m.getType()==EntityTypes.PIGLIN||m.getType()==EntityTypes.ZOMBIFIED_PIGLIN)&&features.isEnabled(id)
+    public boolean enabled(Mob m,FeatureId id){return (m.getType()==EntityTypes.PIGLIN||m.getType()==EntityTypes.ZOMBIFIED_PIGLIN)&&features.isEnabled(id)&&TraitRuntime.permits(m,id)
             &&!m.getType().builtInRegistryHolder().is(EXCLUDED)&&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")
             &&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath())&&(!(m instanceof Piglin)||PiglinState.known(m));}
     public boolean compatible(Piglin m){return enabled(m,FeatureId.PIGLIN_CROSSBOW_COMPATIBILITY)&&!m.isNoAi();}
@@ -51,7 +53,7 @@ public final class PiglinBehavior {
         if(!m.hasAttached(PiglinState.DATA)){
             var d=new CompoundTag();d.putInt("version",1);d.putString("birth","none");m.setAttached(PiglinState.DATA,d);
             boolean fresh=!m.isLoadedFromDisk()&&m.spawnReason()!=null&&m.spawnReason()!=EntitySpawnReason.LOAD&&m.spawnReason()!=EntitySpawnReason.CONVERSION&&m.spawnReason()!=EntitySpawnReason.DIMENSION_TRAVEL;
-            if(fresh&&!m.isBaby()&&enabled(m,FeatureId.PIGLIN_ITEM_DODGE)&&m.getRandom().nextInt(1000)<features.majorChance(FeatureId.PIGLIN_ITEM_DODGE))d.putString("birth","dodge");
+            if(fresh&&!m.isBaby()&&enabled(m,FeatureId.PIGLIN_ITEM_DODGE)&&(TraitRuntime.unified(m)||TraitPool.legacySingle(m.getRandom(),features.majorChance(FeatureId.PIGLIN_ITEM_DODGE))))d.putString("birth","dodge");
             d.putLong("dodge_ready",m.level().getGameTime()+DODGE_COOLDOWN);
         }
         if(PiglinState.known(m)&&!m.getAttached(PiglinState.DATA).contains("dodge_ready"))m.getAttached(PiglinState.DATA).putLong("dodge_ready",m.level().getGameTime()+DODGE_COOLDOWN);
@@ -75,7 +77,7 @@ public final class PiglinBehavior {
     public void afterAi(Piglin m){
         if(!PiglinState.known(m)||!enabled(m,FeatureId.PIGLIN_ITEM_DODGE)||m.isNoAi()||!m.isAlive()||m.isBaby()||m.isPassenger()||!m.onGround()||m.isInWater()||!m.isUsingItem()||!crossbow(m.getUseItem()))return;
         var d=m.getAttached(PiglinState.DATA);var t=m.getTarget();long now=m.level().getGameTime();
-        if(!d.getStringOr("birth","").equals("dodge")||now<d.getLongOr("dodge_ready",Long.MAX_VALUE)||!valid(m,t)||m.distanceToSqr(t)>=4||!m.hasLineOfSight(t))return;
+        if(!TraitRuntime.has(m,FeatureId.PIGLIN_ITEM_DODGE)||now<d.getLongOr("dodge_ready",Long.MAX_VALUE)||!valid(m,t)||m.distanceToSqr(t)>=4||!m.hasLineOfSight(t))return;
         var away=m.position().subtract(t.position()).multiply(1,0,1).normalize();if(away.lengthSqr()<.5)return;
         var impulse=away.scale(Math.min(.65,m.getAttributeValue(Attributes.MOVEMENT_SPEED)*2));
         if(!safe(m,impulse.scale(2))||!m.level().noCollision(m,m.getBoundingBox().move(0,1,0)))return;

@@ -21,7 +21,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
 
-/** Single birth-time attempt, independent of Traits. No reload backfill, replacement or custom drops. */
+/** Single birth-time attempt, independent of Traits and their spawn policy.
+ * An equipped item is not a combat entitlement; a missed Trait roll does not block equipment.
+ * No reload backfill, replacement or custom drops. */
 public final class EquipmentService {
     public static final AttachmentType<CompoundTag> DATA = AttachmentRegistry.createPersistent(
             BuildupMobTweaks.id("equipment_assignment"), CompoundTag.CODEC);

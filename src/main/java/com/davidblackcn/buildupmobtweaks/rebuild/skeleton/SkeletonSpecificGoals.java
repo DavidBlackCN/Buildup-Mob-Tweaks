@@ -2,6 +2,7 @@
 package com.davidblackcn.buildupmobtweaks.rebuild.skeleton;
 
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
 import com.davidblackcn.buildupmobtweaks.feature.FeatureId;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.*;
@@ -25,7 +26,7 @@ public final class SkeletonSpecificGoals extends Goal {
     public static final AttachmentType<Boolean> CLOUD_LIVE=AttachmentRegistry.createDefaulted(BuildupMobTweaks.id("bogged_rebuild_cloud_live"),()->false);
     final AbstractSkeleton mob;final SkeletonBehavior behavior;final boolean stray;int remaining,snowDelay;
     SkeletonSpecificGoals(AbstractSkeleton mob,SkeletonBehavior behavior){this.mob=mob;this.behavior=behavior;stray=mob.getType()==EntityTypes.STRAY;}
-    private boolean enabled(){return (stray||mob.getType()==EntityTypes.BOGGED)&&behavior.enabled(mob,stray?FeatureId.STRAY_JUMP_SHOT:FeatureId.BOGGED_SPORE_RETREAT);}
+    private boolean enabled(){return (stray||mob.getType()==EntityTypes.BOGGED)&&behavior.enabled(mob,stray?FeatureId.STRAY_JUMP_SHOT:FeatureId.BOGGED_SPORE_RETREAT)&&(stray||TraitRuntime.has(mob,FeatureId.BOGGED_SPORE_RETREAT));}
     @Override public boolean canUse(){return enabled()&&SkeletonBehavior.valid(mob,mob.getTarget())&&!mob.isPassenger()&&!mob.isBaby();}
     @Override public boolean canContinueToUse(){return canUse();}
     @Override public boolean requiresUpdateEveryTick(){return true;}

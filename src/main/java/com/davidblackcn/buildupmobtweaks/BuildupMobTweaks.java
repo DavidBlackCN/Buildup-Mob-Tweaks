@@ -32,6 +32,8 @@ public class BuildupMobTweaks implements ModInitializer {
 
 		config = ConfigApiJava.registerAndLoadConfig(BuildupConfig::new, RegisterType.BOTH);
 		FeatureRegistry features = new FeatureRegistry(config);
+        com.davidblackcn.buildupmobtweaks.traits.core.TraitStorage.bootstrap();
+        com.davidblackcn.buildupmobtweaks.traits.core.SpawnStorage.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.zombie.ZombieState.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.general.E4VisualState.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.raid.RaidState.bootstrap();
@@ -65,6 +67,7 @@ public class BuildupMobTweaks implements ModInitializer {
         new com.davidblackcn.buildupmobtweaks.rebuild.ecology.EcologyBehavior(features).register();
         new com.davidblackcn.buildupmobtweaks.rebuild.ability.AbilityBehavior(features).register();
         com.davidblackcn.buildupmobtweaks.rebuild.general.E4Behavior.register(features);
+        com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime.register();
         LOGGER.info("Buildup Mob Tweaks initialized: R3/R4 behavior rebuild; Boss AI takeover deferred.");
 	}
 

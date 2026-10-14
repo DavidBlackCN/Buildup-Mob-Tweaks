@@ -1,6 +1,7 @@
 /* Mob AI Tweaks SPIN/GRENADE adaptation: Copyright (c) 2024 N0t_UN_Owen, MIT. */
 package com.davidblackcn.buildupmobtweaks.rebuild.skeleton;
 
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
 import com.davidblackcn.buildupmobtweaks.feature.FeatureId;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -21,7 +22,7 @@ final class ExtendedSkeletonGoal extends Goal {
     private boolean valid(){return behavior.enabled(mob,feature())&&!mob.isNoAi()&&mob.isAlive()&&!mob.isPassenger()&&SkeletonBehavior.valid(mob,mob.getTarget())&&mob.hasLineOfSight(mob.getTarget());}
     @Override public boolean canUse(){
         if(!valid()||!mob.onGround()||mob.isInWater())return false;
-        var d=mob.getAttached(ExtendedSkeletonState.DATA);if(!d.getStringOr("birth","").equals(spin?"spin":"skull")||mob.level().getGameTime()<d.getLongOr("special_ready",Long.MAX_VALUE))return false;
+        var d=mob.getAttached(ExtendedSkeletonState.DATA);if(!(spin?d.getStringOr("birth","").equals("spin"):TraitRuntime.has(mob,FeatureId.WITHER_SKELETON_SKULL))||mob.level().getGameTime()<d.getLongOr("special_ready",Long.MAX_VALUE))return false;
         double distance=mob.distanceTo(mob.getTarget());if(distance<3||distance>24)return false;
         if(!spin)return distance>=6&&ExtendedSkeletonState.runtime(mob).projectiles.isEmpty();
         boolean bow=mob.getMainHandItem().is(Items.BOW)||mob.getOffhandItem().is(Items.BOW);

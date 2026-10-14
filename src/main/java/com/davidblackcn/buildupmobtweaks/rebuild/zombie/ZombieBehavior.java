@@ -2,6 +2,8 @@
 package com.davidblackcn.buildupmobtweaks.rebuild.zombie;
 
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitPool;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -35,7 +37,7 @@ public final class ZombieBehavior {
     public ZombieBehavior(FeatureRegistry f){features=f;}
     public static ZombieBehavior instance(){return instance;}
     public static boolean supported(Zombie m){return m.getType()==EntityTypes.ZOMBIE||m.getType()==EntityTypes.HUSK;}
-    public boolean enabled(Zombie m,FeatureId id){return supported(m)&&ZombieState.known(m)&&features.isEnabled(id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)
+    public boolean enabled(Zombie m,FeatureId id){return supported(m)&&ZombieState.known(m)&&features.isEnabled(id)&&TraitRuntime.permits(m,id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)
             &&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")&&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
     public static boolean valid(Mob m,LivingEntity t){return t!=null&&t.isAlive()&&t.level()==m.level()&&!m.isAlliedTo(t)&&m.canAttack(t)
             &&(!(t instanceof Player p)||!p.isCreative()&&!p.isSpectator());}
@@ -43,13 +45,22 @@ public final class ZombieBehavior {
     /** Called only from the verified finalizeSpawn TAIL, never from ENTITY_LOAD. */
     public void born(Zombie m,ServerLevelAccessor level,DifficultyInstance difficulty,EntitySpawnReason reason){
         if(!supported(m)||m.hasAttached(ZombieState.DATA))return;initialize(m);
+        if(TraitRuntime.unified(m)){
+            if(TraitRuntime.has(m,FeatureId.ZOMBIE_DOOR_GUARD)){
+                var selected=m.getAttached(ZombieState.DATA);selected.putString("birth","door");selected.putFloat("door_health",40);
+                selected.putString("material",BuiltInRegistries.BLOCK.getKey(birthMaterial(m)).toString());
+            }
+            return;
+        }
         if(m.isBaby()||m.isPassenger()||m.isVehicle()||(reason!=EntitySpawnReason.NATURAL&&reason!=EntitySpawnReason.SPAWN_ITEM_USE))return;
         var cfg=BuildupMobTweaks.config().hostile.zombie;
         int door=reason==EntitySpawnReason.NATURAL&&difficulty.getEffectiveDifficulty()>2.5&&enabled(m,FeatureId.ZOMBIE_DOOR_GUARD)?cfg.doorChance.get():0;
         int rider=enabled(m,FeatureId.ZOMBIE_BABY_RIDER)?cfg.riderChance.get():0;
-        int total=door+rider,roll=m.getRandom().nextInt(Math.max(1000,total));var d=m.getAttached(ZombieState.DATA);
-        if(roll<door){d.putString("birth","door");d.putFloat("door_health",40);d.putString("material",BuiltInRegistries.BLOCK.getKey(birthMaterial(m)).toString());}
-        else if(roll<total){
+        var choices=new java.util.ArrayList<TraitPool.Weighted<String>>();
+        if(door>0)choices.add(new TraitPool.Weighted<>("door",door));if(rider>0)choices.add(new TraitPool.Weighted<>("rider",rider));
+        String choice=TraitPool.legacyEquivalent(m.getRandom(),choices).orElse("none");var d=m.getAttached(ZombieState.DATA);
+        if(choice.equals("door")){d.putString("birth","door");d.putFloat("door_health",40);d.putString("material",BuiltInRegistries.BLOCK.getKey(birthMaterial(m)).toString());}
+        else if(choice.equals("rider")){
             // At most one same-family rider. JOCKEY births are ineligible, preventing recursive spawning.
             Zombie child=(Zombie)m.getType().create(level.getLevel(),EntitySpawnReason.JOCKEY);
             if(child!=null){child.snapTo(m.position(),m.getYRot(),0);child.setBaby(true);child.finalizeSpawn(level,difficulty,EntitySpawnReason.JOCKEY,new Zombie.ZombieGroupData(true,false));
@@ -79,7 +90,7 @@ public final class ZombieBehavior {
     public void beforeAi(Zombie m){
         if(!supported(m)||!ZombieState.known(m))return;var r=ZombieState.runtime(m);
         if(m.getAttached(ZombieState.DATA).getBooleanOr("burrow_active",false)&&!r.mode.equals("burrow"))ZombieGoals.restore(m);
-        boolean active=enabled(m,FeatureId.ZOMBIE_DOOR_GUARD)&&m.isAlive()&&m.getAttached(ZombieState.DATA).getFloatOr("door_health",0)>0;
+        boolean active=enabled(m,FeatureId.ZOMBIE_DOOR_GUARD)&&TraitRuntime.has(m,FeatureId.ZOMBIE_DOOR_GUARD)&&m.isAlive()&&m.getAttached(ZombieState.DATA).getFloatOr("door_health",0)>0;
         if(active){r.displays.removeIf(Entity::isRemoved);if(r.displays.size()!=2){clearDoor(m);makeDoor(m);}doorAttributes(m,true);}
         else clearDoor(m);
         if(!enabled(m,FeatureId.ZOMBIE_BABY_RIDER))detachRider(m);
@@ -126,7 +137,7 @@ public final class ZombieBehavior {
     private void unloadDoor(Zombie m){for(var d:ZombieState.runtime(m).displays){d.setAttached(ZombieState.DISPLAY_LIVE,false);pending.add(d);}ZombieState.runtime(m).displays.clear();doorAttributes(m,false);}
     private void detachRider(Zombie m){String id=m.getAttached(ZombieState.DATA).getStringOr("rider","");for(var p:m.getPassengers())if(p.getUUID().toString().equals(id))p.stopRiding();}
     public boolean block(Zombie m,DamageSource source,float damage){
-        if(!enabled(m,FeatureId.ZOMBIE_DOOR_GUARD)||ZombieState.runtime(m).displays.size()!=2||source.is(DamageTypeTags.BYPASSES_SHIELD)||damage<=0)return false;
+        if(!enabled(m,FeatureId.ZOMBIE_DOOR_GUARD)||!TraitRuntime.has(m,FeatureId.ZOMBIE_DOOR_GUARD)||ZombieState.runtime(m).displays.size()!=2||source.is(DamageTypeTags.BYPASSES_SHIELD)||damage<=0)return false;
         var pos=source.getSourcePosition();if(pos==null)return false;var direction=pos.subtract(m.position()).multiply(1,0,1).normalize();
         var forward=m.calculateViewVector(0,m.yBodyRot);if(direction.dot(forward)<Math.cos(Math.toRadians(10)))return false;
         var state=m.getAttached(ZombieState.DATA);float multiplier=material(m).defaultDestroyTime()/Blocks.OAK_DOOR.defaultDestroyTime();

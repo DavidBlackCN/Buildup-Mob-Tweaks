@@ -1,6 +1,7 @@
 /* Mob AI Tweaks behavioral adaptation, Copyright (c) 2024 N0t_UN_Owen, MIT. See NOTICE.md. */
 package com.davidblackcn.buildupmobtweaks.rebuild.illusion;
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import com.davidblackcn.buildupmobtweaks.mixin.rebuild.RemainingTargetAccess;
 import net.fabricmc.fabric.api.event.lifecycle.v1.*;
@@ -28,7 +29,7 @@ public final class IllusionBehavior {
     public IllusionBehavior(FeatureRegistry f){features=f;}
     public static IllusionBehavior instance(){return instance;}
     public static boolean supported(Entity m){return m.getType()==EntityTypes.ILLUSIONER||m.getType()==EntityTypes.VINDICATOR;}
-    public boolean enabled(Mob m,FeatureId id){return supported(m)&&IllusionState.known(m)&&features.isEnabled(id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)&&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")&&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
+    public boolean enabled(Mob m,FeatureId id){return supported(m)&&IllusionState.known(m)&&features.isEnabled(id)&&TraitRuntime.permits(m,id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)&&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")&&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
     public static boolean valid(Mob m,LivingEntity t){return t!=null&&t.isAlive()&&t.level()==m.level()&&!t.isSpectator()&&!(t instanceof Player p&&p.isCreative())&&!m.isAlliedTo(t)&&m.canAttack(t);}
     public static InteractionHand bow(Mob m){return m.getMainHandItem().is(Items.BOW)?InteractionHand.MAIN_HAND:m.getOffhandItem().is(Items.BOW)?InteractionHand.OFF_HAND:null;}
     public static void reserve(Mob m,String key,long delay){var d=m.getAttached(IllusionState.DATA).copy();d.putLong(key,m.level().getGameTime()+delay);m.setAttached(IllusionState.DATA,d);}

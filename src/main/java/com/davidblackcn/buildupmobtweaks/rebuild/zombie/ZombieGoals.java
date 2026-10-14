@@ -2,6 +2,7 @@
 package com.davidblackcn.buildupmobtweaks.rebuild.zombie;
 
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
 import com.davidblackcn.buildupmobtweaks.feature.FeatureId;
 import java.util.EnumSet;
 import net.minecraft.core.BlockPos;
@@ -55,7 +56,7 @@ public final class ZombieGoals {
     static final class Burrow extends Goal {
         final Zombie mob;final ZombieBehavior behavior;Vec3 origin,destination;int step;boolean done;
         Burrow(Zombie m,ZombieBehavior b){mob=m;behavior=b;setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));}
-        private boolean permitted(){return behavior.enabled(mob,FeatureId.HUSK_SAND_BURROW)&&!mob.isBaby()&&!mob.isPassenger()&&!mob.isVehicle()
+        private boolean permitted(){return behavior.enabled(mob,FeatureId.HUSK_SAND_BURROW)&&TraitRuntime.has(mob,FeatureId.HUSK_SAND_BURROW)&&!mob.isBaby()&&!mob.isPassenger()&&!mob.isVehicle()
                 &&!mob.isInWater()&&((net.minecraft.server.level.ServerLevel)mob.level()).getGameRules().get(GameRules.MOB_GRIEFING)&&ZombieBehavior.valid(mob,mob.getTarget())
                 &&(!mob.hasEffect(MobEffects.MINING_FATIGUE)||mob.hasEffect(MobEffects.HASTE));}
         private boolean sandRoute(Vec3 from,Vec3 to){

@@ -1,5 +1,7 @@
 /* Mob AI Tweaks adaptation: Copyright (c) 2024 N0t_UN_Owen, MIT. See NOTICE.md. */
 package com.davidblackcn.buildupmobtweaks.rebuild.evoker;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitPool;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import com.davidblackcn.buildupmobtweaks.rebuild.raid.*;
 import com.davidblackcn.buildupmobtweaks.rebuild.zombie.ZombieBehavior;
@@ -20,9 +22,11 @@ public final class EvokerBehavior {
     public EvokerBehavior(FeatureRegistry f){features=f;}public static EvokerBehavior instance(){return instance;}
     public boolean enabled(Evoker m,FeatureId id){return RaidState.known(m,RaidState.EVOKER)&&RaidGate.enabled(m,features,id);}
     public void born(Evoker m,EntitySpawnReason reason){if(!RaidGate.supported(m)||m.hasAttached(RaidState.EVOKER))return;RaidState.initialize(m,RaidState.EVOKER);
+        if(TraitRuntime.unified(m)){m.getAttached(RaidState.EVOKER).putString("birth",TraitRuntime.has(m,FeatureId.EVOKER_FIREBALL)?"fireball":"none");return;}
         if(reason!=EntitySpawnReason.NATURAL&&reason!=EntitySpawnReason.SPAWN_ITEM_USE)return;int fire=enabled(m,FeatureId.EVOKER_FIREBALL)?features.majorChance(FeatureId.EVOKER_FIREBALL):0;
-        int totem=enabled(m,FeatureId.EVOKER_TOTEM)?features.majorChance(FeatureId.EVOKER_TOTEM):0;int roll=m.getRandom().nextInt(Math.max(1000,fire+totem));
-        m.getAttached(RaidState.EVOKER).putString("birth",roll<fire?"fireball":roll<fire+totem?"totem":"none");}
+        int totem=enabled(m,FeatureId.EVOKER_TOTEM)?features.majorChance(FeatureId.EVOKER_TOTEM):0;var choices=new java.util.ArrayList<TraitPool.Weighted<String>>();
+        if(fire>0)choices.add(new TraitPool.Weighted<>("fireball",fire));if(totem>0)choices.add(new TraitPool.Weighted<>("totem",totem));
+        m.getAttached(RaidState.EVOKER).putString("birth",TraitPool.legacyEquivalent(m.getRandom(),choices).orElse("none"));}
     public void register(){instance=this;VexLedger.register();RaidCommands.register();
         ServerEntityEvents.ENTITY_LOAD.register((e,l)->{
             if(e instanceof SmallFireball b&&RaidState.known(b,RaidState.BALL)&&Boolean.TRUE.equals(b.getAttached(RaidState.ORBIT))&&!Boolean.TRUE.equals(b.getAttached(RaidState.LIVE)))b.discard();
@@ -48,7 +52,7 @@ public final class EvokerBehavior {
         if(!enabled(m,FeatureId.EVOKER_TOTEM))clearTotem(m);
         r.balls.removeIf(Entity::isRemoved);
     }
-    private boolean specialEnabled(Evoker m){String birth=m.getAttached(RaidState.EVOKER).getStringOr("birth","none");return birth.equals("fireball")?enabled(m,FeatureId.EVOKER_FIREBALL):birth.equals("totem")&&enabled(m,FeatureId.EVOKER_TOTEM);}
+    private boolean specialEnabled(Evoker m){String birth=m.getAttached(RaidState.EVOKER).getStringOr("birth","none");return birth.equals("fireball")?enabled(m,FeatureId.EVOKER_FIREBALL)&&TraitRuntime.has(m,FeatureId.EVOKER_FIREBALL):birth.equals("totem")&&enabled(m,FeatureId.EVOKER_TOTEM);}
     public void cleanup(Evoker m,boolean all){m.setAttached(RaidState.ACTIVE,false);var r=RaidState.runtime(m);r.target=null;
         for(var b:r.balls)if(all||Boolean.TRUE.equals(b.getAttached(RaidState.ORBIT)))b.discard();r.balls.removeIf(Entity::isRemoved);clearTotem(m);
         // A loaded in-flight native casting flag must not retain our pose.

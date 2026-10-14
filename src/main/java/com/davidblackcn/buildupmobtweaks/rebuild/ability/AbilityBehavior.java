@@ -2,6 +2,7 @@
 package com.davidblackcn.buildupmobtweaks.rebuild.ability;
 
 import com.davidblackcn.buildupmobtweaks.BuildupMobTweaks;
+import com.davidblackcn.buildupmobtweaks.traits.core.TraitRuntime;
 import com.davidblackcn.buildupmobtweaks.feature.*;
 import com.davidblackcn.buildupmobtweaks.rebuild.remaining.*;
 import net.fabricmc.fabric.api.event.lifecycle.v1.*;
@@ -34,7 +35,7 @@ public final class AbilityBehavior {
     public static AbilityBehavior instance(){return instance;}
     public static boolean skeleton(Mob m){return m.getType()==EntityTypes.SKELETON||m.getType()==EntityTypes.STRAY||m.getType()==EntityTypes.BOGGED||m.getType()==EntityTypes.WITHER_SKELETON||m.getType()==EntityTypes.PARCHED;}
     private static boolean supported(Mob m){return skeleton(m)||m.getType()==EntityTypes.SNOW_GOLEM||m.getType()==EntityTypes.BREEZE;}
-    public boolean enabled(Mob m,FeatureId id){return AbilityState.known(m)&&features.isEnabled(id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)
+    public boolean enabled(Mob m,FeatureId id){return AbilityState.known(m)&&features.isEnabled(id)&&TraitRuntime.permits(m,id)&&!m.getType().builtInRegistryHolder().is(EXCLUDED)
         &&!m.entityTags().contains("buildupmobtweaks:vanilla_ai")&&!m.entityTags().contains("buildupmobtweaks:disable_"+id.id().getPath());}
     public static boolean valid(Mob m,LivingEntity t){return m.isAlive()&&!m.isRemoved()&&!m.isNoAi()&&t!=null&&t!=m&&t.isAlive()&&!t.isRemoved()&&t.level()==m.level()
         &&(!(t instanceof Player p)||!p.isCreative()&&!p.isSpectator());}

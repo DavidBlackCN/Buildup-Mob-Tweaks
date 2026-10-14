@@ -35,3 +35,27 @@
 Common/Advanced/Rare演示Marker及其历史权重不参与正式生物抽取。`traits.enabled`本身仍管理已接入的高级出生能力，不能因为Marker未生效就认为该主开关无效。保留旧设置值不代表该字段已有玩法。
 
 建议先使用默认设置，遇到具体问题时只关闭对应行为，记录版本、Mod清单和复现条件。更细的实体排除方法见[兼容说明](COMPATIBILITY.md)。[返回首页](../README.md)
+
+## 可选统一特性抽取
+
+默认 `traits.unified_selection = false`，保留 Phase 1 的出生和场景行为。开启后，之后的新个体采用统一模式：自然生成和刷怪蛋（含发射器）按物种选择，最多一个主要战斗特性；刷怪笼、袭击、结构默认跳过。已有个体沿用保存的模式，切换开关或调整概率不会追溯重抽。
+
+统一模式目前只提供首批七项：门盾、末影人连击、唤魔者火球、凋灵骷髅头颅、尸壳潜沙、沼骸孢子退避、猪灵持弩闪避。其他候选在此模式中暂停；基础行为、装备取得和基本使用继续按原规则工作。默认兼容模式仍保留原有组合和场景动作。
+
+新参数在 `traits.selection` 下。`<物种>_chance_per_mille` 是总概率 P（0～1000），`<特性>_weight` 是通过 P 判定后候选的相对份额。权重 0 表示排除，正权重参与计算；它不表示独立出生概率。
+
+| 物种字段 | -1 的含义 | 候选权重字段 |
+| --- | --- | --- |
+| zombie_chance_per_mille | 引用有效旧门盾概率 | door_weight |
+| husk_chance_per_mille | 新池未配置 | door_weight、burrow_weight |
+| bogged_chance_per_mille | 新池未配置 | bogged_weight |
+| enderman_chance_per_mille | 引用有效旧连击概率 | combo_weight |
+| evoker_chance_per_mille | 引用有效旧火球概率 | fireball_weight |
+| wither_chance_per_mille | 引用有效旧头颅概率 | skull_weight |
+| piglin_chance_per_mille | 引用有效旧闪避概率 | dodge_weight |
+
+尸壳、沼骸尚无新发布概率，默认保持 -1，burrow_weight／bogged_weight 为 0。体验这两个新池时需要同时显式设置 P 与正权重。其他单项权重为 1，只表示唯一候选；门盾的自然来源、成年和局部难度条件继续适用，刷怪蛋不自动放宽它们。没有统一设为 50% 的默认。
+
+管理员可用 `/buildupmobtweaks traits <实体>` 查看首批资格、模式、来源、Tier、类别和性质；查询是只读的。该列表只涵盖已迁移的七项，兼容模式无条目不代表没有其他旧能力。装备信息继续用原装备查询。缺装备时资格保留，动作按可用基础行为回退；未知或不一致记录显示暂停。
+
+旧 v13 键和用户值继续保留，新字段不改写旧闲置 chance 的含义。未抽中、出生时关闭、来源跳过、空池或未配置结果也会保存，之后开启不补抽。

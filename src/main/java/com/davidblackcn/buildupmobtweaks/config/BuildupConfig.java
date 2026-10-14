@@ -257,6 +257,9 @@ public final class BuildupConfig extends Config {
 
     public static final class Traits extends ConfigSection {
         public ValidatedBoolean enabled = new ValidatedBoolean(true);
+        @Comment("Opt-in unified selection for NEW individuals. Default false preserves Phase 1. Existing individuals keep their recorded mode. / 仅新个体采用统一抽取，默认保留 Phase 1 行为。")
+        public ValidatedBoolean unified_selection = new ValidatedBoolean(false);
+        public Selection selection = new Selection();
         @Comment("Inactive legacy diagnostic marker; no gameplay or probability effect in this rebuild.")
         public ValidatedBoolean commonMarker = new ValidatedBoolean(true);
         @Comment("Inactive legacy diagnostic marker; no gameplay or probability effect in this rebuild.")
@@ -265,6 +268,27 @@ public final class BuildupConfig extends Config {
         public ValidatedBoolean rareMarker = new ValidatedBoolean(true);
         public Chances cow = new Chances(200, 70, 10);
         public Chances zombieFamily = new Chances(100, 30, 5);
+    }
+
+    public static final class Selection extends ConfigSection {
+        @Comment("-1 uses the effective old door chance; does not assign 50%. / -1 沿用有效旧门盾概率。")
+        public ValidatedInt zombie_chance_per_mille = new ValidatedInt(-1, 1000, -1);
+        @Comment("-1 leaves the new Husk pool unconfigured. Its old burrowChance was inactive. / -1 表示新尸壳池未配置。")
+        public ValidatedInt husk_chance_per_mille = new ValidatedInt(-1, 1000, -1);
+        @Comment("-1 leaves the new Bogged pool unconfigured. Its old boggedChance was inactive. / -1 表示新沼骸池未配置。")
+        public ValidatedInt bogged_chance_per_mille = new ValidatedInt(-1, 1000, -1);
+        public ValidatedInt enderman_chance_per_mille = new ValidatedInt(-1, 1000, -1);
+        public ValidatedInt evoker_chance_per_mille = new ValidatedInt(-1, 1000, -1);
+        public ValidatedInt wither_chance_per_mille = new ValidatedInt(-1, 1000, -1);
+        public ValidatedInt piglin_chance_per_mille = new ValidatedInt(-1, 1000, -1);
+        public ValidatedInt door_weight = new ValidatedInt(1, 10000, 0);
+        @Comment("0 excludes this candidate until a new pool is explicitly configured; not a published default weight. / 0 暂不纳入新池。")
+        public ValidatedInt burrow_weight = new ValidatedInt(0, 10000, 0);
+        public ValidatedInt bogged_weight = new ValidatedInt(0, 10000, 0);
+        public ValidatedInt combo_weight = new ValidatedInt(1, 10000, 0);
+        public ValidatedInt fireball_weight = new ValidatedInt(1, 10000, 0);
+        public ValidatedInt skull_weight = new ValidatedInt(1, 10000, 0);
+        public ValidatedInt dodge_weight = new ValidatedInt(1, 10000, 0);
     }
 
     public static final class Chances extends ConfigSection {

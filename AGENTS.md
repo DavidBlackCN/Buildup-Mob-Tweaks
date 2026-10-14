@@ -12,4 +12,5 @@
 - Phase2-A共享设计见外层[设计索引](../docs/phase2-design/README.md)，当前为v0.3设计规范候选版，已纳入Vanilla Friendly、两层抽取与Mixed优先等共识，并区分待冻结参数。候选文档等待人工审核，实际代码、配置和保存格式的调整以之后明确的实施任务为准；共享文档不在本版本Git内。
 - Phase2-B-0静态架构审计见外层[审计索引](../development-records/phase2-b-0/README.md)，含141项FeatureId矩阵及概率、装备、存档分析。本条保留审计依据，后续分类由B-1候选文档细化，不新增实施授权。
 - Phase2-B-1已按用户最新任务完成文档分类与状态边界候选，见外层[分类矩阵](../development-records/phase2-b-1/TRAIT_CLASSIFICATION_MATRIX.md)、[状态归属](../development-records/phase2-b-1/STATE_OWNERSHIP_SPEC.md)和[生成来源](../development-records/phase2-b-1/SPAWN_RULE_SPEC.md)。本轮B-1替代旧计划中的直接架构实施安排；等待人工审核，未实施Trait框架、概率／存档迁移或API，B-2仍需明确任务。
+- Phase2-B本轮B-2-1～B-2-6首批七项已实现，见外层[架构报告](../development-records/phase2-b-implementation/ARCHITECTURE_REPORT.md)与[人工验收](../development-records/phase2-b-implementation/FINAL_ACCEPTANCE.md)。用户确认默认保持Phase1行为：unified_selection默认false，新规则可选，旧有效概率等价映射，潜沙／孢子新概率未配置。旧模块附件继续分立，旧TraitService未启用；后续候选与发布默认值待审核。等待人工总体验收，不自动进入Phase3。
 - 用户持续授权任务完成、验证和自检后做一次本地commit，遵循Gitmoji + Conventional Commits，包含适用UPDATE_NOTES；不推送、不发布、不切换分支。明确说明工作区根目录归档不在版本提交内。

@@ -11,9 +11,17 @@
       "com.davidblackcn.buildupmobtweaks.qa.QaHarness",
       "com.davidblackcn.buildupmobtweaks.VillagerCoreTests",
       "com.davidblackcn.buildupmobtweaks.FarmerIntelligenceTests",
-      "com.davidblackcn.buildupmobtweaks.FarmerBehaviorRefinementTests"
+      "com.davidblackcn.buildupmobtweaks.FarmerBehaviorRefinementTests",
+      "com.davidblackcn.buildupmobtweaks.ProfessionCoreTests",
+      "com.davidblackcn.buildupmobtweaks.ProfessionResourceTests",
+      "com.davidblackcn.buildupmobtweaks.ProfessionRefinementTests",
+      "com.davidblackcn.buildupmobtweaks.ProfessionBoundaryTests"
     ],
     "fabric-gametest": [
+      "com.davidblackcn.buildupmobtweaks.ProfessionBoundaryTests",
+      "com.davidblackcn.buildupmobtweaks.ProfessionRefinementTests",
+      "com.davidblackcn.buildupmobtweaks.ProfessionResourceTests",
+      "com.davidblackcn.buildupmobtweaks.ProfessionCoreTests",
       "com.davidblackcn.buildupmobtweaks.FarmerBehaviorRefinementTests",
       "com.davidblackcn.buildupmobtweaks.FarmerIntelligenceTests",
       "com.davidblackcn.buildupmobtweaks.VillagerCoreTests",

@@ -5,6 +5,11 @@
   "mixins": [
     "rebuild.VillagerCoreMixin",
     "rebuild.FarmerWorkPackageMixin",
+    "rebuild.ProfessionWorkPackageMixin",
+    "rebuild.ProfessionBoundaryMixin",
+    "rebuild.ProfessionMealPackageMixin",
+    "rebuild.VillagerFishingHookMixin",
+    "rebuild.VillagerHealingPotionMixin",
     "rebuild.FarmerBonemealMixin",
     "rebuild.FarmerFarmlandMixin",
     "rebuild.FarmerJumpMixin",
@@ -102,7 +107,12 @@
     "rebuild.PiglinRangeMixin",
     "rebuild.ZombifiedPiglinAngerMixin",
     "rebuild.PiglinRetaliationMixin",
-    "rebuild.PiglinRetaliationContinuationMixin"
+    "rebuild.PiglinRetaliationContinuationMixin",
+    "rebuild.WorkProjectileLifecycleMixin",
+    "rebuild.OwnedDisplayProtectionMixin",
+    "rebuild.OwnedStandProtectionMixin",
+    "rebuild.OwnedFrameProtectionMixin",
+    "rebuild.OwnedDisplayDeathMixin"
   ],
   "injectors": {
     "defaultRequire": 1

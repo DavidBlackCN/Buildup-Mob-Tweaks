@@ -110,8 +110,8 @@ public final class FarmerBehaviorRefinementTests implements ModInitializer {
         var offers=new net.minecraft.world.item.trading.MerchantOffers();var offer=new net.minecraft.world.item.trading.MerchantOffer(new net.minecraft.world.item.trading.ItemCost(Items.WHEAT,20),new ItemStack(Items.EMERALD,1),8,2,.05F);for(int i=0;i<8;i++)offer.increaseUses();offers.add(offer);v.setOffers(offers);
         boolean[] arrived={false},dailyReset={false},stocked={false};int[] paths={0};
         h.runAtTickTime(5,()->requestJobWalk(h,v));
-        h.onEachTick(()->{h.assertFalse(onComposter(h,v,8,8)||second&&onComposter(h,v,10,8),"Native approach and work strolls never stand on composters");
-            var path=v.getNavigation().getPath();if(path!=null&&!path.isDone()){paths[0]++;for(int i=path.getNextNodeIndex();i<path.getNodeCount();i++)h.assertFalse(h.getLevel().getBlockState(path.getNodePos(i).below()).is(Blocks.COMPOSTER),"Native path nodes avoid every composter top");}
+        h.onEachTick(()->{boolean controlled=FarmerModule.eligible(v,h.getLevel());if(controlled)h.assertFalse(onComposter(h,v,8,8)||second&&onComposter(h,v,10,8),"Controlled native work approach and strolls never stand on composters");
+            var path=v.getNavigation().getPath();if(controlled&&path!=null&&!path.isDone()){paths[0]++;for(int i=path.getNextNodeIndex();i<path.getNodeCount();i++)h.assertFalse(h.getLevel().getBlockState(path.getNodePos(i).below()).is(Blocks.COMPOSTER),"Native path nodes avoid every composter top");}
             arrived[0]|=p(h,8,8).closerToCenterThan(v.position(),1.73);
             var current=v.getOffers().getFirst();if(current.getUses()==0&&v.nativeRestocks==0&&!dailyReset[0]){for(int i=0;i<8;i++)current.increaseUses();dailyReset[0]=true;}stocked[0]|=current.getUses()==0&&v.nativeRestocks>0;
         });

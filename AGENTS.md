@@ -1,6 +1,8 @@
 # 26.3 工程约束
 
-当前阶段（2026-10-15）：Phase 3-A2.5 Farmer Behavior Refinement 已完成工程与限定自动验证，见外层[实现报告](../development-records/phase3-a2.5/IMPLEMENTATION_REPORT.md)、[测试](../development-records/phase3-a2.5/TEST_REPORT.md)和[A2→A3 交接](../development-records/phase3-a2.5/A2_TO_A3_HANDOFF.md)。Core 与 Farmer 默认均关闭；持久格式与 Phase 2 行为保持不变。提交后等待人工审核，未进入 Profession Activity；下方旧阶段描述保留历史时点，用户最新任务优先。
+当前阶段更新（2026-10-15）：Phase 3-A3 已实施职业入口、真实资源活动和可选有归属展示，自动验证与限制见外层 [A3 实现](../development-records/phase3-a3/A3_IMPLEMENTATION_REPORT.md)、[测试](../development-records/phase3-a3/A3_TEST_REPORT.md)、[总体验收](../development-records/phase3-a3/A3_FINAL_ACCEPTANCE.md)。Core、Farmer、新职业模块仍默认关闭；等待人工总体验收。以下旧条目保留历史时点。
+
+历史阶段（2026-10-15）：Phase 3-A2.5 Farmer Behavior Refinement 已完成工程与限定自动验证，见外层[实现报告](../development-records/phase3-a2.5/IMPLEMENTATION_REPORT.md)、[测试](../development-records/phase3-a2.5/TEST_REPORT.md)和[A2→A3 交接](../development-records/phase3-a2.5/A2_TO_A3_HANDOFF.md)。Core 与 Farmer 默认均关闭；持久格式与 Phase 2 行为保持不变。提交后等待人工审核，未进入 Profession Activity；下方旧阶段描述保留历史时点，用户最新任务优先。
 
 遵循工作区外层 AGENTS.md、CODE_REVIEW.md、VERSION_MIGRATION.md 和用户最新授权。唯一目标版本为本目录；其他版本，尤其26.3-tests，只读。
 

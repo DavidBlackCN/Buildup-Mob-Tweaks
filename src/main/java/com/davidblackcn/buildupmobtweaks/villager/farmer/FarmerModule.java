@@ -46,6 +46,7 @@ public final class FarmerModule {
         if(!eligible(v,level)){if(ACTIVE.containsKey(v))stop(v);return;}
         if(v.hasAttached(FarmerState.DATA))FarmerState.decrement(v);
     }
+    public static boolean working(Villager v){return ACTIVE.containsKey(v);}
     public static void stop(Villager v){FarmerActivity.releaseClaims(v);var a=ACTIVE.remove(v);if(a!=null)a.stop(new WorkActivity.Context((ServerLevel)v.level(),v,profile()),WorkActivity.StopReason.INTERRUPTED);}
     public static void stopForReload(MinecraftServer server){for(var v:List.copyOf(ACTIVE.keySet()))if(v.level().getServer()==server)stop(v);}
     private FarmerModule(){}

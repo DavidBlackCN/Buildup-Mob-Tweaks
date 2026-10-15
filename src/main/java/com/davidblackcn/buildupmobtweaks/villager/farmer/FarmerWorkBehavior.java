@@ -16,6 +16,7 @@ public final class FarmerWorkBehavior extends HarvestFarmland {
                 &&v.getBrain().checkMemory(MemoryModuleType.LOOK_TARGET,MemoryStatus.REGISTERED)&&v.getBrain().checkMemory(MemoryModuleType.JOB_SITE,MemoryStatus.VALUE_PRESENT);
     }
     protected boolean checkExtraStartConditions(ServerLevel l,Villager v){
+        if(com.davidblackcn.buildupmobtweaks.villager.profession.ProfessionWorkState.busy(v))return false;
         var owner=FarmerModule.owner(v);if(owner==FarmerModule.Owner.VANILLA)return super.checkExtraStartConditions(l,v);
         if(owner!=FarmerModule.Owner.BUILDUP)return false;
         context=new WorkActivity.Context(l,v,FarmerModule.profile());

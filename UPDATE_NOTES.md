@@ -97,3 +97,7 @@
 - 🌾 feat(farmer): protect controlled farmers from trampling soil, prefer safe farm routes and nearby same-crop work, and traverse straight stairs without work jumps; native fall damage and opt-out behavior remain.
 
 - 🌾 fix(farmer): approach composters from safe adjacent work positions and avoid their interiors and tops during controlled work; preserve native restocking and allow existing occupants to leave safely.
+
+- ✨ feat(villager): add opt-in profession work through native Brain slots, real-food recovery, NPC fishing, shearing, healing from stocked potions and golem repairs using real iron; keep all experimental master switches off by default.
+- 🛡️ feat(villager): add separately gated baby feeding, real-arrow target practice and material-backed owned displays with permission checks, safe interruption and conservative player-edit handling.
+- 🧪 test(villager): validate 685 required regressions, formal-JAR unload and cold restart, legacy v13 configuration, and actual NPC item, meal and fishing-line rendering in client and singleplayer environments.

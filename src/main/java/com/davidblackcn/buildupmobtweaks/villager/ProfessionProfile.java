@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 
-/** Description reserved for A2. No profiles or profession activities are registered in A1. */
+/** Existing profession/POI description shared by the farmer and registered A3 activities. */
 public record ProfessionProfile(Identifier id, ResourceKey<VillagerProfession> profession,
                                 ResourceKey<PoiType> workPoi, int workRadius) {
     public ProfessionProfile {

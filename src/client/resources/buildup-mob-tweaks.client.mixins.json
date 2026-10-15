@@ -24,7 +24,13 @@
     "rebuild.SkeletonRenderStateMixin",
     "rebuild.SkeletonRendererMixin",
     "rebuild.SkeletonRotationMixin",
-    "rebuild.GhastRebuildVisualMixin"
+    "rebuild.GhastRebuildVisualMixin",
+    "rebuild.VillagerWorkStateMixin",
+    "rebuild.LivingItemModelAccess",
+    "rebuild.VillagerWorkRendererMixin",
+    "rebuild.VillagerWorkItemPoseMixin",
+    "rebuild.VillagerFishingRenderMixin",
+    "rebuild.VillagerRodCastMixin"
   ],
   "injectors": {
     "defaultRequire": 1

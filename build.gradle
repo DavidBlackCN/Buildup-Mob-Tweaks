@@ -103,6 +103,11 @@ sourceSets.client.java {
     include 'com/davidblackcn/buildupmobtweaks/client/BuildupMobTweaksDataGenerator.java'
 }
 sourceSets.gametest.java {
+    include 'com/davidblackcn/buildupmobtweaks/ProfessionBoundaryTests.java'
+    include 'com/davidblackcn/buildupmobtweaks/compat/test_profession/**'
+    include 'com/davidblackcn/buildupmobtweaks/ProfessionRefinementTests.java'
+    include 'com/davidblackcn/buildupmobtweaks/ProfessionResourceTests.java'
+    include 'com/davidblackcn/buildupmobtweaks/ProfessionCoreTests.java'
     include 'com/davidblackcn/buildupmobtweaks/FarmerIntelligenceTests.java'
     include 'com/davidblackcn/buildupmobtweaks/FarmerBehaviorRefinementTests.java'
     include 'com/davidblackcn/buildupmobtweaks/VillagerCoreTests.java'

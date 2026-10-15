@@ -45,4 +45,4 @@
 
 服务器所有者可用 `/buildupmobtweaks villager <实体>` 查看各部分是否运行、让位原因、原版活动、检查计数与重试记录；该命令只读，服从 `general.diagnosticProbe`。未知或异常版本的数据原样保留，相关 Core 暂停。
 
-[农夫智能](FARMER_INTELLIGENCE.md)已提供独立实验开关，依赖 Core 与 schedule_coordination。Core 本身不收获作物；其他职业工作尚待后续阶段。
+[农夫智能](FARMER_INTELLIGENCE.md)已提供独立实验开关，依赖 Core 与 schedule_coordination。Core 本身不收获作物；[职业工作](PROFESSION_WORK.md)已提供独立实验开关，使用原版工作选择槽与 Core 控制条件。

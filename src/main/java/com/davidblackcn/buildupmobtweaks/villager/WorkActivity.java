@@ -4,7 +4,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.npc.villager.Villager;
 
-/** Lifecycle contract reserved for A2; A1 neither registers nor executes an implementation. */
+/** One interruptible activity. Farmer and A3 work slots share this lifecycle contract. */
 public interface WorkActivity {
     enum Result { CONTINUE, COMPLETE, FAILED }
     enum StopReason { COMPLETE, FAILED, INTERRUPTED, DISABLED, UNLOADED }

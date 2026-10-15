@@ -54,6 +54,7 @@ public final class BuildupConfig extends Config {
         @Comment("Experimental Villager Core; enable for review. Native Brain, professions and trades remain authoritative.")
         public ValidatedBoolean enabled = new ValidatedBoolean(false);
         public Farmer farmer = new Farmer();
+        public Professions professions = new Professions();
         public ValidatedBoolean poi_checks = new ValidatedBoolean(true);
         public ValidatedBoolean navigation_safety = new ValidatedBoolean(true);
         public ValidatedBoolean schedule_coordination = new ValidatedBoolean(true);
@@ -62,6 +63,44 @@ public final class BuildupConfig extends Config {
         public ValidatedInt stuck_ticks = new ValidatedInt(80, 600, 40);
         public ValidatedInt retry_ticks = new ValidatedInt(100, 1200, 20);
         public ValidatedInt max_retries = new ValidatedInt(2, 5, 1);
+    }
+
+    public static final class Professions extends ConfigSection {
+        public ValidatedBoolean enabled = new ValidatedBoolean(false);
+        public ValidatedBoolean external_control = new ValidatedBoolean(false);
+        public ValidatedBoolean protection_required = new ValidatedBoolean(false);
+        public ValidatedBoolean self_heal = new ValidatedBoolean(true);
+        public ProfessionSwitches profession_switches = new ProfessionSwitches();
+        public ValidatedBoolean daily_routines = new ValidatedBoolean(true);
+        public ValidatedBoolean fishing = new ValidatedBoolean(true);
+        public ValidatedBoolean shearing = new ValidatedBoolean(true);
+        public ValidatedBoolean cleric_healing = new ValidatedBoolean(true);
+        public ValidatedBoolean golem_repair = new ValidatedBoolean(true);
+        public ValidatedBoolean baby_feeding = new ValidatedBoolean(false);
+        public ValidatedBoolean wool_pickup = new ValidatedBoolean(false);
+        public ValidatedBoolean archery_training = new ValidatedBoolean(false);
+        public ValidatedBoolean decoration_frames = new ValidatedBoolean(false);
+        public ValidatedBoolean decoration_stands = new ValidatedBoolean(false);
+        public ValidatedBoolean decoration_blocks = new ValidatedBoolean(false);
+        public ValidatedInt scan_interval = new ValidatedInt(60,1200,20);
+        public ValidatedInt action_cooldown = new ValidatedInt(200,2400,20);
+        public ValidatedInt world_scan_budget = new ValidatedInt(512,4096,64);
+    }
+
+    public static final class ProfessionSwitches extends ConfigSection {
+        public ValidatedBoolean armorer = new ValidatedBoolean(true);
+        public ValidatedBoolean butcher = new ValidatedBoolean(true);
+        public ValidatedBoolean cartographer = new ValidatedBoolean(true);
+        public ValidatedBoolean cleric = new ValidatedBoolean(true);
+        public ValidatedBoolean farmer = new ValidatedBoolean(true);
+        public ValidatedBoolean fisherman = new ValidatedBoolean(true);
+        public ValidatedBoolean fletcher = new ValidatedBoolean(true);
+        public ValidatedBoolean leatherworker = new ValidatedBoolean(true);
+        public ValidatedBoolean librarian = new ValidatedBoolean(true);
+        public ValidatedBoolean mason = new ValidatedBoolean(true);
+        public ValidatedBoolean shepherd = new ValidatedBoolean(true);
+        public ValidatedBoolean toolsmith = new ValidatedBoolean(true);
+        public ValidatedBoolean weaponsmith = new ValidatedBoolean(true);
     }
 
     public static final class Farmer extends ConfigSection {

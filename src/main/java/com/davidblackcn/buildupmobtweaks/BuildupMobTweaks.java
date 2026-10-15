@@ -43,6 +43,7 @@ public class BuildupMobTweaks implements ModInitializer {
         com.davidblackcn.buildupmobtweaks.rebuild.skeleton.SkeletonDifferences.bootstrap();
         com.davidblackcn.buildupmobtweaks.equipment.EquipmentService.bootstrap();
         com.davidblackcn.buildupmobtweaks.rebuild.profession.ProfessionState.bootstrap();
+        com.davidblackcn.buildupmobtweaks.villager.profession.ProfessionModule.register();
         com.davidblackcn.buildupmobtweaks.rebuild.illusion.IllusionState.bootstrap();
 		DiagnosticCommands.register(features);
         // R2-A: legacy S2 services stay unregistered until individually rebuilt.

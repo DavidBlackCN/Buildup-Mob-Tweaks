@@ -23,3 +23,16 @@ R2-C 按同一 MIT 声明参考 CExkBTN8 的 AbstractZombieEntityMixin、HuskEnt
 R4-C 按同一 MIT 声明参考/改编 CExkBTN8 与 bFb56Zw2 的 WitchEntityMixin、EvokerEntityMixin、EvokerCastFireballGoal、EvokerSummonVexGoalMixin、VexEntityMixin 与 SmallFireballEntityMixin。Copyright (c) 2024 N0t_UN_Owen。对应实现为 rebuild/witch、rebuild/evoker、rebuild/vex、rebuild/raid 及 mixin/rebuild 的 Witch/Evoker/Vex/Raid 类；独立世界预算、真实临时副手图腾、持久名额索引、未知数据保护和固定方向绝对终点由 Buildup 改编/重写。保留原版选药、复活、施法与攻击链，不复制 OP、附魔、奖励、额外投射物倍率、WindCharge 爆炸或资源素材。
 
 R4-D 按同一 MIT 声明参考/改编两版发行源码的 GhastShootGoalMixin、GhastEntityRendererMixin、BlazeShootGoalMixin、BlazeEntityMixin、SilverfishEntityMixin 的匿名 HideGoal、SilverfishCallForHelpGoalMixin、EndermanEntityMixin 的匿名 MeleeAttackGoal、CreeperEntityMixin、SpiderEntityMixin 与 BreezeJumpTaskMixin（精确恢复路径见外层 source-evidence.json）。Copyright (c) 2024 N0t_UN_Owen。对应 rebuild/remaining、mixin/rebuild 的 Remaining/Ghast/Blaze/Silverfish/Creeper/Breeze 类及客户端 GhastRebuildVisualMixin。有限生命周期、保存冷却、目标/模式退出、独立开关与安全清理由 Buildup 重写；保留原版 Goal/Brain、近战/火球/援军/爆炸链，不复制 OP、附魔、掉泪/火焰弹奖励或蠹虫全伤害免疫。恶魂慢弹为 Buildup 独立设计，不能声称上游等价。
+
+
+## Phase 3-A3 村民职业参考记录
+
+A3 参考 Mob AI Tweaks 的 VillagerSpecificRoleGoal、VillagerEatItemToHealGoal 和村民钓线机制；26.3 职业工作入口、真实库存结算、NPC 浮漂与展示归属由 Buildup 独立重写。没有沿用停止完整 Brain、生成临时工具／药水、付费特殊服务或缺粮聊天的实现。原项目作者 Unknowneth / N0t_UN_Owen。
+
+本次直接读取的 CExkBTN8 与 bFb56Zw2 发行恢复目录中，LICENSE_mob-ai-tweaks 文件内容为 CC0，beta 元数据为 CC0、1.11.3 元数据为 MIT。本条记录此次文件事实，不改写上文历史维护者确认的 MIT 许可口径；保留 [发行许可证原文](licenses/Mob-AI-Tweaks-A3-distribution-CC0.txt)与原 MIT 文本，原始证据在工作区 A3 审计归档。
+
+Real Working Villagers 1.0.2（Modrinth 版本 MZH66GHA、Minecraft26.2）作为行为比较，发行 JAR 经反编译审阅，未获得作者公开源码仓库。发行 JAR 作者署名 mellow。项目页面称 MIT，JAR 元数据与 LICENSE_modid 实为 CC0，保留[发行原文](licenses/Real-Working-Villagers-A3-distribution-CC0.txt)。本项目没有复制其整套控制器、自定义浮漂或生成式装饰实现。
+
+Liberty’s Villagers Revived 的源码审阅固定在 Leclowndu93150/Liberty-Villagers，1.21.11 分支，提交 40e1384183c074bcfc63ae15b231c9bcd31429ad。Copyright (c) 2025 Leclowndu93150；仓库 [MIT 原文](licenses/Liberty-Villagers-MIT.txt)保留。参考其工作任务与治疗目标选择，没有移植替换整个职业工作包的 Mixin。
+
+参考项目的适用版本不代表与本版兼容；真实第三方 Mod 组合尚未验证。上述项目源码／发行 JAR、反编译器和开发探针不进入正式 Mod 分发包。来源链接和固定哈希见工作区 development-records/phase3-a3/A3_REFERENCE_FEATURE_MATRIX.md。

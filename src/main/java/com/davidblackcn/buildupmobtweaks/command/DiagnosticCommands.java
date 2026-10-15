@@ -43,6 +43,7 @@ public final class DiagnosticCommands {
                                     context.getSource().sendSuccess(()->Component.translatable("commands.buildupmobtweaks.farmer",
                                             com.davidblackcn.buildupmobtweaks.villager.farmer.FarmerModule.owner(v).toString(),farming,
                                             String.valueOf(v.getAttached(com.davidblackcn.buildupmobtweaks.villager.farmer.FarmerState.DATA))),false);
+                                    context.getSource().sendSuccess(()->Component.translatable("commands.buildupmobtweaks.profession_work",com.davidblackcn.buildupmobtweaks.villager.profession.ProfessionDiagnostics.describe(v)),false);
                                     return 1;
                                 })))
                         .then(Commands.literal("traits").requires(Commands.hasPermission(Commands.LEVEL_OWNERS))

@@ -10,9 +10,11 @@
       "com.davidblackcn.buildupmobtweaks.CombatTestItems",
       "com.davidblackcn.buildupmobtweaks.qa.QaHarness",
       "com.davidblackcn.buildupmobtweaks.VillagerCoreTests",
-      "com.davidblackcn.buildupmobtweaks.FarmerIntelligenceTests"
+      "com.davidblackcn.buildupmobtweaks.FarmerIntelligenceTests",
+      "com.davidblackcn.buildupmobtweaks.FarmerBehaviorRefinementTests"
     ],
     "fabric-gametest": [
+      "com.davidblackcn.buildupmobtweaks.FarmerBehaviorRefinementTests",
       "com.davidblackcn.buildupmobtweaks.FarmerIntelligenceTests",
       "com.davidblackcn.buildupmobtweaks.VillagerCoreTests",
       "com.davidblackcn.buildupmobtweaks.TraitArchitectureTests",

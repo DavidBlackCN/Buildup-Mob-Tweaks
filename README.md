@@ -4,7 +4,7 @@ Buildup Mob Tweaks 改善 Minecraft 生物的战斗、装备使用和日常行�
 
 本分支适用于 **Minecraft Java Edition 26.3 / Fabric**。各项行为可独立开关；特殊能力有触发条件或出生概率，不会出现在每一只生物身上。
 
-实验性的[村民核心](docs/VILLAGER_CORE.md)和[农夫智能](docs/FARMER_INTELLIGENCE.md)已提供，均默认关闭；测试存档可启用床／工作站检查、寻路恢复，以及成熟作物收获与真实库存同种补种。原版交易补货与日程保留。
+实验性的[村民核心](docs/VILLAGER_CORE.md)和[农夫智能](docs/FARMER_INTELLIGENCE.md)已提供，均默认关闭；测试存档可启用床／工作站检查、寻路恢复，以及成熟作物收获与真实库存同种补种。农夫会优先选择安全农业路线，支持直楼梯并保护耕地；原版交易补货与日程保留。
 
 ## 安装
 
@@ -49,6 +49,6 @@ Buildup Mob Tweaks 改善 Minecraft 生物的战斗、装备使用和日常行�
 
 默认继续采用 Phase 1 行为。管理员可以在新个体上体验首批七项的统一抽取；模式与结果保存，旧个体不会因开关变化而重抽。当前尸壳／沼骸的新池需显式配置，其他候选暂不纳入统一模式。用法见[配置说明](docs/CONFIGURATION.md#可选统一特性抽取)。
 
-Phase 2 的特性资格、生成来源、装备与状态边界及生命周期验证已完成，统一注册范围为首批七项。当前默认配置与数值保持不变；Phase 3-A1 Villager Core 与 A2 Farmer 已完成工程和限定自动验证，默认关闭，等待人工审核；其他职业、Boss Profile 和外部大型内容联动尚未实施。
+Phase 2 的特性资格、生成来源、装备与状态边界及生命周期验证已完成，统一注册范围为首批七项。当前默认配置与数值保持不变；Phase 3-A1 Villager Core、A2 Farmer 与 A2.5 环境适应已完成工程和限定自动验证，默认关闭，等待人工审核；其他职业、Boss Profile 和外部大型内容联动尚未实施。
 
 开发与整合包维护入口为外层[默认配置](../development-records/phase2-c/DEFAULT_CONFIGURATION_SPEC.md)、[平衡记录](../development-records/phase2-c/DEFAULT_BALANCE_GUIDE.md)、[兼容路线](../development-records/phase2-c/COMPATIBILITY_ROADMAP.md)和[发布收口报告](../development-records/phase2-c/COMPLETION_REPORT.md)，等待人工最终验收。报告和开发探针位于版本 Git 之外。

@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import net.minecraft.world.entity.ai.memory.*;
-import net.minecraft.world.level.pathfinder.Path;
 import java.util.*;
 
 /** One native work slot runs one crop target. Failed targets are skipped for the next scan cycle. */
@@ -48,10 +47,22 @@ public final class FarmerActivity implements WorkActivity {
                     &&permits(l,v,p,InteractionPolicy.Operation.HARVEST)&&permits(l,v,p,InteractionPolicy.Operation.REPLANT)&&available(l,p,v))candidates.add(p);
         }
         if(s.cursor>=total){s.cursor=0;s.nextScan=now+BuildupMobTweaks.config().villagers.farmer.scan_interval.get();s.failed.clear();}
-        candidates.sort(Comparator.comparingDouble((BlockPos p)->p.distToCenterSqr(v.position())).thenComparingLong(BlockPos::asLong));
-        // At most four path queries per scheduled work attempt, even with many mature crops.
-        for(var p:candidates.stream().limit(4).toList())if(safePath(l,v,p,s)){s.target=p;s.crop=snapshot.byCrop().get(l.getBlockState(p).getBlock());return true;}else s.failed.add(p);
-        return false;
+        if(candidates.isEmpty())return false;
+        // Local continuity changes selection, never the seed or the type planted in an empty block.
+        var nearest=candidates.stream().min(Comparator.comparingDouble((BlockPos p)->p.distToCenterSqr(v.position())).thenComparingLong(BlockPos::asLong)).orElseThrow();
+        var preferred=s.lastCrop!=null&&s.lastCropPos!=null&&s.lastCropPos.closerToCenterThan(v.position(),5)
+                ?s.lastCrop:snapshot.byCrop().get(l.getBlockState(nearest).getBlock()).id();
+        java.util.function.ToIntFunction<BlockPos> group=p->snapshot.byCrop().get(l.getBlockState(p).getBlock()).id().equals(preferred)&&p.closerToCenterThan(v.position(),5)?0:1;
+        candidates.sort(Comparator.comparingInt(group).thenComparingDouble(p->p.distToCenterSqr(v.position())).thenComparingLong(BlockPos::asLong));
+        BlockPos best=null;FarmNavigation.Route route=null;int bestGroup=2;
+        // A fixed four-query shortlist keeps the existing per-attempt path budget.
+        for(var p:candidates.stream().limit(4).toList()){
+            s.pathRequests++;var found=FarmNavigation.plan(l,v,p);
+            if(found==null){s.failed.add(p);continue;}
+            int g=group.applyAsInt(p);
+            if(best==null||g<bestGroup||g==bestGroup&&(found.cost()<route.cost()||found.cost()==route.cost()&&(found.length()<route.length()||found.length()==route.length()&&p.asLong()<best.asLong()))){best=p;route=found;bestGroup=g;}
+        }
+        if(best==null)return false;s.target=best;s.crop=snapshot.byCrop().get(l.getBlockState(best).getBlock());s.route=route;return true;
     }
     private boolean restoreTarget(Context ctx,CropProfiles.Snapshot snapshot){
         var v=ctx.villager();var l=ctx.level();var t=FarmerState.data(v);var s=FarmerState.runtime(v);
@@ -77,27 +88,27 @@ public final class FarmerActivity implements WorkActivity {
     private static boolean hasMaterial(Villager v,CropProfile c){return v.getInventory().countItem(c.seed())>=c.count();}
     private static boolean available(ServerLevel l,BlockPos p,Villager v){var claim=CLAIMS.get(new Target(l,p));return claim==null||claim.owner()==v||claim.owner().isRemoved()||claim.expiry()<l.getGameTime();}
     private static boolean safePath(ServerLevel l,Villager v,BlockPos p,FarmerState.Runtime s){
-        // No jumping onto/off crops or across a water channel; use same-level safe movement only.
-        int feetY=net.minecraft.util.Mth.floor(v.getY()+0.1);if(p.getY()!=feetY)return false;
-        if(p.closerToCenterThan(v.position(),1.8))return !NavigationSafety.hazardous(l,v.blockPosition());
-        Path path=v.getNavigation().createPath(p,1);s.pathRequests++;
-        if(path==null||!path.canReach())return false;
-        for(int i=0;i<path.getNodeCount();i++)if(path.getNodePos(i).getY()!=feetY||NavigationSafety.hazardous(l,path.getNodePos(i)))return false;
-        return true;
+        s.pathRequests++;s.route=FarmNavigation.plan(l,v,p);return s.route!=null;
     }
     public void start(Context ctx){var v=ctx.villager();var s=FarmerState.runtime(v);
-        if(s.target==null||!available(ctx.level(),s.target,v))return;
-        s.active=true;s.done=false;s.starts++;s.reason="working";s.deadline=ctx.level().getGameTime()+BuildupMobTweaks.config().villagers.farmer.target_timeout.get();
+        if(s.target==null||s.route==null||!available(ctx.level(),s.target,v))return;
+        s.active=true;s.done=false;s.routeInvalidated=false;s.starts++;s.reason="working";s.deadline=ctx.level().getGameTime()+BuildupMobTweaks.config().villagers.farmer.target_timeout.get();
         CLAIMS.put(new Target(ctx.level(),s.target),new Claim(v,s.deadline));FarmerModule.ACTIVE.put(v,this);
-        s.look=new BlockPosTracker(s.target);s.walk=new WalkTarget(s.look,0.5F,1);
-        v.getBrain().setMemory(MemoryModuleType.LOOK_TARGET,s.look);v.getBrain().setMemory(MemoryModuleType.WALK_TARGET,s.walk);
+        s.look=new BlockPosTracker(s.target);s.walk=new WalkTarget(s.look,0.5F,1);s.path=s.route.path();
+        v.getBrain().setMemory(MemoryModuleType.LOOK_TARGET,s.look);
+        if(s.path!=null){
+            v.getBrain().setMemory(MemoryModuleType.WALK_TARGET,s.walk);
+            // PATH reserves the native movement slot; native navigation still runs movement physics.
+            v.getBrain().setMemory(MemoryModuleType.PATH,s.path);
+            if(!v.getNavigation().moveTo(s.path,0.5))FarmerModule.stop(v);
+        }
     }
     public Result tick(Context ctx){var v=ctx.villager();var l=ctx.level();var s=FarmerState.runtime(v);
-        if(!s.active||s.done||!FarmerModule.eligible(v,l)||l.getGameTime()>s.deadline)return Result.FAILED;
+        if(!s.active||s.done||s.routeInvalidated||!FarmerModule.eligible(v,l)||l.getGameTime()>s.deadline)return Result.FAILED;
         var snapshot=CropProfiles.get(l.getServer());var c=s.crop;
         if(!snapshot.rules().containsKey(c.id())||!snapshot.rules().get(c.id()).signature().equals(c.signature())||!l.hasChunkAt(s.target))return Result.FAILED;
-        if(!s.target.closerToCenterThan(v.position(),1.8)){
-            if(v.getBrain().getMemory(MemoryModuleType.WALK_TARGET).orElse(null)!=s.walk||NavigationSafety.hazardousPath(l,v.getNavigation().getPath()))return Result.FAILED;
+        if(!FarmNavigation.canWorkFrom(l,v,s.target)){
+            if(!FarmNavigation.ownsRoute(v)||v.getNavigation().isDone()||!FarmNavigation.safeRemaining(l,s.path,s.path.getNextNodeIndex()))return Result.FAILED;
             return Result.CONTINUE;
         }
         if(!hasMaterial(v,c))return Result.FAILED;
@@ -116,17 +127,17 @@ public final class FarmerActivity implements WorkActivity {
         if(!handler.plant(l,v,s.target,c))return Result.FAILED;
         int left=c.count();for(int i=0;i<v.getInventory().getContainerSize()&&left>0;i++)if(v.getInventory().getItem(i).is(c.seed()))left-=v.getInventory().removeItem(i,left).getCount();
         if(left!=0)throw new IllegalStateException("Reserved seed missing during same-thread placement");
-        s.replants++;s.done=true;FarmerState.clear(v,BuildupMobTweaks.config().villagers.farmer.action_interval.get());return Result.COMPLETE;
+        s.replants++;s.lastCrop=c.id();s.lastCropPos=s.target;s.done=true;FarmerState.clear(v,BuildupMobTweaks.config().villagers.farmer.action_interval.get());return Result.COMPLETE;
     }
     public void stop(Context ctx,StopReason reason){var v=ctx.villager();var optional=FarmerState.peek(v);if(optional.isEmpty())return;var s=optional.get();
         if(!s.active)return;s.active=false;s.stops++;s.reason=reason.name().toLowerCase(Locale.ROOT);
         var key=new Target(ctx.level(),s.target);var claim=CLAIMS.get(key);if(claim!=null&&claim.owner()==v)CLAIMS.remove(key);
-        var brain=v.getBrain();if(brain.checkMemory(MemoryModuleType.WALK_TARGET,MemoryStatus.REGISTERED)&&brain.getMemory(MemoryModuleType.WALK_TARGET).orElse(null)==s.walk){
-            if(brain.checkMemory(MemoryModuleType.PATH,MemoryStatus.REGISTERED)&&brain.getMemory(MemoryModuleType.PATH).orElse(null)==v.getNavigation().getPath())v.getNavigation().stop();
-            brain.eraseMemory(MemoryModuleType.WALK_TARGET);
-        }
+        var brain=v.getBrain();
+        if(s.path!=null&&v.getNavigation().getPath()==s.path)v.getNavigation().stop();
+        if(s.path!=null&&brain.checkMemory(MemoryModuleType.PATH,MemoryStatus.REGISTERED)&&brain.getMemory(MemoryModuleType.PATH).orElse(null)==s.path)brain.eraseMemory(MemoryModuleType.PATH);
+        if(brain.checkMemory(MemoryModuleType.WALK_TARGET,MemoryStatus.REGISTERED)&&brain.getMemory(MemoryModuleType.WALK_TARGET).orElse(null)==s.walk)brain.eraseMemory(MemoryModuleType.WALK_TARGET);
         if(brain.checkMemory(MemoryModuleType.LOOK_TARGET,MemoryStatus.REGISTERED)&&brain.getMemory(MemoryModuleType.LOOK_TARGET).orElse(null)==s.look)brain.eraseMemory(MemoryModuleType.LOOK_TARGET);
         if(!s.done){s.failed.add(s.target);s.nextScan=ctx.level().getGameTime()+BuildupMobTweaks.config().villagers.farmer.scan_interval.get();}
-        FarmerModule.ACTIVE.remove(v);s.walk=null;s.look=null;s.target=null;s.crop=null;
+        FarmerModule.ACTIVE.remove(v);s.walk=null;s.look=null;s.target=null;s.crop=null;s.path=null;s.route=null;
     }
 }

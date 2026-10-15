@@ -17,9 +17,11 @@ public final class FarmerState {
     public static final class Runtime {
         BlockPos target,scanCenter;CropProfile crop;WalkTarget walk;PositionTracker look;
         UUID generation;long nextScan,deadline;int cursor;boolean active,done,fault;
+        net.minecraft.world.level.pathfinder.Path path;FarmNavigation.Route route;boolean routeInvalidated;
+        Identifier lastCrop;BlockPos lastCropPos;
         final Set<BlockPos> failed=new HashSet<>();
-        public int scanned,harvests,replants,starts,stops,pathRequests;
-        public String reason="idle";
+        public int scanned,harvests,replants,starts,stops,pathRequests,protectedTramples;
+        public String reason="idle",landingDecision="unobserved";
     }
     public static Runtime runtime(Villager v){return v.getAttachedOrCreate(RUNTIME);}
     public static Optional<Runtime> peek(Villager v){return v.hasAttached(RUNTIME)?Optional.of(v.getAttached(RUNTIME)):Optional.empty();}

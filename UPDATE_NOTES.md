@@ -95,3 +95,5 @@
 - 🧠 feat(villager): add opt-in POI validation and bounded navigation recovery while preserving native trades and schedules.
 - 🌾 feat(farmer): add opt-in mature crop harvesting and same-crop replanting from real inventory, with guarded save recovery and native trading schedules preserved.
 - 🌾 feat(farmer): protect controlled farmers from trampling soil, prefer safe farm routes and nearby same-crop work, and traverse straight stairs without work jumps; native fall damage and opt-out behavior remain.
+
+- 🌾 fix(farmer): approach composters from safe adjacent work positions and avoid their interiors and tops during controlled work; preserve native restocking and allow existing occupants to leave safely.

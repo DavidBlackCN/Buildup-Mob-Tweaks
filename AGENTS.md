@@ -16,3 +16,5 @@
 - Phase2-B-1已按用户最新任务完成文档分类与状态边界候选，见外层[分类矩阵](../development-records/phase2-b-1/TRAIT_CLASSIFICATION_MATRIX.md)、[状态归属](../development-records/phase2-b-1/STATE_OWNERSHIP_SPEC.md)和[生成来源](../development-records/phase2-b-1/SPAWN_RULE_SPEC.md)。本轮B-1替代旧计划中的直接架构实施安排；等待人工审核，未实施Trait框架、概率／存档迁移或API，B-2仍需明确任务。
 - Phase2-B本轮B-2-1～B-2-6首批七项已实现，见外层[架构报告](../development-records/phase2-b-implementation/ARCHITECTURE_REPORT.md)与[人工验收](../development-records/phase2-b-implementation/FINAL_ACCEPTANCE.md)。用户确认默认保持Phase1行为：unified_selection默认false，新规则可选，旧有效概率等价映射，潜沙／孢子新概率未配置。旧模块附件继续分立，旧TraitService未启用；后续候选与发布默认值待审核。等待人工总体验收，不自动进入Phase3。
 - 用户持续授权任务完成、验证和自检后做一次本地commit，遵循Gitmoji + Conventional Commits，包含适用UPDATE_NOTES；不推送、不发布、不切换分支。明确说明工作区根目录归档不在版本提交内。
+
+- 2026-10-15 人工反馈修正：农夫工作站安全站位与桶顶避让已验证，见外层[实现报告](../development-records/phase3-a2.5-workstation/IMPLEMENTATION_REPORT.md)和[测试报告](../development-records/phase3-a2.5-workstation/TEST_REPORT.md)。实验默认与持久格式不变，未进入 A3。

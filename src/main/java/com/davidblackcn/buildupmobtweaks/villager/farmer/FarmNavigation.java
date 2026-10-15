@@ -56,10 +56,10 @@ public final class FarmNavigation {
         for(int i=from;i<end;i++)if(!safeFoot(l,path.getNodePos(i))||i>0&&!safeEdge(l,path.getNodePos(i-1),path.getNodePos(i)))return false;
         return true;
     }
-    private static boolean safeFoot(ServerLevel l,BlockPos p){
+    static boolean safeFoot(ServerLevel l,BlockPos p){
         // A body-width margin is required even at a chunk boundary. Unknown space is not free space.
         for(int x=-1;x<=1;x++)for(int z=-1;z<=1;z++)if(!l.hasChunkAt(p.offset(x,0,z)))return false;
-        if(NavigationSafety.hazardous(l,p)||l.getBlockState(p).getFluidState().is(FluidTags.WATER)
+        if(l.getBlockState(p.below()).is(Blocks.COMPOSTER)||NavigationSafety.hazardous(l,p)||l.getBlockState(p).getFluidState().is(FluidTags.WATER)
                 ||l.getBlockState(p).is(Blocks.SWEET_BERRY_BUSH)||l.getBlockState(p).is(Blocks.WITHER_ROSE))return false;
         if(!bodySpace(l,p)||!bodySpace(l,p.above()))return false;
         return !l.getBlockState(p.below()).getCollisionShape(l,p.below()).isEmpty();
@@ -71,7 +71,7 @@ public final class FarmNavigation {
         var state=l.getBlockState(p.below());return state.getBlock() instanceof StairBlock&&state.getValue(StairBlock.HALF)==Half.BOTTOM
                 &&state.getValue(StairBlock.SHAPE)==StairsShape.STRAIGHT&&state.getValue(StairBlock.FACING)==up;
     }
-    private static boolean safeEdge(ServerLevel l,BlockPos a,BlockPos b){
+    static boolean safeEdge(ServerLevel l,BlockPos a,BlockPos b){
         if(!safeFoot(l,a)||!safeFoot(l,b))return false;
         if(a.getX()!=b.getX()&&a.getZ()!=b.getZ()&&(!safeFoot(l,new BlockPos(a.getX(),b.getY(),b.getZ()))||!safeFoot(l,new BlockPos(b.getX(),b.getY(),a.getZ()))))return false;
         double dy=WalkNodeEvaluator.getFloorLevel(l,b)-WalkNodeEvaluator.getFloorLevel(l,a);

@@ -99,4 +99,65 @@ public final class FarmerBehaviorRefinementTests implements ModInitializer {
     @GameTest(environment=REFINE,structure=ARENA,maxTicks=150)
     public void tradingPausesWorkButDoesNotRemovePassiveLandingProtection(GameTestHelper h){floor(h);crop(h,9,8,Blocks.CARROTS,false);var v=farmer(h,9,8,false);var player=h.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);v.getOffers();v.setTradingPlayer(player);var pos=p(h,9,8);v.snapTo(pos.getX()+.5,pos.getY()+5,pos.getZ()+.5,0,0);
         h.runAtTickTime(100,()->{proof25("trading_landing",v);h.assertTrue(h.getBlockState(new BlockPos(9,1,8)).is(Blocks.FARMLAND)&&v.getHealth()<v.getMaxHealth()&&harvests(v)==0&&replants(v)==0,"Priority yields farming while passive soil protection and native damage remain");h.assertTrue(FarmerState.peek(v).map(r->r.protectedTramples>0&&r.landingDecision.startsWith("VANILLA_PRIORITY")).orElse(false),"Observed a genuine priority-paused landing");v.setTradingPlayer(null);finish(h,v,"trading_soil_safety");});}
+
+    static void composterField(GameTestHelper h){floor(h);for(int x=6;x<=11;x++)for(int z=6;z<=10;z++)if(x!=8||z!=8)crop(h,x,z,Blocks.CARROTS,false);}
+    static void requestJobWalk(GameTestHelper h,Villager v){v.getBrain().setMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType.WALK_TARGET,new net.minecraft.world.entity.ai.memory.WalkTarget(p(h,8,8),.5F,0));}
+    static void checkComposterSoil(GameTestHelper h){for(int x=6;x<=11;x++)for(int z=6;z<=10;z++)if((x!=8||z!=8)&&!h.getBlockState(new BlockPos(x,2,z)).is(Blocks.COMPOSTER))h.assertTrue(h.getBlockState(new BlockPos(x,1,z)).is(Blocks.FARMLAND),"Non-target soil beside composter remains farmland");}
+    static boolean onComposter(GameTestHelper h,Villager v,int x,int z){var b=p(h,x,z);return v.getBlockX()==b.getX()&&v.getBlockZ()==b.getZ()&&v.getY()>b.getY()-.1;}
+    static void approachComposter(GameTestHelper h,boolean second){
+        composterField(h);if(second){h.setBlock(new BlockPos(10,2,8),Blocks.COMPOSTER);h.setBlock(new BlockPos(10,1,8),Blocks.STONE);}
+        var v=new RestockObservingFarmer(h.getLevel());farmer(h,15,8,true,v);seed(v,1);
+        var offers=new net.minecraft.world.item.trading.MerchantOffers();var offer=new net.minecraft.world.item.trading.MerchantOffer(new net.minecraft.world.item.trading.ItemCost(Items.WHEAT,20),new ItemStack(Items.EMERALD,1),8,2,.05F);for(int i=0;i<8;i++)offer.increaseUses();offers.add(offer);v.setOffers(offers);
+        boolean[] arrived={false},dailyReset={false},stocked={false};int[] paths={0};
+        h.runAtTickTime(5,()->requestJobWalk(h,v));
+        h.onEachTick(()->{h.assertFalse(onComposter(h,v,8,8)||second&&onComposter(h,v,10,8),"Native approach and work strolls never stand on composters");
+            var path=v.getNavigation().getPath();if(path!=null&&!path.isDone()){paths[0]++;for(int i=path.getNextNodeIndex();i<path.getNodeCount();i++)h.assertFalse(h.getLevel().getBlockState(path.getNodePos(i).below()).is(Blocks.COMPOSTER),"Native path nodes avoid every composter top");}
+            arrived[0]|=p(h,8,8).closerToCenterThan(v.position(),1.73);
+            var current=v.getOffers().getFirst();if(current.getUses()==0&&v.nativeRestocks==0&&!dailyReset[0]){for(int i=0;i<8;i++)current.increaseUses();dailyReset[0]=true;}stocked[0]|=current.getUses()==0&&v.nativeRestocks>0;
+        });
+        h.runAtTickTime(3600,()->{BuildupMobTweaks.LOGGER.info("WORKSTATION_FINAL second={} arrived={} paths={} nativeRestocks={} stocked={} pos={} job={}",second,arrived[0],paths[0],v.nativeRestocks,stocked[0],v.position(),p(h,8,8));h.assertTrue(arrived[0]&&paths[0]>0&&stocked[0]&&v.nativeRestocks>0,"Actual native Brain approaches, works and restocks used offers from beside composter");
+            h.assertTrue(v.getBrain().getMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType.JOB_SITE).orElseThrow().pos().equals(p(h,8,8))&&v.getVillagerXp()==20&&v.getInventory().countItem(TEST_SEED)==1&&harvests(v)==0&&replants(v)==0,"Real POI binding, trade state, seeds and non-target crops remain");
+            checkComposterSoil(h);BuildupMobTweaks.LOGGER.info("WORKSTATION_PROOF second={} nativeRestocks={} paths={} pos={}",second,v.nativeRestocks,paths[0],v.position());finish(h,v,"native_composter_side_"+second);
+        });
+    }
+    @GameTest(environment=REFINE,structure=ARENA,maxTicks=3650)
+    public void fullNativeWorkstationApproachAndRestockNeverClimbsComposter(GameTestHelper h){approachComposter(h,false);}
+    @GameTest(environment=REFINE,structure=ARENA,maxTicks=3650)
+    public void fullNativeWorkStrollAlsoAvoidsUnboundComposter(GameTestHelper h){approachComposter(h,true);}
+
+    @GameTest(environment=REFINE,structure=ARENA,maxTicks=420)
+    public void blockedComposterSidesKeepBindingWithoutClimbingOrConsumingSeeds(GameTestHelper h){composterField(h);var v=farmer(h,14,8,true);seed(v,1);
+        for(int x=7;x<=9;x++)for(int z=7;z<=9;z++)if(x!=8||z!=8){h.setBlock(new BlockPos(x,2,z),Blocks.STONE);h.setBlock(new BlockPos(x,3,z),Blocks.STONE);}
+        h.runAtTickTime(5,()->requestJobWalk(h,v));h.onEachTick(()->h.assertFalse(onComposter(h,v,8,8),"Unavailable standing points do not permit climbing the workstation"));
+        h.runAtTickTime(350,()->{h.assertTrue(v.getBrain().getMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType.JOB_SITE).orElseThrow().pos().equals(p(h,8,8))&&v.getInventory().countItem(TEST_SEED)==1&&harvests(v)==0,"No forced unbinding, terrain repair or seed transfer");finish(h,v,"blocked_composter_sides");});}
+
+    static void nativeClimbBoundary(GameTestHelper h,String tag){floor(h);var v=farmer(h,10,8,false);v.addTag(tag);seed(v,1);boolean[] climbed={false};
+        h.runAtTickTime(5,()->v.getBrain().setMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType.WALK_TARGET,new net.minecraft.world.entity.ai.memory.WalkTarget(p(h,8,8).above(),.5F,0)));
+        h.onEachTick(()->climbed[0]|=onComposter(h,v,8,8));
+        h.runAtTickTime(160,()->{h.assertTrue(climbed[0]&&v.getInventory().countItem(TEST_SEED)==1,"Opt-out retains native ability to navigate onto the composter");finish(h,v,"native_composter_boundary_"+tag);});}
+    @GameTest(environment=REFINE,structure=ARENA,maxTicks=220)
+    public void disabledFarmerKeepsNativeComposterNavigation(GameTestHelper h){nativeClimbBoundary(h,"buildupmobtweaks:disable_farmer_intelligence");}
+    @GameTest(environment=REFINE,structure=ARENA,maxTicks=220)
+    public void externalFarmerKeepsNativeComposterNavigation(GameTestHelper h){nativeClimbBoundary(h,"buildupmobtweaks:farmer_external");}
+
+    @GameTest(environment=REFINE,structure=ARENA,maxTicks=380)
+    public void farmerAlreadyOnComposterStepsOffWithoutDamagingAdjacentSoil(GameTestHelper h){composterField(h);var v=farmer(h,8,8,false);seed(v,1);var job=p(h,8,8);v.snapTo(job.getX()+.5,job.getY()+1,job.getZ()+.5,0,0);
+        h.runAtTickTime(8,()->requestJobWalk(h,v));
+        h.runAtTickTime(280,()->{BuildupMobTweaks.LOGGER.info("WORKSTATION_EXIT_FINAL job={} pos={} path={} walk={}",job,v.position(),v.getNavigation().getPath(),v.getBrain().getMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType.WALK_TARGET));h.assertFalse(onComposter(h,v,8,8),"Existing farmer physically leaves composter without teleportation");h.assertTrue(v.onGround()&&job.closerToCenterThan(v.position(),1.73)&&v.getInventory().countItem(TEST_SEED)==1,"Farmer remains at a usable side position with original seed");BuildupMobTweaks.LOGGER.info("WORKSTATION_ESCAPE job={} pos={} ground={}",job,v.position(),v.onGround());checkComposterSoil(h);finish(h,v,"escape_composter");});}
+
+    @GameTest(environment=REFINE,structure=ARENA,maxTicks=650)
+    public void changedWorkstationStandingPointIsReplannedAfterNativeReload(GameTestHelper h){composterField(h);Villager[] ref={farmer(h,14,8,false)};seed(ref[0],1);boolean[] changed={false},arrived={false},wet={false};BlockPos[] removed={null};
+        h.runAtTickTime(5,()->requestJobWalk(h,ref[0]));
+        h.onEachTick(()->{var v=ref[0];h.assertFalse(onComposter(h,v,8,8),"Layout changes and reload do not restore a top-of-composter route");var path=v.getNavigation().getPath();
+            if(!changed[0]&&path!=null&&path.canReach()&&!path.isDone()){changed[0]=true;var end=path.getNodePos(path.getNodeCount()-1);removed[0]=end;h.getLevel().setBlock(end.below(),Blocks.WATER.defaultBlockState(),3);ref[0]=CombatTestWorld.reload(h,v);}
+            if(changed[0]){wet[0]|=ref[0].isInWater();arrived[0]|=ref[0].onGround()&&p(h,8,8).closerToCenterThan(ref[0].position(),1.73);}
+            if(v.tickCount%100==0)BuildupMobTweaks.LOGGER.info("WORKSTATION_RELOAD_TRACE age={} changed={} arrived={} wet={} job={} pos={} walk={} path={} removed={}",v.tickCount,changed[0],arrived[0],wet[0],p(h,8,8),v.position(),v.getBrain().getMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType.WALK_TARGET),path,removed[0]);
+        });
+        h.runAtTickTime(120,()->requestJobWalk(h,ref[0]));
+        h.runAtTickTime(540,()->{var v=ref[0];h.assertTrue(changed[0]&&arrived[0]&&!wet[0],"Native reload discards runtime path and chooses another loaded dry standing point");h.assertTrue(v.getInventory().countItem(TEST_SEED)==1&&harvests(v)==0&&replants(v)==0,"No replay or seed duplication after entity serialization");finish(h,v,"composter_layout_reload");});}
+
+    @GameTest(environment=REFINE,structure=ARENA,maxTicks=380)
+    public void existingFarmerInsideComposterCanExitOntoLevelDryRoad(GameTestHelper h){floor(h);var v=farmer(h,8,8,false);seed(v,1);var job=p(h,8,8);v.snapTo(job.getX()+.5,job.getY()+1,job.getZ()+.5,0,0);
+        h.runAtTickTime(8,()->requestJobWalk(h,v));
+        h.runAtTickTime(280,()->{BuildupMobTweaks.LOGGER.info("WORKSTATION_DRY_EXIT job={} pos={} ground={}",job,v.position(),v.onGround());h.assertFalse(onComposter(h,v,8,8),"Existing farmer physically exits onto a level dry road, not only the slightly lower farmland");h.assertTrue(v.onGround()&&job.closerToCenterThan(v.position(),1.73)&&v.getInventory().countItem(TEST_SEED)==1,"Safe dry side position preserves native inventory");finish(h,v,"dry_composter_exit");});}
 }
